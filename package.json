@@ -9,6 +9,8 @@
   "author": "Dylan Anderson",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1"
+    "dotenv": "^9.0.2",
+    "express": "^4.17.1",
+    "mongodb": "^3.6.7"
   }
 }
