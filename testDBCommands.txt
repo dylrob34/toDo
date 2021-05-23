@@ -1,0 +1,8 @@
+db.collection.insert(
+    {
+        email: "test@test.com",
+        firstName: "test",
+        lastName: "tester",
+        toDos: []
+    }
+)
