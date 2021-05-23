@@ -1,0 +1,309 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Muli&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+:root{
+    --main-background: rgb(64,64,64);
+    --sup-background: rgb(38,38,38);
+    --border-color: #fff;
+}
+
+*{
+    box-sizing: border-box
+}
+
+/* basic styling for the our boiler plate */
+body{
+    font-family: 'Montserrat','Muli','Arial', 'san-serif';
+    height: 100vh;
+    overflow: hidden; /*This hides scroll bars*/
+    margin: 0;
+    background-color: var(--main-background);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header {
+    position: absolute;
+    top: 5px;
+    font-size: 72px;
+    letter-spacing: 1.0px;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Montserrat', 'san-serif';
+}
+/* This is one of the options for the capture page 
+.header {
+    position: relative;
+    background-color: var(--main-background);
+    font-size: 48px;
+    letter-spacing: 1px;
+    padding: 10px;
+    width: 300px;
+    margin: 20px auto;
+    margin-bottom: 35px;
+    border-radius: 10px;
+    bottom: 40px;
+    box-shadow: 0 2px 2px rgba(0,0,0,0.1), 0 2px 2px rgba(0,0,0,0.1);
+}
+*/
+
+.container {
+    background-color: var(--sup-background);
+    border-radius: 10px;
+    box-shadow: 0 3px 3px rgba(0,0,0,0.1), 0 3px 3px rgba(0,0,0,0.1);
+    padding: 20px 20px;
+    text-align: center;
+    max-width: 100%;
+    width: 400px;
+    height: 300px;
+    border: 1.5px solid var(--border-color);
+    opacity: 0.9;
+    margin-left: auto;
+    margin-right: auto;
+}
+.input-control {
+    width: 360px;
+    height: 250px;
+}
+.input {
+    position: relative;
+    background: transparent;
+    outline: 0;
+    border: none;
+    width: 360px;
+    z-index: 2;
+    padding: 2px;
+    color: white;
+    font-size: 14px;
+    font: inherit;
+    resize: none;
+}
+.input.hover::placeholder{
+    opacity: 0.7;
+}
+
+.container-category {
+    position: absolute;
+    background-color: var(--sup-background);
+    width: 175px;
+    min-height: 40px;
+    max-height: 95vh;
+    top: 8px;
+    right: 32px;
+    margin-top: 1rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: 10px;
+    border-top-left-radius: 0px;
+    box-shadow: 0 2px 2px rgba(0,0,0,0.1), 0 2px 2px rgba(0,0,0,0.1);
+}
+.container-category.active {
+    position: absolute;
+    background-color: var(--sup-background);
+    width: 225px;
+    min-height: 40px;
+    top: 8px;
+    right: 32px;
+    margin-top: 1rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: 10px;
+    border-top-left-radius: 0px;
+    box-shadow: 0 2px 2px rgba(0,0,0,0.1), 0 2px 2px rgba(0,0,0,0.1);
+}
+.categories.active {
+    position: relative;
+    padding-right: 40px;
+}
+
+.category {
+    position: relative;
+    background-color: var(--main-background);
+    max-height: 95vh;
+    font-size: 18px;
+    border-radius: 10px;
+    width: 130px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px 5px;
+    text-align: center;
+
+}
+
+#plus {
+    position: absolute;
+    color: orange;
+    left: -31.5px;
+    top: -1.5px;
+    background-color: var(--sup-background);
+    font-size: 20px;
+    padding: 4.5px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 5px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    cursor: pointer;
+}
+
+#plus:hover {
+    color: rgb(224, 123, 86);
+}
+
+/* Very inefficient way of turning the right sidebar arrow around on button click. */
+/* -------------------------------------------------------------------------------- */
+#right-side-bar-deactive {
+    position: absolute;
+    color: orange;
+    left: -32.5px;
+    top: 30.5px;
+    background-color: var(--sup-background);
+    font-size: 24px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 5px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    padding-right: 7.75px;
+    padding-left: 7.75px;
+    padding-top: 2.25px;
+    padding-bottom: 2.25px;
+    cursor: pointer;   
+}
+#right-side-bar-deactive.deactive {
+    visibility: hidden;
+}
+#right-side-bar-active {
+    visibility: hidden;
+    position: absolute;
+}
+
+#right-side-bar-active.active {
+    visibility: visible;
+    position: absolute;
+    color: orange;
+    left: -32.5px;
+    top: 30.5px;
+    background-color: var(--sup-background);
+    font-size: 24px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 5px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    padding-right: 7.75px;
+    padding-left: 7.75px;
+    padding-top: 2.25px;
+    padding-bottom: 2.25px;
+    cursor: pointer; 
+}
+
+#right-side-bar-deactive:hover, #right-side-bar-active:hover{
+    color: rgb(224,123,86);
+}
+
+/* I think we might need to break these buttons up into two seperate things */
+.category-move {
+    position: absolute;
+    top: 5px;
+    right: -35px;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: move;
+    visibility: hidden;
+}
+.category-delete {
+    position: absolute;
+    top: 5px;
+    right: -60px;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    visibility: hidden;
+}
+.category-delete:hover {
+    background-color: var(--main-background);
+    border-radius: 5px;
+    width: 23px ;
+    height: 20px;
+}
+.category-delete.show {
+    visibility: visible;
+}
+.category-move.show {
+    visibility: visible;
+}
+/* -------------------------------------------------------------------------------- */
+
+/* TODO:
+ - Add a transition to the categories expand and collapse so that it is smoother.
+ - Add a way to line break after a certain width has been reached on the text box aspect
+ - Add a delete button to all the categories so that they can be removed.
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.container h1 {
+    font-size: 52px;
+    padding: 10px;
+}
+
+.submit-control input {
+    display: block;
+    outline: 0;
+    border: 0;
+    border-bottom: white solid 3px;
+    background-color: transparent;
+    color: white;
+    width: 100%;
+    padding: 10px;
+}
+
+.submit-control {
+    position: relative;
+    display: block;
+}
+.submit-control label {
+    display: block;
+    position: absolute;
+    float: left;
+    left: 0px;
+    top: 10px;
+    color:white;
+    opacity: 0.2;
+    z-index: -1;
+}
+
+.submit-control label.active {
+    opacity: 0;
+}
+
+.categories {
+
+} */

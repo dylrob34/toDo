@@ -1,0 +1,63 @@
+<!-- Capture App -->
+<!-- For the development of Anchor Weekly -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='style.css' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <title>Anchor Weekly :: Capture</title>
+</head>
+<body>
+    <h1 class="header">Capture</h1>
+    <div class="container">
+        <div class="input-control">
+            <textarea type="text" class="input" cols="80" rows="13" placeholder="Capture that thought before it gets away..."></textarea>
+                <!-- <label class='idea'>Type your idea here...</label> -->
+        </div>
+    </div>
+    <div class="container-category">
+        <i id='plus' class="fas fa-plus"></i>
+        <i id= 'right-side-bar-deactive' class="fas fa-angle-left"></i>
+        <i id= 'right-side-bar-active' class="fas fa-angle-right"></i>
+        <div class="categories">
+            <ul class='category' id='category1'>Category 1
+                <button draggable='true' class="category-move">
+                    <i name='config' class='fas fa-bars'></i>
+                </button>
+                <button class="category-delete">
+                    <i name='delete' class='fas fa-times'></i>
+                </button>
+            </ul>
+            <ul class='category' id='category2'>Category 2
+                <button class="category-move">
+                    <i name='config' class='fas fa-bars'></i>
+                </button>
+                <button class="category-delete">
+                    <i name='delete' class='fas fa-times'></i>
+                </button>
+            </ul>
+            <ul class='category' id='category3'>Category 3
+                <button class="category-move">
+                    <i name='config' class='fas fa-bars'></i>
+                </button>
+                <button class="category-delete">
+                    <i name='delete' class='fas fa-times'></i>
+                </button>
+            </ul>
+            <ul class='category' id='category4'>Category 4
+                <button class="category-move">
+                    <i name='config' class='fas fa-bars'></i>
+                </button>
+                <button class="category-delete">
+                    <i name='delete' class='fas fa-times'></i>
+                </button>
+            </ul>
+        </div>
+    </div>
+    <script src='script.js'></script>
+</body>
+</html>
