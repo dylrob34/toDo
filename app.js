@@ -9,6 +9,8 @@ const userRouter = require('./api/user');
 const app = express()
 const port = 3000
 
+console.log("path is: ", __dirname + '/public');
+
 app.use(express.static(__dirname + '/public'));
 
 app.use(bodyParser.json());
