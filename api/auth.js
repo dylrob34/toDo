@@ -1,19 +1,64 @@
-var express = require('express');
-var router = express.Router();
-var jwt = require('jsonwebtoken');
+const express = require('express');
+const router = express.Router();
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+
+var database = require("../database/data");
 
 /* Login API */
-router.post('/login', function(req, res) {
-    const user = req.body.user;
+router.post('/login', async function(req, res) {
     const pass = req.body.pass;
-    res.json({
-        message: 'Login api'
-    });
+    var user = await database.getUser(req.body.user);
+    if (user === false || (typeof user) == "undefined") {
+        console.log("Error: idk");
+        res.json({ error: true });
+    } else {
+        bcrypt.compare(pass, user.password, (err, result) => {
+            if (result) {
+                jwt.sign({ employee_id: user.employee_id }, process.env.secretKey, { expiresIn: "2h" }, (err, token) => {
+                    if (err) {
+                        console.log("signing error");
+                        res.json({error: true});
+                    } 
+                    res.cookie("jwt", token);
+                    res.json({
+                        error: false,
+                        login: true,
+                    });
+                });
+            } else {
+                res.json({error: true, login: false});
+            }
+        });
+    }
 });
 
 
-function verifyToken(req, res, next) {
-    const bearerHeader = req.headers['authorization'];
+function hashPassword(pass) {
+    return new Promise((resolve, reject) => {
+        bcrypt.hash(pass, 10)
+        .then((hashed) => {resolve(hashed);});
+    });
 }
 
-module.exports = router;
+function verifyToken(req, res, next) {
+    const bearerHeader = req.headers['authorization'];
+
+    if (typeof bearerHeader !== 'undefined') {
+    const bearer = bearerHeader.split(" ");
+    const bearerToken = bearer[1];
+    
+    jwt.verify(bearerToken, process.env.secretKey, async (err, data) => {
+      if (err) {
+        res.json({loggedIn: false});
+      } else {
+        req.authData = data;
+      }
+    })
+    next();
+  } else {
+    res.json({error: true});
+  }
+}
+
+module.exports = { router, hashPassword, verifyToken };

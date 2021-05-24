@@ -21,13 +21,14 @@ function getUser(email) {
     
 }
 
-function createUser(email, firstName, lastName) {
+function createUser(email, password, firstName, lastName) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("users").insertOne(
             {
-                email: "test@test.com",
-                firstName: "test",
-                lastName: "tester",
+                email,
+                password,
+                firstName,
+                lastName,
                 toDos: []
             }
         )

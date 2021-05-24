@@ -1,22 +1,22 @@
-const express = require('express')
-require('dotenv').config()
+const express = require('express');
+const cookieParser = require('cookie-parser');
+require('dotenv').config();
 
 const indexRouter = require('./build/index');
-const authRouter = require('./api/auth');
+const authRouter = require('./api/auth').router;
 const userRouter = require('./api/user');
 
-const app = express()
-const port = 3000
-
-console.log("path is: ", __dirname + '/public');
+const app = express();
+const port = 3000;
 
 app.use(express.static(__dirname + '/public'));
 
+app.use(cookieParser());
 app.use(express.json());
 app.use('/', indexRouter);
 app.use('/api/auth', authRouter);
-app.use('/api/user', userRouter)
+app.use('/api/user', userRouter);
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`To Do App listening at http://localhost:${port}`);
 })
