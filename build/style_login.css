@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Muli&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+:root {
+    --main-background: rgb(18,18,18);
+    --login-container: rgb(32,32,32);
+    --text-color: rgb(255,255,255);
+    --accent-color: rgb(182,79,200);
+}
+
+*{
+    box-sizing: border-box
+}
+
+/* basic styling for the our boiler plate */
+body{
+    font-family: 'Montserrat','Muli','Arial', 'san-serif';
+    height: 100vh;
+    overflow: hidden; /*This hides scroll bars*/
+    margin: 0;
+    background-color: var(--main-background);
+    color:var(--text-color);
+    /* display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center; */
+}
+
+h1 {
+    color:var(--text-color);
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    text-align: left;
+    margin-bottom: 70px;
+    margin-left: 10px;
+    margin-top: 5px;
+    font-size: 24px;
+}
+a {
+    display: block;
+    font-size: 12px;
+    color:var(--text-color);
+    margin-top: 10px;
+}
+
+.login-container {
+    position: relative;
+    background-color: var(--login-container);
+    width: 400px;
+    height: 600px;
+    margin: 20px auto 20px;
+    padding: 20px;
+    justify-content: center;
+    border-radius: 20px;
+    padding-top: 40px;
+}
+
+.login-header {
+    top: 0;
+    left: 20px;
+    margin-top: 0;
+    margin-bottom: 45px;
+    font-size: 32px;
+}
+
+.username {
+    display: block;
+    margin: 10px auto 5px;
+    width: 100%;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    color: var(--text-color);
+    border-bottom: solid 2px var(--accent-color);
+    font-size: 16px;
+}
+
+.password {
+    display: block;
+    margin: 30px auto 5px;
+    width: 100%;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    color: var(--text-color);
+    border-bottom: solid 2px var(--accent-color);
+    font-size: 16px;
+}
+label {
+    position: absolute;
+    transform: translate(0.25rem, -1.75rem);
+    cursor: text;
+    transition: 0.3s ease;
+}
+
+.username-label.active {
+    color: white;
+    opacity: 0.5;
+    transform: translate(0, -3.00rem);
+    transition: 0.3s ease;
+    font-size: 14px;
+
+}
+.password-label.active {
+    color: white;
+    opacity: 0.5;
+    transform: translate(0, -3.00rem);
+    transition: 0.3s ease;
+    font-size: 14px;
+
+}
+
+.username::placeholder, .password::placeholder {
+    color: var(--text-color);
+    opacity: 0.5;
+}
+
+
+.submit {
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+margin-top: 45px;
+}
+
+.login-btn {
+    width: 100%;
+    background-color: var(--accent-color);
+    color: white;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    height: 30px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.join {
+    display: block;
+    margin: 200px auto 5px;
+    text-align: center;
+}
+.sign-up {
+    display: block;
+    margin: 8px auto 8px ;
+    width: 50%;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    cursor: pointer;
+}
