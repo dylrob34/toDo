@@ -15,7 +15,7 @@ router.post('/login', async function(req, res) {
     } else {
         bcrypt.compare(pass, user.password, (err, result) => {
             if (result) {
-                jwt.sign({ employee_id: user.employee_id }, process.env.secretKey, { expiresIn: "2h" }, (err, token) => {
+                jwt.sign({ user: user.email }, process.env.secretKey, { expiresIn: "2h" }, (err, token) => {
                     if (err) {
                         console.log("signing error");
                         res.json({error: true});
@@ -52,7 +52,7 @@ function verifyToken(req, res, next) {
       if (err) {
         res.json({loggedIn: false});
       } else {
-        req.authData = data;
+          req.authData = data;
       }
     })
     next();

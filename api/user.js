@@ -3,8 +3,8 @@ var router = express.Router();
 var database = require("../database/data");
 var auth = require("./auth");
 
-router.post('/getUser', auth.verifyToken, async function(req, res) {
-    const user = await database.getUser(req.body.email);
+router.get('/getUser', auth.verifyToken, async function(req, res) {
+    const user = await database.getUser(req.authData.user);
     res.json({user});
 });
 
