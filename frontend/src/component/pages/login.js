@@ -1,7 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { Link, withRouter } from "react-router-dom"
 
-const login = () => {
+
+    function Login() {
+        const [ email, setEmail ] = useState(""); // email set to "" and setEmail is the method that lets you adjust state...
+        const [ password, setPassword] = useState("");
+        const [error, setError] = useState("");
+
+        const submitForm = () => {
+            if(email==='' || password === '') {
+                setError('Fields are required...');
+                return;
+            };
+            props.login({email, password}) // TODO: Need to make a reducer method that 
+        };
+
+    // This part might just be a component with html and css that I call into the App level component:
     return (
     <div>
         <h1>Anchor Weekly</h1>
@@ -25,6 +39,5 @@ const login = () => {
     </div>
     )
 }
-
-export default login
+export default Login
  
