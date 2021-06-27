@@ -1,14 +1,33 @@
-import React, { Fragment } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React, { useState } from 'react';
 
-import Login from './component/pages/Login'
+import LoginForm from './component/pages/LoginForm'
+import Landing from './component/pages/Landing';
 import './App.css';
 
 function App() {
+// Test user to test against:
+  const adminUser = {
+    email: "admin@admin.com",
+    password: "admin123"
+  };
+
+// Variable sets until they are moved to Login state:
+  const [user, setUser] = useState({name:'', email:''});
+  const [error, setError] = useState("");
+
+// Method creation until they are moved to a Login state:
+  const userLogin = details => {
+    console.log(details);
+  }
+  const userLogout = () => {
+    console.log("Logged Out.")
+  }
+
+  // ====================================
+  // Return:
+
   return (
-    <Router>
-      
-    </Router>
+    <LoginForm userLogin={userLogin} error={error} />
   );
 }
 
