@@ -1,51 +1,47 @@
-import React, { useState } from 'react';
+import React, {useState, useContext} from 'react'
 
 
-function LoginForm( {userLogin, error} ) {
-    // Local details those used for the form
-    const [details, setDetails] = useState( { name:'', email:'', password:'' } );
-
-    const submitHandler = e => {
-        e.preventdefault();
+const LoginForm = ({ userLogin, error }) => {
         
-        // Here we call the function userLogin (defined in App.js) and then we pass local details into it:
-        userLogin(details)
-    }
+    // Set Details:
+        const [details, setDetails] = useState({name:'', email:'', password:''});
+        // Function to handle on submit of the login button:
+        const submitHandler = e => {
+            e.preventDefault();
+            // This calls the function defined in App.js and passes in details to it so that App.js can use it.
+            userLogin(details);
+        }
 
-
-// ==========================================================================================================================
-// Return:
     return (
-        <div className="login-main">
-            {(details.email !="") ? (
-                <div className="welcome">
-                    <h2>Welcome, <span>{details.name}</span></h2>
-                    <button>Logout</button>
+        <form onSubmit={submitHandler}>
+            <div className="form-inner">
+            <h2>Login</h2>
+                {(error !=="") ? ((<div className='error'>{error}</div>)) : ""}
+                <div className="form-group">
+                    <label htmlFor="name">Name: </label>
+                    <input type="text" name="name" id="name" 
+                    onChange={e => setDetails({...details, name: e.target.value})} value={details.name}/>
                 </div>
-            ) : (
-                <form onSubmit={submitHandler}>
-                    <h2>Login</h2>
-                    {/*Error*/}
-                    <div className="form-group">
-                        <label htmlFor="name">Name:</label>
-                        <input type="text" name="name" id="name" />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="email">Email:</label>
-                        <input type="email" name="email" id="email"/>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Password:</label>
-                        <input type="password" name="password" id='password' />
-                    </div>
-                    <input type="submit" value="Login" />
-                </form>
-            )}
-        </div>
-
+                <div className="form-group">
+                    <label htmlFor="email">Email: </label>
+                    <input type="email" name="email" id="email"
+                    // On change for event e, call setDetails pulling in what details already is + the value of the event (keystroke)
+                    // then set the value of the state email in details to ...details + the new keystroke.
+                    onChange={e => setDetails({...details, email: e.target.value})} value={details.email}/>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="password">Password: </label>
+                    <input type="password" name="password" id='password' 
+                    onChange={e => setDetails({...details, password: e.target.value})} value={details.password}/>
+                </div>
+            <input type="submit" value="LOGIN" />
+            </div>
+        </form>
     )
 }
+
 export default LoginForm
+
  
 
 
