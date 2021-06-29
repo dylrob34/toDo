@@ -3,6 +3,8 @@ import React, {useState} from 'react';
 import LoginForm from './component/pages/LoginForm';
 import './App.css';
 
+let domain = "localhost"
+
 function App() {
   // Test user to test against:
   const adminUser = {
@@ -17,17 +19,31 @@ function App() {
   // Method creation until they are moved to a Login state:
   const userLogin = details => {
     console.log(details);
-    if (details.email === adminUser.email && details.password === adminUser.password) {
-      console.log('You are Logged in!')
-      // Once we've logged in we want to change the state of user with setUser method:
-      setUser ({
-        name: details.name,
-        email: details.email
+
+    //Added by Dylan to authenticate from backend
+    fetch("http://" + domain + "/api/auth/login", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        user: details.email,
+        pass: details.password
       })
-    } else {
-      console.log("The login information didn't match...")
-      setError("The login information didn't match...")
-    }
+    })
+    .then((res) => res.json())
+    .then((resJson) => {
+      if (resJson.error === true) {
+        console.log("The login information didn't match...");
+        setError("The login information didn't match...");
+      } else if (resJson.login === true) {
+        setUser({
+          name: resJson.name,
+          email: details.email
+        })
+      }
+    })
   }
   const userLogout = () => {
     console.log("Logged Out.")

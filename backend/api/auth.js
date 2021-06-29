@@ -24,6 +24,7 @@ router.post('/login', async function(req, res) {
                     res.json({
                         error: false,
                         login: true,
+                        name: user.firstName
                     });
                 });
             } else {

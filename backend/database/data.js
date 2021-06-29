@@ -1,15 +1,20 @@
-const MongoClient = require("mongodb").MongoClient;
+const { MongoClient } = require("mongodb");
 
 
 
 // Connection URI
-const uri = "mongodb+srv://" + process.env.DB_USER + ":" + process.env.DB_PASS + "@todo.5yfiz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const uri = "mongodb+srv://" + process.env.DB_USER + ":" + process.env.DB_PASS + "@todo.5yfiz.mongodb.net/toDo?retryWrites=true&w=majority";
 // Create a new MongoClient
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-client.connect(err => {
-  console.log("Connected to database");
+client.connect((err, client) => {
+  if (err) {
+      console.log("Error connecting to database...");
+  } else {
+      console.log("Successfully Connected to Database");
+  }
 });
+
 
 function getUser(email) {
     return new Promise((resolve, reject) => {
