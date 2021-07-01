@@ -7,6 +7,7 @@ var database = require("../database/data");
 
 /* Login API */
 router.post('/login', async function(req, res) {
+    console.log(req.body.user + " Attempting to login...")
     const pass = req.body.pass;
     var user = await database.getUser(req.body.user);
     if (user === false || (typeof user) == "undefined") {
