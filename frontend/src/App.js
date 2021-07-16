@@ -1,71 +1,27 @@
 import React, {useState} from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import LoginForm from './component/pages/LoginForm';
 import './App.css';
+import Landing from './component/Landing';
+import SignIn from './component/pages/SignIn';
 
 let domain = "localhost"
 
 function App() {
-  // Test user to test against:
-  const adminUser = {
-    email: "admin@admin.com",
-    password: "admin123"
-  };
-
-  // Variable sets until they are moved to Login state:
-  const [user, setUser] = useState({name:'', email:''});
-  const [error, setError] = useState("");
-
-  // Method creation until they are moved to a Login state:
-  const userLogin = details => {
-    console.log(details);
-
-    //Added by Dylan to authenticate from backend
-    fetch("http://" + domain + "/api/auth/login", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        user: details.email,
-        pass: details.password
-      })
-    })
-    .then((res) => res.json())
-    .then((resJson) => {
-      if (resJson.error === true) {
-        console.log("The login information didn't match...");
-        setError("The login information didn't match...");
-      } else if (resJson.login === true) {
-        setUser({
-          name: resJson.name,
-          email: details.email
-        })
-      }
-    })
-  }
-  const userLogout = () => {
-    console.log("Logged Out.")
-    setUser({
-      name:'',
-      email:''
-    })
-  }
   
+ 
   return (
-    <div className="App">
-      {(user.email !=='') ? (
-        <div className="welcome">
-          <h2>Welcome, <span>{user.name}</span></h2>
-          <button onClick={userLogout}>Logout</button>
-        </div>
-      ) : (
-        <LoginForm userLogin={userLogin} error={error} />
-      )
-    }
-    </div>
+    <Router>
+      <div className="App">
+        <Switch>
+          <Route exact path='/' component={ Landing }></Route>
+          <Route exact path='/signin' component={ SignIn }></Route>
+        </Switch>
+      </div>
+    </Router>
+
   );
+
 }
 
 export default App;

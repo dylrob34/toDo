@@ -1,5 +1,10 @@
 import React, {useState, useContext} from 'react'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import SignIn from './SignIn';
 
+const mymargin = {
+    marginRight: "5px",
+}
 
 const LoginForm = ({ userLogin, error }) => {
         
@@ -34,7 +39,8 @@ const LoginForm = ({ userLogin, error }) => {
                     <input type="password" name="password" id='password' 
                     onChange={e => setDetails({...details, password: e.target.value})} value={details.password}/>
                 </div>
-            <input type="submit" value="LOGIN" />
+            <input type="submit" value="LOGIN" style={mymargin}/>
+            <Link to="/signin">Create Account</Link>
             </div>
         </form>
     )
