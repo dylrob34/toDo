@@ -1,12 +1,11 @@
-import React, {useState} from 'react'
-import LoginForm from './pages/LoginForm'
+import React, {useState} from 'react';
+import LoginForm from './pages/LoginForm';
+import { domain } from '../App.js';
+import cookie from 'react-cookies';
 
 const Landing = () => {
-// Test user to test against:
-const adminUser = {
-    email: "admin@admin.com",
-    password: "admin123"
-  };
+  var pending = true;
+  var loggedIn = false;
 
   // Variable sets until they are moved to Login state:
   const [user, setUser] = useState({name:'', email:''});
@@ -15,6 +14,7 @@ const adminUser = {
   // Method creation until they are moved to a Login state:
   const userLogin = details => {
     console.log(details);
+    console.log("fetching from: " + "http://" + domain + "/api/auth/login");
 
     //Added by Dylan to authenticate from backend
     fetch("http://" + domain + "/api/auth/login", {
@@ -37,7 +37,7 @@ const adminUser = {
         setUser({
           name: resJson.name,
           email: details.email
-        })
+        });
       }
     })
   }
@@ -49,10 +49,25 @@ const adminUser = {
     })
   }
 
+  fetch("https://" + domain + "/api/auth/checkLogin", {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      authorization: "bearer " + cookie.load("jwt")
+    }
+  })
+  .then((res) => res.json())
+  .then((resJson) => {
+    if (resJson.loggedIn === true) {
+      loggedIn = true;
+      pending = false;
+    }
+  });
+
 
     return (
         <div className="landing">
-            {(user.email !=='') ? (
+            {(loggedIn === true) ? (
                 <div className="welcome">
                 <h2>Welcome, <span>{user.name}</span></h2>
                 <button onClick={userLogout}>Logout</button>

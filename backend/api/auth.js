@@ -7,6 +7,10 @@ var database = require("../database/data");
 
 /* Login API */
 router.post('/login', async function(req, res) {
+    if (req.body.user === "" || req.body.pass === "") {
+        res.json({error: true, login: false});
+        return;
+    }
     console.log(req.body.user + " Attempting to login...")
     const pass = req.body.pass;
     var user = await database.getUser(req.body.user);
@@ -34,6 +38,10 @@ router.post('/login', async function(req, res) {
         });
     }
 });
+
+router.get('/checkLogin', async function(req, res) {
+    res.json({loggedIn: true});
+})
 
 
 function hashPassword(pass) {

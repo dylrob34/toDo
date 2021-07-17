@@ -7,14 +7,14 @@ corsOptions = {
   origin: "http://localhost:3000"
 }
 
-const indexRouter = require('./public/index');
+const indexRouter = require('./index');
 const authRouter = require('./api/auth').router;
 const userRouter = require('./api/user');
 
 const app = express();
 const port = 80;
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/build'));
 
 app.use(cookieParser());
 app.use(express.json());

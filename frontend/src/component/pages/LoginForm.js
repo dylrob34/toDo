@@ -1,6 +1,5 @@
-import React, {useState, useContext} from 'react'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import SignIn from './SignIn';
+import React, {useState} from 'react'
+import { BrowserRouter as Link } from 'react-router-dom';
 
 const mymargin = {
     marginRight: "5px",
@@ -9,7 +8,7 @@ const mymargin = {
 const LoginForm = ({ userLogin, error }) => {
         
     // Set Details:
-        const [details, setDetails] = useState({name:'', email:'', password:''});
+        const [details, setDetails] = useState({email:'', password:''});
         // Function to handle on submit of the login button:
         const submitHandler = e => {
             e.preventDefault();
@@ -22,11 +21,6 @@ const LoginForm = ({ userLogin, error }) => {
             <div className="form-inner">
             <h2>Login</h2>
                 {(error !=="") ? ((<div className='error'>{error}</div>)) : ""}
-                <div className="form-group">
-                    <label htmlFor="name">Name: </label>
-                    <input type="text" name="name" id="name" 
-                    onChange={e => setDetails({...details, name: e.target.value})} value={details.name}/>
-                </div>
                 <div className="form-group">
                     <label htmlFor="email">Email: </label>
                     <input type="email" name="email" id="email"

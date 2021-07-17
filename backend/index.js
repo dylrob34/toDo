@@ -4,11 +4,7 @@ var router = express.Router();
 
 /* Home Page */
 router.get('/', function(req, res, next) {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-router.get('/login', function(req, res, next) {
-    res.sendFile(path.join(__dirname, 'Login.html'));
+    res.sendFile(path.join(__dirname, "build", '/index.html'));
 });
 
 module.exports = router;
