@@ -9,12 +9,35 @@ router.get('/getUser', auth.verifyToken, async function(req, res) {
 });
 
 router.post('/createUser', async function(req, res) {
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
     const email = req.body.email;
-    if (typeof email === 'undefined')
+    const pass = req.body.password;
+    const passCheck = req.body.password;
+
+
+    if (typeof email === 'undefined' || email === '')
     {
         res.json({
-            error: true,
-            message: "Email Cannot be Null"
+            error: true
+        })
+    }
+    if (typeof firstName === 'undefined' || firstName === '')
+    {
+        res.json({
+            error: true
+        })
+    }
+    if (typeof lastName === 'undefined' || lastName === '')
+    {
+        res.json({
+            error: true
+        })
+    }
+    if (typeof pass === 'undefined' || passCheck === 'undefined' || pass.length < 4 || pass !== passCheck)
+    {
+        res.json({
+            error: true
         })
     }
     const hash = await auth.hashPassword(req.body.password);
