@@ -2,10 +2,9 @@ import React, {useState} from 'react';
 import LoginForm from './pages/LoginForm';
 import { domain } from '../App.js';
 import cookie from 'react-cookies';
+import {login, logout} from "../loggedInState";
 
-const Landing = () => {
-  var pending = true;
-  var loggedIn = false;
+const Landing = ({name, email, loggedIn}) => {
 
   // Variable sets until they are moved to Login state:
   const [user, setUser] = useState({name:'', email:''});
@@ -34,42 +33,22 @@ const Landing = () => {
         console.log("The login information didn't match...");
         setError("The login information didn't match...");
       } else if (resJson.login === true) {
-        setUser({
-          name: resJson.name,
-          email: details.email
-        });
+        console.log("logged in");
+        login(cookie.load("jwt"));
       }
     })
   }
   const userLogout = () => {
     console.log("Logged Out.")
-    setUser({
-      name:'',
-      email:''
-    })
+    logout();
   }
-
-  fetch("https://" + domain + "/api/auth/checkLogin", {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      authorization: "bearer " + cookie.load("jwt")
-    }
-  })
-  .then((res) => res.json())
-  .then((resJson) => {
-    if (resJson.loggedIn === true) {
-      loggedIn = true;
-      pending = false;
-    }
-  });
 
 
     return (
         <div className="landing">
             {(loggedIn === true) ? (
                 <div className="welcome">
-                <h2>Welcome, <span>{user.name}</span></h2>
+                <h2>Welcome, <span>{name}</span></h2>
                 <button onClick={userLogout}>Logout</button>
                 </div>
             ) : (
