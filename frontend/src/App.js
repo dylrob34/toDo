@@ -6,7 +6,8 @@ import Landing from './component/Landing';
 import SignUp from './component/pages/SignUp';
 import { login, logout, setLoggedInCallback} from './loggedInState';
 import cookie from 'react-cookies';
-import LoginForm from './component/pages/LoginForm';
+import { LoginPage } from './component/Login';
+import NavBar from './component/NavBar';
 
 const domain = "localhost"
 
@@ -40,14 +41,10 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <NavBar />
         <Switch>
-          <Route exact path='/' >
-            {(loggedIn === true) ? (
-                <Landing loggedIn={true} />
-            ) : (
-                <Landing loggedIn={false} />
-            )}
-          </Route>
+          <Route exact path='/' component={ Landing } />
+          <Route exact path='/login' component={ LoginPage } />
           <Route exact path='/signup' component={ SignUp }></Route>
         </Switch>
       </div>
