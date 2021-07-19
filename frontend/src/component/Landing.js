@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import LoginForm from './pages/LoginForm';
 import { domain } from '../App.js';
 import cookie from 'react-cookies';
-import {login, logout} from "../loggedInState";
+import {login, logout, getToken} from "../loggedInState";
 
-const Landing = ({name, email, loggedIn}) => {
+const Landing = ({loggedIn}) => {
 
   // Variable sets until they are moved to Login state:
   const [user, setUser] = useState({name:'', email:''});
@@ -43,12 +43,31 @@ const Landing = ({name, email, loggedIn}) => {
     logout();
   }
 
+  useEffect(() => {
+    console.log("Using Effect: " + loggedIn);
+    if (loggedIn === true) {
+    fetch("http://" + domain + "/api/user/getUser", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          authorization: "bearer " + getToken()
+        }
+      })
+      .then((res) => res.json())
+      .then((resJson) => {
+        console.log("Got User: " + resJson.firstName);
+        setUser({name: resJson.user.firstName, email: resJson.user.email});
+      })
+    }
+  }, []);
+
 
     return (
         <div className="landing">
             {(loggedIn === true) ? (
                 <div className="welcome">
-                <h2>Welcome, <span>{name}</span></h2>
+                <h2>Welcome, <span>{user.name}</span></h2>
                 <button onClick={userLogout}>Logout</button>
                 </div>
             ) : (

@@ -43,12 +43,12 @@ function App() {
         <Switch>
           <Route exact path='/' >
             {(loggedIn === true) ? (
-                <Landing name="test" email="test@test.com" loggedIn={true} />
+                <Landing loggedIn={true} />
             ) : (
-                <Landing name="test" email="test@test.com" loggedIn={false} />
+                <Landing loggedIn={false} />
             )}
           </Route>
-          <Route exact path='/signin' component={ SignUp }></Route>
+          <Route exact path='/signup' component={ SignUp }></Route>
         </Switch>
       </div>
     </Router>

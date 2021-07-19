@@ -34,7 +34,7 @@ const LoginForm = ({ userLogin, error }) => {
                     onChange={e => setDetails({...details, password: e.target.value})} value={details.password}/>
                 </div>
             <input type="submit" value="LOGIN" style={mymargin}/>
-            <Link to="/signin">Create Account</Link>
+            <Link to="/signup">Create Account</Link>
             </div>
         </form>
     )
