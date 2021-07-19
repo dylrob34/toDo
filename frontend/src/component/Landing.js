@@ -6,9 +6,8 @@ import {login, logout, getToken} from "../loggedInState";
 
 const Landing = ({loggedIn}) => {
 
-  // Variable sets until they are moved to Login state:
-  const [user, setUser] = useState({name:'', email:''});
   const [error, setError] = useState("");
+  const [name, setName] = useState("");
 
   // Method creation until they are moved to a Login state:
   const userLogin = details => {
@@ -32,9 +31,9 @@ const Landing = ({loggedIn}) => {
       if (resJson.error === true) {
         console.log("The login information didn't match...");
         setError("The login information didn't match...");
-      } else if (resJson.login === true) {
+      } else if (resJson.loggedIn === true) {
         console.log("logged in");
-        login(cookie.load("jwt"));
+        login(resJson.token);
       }
     })
   }
@@ -44,38 +43,37 @@ const Landing = ({loggedIn}) => {
   }
 
   useEffect(() => {
-    console.log("Using Effect: " + loggedIn);
-    if (loggedIn === true) {
+    if (loggedIn) {
+    var token = getToken();
+    console.log("Token: " + token);
     fetch("http://" + domain + "/api/user/getUser", {
         method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          authorization: "bearer " + getToken()
+          authorization: "bearer " + token,
         }
       })
       .then((res) => res.json())
       .then((resJson) => {
-        console.log("Got User: " + resJson.firstName);
-        setUser({name: resJson.user.firstName, email: resJson.user.email});
+        setName(resJson.user.firstName);
       })
     }
-  }, []);
+  }, [loggedIn]);
 
-
+  if (loggedIn) {
     return (
-        <div className="landing">
-            {(loggedIn === true) ? (
-                <div className="welcome">
-                <h2>Welcome, <span>{user.name}</span></h2>
-                <button onClick={userLogout}>Logout</button>
-                </div>
-            ) : (
-                <LoginForm userLogin={userLogin} error={error} />
-            )
-            }
-        </div>
+      <div className="welcome">
+      <h2>Welcome, <span>{name}</span></h2>
+      <button onClick={userLogout}>Logout</button>
+      </div>
     )
+  } else {
+    return (
+      <LoginForm userLogin={userLogin} error={error} />
+    )
+  }
+
 }
 
 export default Landing
