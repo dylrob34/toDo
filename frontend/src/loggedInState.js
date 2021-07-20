@@ -1,20 +1,23 @@
-var updateStateCallback;
+import cookie from "react-cookies";
+
+var loggedInCallback;
 var token;
 var loggedIn = false;
 
-function setLoggedInCallback(callback) {
-    updateStateCallback = callback;
+function setLoggedInCallback(setLoggedIn) {
+    loggedInCallback = setLoggedIn;
 }
 
 function login(t) {
     token = t;
     loggedIn = true;
-    updateStateCallback(true);
+    loggedInCallback(true);
 }
 
 function logout() {
     loggedIn = false;
-    updateStateCallback(false);
+    cookie.remove("jwt");
+    loggedInCallback(false);
 }
 
 function getToken() {

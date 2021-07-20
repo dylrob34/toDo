@@ -20,7 +20,7 @@ function App() {
   var jwt = cookie.load("jwt")
   if (typeof jwt !== "undefined") {
     if (jwt !== "") {
-      fetch("https://" + domain + "/api/auth/checkLogin", {
+      fetch("http://" + domain + "/api/auth/checkLogin", {
         method: "GET",
         headers: {
           Accept: "application/json",
