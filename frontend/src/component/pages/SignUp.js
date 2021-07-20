@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import { domain } from "../../App";
 import { login } from "../../loggedInState";
 import { Redirect } from 'react-router';
+import validator from 'validator'
+import { isEmail } from 'validator'
 
 const SignUp = () => {
 
@@ -11,9 +13,8 @@ const SignUp = () => {
     const [first, setFirst] = useState('');
     const [last, setLast] = useState('');
     const [passwordError, setPasswordError] = useState('');
-    const [emailError, setEmailError] = useState('');
     const [redirect, setRedirect] = useState(false);
-
+    const [checkEmail, setCheckEmail] = useState('')
 
     const handleFNameChange = e => {
         setFirst(e.target.value)
@@ -24,11 +25,6 @@ const SignUp = () => {
     const handleEmailChange = e => {
         setEmail(e.target.value)
     }
-
-    // const handleCheckEmail = e => {
-    //     if ( e.target.value !== )
-
-    // }
 
     const handlePasswordChange = e => {
         setPassword(e.target.value)
@@ -44,9 +40,25 @@ const SignUp = () => {
         setCheck(e.target.value)
     }
 
+    const validateEmail = () => {
+        if (email.includes("@")) {
+            return true
+        } else {
+            setCheckEmail('invalid email')
+            return false
+        }
+    }
+
     const submitSignUp = e => {
         e.preventDefault();
         
+        const emailValid = validateEmail();
+        if (emailValid === true) {
+            console.log('No email errors')
+            setCheckEmail('');
+            setEmail('');
+        }
+
         fetch("http://" + domain + "/api/user/createUser", {
         method: "POST",
         headers: {
@@ -98,6 +110,7 @@ const SignUp = () => {
                 <input type='text' name='email' id='email' placeholder='Your Email...' value={email}
                 onChange={ handleEmailChange }
                 ></input>
+                <div style={{fontSize: 12, color: 'red'}}>{checkEmail}</div>
             </div>
             <div>
                 <label htmlFor="password">Create Password: </label>

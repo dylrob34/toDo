@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
-import {logout, getLoggedIn, getToken} from "../loggedInState";
-import {domain} from "../App";
+import {logout, getLoggedIn, getToken} from "../../loggedInState";
+import {domain} from "../../App";
 
 function NavBar() {
     const loggedIn = getLoggedIn();

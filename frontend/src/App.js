@@ -7,7 +7,7 @@ import SignUp from './component/pages/SignUp';
 import { login, logout, setLoggedInCallback} from './loggedInState';
 import cookie from 'react-cookies';
 import { LoginPage } from './component/Login';
-import NavBar from './component/NavBar';
+import NavBar from './component/layout/NavBar';
 
 const domain = "localhost"
 
