@@ -52,6 +52,7 @@ const SignUp = () => {
     const submitSignUp = e => {
         e.preventDefault();
         
+        // Dylan explain why I can't just have this if statement use validateEmail, and I have to set it equal to something.
         const emailValid = validateEmail();
         if (emailValid === true) {
             console.log('No email errors')
