@@ -2,12 +2,14 @@ import React, {useState} from 'react';
 import { BrowserRouter as Router, Switch, Route, } from 'react-router-dom';
 
 import './App.css';
-import Landing from './component/Landing';
+import Landing from './component/pages/Landing';
 import SignUp from './component/pages/SignUp';
 import { login, logout, setLoggedInCallback} from './loggedInState';
 import cookie from 'react-cookies';
-import { LoginPage } from './component/Login';
+import { LoginPage } from './component/pages/Login';
 import NavBar from './component/layout/NavBar';
+import ToDo from './component/pages/ToDo';
+
 
 const domain = "localhost"
 
@@ -46,6 +48,7 @@ function App() {
           <Route exact path='/' component={ Landing } />
           <Route exact path='/login' component={ LoginPage } />
           <Route exact path='/signup' component={ SignUp }></Route>
+          <Route exact path='/todo' component={ ToDo }></Route>
         </Switch>
       </div>
     </Router>

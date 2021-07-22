@@ -36,3 +36,27 @@
     transform: rotate(360deg);
   }
 }
+
+/* Start of Anchor styling */
+
+.logout-btn {
+  
+}
+
+.navbar-container {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+}
+.navbar-page {
+  display: flex;
+  position: relative;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+}
+.navbar-page:hover {
+  opacity: 0.8;
+  color: seagreen;
+}

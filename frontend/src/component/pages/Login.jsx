@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {Link} from "react-router-dom";
-import { login, logout } from "../loggedInState";
-import { domain } from "../App";
+import { login, logout } from "../../loggedInState";
+import { domain } from "../../App";
 
 function LoginPage() {
     const [error, setError] = useState("");
@@ -32,7 +32,9 @@ return (
                 <input type="password" name="password" id='password' 
                 onChange={e => setDetails({...details, password: e.target.value})} value={details.password}/>
             </div>
-        <input type="submit" value="LOGIN"/>
+        <input type="submit" value="LOGIN">
+          {/* <Link to='/todo' className='Login-btn'/> */}
+        </input>
         <Link to="/signup">Create Account</Link>
         </div>
     </form>
