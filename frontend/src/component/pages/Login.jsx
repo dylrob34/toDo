@@ -1,18 +1,25 @@
 import React, { useState } from "react";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import { login, logout } from "../../loggedInState";
 import { domain } from "../../App";
 
 function LoginPage() {
     const [error, setError] = useState("");
     const [details, setDetails] = useState({email:'', password:''});
+    const [autoToDo, setAutoToDo] = useState(false);
 
 
     // Function to handle on submit of the login button:
     const submitHandler = e => {
         e.preventDefault();
         // This calls the function defined in App.js and passes in details to it so that App.js can use it.
-        userLogin(details, setError);
+        userLogin(details, setError, setAutoToDo);
+    }
+  
+    if (autoToDo === true) {
+      return (
+        <Redirect to="/todo" />
+      )
     }
 
 return (
@@ -33,7 +40,6 @@ return (
                 onChange={e => setDetails({...details, password: e.target.value})} value={details.password}/>
             </div>
         <input type="submit" value="LOGIN">
-          {/* <Link to='/todo' className='Login-btn'/> */}
         </input>
         <Link to="/signup">Create Account</Link>
         </div>
@@ -41,10 +47,10 @@ return (
 )
 }
 
-  const userLogin = (details, setError) => {
+  const userLogin = (details, setError, setAutoToDo) => {
     console.log(details);
     console.log("fetching from: " + "http://" + domain + "/api/auth/login");
-
+    
     //Added by Dylan to authenticate from backend
     fetch("http://" + domain + "/api/auth/login", {
       method: "POST",
@@ -65,6 +71,8 @@ return (
       } else if (resJson.loggedIn === true) {
         console.log("logged in");
         login(resJson.token);
+        setAutoToDo(true);
+
       }
     })
   }
