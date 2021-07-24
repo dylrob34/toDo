@@ -33,12 +33,29 @@ function createUser(email, password, firstName, lastName) {
                 email,
                 password,
                 firstName,
-                lastName,
-                toDos: []
+                lastName
             }
         )
         .then((result) => {
             resolve(result);
+        })
+    });
+}
+
+function getToDos(email) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("toDos").find()
+        .then((user) => {
+            resolve(user);
+        })
+    });
+}
+
+function createToDo(email, title, body) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("users").findOne({email})
+        .then((user) => {
+            resolve(user);
         })
     });
 }
