@@ -53,13 +53,12 @@ const SignUp = () => {
         e.preventDefault();
         
         // Dylan explain why I can't just have this if statement use validateEmail, and I have to set it equal to something.
-        const emailValid = validateEmail();
-        if (emailValid === true) {
+        //const emailValid = validateEmail();
+        if (validateEmail() === true) {
             console.log('No email errors')
             setCheckEmail('');
             setEmail('');
         }
-
         fetch("http://" + domain + "/api/user/createUser", {
         method: "POST",
         headers: {
