@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { domain } from "../../App";
-import { login } from "../../loggedInState";
+import { login } from "../../context/loggedInState";
 import { Redirect } from 'react-router';
 import validator from 'validator'
 import { isEmail } from 'validator'

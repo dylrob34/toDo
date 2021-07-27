@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from 'react'
 import { Redirect } from 'react-router';
-import { getLoggedIn, getToken } from '../../loggedInState';
+import { getLoggedIn, getToken } from '../../context/loggedInState';
 import { domain } from "../../App";
 
 const ToDo = () => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {Link, Redirect} from "react-router-dom";
-import { login, logout } from "../../loggedInState";
+import { login, logout } from "../../context/loggedInState";
 import { domain } from "../../App";
 
 function LoginPage() {
@@ -38,8 +38,7 @@ return (
                 <input type="password" name="password" id='password' 
                 onChange={e => setDetails({...details, password: e.target.value})} value={details.password}/>
             </div>
-        <input type="submit" value="LOGIN">
-        </input>
+        <input type="submit" value="LOGIN"></input>
         <Link to="/signup">Create Account</Link>
         </div>
     </form>

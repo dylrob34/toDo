@@ -1,6 +1,6 @@
 import React, {useState, useEffect, Fragment} from "react";
 import { Link } from "react-router-dom";
-import {logout, getLoggedIn, getToken} from "../../loggedInState";
+import {logout, getLoggedIn, getToken} from "../../context/loggedInState";
 import {domain} from "../../App";
 import {FaUser} from 'react-icons/fa'
 
