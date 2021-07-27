@@ -8,9 +8,7 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
 }
 
 .App-header {
@@ -40,7 +38,7 @@
 /* Start of Anchor styling */
 
 .logout-btn {
-  
+  position: relative;
 }
 
 .navbar-container {
