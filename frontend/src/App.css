@@ -37,24 +37,57 @@
 
 /* Start of Anchor styling */
 
+:root {
+  --orange_text: #ff8c00;
+  --navbar_bkgrnd: #191970;
+}
+
 .logout-btn {
   position: relative;
 }
 
-.navbar-container {
+.navbar-container-start {
   display: flex;
+  flex-direction: row;
   position: relative;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: var(--navbar_bkgrnd);
+}
+.navbar-container-end {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex-basis: 50%;
+  position: relative;
+  justify-content: flex-end;
   align-items: center;
 }
 .navbar-page {
-  display: flex;
   position: relative;
-  align-items: center;
+  padding: 3px 10px;
+  font-size: 8px;
   text-decoration: none;
-  color: black;
+  color: var(--orange_text);
 }
+.navbar-page-spc {
+  display: flex;
+  flex-grow: 4;
+  align-content: flex-start;
+}
+
 .navbar-page:hover {
   opacity: 0.8;
-  color: seagreen;
+  color: white;
+}
+
+.navbar-user-icon {
+  position: relative;
+  display: flex;
+  align-self: flex-start;
+  color: var(--orange_text);
+  font-size: 10px;
+  background-color: lightblue;
+  padding: 2px;
+  border-radius: 10px;
 }

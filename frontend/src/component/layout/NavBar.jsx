@@ -2,6 +2,7 @@ import React, {useState, useEffect, Fragment} from "react";
 import { Link } from "react-router-dom";
 import {logout, getLoggedIn, getToken} from "../../loggedInState";
 import {domain} from "../../App";
+import {FaUser} from 'react-icons/fa'
 
 function NavBar() {
     const loggedIn = getLoggedIn();
@@ -31,15 +32,15 @@ function NavBar() {
       if (loggedIn)
       {
           return (
-              <div className='nav-container'>
-                <div className='navbar-container'>
+              <div className='navbar-container'>
+                <div className='navbar-container-start'>
                   <Link to="/todo" className='navbar-page'>ToDo</Link>
                   <Link to="/capture" className='navbar-page'>Capture</Link>
-                  <Link to="/timeblock"className='navbar-page'>TimeBlock</Link>
+                  <Link to="/timeblock"className='navbar-page navbar-page-spc'>TimeBlock</Link>
+                  <Link to='/account'><FaUser className="navbar-user-icon"></FaUser></Link>
+                  <Link to='/' onClick={logout} className="logout-btn navbar-page">Logout</Link>
                 </div>
-
                   <p>Hello, {name}</p>
-                  <Link to='/' onClick={logout} className="logout-btn">Logout</Link>
               </div>
           )
       }

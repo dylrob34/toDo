@@ -12,7 +12,6 @@ function LoginPage() {
     // Function to handle on submit of the login button:
     const submitHandler = e => {
         e.preventDefault();
-        // This calls the function defined in App.js and passes in details to it so that App.js can use it.
         userLogin(details, setError, setAutoToDo);
     }
   
