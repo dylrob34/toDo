@@ -76,6 +76,13 @@
   align-content: flex-start;
 }
 
+.navbar-hello {
+  display: flex;
+  position: relative;
+  font-size: 8px;
+  padding: 0px 0px 0px 10px;
+}
+
 .navbar-page:hover {
   opacity: 0.8;
   color: white;
@@ -90,4 +97,37 @@
   background-color: lightblue;
   padding: 2px;
   border-radius: 10px;
+}
+
+/* Side Bar styling */
+
+.left-sidebar {
+  position: fixed;
+  width: 100px;
+  height: 100vh;
+  left: 0px;
+  background-color: black;
+}
+.left-sb-logo {
+  font-size: 10px;
+  padding: 5px 10px 5px 5px;
+  background-color: #2574A9;
+  color: white;
+}
+.left-sb-navigation {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 0px 0px 0px;
+  margin: 0;
+  list-style-type: none;
+  position: relative;
+}
+.left-sb-element {
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  font-size: 8px;
+  margin: 0px;
+  color: white;
+  padding: 0px 0px 5px 10px
 }

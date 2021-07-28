@@ -38,8 +38,13 @@ const ToDo = () => {
     }, [reload])
 
     return (
-        <div>
-            <h3>This is going to be the users ToDo list page</h3>
+        <div name='view-container' className='left-sidebar'>
+            <div className='left-sb-logo'>ToDo List Views</div>
+            <ul className='left-sb-navigation'>
+                <li className='left-sb-element'> Day </li>
+                <li className='left-sb-element'> Week </li>
+                <li className='left-sb-element'> TimeBlock </li>
+            </ul>
         </div>
     )
 }

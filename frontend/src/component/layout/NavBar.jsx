@@ -32,24 +32,21 @@ function NavBar() {
       if (loggedIn)
       {
           return (
-              <div className='navbar-container'>
-                <div className='navbar-container-start'>
+            <div className='navbar-container'>
+              <div className='navbar-container-start'>
                   <Link to="/todo" className='navbar-page'>ToDo</Link>
                   <Link to="/capture" className='navbar-page'>Capture</Link>
                   <Link to="/timeblock"className='navbar-page navbar-page-spc'>TimeBlock</Link>
                   <Link to='/account'><FaUser className="navbar-user-icon"></FaUser></Link>
                   <Link to='/' onClick={logout} className="logout-btn navbar-page">Logout</Link>
-                </div>
-                  <p>Hello, {name}</p>
               </div>
+                <span className='navbar-hello'>Hello, {name}</span>
+                {/* Might want to take this Hello, {name} and put it in on a Landing page or something. Its a bit clunky on NavBar (CK 7/27/21) */}
+            </div>
           )
       }
-
-     // CK COMMENT: I think I would only like them to see the NavBar if they are logged in else they are forced to login with welcome.
-     // CK COMMENT: Additionally, I'd like to add a condition where if they route to Login page then link to Login goes away. 
     return (
         <div>
-            {/* <Link to="/">ToDo</Link> */}
             <h1></h1>
             <Link to="/login">Login</Link>
         </div>
