@@ -38,10 +38,9 @@ function NavBar() {
                   <Link to="/capture" className='navbar-page'>Capture</Link>
                   <Link to="/timeblock"className='navbar-page navbar-page-spc'>TimeBlock</Link>
                   <Link to='/account'><FaUser className="navbar-user-icon"></FaUser></Link>
+                  <span className='navbar-hello'>Hello, {name}</span>
                   <Link to='/' onClick={logout} className="logout-btn navbar-page">Logout</Link>
               </div>
-                <span className='navbar-hello'>Hello, {name}</span>
-                {/* Might want to take this Hello, {name} and put it in on a Landing page or something. Its a bit clunky on NavBar (CK 7/27/21) */}
             </div>
           )
       }

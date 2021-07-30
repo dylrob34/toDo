@@ -2,13 +2,19 @@ import React, { useEffect, useState} from 'react'
 import { Redirect } from 'react-router';
 import { getLoggedIn, getToken } from '../../context/loggedInState';
 import { domain } from "../../App";
+import {FaAngleRight, FaAngleDoubleRight} from 'react-icons/fa'
 
 const ToDo = () => {
     const loggedIn = getLoggedIn
 
     // Load initially then load again on subsequent changes to toDos
     const [reload, setReload] = useState(true);
-    const [toDos, setToDos]  = useState([])
+    const [toDos, setToDos]  = useState([]);
+    const [hover, setHover] = useState(false);
+
+    const handleHover = () => {
+        setHover(!hover)
+    }
 
     useEffect(() => {
         // Fetch todos
@@ -38,14 +44,29 @@ const ToDo = () => {
     }, [reload])
 
     return (
+    <div>
         <div name='view-container' className='left-sidebar'>
-            <div className='left-sb-logo'>ToDo List Views</div>
+            <div className='left-sb-logo'>Views</div>
             <ul className='left-sb-navigation'>
                 <li className='left-sb-element'> Day </li>
                 <li className='left-sb-element'> Week </li>
                 <li className='left-sb-element'> TimeBlock </li>
             </ul>
+
         </div>
+        <div className='main'>
+            <div className='add-task'
+                onMouseEnter={handleHover}
+                onMouseLeave={handleHover}>
+                <FaAngleRight className={hover ? '' : 'invisible'}/>
+                <FaAngleDoubleRight className={hover ? 'invisible' : ''}/>
+                <button className={'add-task'}>Add Task</button>
+            </div>
+
+                {/* <input type='text' className='add-item' placeholder='Add item...'></input> */}
+        </div>
+    </div>
+
     )
 }
 
