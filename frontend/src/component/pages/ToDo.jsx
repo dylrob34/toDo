@@ -12,10 +12,6 @@ const ToDo = () => {
     const [toDos, setToDos]  = useState([]);
     const [hover, setHover] = useState(false);
 
-    const handleHover = () => {
-        setHover(!hover)
-    }
-
     useEffect(() => {
         // Fetch todos
         if (loggedIn === true && reload === true) {
@@ -43,6 +39,17 @@ const ToDo = () => {
         }
     }, [reload])
 
+
+    if (getLoggedIn() === false) {
+        return (
+            <Redirect to='/login'/>
+        )
+    }
+    
+    const handleHover = () => {
+        setHover(!hover)
+    }
+
     return (
     <div>
         <div name='view-container' className='left-sidebar'>
@@ -59,8 +66,8 @@ const ToDo = () => {
                 onMouseEnter={handleHover}
                 onMouseLeave={handleHover}>
                 <FaAngleRight className={hover ? 'invisible add-task-angle' : 'add-task-angle'}/>
-                <FaAngleDoubleRight className={hover ? 'add-task-angle' : 'invisible add-task-angle'}/>
-                <button className={'add-task-btn'}>Add Task</button>
+                <FaAngleDoubleRight className={hover ? 'add-task-angle hover' : 'invisible add-task-angle'}/>
+                <button className={hover? 'add-task-btn hover' : 'add-task-btn'}>Add Task</button>
             </div>
             <div className='task-textedit'>
 

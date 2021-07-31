@@ -39,12 +39,13 @@
 
 :root {
   --orange_text: #ff8c00;
-  --navbar_bkgrnd: #191970;
-  /* --navbar_bkgrnd: #2574A9; */
-  --left_sidebar_header: #2574A9;
-  --left_sidebar_bkgrnd: rgb(40,40,40);
-  --main_color: rgb(31,31,31);
   --highlight_color: #61dafb;
+  --accent1: #2e8b57;
+  --accent2: #2574A9;
+  --base-gray: rgb(31,31,31) ;
+  --mid-gray: rgb(40,40,40) ;
+  --top-gray: rgb(54,54,54) ;
+
 
 }
 
@@ -63,7 +64,7 @@
   position: relative;
   justify-content: flex-start;
   align-items: center;
-  background-color: var(--navbar_bkgrnd);
+  background-color: var(--mid-gray);
   box-shadow: 0px 0.5px 0.5px rgba(0,0,0,0.5);
   z-index: 3;
 }
@@ -73,7 +74,7 @@
   padding: 3px 10px;
   font-size: 8px;
   text-decoration: none;
-  color: var(--orange_text);
+  color: white;
 }
 .navbar-page-spc {
   display: flex;
@@ -90,8 +91,7 @@
 }
 
 .navbar-page:hover {
-  opacity: 0.8;
-  color: white;
+  color: var(--accent1);
 }
 
 .navbar-user-icon {
@@ -112,7 +112,7 @@
   width: 15%;
   height: 100vh;
   left: 0px;
-  background-color: var(--left_sidebar_bkgrnd);
+  background-color: var(--mid-gray);
   float: left;
   box-shadow: 0.5px 0px 1px rgba(0,0,0,0.2);
   z-index: 2;
@@ -120,7 +120,7 @@
 .left-sb-logo {
   font-size: 10px;
   padding: 5px 10px 5px 5px;
-  background-color: var(--left_sidebar_header);
+  background-color: var(--accent1);
   color: white;
 }
 .left-sb-navigation {
@@ -144,7 +144,7 @@
 /* Main Styling */
 
 .main {
-  background-color: var(--main_color);
+  background-color: var(--base-gray);
   float: right;
   height: 100vh;
   width: 85%;
@@ -159,6 +159,9 @@
   border: 1px white dotted;
   width: 70px;
   height: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
 }
 
 .add-task-btn {
@@ -176,14 +179,6 @@
   color: white;
   font-size: 6px;
 }
-.add-task-angle:hover {
-  color: var(--highlight_color);
-}
-
-.add-task-btn:hover {
-  color: var(--highlight_color);
-}
-
-.add-task-container:hover {
+.hover {
   color: var(--highlight_color);
 }
