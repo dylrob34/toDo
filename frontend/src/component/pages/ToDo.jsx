@@ -55,12 +55,15 @@ const ToDo = () => {
 
         </div>
         <div className='main'>
-            <div className='add-task'
+            <div className='add-task-container'
                 onMouseEnter={handleHover}
                 onMouseLeave={handleHover}>
-                <FaAngleRight className={hover ? '' : 'invisible'}/>
-                <FaAngleDoubleRight className={hover ? 'invisible' : ''}/>
-                <button className={'add-task'}>Add Task</button>
+                <FaAngleRight className={hover ? 'invisible add-task-angle' : 'add-task-angle'}/>
+                <FaAngleDoubleRight className={hover ? 'add-task-angle' : 'invisible add-task-angle'}/>
+                <button className={'add-task-btn'}>Add Task</button>
+            </div>
+            <div className='task-textedit'>
+
             </div>
 
                 {/* <input type='text' className='add-item' placeholder='Add item...'></input> */}
