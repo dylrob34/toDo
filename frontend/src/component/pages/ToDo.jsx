@@ -10,7 +10,19 @@ const ToDo = () => {
     // Load initially then load again on subsequent changes to toDos
     const [reload, setReload] = useState(true);
     const [toDos, setToDos]  = useState([]);
-    const [hover, setHover] = useState(false);
+    // const [hover, setHover] = useState(false);
+    const [hover, setHover] = useState({
+        viewContainer: false,
+        views: false,
+        addTask: false,
+        dayView: false,
+        weekView: false,
+        timeblockView: false,
+        angleRight: false,
+        angleRightDouble: false,
+
+    })
+
 
     useEffect(() => {
         // Fetch todos
@@ -46,28 +58,44 @@ const ToDo = () => {
         )
     }
     
-    const handleHover = () => {
-        setHover(!hover)
-    }
+    function handleHover(e) {
+        console.log(!hover)
+        console.log(e.target.name)
+        console.log(hover)
+        // setHover(!hover)
+        setHover({
+            ...hover,
+            [e.target.name]: !hover
+        })
+ }
 
     return (
     <div>
-        <div name='view-container' className='left-sidebar'>
+        <div name='viewContainer' className='left-sidebar'>
             <div className='left-sb-logo'>Views</div>
-            <ul className='left-sb-navigation'>
-                <li className='left-sb-element'> Day </li>
-                <li className='left-sb-element'> Week </li>
-                <li className='left-sb-element'> TimeBlock </li>
+            <ul name='views' className='left-sb-navigation'>
+                <li name='dayView' className={hover.dayView ? 'left-sb-element-hover' : 'left-sb-element'}
+                onMouseEnter={handleHover}
+                onMouseLeave={handleHover}
+                > Day </li>
+                <li name='weekView' className={hover.weekView ? 'left-sb-element-hover' : 'left-sb-element'}
+                onMouseEnter={handleHover}
+                onMouseLeave={handleHover}
+                > Week </li>
+                <li name ='timeblockView' className={hover.timeblockView ? 'left-sb-element-hover' : 'left-sb-element'}
+                onMouseEnter={handleHover}
+                onMouseLeave={handleHover}
+                > TimeBlock </li>
             </ul>
 
         </div>
         <div className='main'>
-            <div className='add-task-container'
+            <div name='addTaskCtn' className='add-task-container'
                 onMouseEnter={handleHover}
                 onMouseLeave={handleHover}>
-                <FaAngleRight className={hover ? 'invisible add-task-angle' : 'add-task-angle'}/>
-                <FaAngleDoubleRight className={hover ? 'add-task-angle hover' : 'invisible add-task-angle'}/>
-                <button className={hover? 'add-task-btn hover' : 'add-task-btn'}>Add Task</button>
+                <FaAngleRight name='angleRight' className={hover.angleRight ? 'invisible add-task-angle' : 'add-task-angle'}/>
+                <FaAngleDoubleRight name='angleRightDouble' className={hover.angleRightDouble ? 'add-task-angle hover' : 'invisible add-task-angle'}/>
+                <button name='addTask' className={hover.addTask ? 'add-task-btn hover' : 'add-task-btn'}>Add Task</button>
             </div>
             <div className='task-textedit'>
 

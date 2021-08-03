@@ -71,8 +71,8 @@
 
 .navbar-page {
   position: relative;
-  padding: 3px 10px;
-  font-size: 8px;
+  padding: 10px 15px;
+  font-size: 18px;
   text-decoration: none;
   color: white;
 }
@@ -85,7 +85,7 @@
 .navbar-hello {
   display: flex;
   position: relative;
-  font-size: 8px;
+  font-size: 18px;
   padding: 0px 0px 0px 6px;
   color: white;
 }
@@ -99,10 +99,10 @@
   display: flex;
   align-self: flex-start;
   color: var(--orange_text);
-  font-size: 10px;
+  font-size: 20px;
   background-color: lightblue;
-  padding: 2px;
-  border-radius: 10px;
+  padding: 5px;
+  border-radius: 20px;
 }
 
 /* Side Bar styling */
@@ -118,7 +118,7 @@
   z-index: 2;
 }
 .left-sb-logo {
-  font-size: 10px;
+  font-size: 24px;
   padding: 5px 10px 5px 5px;
   background-color: var(--accent1);
   color: white;
@@ -135,10 +135,10 @@
   display: flex;
   position: relative;
   align-items: flex-start;
-  font-size: 8px;
+  font-size: 18px;
   margin: 0px;
   color: white;
-  padding: 0px 0px 5px 10px
+  padding: 5px 0px 25px 10px
 }
 
 /* Main Styling */
@@ -155,13 +155,12 @@
   background-color: transparent;
   border: none;
   color: white;
-  font-size: 6px;
-  border: 1px white dotted;
-  width: 70px;
-  height: 20px;
+  font-size: 14px;
+  width: 120px;
+  height: 30px;
+  text-align: center;
   margin-left: auto;
   margin-right: auto;
-  justify-content: center;
 }
 
 .add-task-btn {
@@ -169,15 +168,16 @@
   background-color: transparent;
   border: none;
   color: white;
-  font-size: 6px;
+  font-size: 14px;
   padding: 10px 2px 10px 2px;
+  text-align: center;
 }
 
 .add-task-angle {
   /* padding: 10px 2px 10px 2px; */
-  transform: translateY(0.5px);
+  transform: translateY(2px);
   color: white;
-  font-size: 6px;
+  font-size: 14px;
 }
 .hover {
   color: var(--highlight_color);

@@ -36,7 +36,8 @@ function NavBar() {
               <div className='navbar-container-start'>
                   <Link to="/todo" className='navbar-page'>ToDo</Link>
                   <Link to="/capture" className='navbar-page'>Capture</Link>
-                  <Link to="/timeblock"className='navbar-page navbar-page-spc'>TimeBlock</Link>
+                  <Link to="/timeblock"className='navbar-page'>TimeBlock</Link>
+                  <div className='navbar-page-spc'></div>
                   <Link to='/account'><FaUser className="navbar-user-icon"></FaUser></Link>
                   <span className='navbar-hello'>Hello, {name}</span>
                   <Link to='/' onClick={logout} className="logout-btn navbar-page">Logout</Link>
