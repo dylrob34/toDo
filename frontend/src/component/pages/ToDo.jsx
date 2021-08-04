@@ -2,7 +2,7 @@ import React, { useEffect, useState} from 'react'
 import { Redirect } from 'react-router';
 import { getLoggedIn, getToken } from '../../context/loggedInState';
 import { domain } from "../../App";
-import {FaAngleRight, FaAngleDoubleRight} from 'react-icons/fa'
+import {FaAngleRight, FaAngleDoubleRight, FaCommentsDollar} from 'react-icons/fa'
 
 const ToDo = () => {
     const loggedIn = getLoggedIn
@@ -11,17 +11,7 @@ const ToDo = () => {
     const [reload, setReload] = useState(true);
     const [toDos, setToDos]  = useState([]);
     // const [hover, setHover] = useState(false);
-    const [hover, setHover] = useState({
-        viewContainer: false,
-        views: false,
-        addTask: false,
-        dayView: false,
-        weekView: false,
-        timeblockView: false,
-        angleRight: false,
-        angleRightDouble: false,
-
-    })
+    const [hover, setHover] = useState(false)
 
 
     useEffect(() => {
@@ -58,15 +48,8 @@ const ToDo = () => {
         )
     }
     
-    function handleHover(e) {
-        console.log(!hover)
-        console.log(e.target.name)
-        console.log(hover)
-        // setHover(!hover)
-        setHover({
-            ...hover,
-            [e.target.name]: !hover
-        })
+    const handleHover = () => {
+        setHover(!hover)
  }
 
     return (
@@ -74,17 +57,11 @@ const ToDo = () => {
         <div name='viewContainer' className='left-sidebar'>
             <div className='left-sb-logo'>Views</div>
             <ul name='views' className='left-sb-navigation'>
-                <li name='dayView' className={hover.dayView ? 'left-sb-element-hover' : 'left-sb-element'}
-                onMouseEnter={handleHover}
-                onMouseLeave={handleHover}
+                <li name='dayView' className={'left-sb-element'}
                 > Day </li>
-                <li name='weekView' className={hover.weekView ? 'left-sb-element-hover' : 'left-sb-element'}
-                onMouseEnter={handleHover}
-                onMouseLeave={handleHover}
+                <li name='weekView' className={'left-sb-element'}
                 > Week </li>
-                <li name ='timeblockView' className={hover.timeblockView ? 'left-sb-element-hover' : 'left-sb-element'}
-                onMouseEnter={handleHover}
-                onMouseLeave={handleHover}
+                <li name ='timeblockView' className={'left-sb-element'}
                 > TimeBlock </li>
             </ul>
 
@@ -93,17 +70,16 @@ const ToDo = () => {
             <div name='addTaskCtn' className='add-task-container'
                 onMouseEnter={handleHover}
                 onMouseLeave={handleHover}>
-                <FaAngleRight name='angleRight' className={hover.angleRight ? 'invisible add-task-angle' : 'add-task-angle'}/>
-                <FaAngleDoubleRight name='angleRightDouble' className={hover.angleRightDouble ? 'add-task-angle hover' : 'invisible add-task-angle'}/>
-                <button name='addTask' className={hover.addTask ? 'add-task-btn hover' : 'add-task-btn'}>Add Task</button>
+                <FaAngleRight name='angleRight' className={hover ? 'invisible add-task-angle' : 'add-task-angle'}/>
+                <FaAngleDoubleRight name='angleRightDouble' className={hover ? 'add-task-angle hover' : 'invisible add-task-angle'}/>
+                <button name='addTask' value={hover.addTask} className={hover ? 'add-task-btn hover' : 'add-task-btn'}>Add Task</button>
             </div>
             <div className='task-textedit'>
-
             </div>
-
-                {/* <input type='text' className='add-item' placeholder='Add item...'></input> */}
         </div>
+
     </div>
+
 
     )
 }
