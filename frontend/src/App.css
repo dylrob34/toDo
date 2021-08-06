@@ -45,7 +45,7 @@
   --base-gray: rgb(31,31,31) ;
   --mid-gray: rgb(40,40,40) ;
   --top-gray: rgb(54,54,54) ;
-
+  --accent3: #006400;
 
 }
 
@@ -127,14 +127,18 @@
 }
 .left-sb-logo {
   font-size: 24px;
-  padding: 5px 10px 5px 5px;
+  padding: 5px 10px 10px 5px;
   background-color: var(--accent1);
   color: white;
+  box-shadow: 0.5px 0px 5px rgba(0,0,0,0.6);
+  /* border-bottom: solid var(--accent3) 0.5px; */
+  margin-bottom: 25px;
+
 }
 .left-sb-navigation {
   display: flex;
   flex-direction: column;
-  padding: 5px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
   margin: 0;
   list-style-type: none;
   position: relative;
@@ -142,12 +146,12 @@
 .left-sb-element {
   display: flex;
   position: relative;
-  align-items: flex-start;
+  align-items:flex-start;
   font-size: 18px;
   margin: 0px;
   color: white;
-  margin: 5px 10px 25px 10px;
-  padding: 3px;
+  /* margin: 5px 10px 25px 10px; */
+  padding: 10px ;
 }
 
 .left-sb-element::before {
@@ -159,7 +163,6 @@
   bottom: 0;
   z-index: -1;
   background-color: var(--accent1);
-  border-radius: 0px 6px 6px 0px;
   transition: border-radius 1ms ease;
   transition: transform 300ms ease-in-out;
   transform: scaleX(0);

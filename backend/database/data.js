@@ -44,23 +44,33 @@ function createUser(email, password, firstName, lastName) {
 
 function getToDos(email) {
     return new Promise((resolve, reject) => {
-        client.db("toDo").collection("toDos").find()
-        .then((user) => {
-            resolve(user);
+        console.log(`Finding todos from: ${email}`)
+        client.db("toDo").collection("todos").find({user: email}).toArray()
+        .then((todos) => {
+            console.log(`todos: ${todos}`)
+            resolve(todos);
         })
     });
 }
 
 function createToDo(email, title, body) {
     return new Promise((resolve, reject) => {
-        client.db("toDo").collection("users").findOne({email})
-        .then((user) => {
-            resolve(user);
+        client.db("toDo").collection("todos").insertOne(
+            {
+                user: email,
+                title,
+                body
+            }
+        )
+        .then((result) => {
+            resolve(result);
         })
     });
 }
 
 module.exports = {
     getUser,
-    createUser
+    createUser,
+    getToDos,
+    createToDo
 }
