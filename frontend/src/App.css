@@ -52,6 +52,9 @@
 .invisible {
   display: none;
 }
+.visible {
+  background-color: transparent;
+}
 
 .logout-btn {
   position: relative;
