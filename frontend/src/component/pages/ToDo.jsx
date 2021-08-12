@@ -1,20 +1,26 @@
-import React, { useEffect, useState} from 'react'
+import React, { useEffect, useState, createContext, useReducer} from 'react'
 import { Redirect } from 'react-router';
 import { getLoggedIn, getToken } from '../../context/loggedInState';
-// import { showAddTask, setShowAddTask } from '../../context/globalStates';
 import { domain } from "../../App";
 import {FaAngleRight, FaAngleDoubleRight, FaCommentsDollar} from 'react-icons/fa';
 import Tasks from '../Tasking/Tasks'
 import AddTask from '../Tasking/AddTask';
 
+// Creating context and enabling a reducer:
+export const AddTaskContext = createContext();
+function reducer(state, item) {
+    return [...state, item]
+}
+
 const ToDo = () => {
     const loggedIn = getLoggedIn
+    const [showAddTask, setShowAddTask] = useReducer(reducer, false)
+    // var showAddTask = useContext(AddTaskContext); // Assigning showAddTask to = AddTaskContext value.
 
     // Load initially then load again on subsequent changes to toDos
     const [toDos, setToDos]  = useState([]);
     const [hover, setHover] = useState(false);
-
-    const [showAddTask, setShowAddTask]  = useState(false)
+    // const [showAddTask, setShowAddTask]  = useState(false)
 
     if (getLoggedIn() === false) {
         return (
@@ -27,11 +33,15 @@ const ToDo = () => {
  }
  
     const handleAddTask = () => {
-        setShowAddTask(!showAddTask)
+        showAddTask = !showAddTask
+        console.log(showAddTask)
+        // Dylan, How do I update so that the className sees the change of showAddTask this way
+        // since im not using state and using context instead what is the way to get a re-render?
     }
 
     return (
     <div>
+        <AddTaskContext.Provider value={{showAddTask, setShowAddTask}}>
         <div name='viewContainer' className='left-sidebar'>
             <div className='left-sb-logo'>Views</div>
             <ul name='views' className='left-sb-navigation'>
@@ -52,15 +62,14 @@ const ToDo = () => {
                 <FaAngleDoubleRight name='angleRightDouble' className={hover ? 'add-task-angle hover' : 'invisible add-task-angle'}/>
                 <button name='addTask' onClick={handleAddTask} className={hover ? 'add-task-btn hover' : 'add-task-btn'}>Add Task</button>
             </div>
-            <div name='AddTaskForm' className={showAddTask ? 'visible' : 'invisible'}>
+            <div name='AddTaskForm' className={'visible'}>
                 <AddTask/>
             </div>
-            
-            <Tasks className='tasks'/>
             <div className='task-textedit'>
             <Tasks className='tasks'/>
             </div>
         </div>
+        </AddTaskContext.Provider>
     </div>
     )
 }

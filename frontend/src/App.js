@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import { BrowserRouter as Router, Switch, Route, } from 'react-router-dom';
-
 import './App.css';
 import Landing from './component/pages/Landing';
 import SignUp from './component/pages/SignUp';
@@ -9,7 +8,6 @@ import cookie from 'react-cookies';
 import { LoginPage } from './component/pages/Login';
 import NavBar from './component/layout/NavBar';
 import ToDo from './component/pages/ToDo';
-
 
 const domain = "localhost"
 
