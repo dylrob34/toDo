@@ -8,6 +8,7 @@ import cookie from 'react-cookies';
 import { LoginPage } from './component/pages/Login';
 import NavBar from './component/layout/NavBar';
 import ToDo from './component/pages/ToDo';
+import { AddTaskProvider } from './context/AddTaskContext';
 
 const domain = "localhost"
 
@@ -40,6 +41,7 @@ function App() {
  
   return (
     <Router>
+      <AddTaskProvider>
       <div className="App">
         <NavBar />
         <Switch>
@@ -49,6 +51,7 @@ function App() {
           <Route exact path='/todo' component={ ToDo }></Route>
         </Switch>
       </div>
+      </AddTaskProvider>
     </Router>
 
   );
