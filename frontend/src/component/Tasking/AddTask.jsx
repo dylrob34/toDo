@@ -1,23 +1,15 @@
 import React, {useContext, useReducer} from 'react'
-import { AddTaskContext } from '../pages/ToDo'
+import { useAddTask, useAddTaskUpdate } from '../../context/AddTaskContext'
+
 
 const AddTask = () => {
+// Using custom hooks from AddTaskContext to update context and state.
+const toggleAddTask = useAddTaskUpdate();
 
-    const reducer = ''
-    const {setShowAddTask} = useContext(AddTaskContext)
-    const [addTask, updateAddTask] = useReducer(reducer, false);
-
-    function handleAddTask() {
-        setShowAddTask({
-            addTask: !addTask,
-        })
-        updateAddTask();
-        console.log(addTask)
-    }
     return (
         <div>
             <button>Add</button>
-            <button onClick={handleAddTask}>Cancel</button>
+            <button onClick={toggleAddTask}>Cancel</button>
         </div>
     )
 }
