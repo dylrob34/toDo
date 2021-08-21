@@ -56,7 +56,9 @@
   background-color: transparent;
 }
 
-
+.hover {
+  color: var(--highlight_color);
+}
 
 .scrolled {
   position: fixed;
@@ -231,6 +233,24 @@
   color: white;
   font-size: 14px;
 }
-.hover {
-  color: var(--highlight_color);
+
+
+.task-editor-area {
+  margin: 20px 10px 10px 10px;
+  padding: 10px 5px 5px 5px; ;
+
+}
+.text-area1 {
+  resize: none;
+  border: none;
+  outline: none;
+  padding: 8px;
+  border: solid 0.5px var(--top-gray);
+  border-radius: 5px;
+  background-color: var(--mid-gray);
+  color: white;
+}
+.text-area-submit {
+  margin-top: 5px;
+  position: relative;
 }
