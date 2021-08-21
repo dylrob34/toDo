@@ -56,9 +56,7 @@
   background-color: transparent;
 }
 
-.logout-btn {
-  position: relative;
-}
+
 
 .scrolled {
   position: fixed;
@@ -115,6 +113,24 @@
   padding: 5px;
   border-radius: 20px;
 }
+
+.logout-btn {
+  position: relative;
+  background-color: var(--top-gray);
+  border: none;
+  border-radius: 8px;
+  position: relative;
+  font-size: 16px;
+  text-decoration: none;
+  color: white;
+  padding: 5px 8px 5px;
+  margin: 0px 10px 0px 10px;
+}
+
+.logout-btn:hover {
+  color: var(--accent1);
+}
+
 
 /* Side Bar styling */
 

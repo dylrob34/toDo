@@ -40,7 +40,7 @@ function NavBar() {
                   <div className='navbar-page-spc'></div>
                   <Link to='/account'><FaUser className="navbar-user-icon"></FaUser></Link>
                   <span className='navbar-hello'>Hello, {name}</span>
-                  <button onClick={logout} className="logout-btn navbar-page">Logout</button>
+                  <button onClick={logout} className="logout-btn">Logout</button>
               </div>
             </div>
           )
