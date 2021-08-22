@@ -234,23 +234,45 @@
   font-size: 14px;
 }
 
-
+.add-task-form {
+  
+}
 .task-editor-area {
   margin: 20px 10px 10px 10px;
   padding: 10px 5px 5px 5px; ;
 
 }
-.text-area1 {
-  resize: none;
+.textarea-container1 {
   border: none;
   outline: none;
-  padding: 8px;
   border: solid 0.5px var(--top-gray);
   border-radius: 5px;
   background-color: var(--mid-gray);
   color: white;
+  width: 800px;
+  margin: auto;
 }
-.text-area-submit {
+.textarea-container-submit {
   margin-top: 5px;
   position: relative;
 }
+
+.task-area1 {
+background: transparent;
+outline: none;
+resize: none;
+color: white;
+border: none;
+border-bottom: solid 0.5px var(--top-gray) ;
+margin-top: 5px;
+font-size: 16px;
+}
+.task-area2 {
+  background: transparent;
+  outline: none;
+  resize: none;
+  color: white;
+  margin-bottom: 3px;
+  border: none;
+  font-size: 16px;
+  }
