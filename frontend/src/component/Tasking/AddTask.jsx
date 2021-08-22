@@ -9,19 +9,21 @@ const toggleAddTask = useAddTaskUpdate();
     return (
         <div className='task-editor-area'>
             <div>
-                <div>
-                    <textarea className='text-area1' name="" id="" cols="100" rows="8">
-                        <div>
-                            Placeholder
-                        </div>
-                        <div>
-                        </div>
-                    </textarea>
-                </div>
-                <div className='text-area-submit'>
-                    <button>Add</button>
-                    <button onClick={toggleAddTask}>Cancel</button>
-                </div>
+                <form className='add-task-form'>
+                    <div className='textarea-container1'>
+                        <textarea name="taskTitle" id="taskTitle" cols="85" rows="1" 
+                        className='task-area1' placeholder='Task Title...'>
+                        </textarea>
+                        <br />
+                        <textarea className='' name="taskDetails" id="" cols="85" rows="6" 
+                        className='task-area2' placeholder='Task Details...'>
+                        </textarea>
+                    </div>
+                    <div className='textarea-container-submit'>
+                        <button>Add</button>
+                        <button onClick={toggleAddTask}>Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
     )
