@@ -43,7 +43,7 @@ function App() {
     <Router>
       <AddTaskProvider>
       <div className="App">
-        <NavBar />
+        <NavBar sticky='top' />
         <Switch>
           <Route exact path='/' component={ Landing } />
           <Route exact path='/login' component={ LoginPage } />

@@ -17,9 +17,10 @@ export function useAddTaskUpdate() {
 export function AddTaskProvider({ children }) {
     const [showAddTask, setShowAddTask] = useState(false)
 // Updating our state
-    function toggleAddTask() {
-        setShowAddTask(prevShowAddTask => !prevShowAddTask)
-        console.log(showAddTask)
+    function toggleAddTask(e) {
+        e.preventDefault();
+        setShowAddTask(prevShowAddTask => !prevShowAddTask);
+        console.log(showAddTask);
     }
 
     // Passing both of these values down into our children.

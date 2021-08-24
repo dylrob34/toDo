@@ -8,6 +8,7 @@ function NavBar() {
     const loggedIn = getLoggedIn();
 
     const [name, setName] = useState("");
+    const [scrolled, setScrolled] = useState(false)
 
     useEffect(() => {
         if (loggedIn) {
@@ -28,12 +29,25 @@ function NavBar() {
         }
       }, [loggedIn]);
 
+    // const handleScroll=()=>{
+    //   var offset=window.scrollY;
+    //   if(offset > 15 ) {
+    //     setScrolled(true);
+    //   } else {
+    //     setScrolled(false);
+    //   }
+    // }
+
+    // useEffect(() => {
+    //   window.addEventListener('scroll',handleScroll)
+    // }, [])
+
 
       if (loggedIn)
       {
           return (
-            <div className='navbar-container'>
-              <div className='navbar-container-start'>
+            <div>
+              <div className='navbar-container'>
                   <Link to="/todo" className='navbar-page'>ToDo</Link>
                   <Link to="/capture" className='navbar-page'>Capture</Link>
                   <Link to="/timeblock"className='navbar-page'>TimeBlock</Link>

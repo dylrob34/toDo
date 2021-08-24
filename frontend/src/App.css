@@ -56,28 +56,27 @@
   background-color: transparent;
 }
 
-.hover {
-  color: var(--highlight_color);
-}
 
-.scrolled {
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: var(--accent1);
-}
 
 /* NavBar styling */
-.navbar-container-start {
+.navbar-start {
+  position: fixed;
+}
+.navbar-container {
   display: flex;
   flex-direction: row;
-  position: relative;
   justify-content: flex-start;
   align-items: center;
   background-color: var(--mid-gray);
   box-shadow: 0px 0.5px 0.5px rgba(0,0,0,0.5);
   z-index: 3;
   transition: all .7s ease-in;
+}
+.scrolled {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: var(--accent1);
 }
 
 .navbar-page {
@@ -132,7 +131,6 @@
 .logout-btn:hover {
   color: var(--accent1);
 }
-
 
 /* Side Bar styling */
 
@@ -234,9 +232,7 @@
   font-size: 14px;
 }
 
-.add-task-form {
-  
-}
+
 .task-editor-area {
   margin: 20px 10px 10px 10px;
   padding: 10px 5px 5px 5px; ;
@@ -276,3 +272,9 @@ font-size: 16px;
   border: none;
   font-size: 16px;
   }
+
+
+  .hover {
+    color: var(--highlight_color);
+  }
+  

@@ -20,8 +20,8 @@ const toggleAddTask = useAddTaskUpdate();
                         </textarea>
                     </div>
                     <div className='textarea-container-submit'>
-                        <button>Add</button>
-                        <button onClick={toggleAddTask}>Cancel</button>
+                        <button onClick={e => {e.preventDefault()}, toggleAddTask }>Add</button>
+                        <button onClick={ e => {e.preventDefault()}, toggleAddTask}>Cancel</button>
                     </div>
                 </form>
             </div>
