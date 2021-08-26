@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 const Task = ({task, setReload}) => {
     const [title, setTitle] = useState(task.title)
+    const [bucket, setBucket] = useState(task.bucket)
     const [body, setBody] = useState(task.body)
     const [reminder, setReminder] = useState(task.reminder)
     const [dueDate, setDueDate] = useState(task.dueDate)
@@ -17,6 +18,9 @@ const Task = ({task, setReload}) => {
         setReload(true);
     }
 
+    function onBucket(e) {
+        setBucket(e.target.value)
+    }
     function onTitle(e) {
         setTitle(e.target.value)
     }

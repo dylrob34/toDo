@@ -51,7 +51,7 @@ function NavBar() {
                   <Link to="/todo" className='navbar-page'>ToDo</Link>
                   <Link to="/capture" className='navbar-page'>Capture</Link>
                   <Link to="/timeblock"className='navbar-page'>TimeBlock</Link>
-                  <div className='navbar-page-spc'></div>
+                  <div className='flex-spacer-4'></div>
                   <Link to='/account'><FaUser className="navbar-user-icon"></FaUser></Link>
                   <span className='navbar-hello'>Hello, {name}</span>
                   <button onClick={logout} className="logout-btn">Logout</button>

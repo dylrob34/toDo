@@ -6,6 +6,7 @@ import {FaAngleRight, FaAngleDoubleRight, FaCommentsDollar} from 'react-icons/fa
 import Tasks from '../Tasking/Tasks'
 import AddTask from '../Tasking/AddTask';
 import { useAddTask, useAddTaskUpdate } from '../../context/AddTaskContext'
+import Buckets from '../Buckets/Buckets';
 
 const ToDo = () => {
     const loggedIn = getLoggedIn
@@ -30,17 +31,21 @@ const ToDo = () => {
  
     return (
     <div>
-        <div name='viewContainer' className='left-sidebar'>
-            <div className='left-sb-logo'>Views</div>
-            <ul name='views' className='left-sb-navigation'>
-                <li name='dayView' className={'left-sb-element'} 
-                > Day </li>
-                <li name='weekView' className={'left-sb-element'}
-                > Week </li>
-                <li name ='timeblockView' className={'left-sb-element'}
-                > TimeBlock </li>
-            </ul>
-
+        <div className='left-sidebar'>
+            <div name='viewContainer'>
+                <div className='left-sb-logo'>Views</div>
+                <ul name='views' className='left-sb-navigation'>
+                    <li name='dayView' className={'left-sb-element'} 
+                    > Day </li>
+                    <li name='weekView' className={'left-sb-element'}
+                    > Week </li>
+                    <li name ='timeblockView' className={'left-sb-element'}
+                    > TimeBlock </li>
+                </ul>
+            </div>
+            <div className='bucket-container' name='bucketContainer'>
+                <Buckets/>
+            </div>
         </div>
         <div className='main'>
             <div name='addTaskCtn' className={showAddTask ? 'invisible add-task-container' : 'visible add-task-container'}
