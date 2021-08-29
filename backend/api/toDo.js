@@ -13,8 +13,12 @@ router.post('/createToDo', auth.verifyToken, async function(req, res) {
     const title = req.body.title;
     const body = req.body.body;
 
-    const result = database.createToDo(user, title, body);
-    return res.json({result})
+    const result = await database.createToDo(user, title, body);
+    if (result) { // idk if this will be false on failure
+        return res.json({error: false});
+    } else {
+        return res.json({error: true})
+    }
 })
 
 module.exports = router;
