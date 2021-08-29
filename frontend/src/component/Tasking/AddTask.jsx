@@ -1,26 +1,56 @@
-import React, {useContext, useReducer} from 'react'
+import React, {useContext, useReducer, useState} from 'react'
 import { useAddTask, useAddTaskUpdate } from '../../context/AddTaskContext'
+import { domain } from "../../App";
+import { getToken } from '../../context/loggedInState';
 
 
 const AddTask = () => {
+
+    const [title, setTitle] = useState("");
+    const [body, setBody] = useState("");
+
 // Using custom hooks from AddTaskContext to update context and state.
-const toggleAddTask = useAddTaskUpdate();
+    const toggleAddTask = useAddTaskUpdate();
+
+    function submitTask(e) {
+        console.log("E is: " + e);
+        toggleAddTask(e);
+        const token = getToken();
+        fetch("http://" + domain + "/api/toDo/createToDo", {
+                method: "POST",
+                headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                authorization: "bearer " + token,
+            },
+            body: JSON.stringify({
+            title,
+            body
+      })
+    })
+    .then((res) => res.json())
+    .then((resJson) => {
+      if (resJson.error === true) {
+        console.log("Error submiting new task");
+      }
+    })
+    }
 
     return (
         <div className='task-editor-area'>
             <div>
-                <form className='add-task-form'>
+                <form className='add-task-form' onSubmit={submitTask}>
                     <div className='textarea-container1'>
-                        <textarea name="taskTitle" id="taskTitle" cols="85" rows="1" 
+                        <textarea onChange={e => setTitle(e.target.value)} name="taskTitle" id="taskTitle" cols="85" rows="1" 
                         className='task-area1' placeholder='Task Title...'>
                         </textarea>
                         <br />
-                        <textarea className='' name="taskDetails" id="" cols="85" rows="6" 
+                        <textarea onChange={e => setBody(e.target.value)} className='' name="taskDetails" id="" cols="85" rows="6" 
                         className='task-area2' placeholder='Task Details...'>
                         </textarea>
                     </div>
                     <div className='textarea-container-submit'>
-                        <button onClick={e => {e.preventDefault()}, toggleAddTask }>Add</button>
+                        <button type="submit">Add</button>
                         <button onClick={ e => {e.preventDefault()}, toggleAddTask}>Cancel</button>
                     </div>
                 </form>
