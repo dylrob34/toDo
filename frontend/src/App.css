@@ -135,9 +135,10 @@
 /* Side Bar styling */
 
 .left-sidebar {
-  position: fixed;
+  position: relative;
   width: 15%;
-  height: 100vh;
+  height: 100%; /* figure out how to tie this
+  to the height of the main class */
   left: 0px;
   background-color: var(--mid-gray);
   float: left;
@@ -238,7 +239,7 @@ background-color: var(--accent1);
 .main {
   background-color: var(--base-gray);
   float: right;
-  height: 100vh;
+  height: 100%;
   width: 85%;
 }
 
