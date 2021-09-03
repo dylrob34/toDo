@@ -4,7 +4,7 @@ import { domain } from "../../App";
 import { getToken } from '../../context/loggedInState';
 
 
-const AddTask = () => {
+const AddTask = ({setReload}) => {
 
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
@@ -13,10 +13,9 @@ const AddTask = () => {
     const toggleAddTask = useAddTaskUpdate();
 
     function submitTask(e) {
-        console.log("E is: " + e);
         toggleAddTask(e);
         const token = getToken();
-        fetch("http://" + domain + "/api/toDo/createToDo", {
+        fetch("http://" + domain + "/api/task/createTask", {
                 method: "POST",
                 headers: {
                 Accept: "application/json",
@@ -32,6 +31,10 @@ const AddTask = () => {
     .then((resJson) => {
       if (resJson.error === true) {
         console.log("Error submiting new task");
+      } else {
+          setTitle("");
+          setBody("");
+          setReload(true);
       }
     })
     }
@@ -42,16 +45,16 @@ const AddTask = () => {
                 <form className='add-task-form' onSubmit={submitTask}>
                     <div className='textarea-container1'>
                         <textarea onChange={e => setTitle(e.target.value)} name="taskTitle" id="taskTitle" cols="85" rows="1" 
-                        className='task-area1' placeholder='Task Title...'>
+                        className='task-area1' placeholder='Task Title...' value={title}>
                         </textarea>
                         <br />
                         <textarea onChange={e => setBody(e.target.value)} className='' name="taskDetails" id="" cols="85" rows="6" 
-                        className='task-area2' placeholder='Task Details...'>
+                        className='task-area2' placeholder='Task Details...' value={body}>
                         </textarea>
                     </div>
                     <div className='textarea-container-submit'>
-                        <button type="submit">Add</button>
-                        <button onClick={ e => {e.preventDefault()}, toggleAddTask}>Cancel</button>
+                        <button>Add</button>
+                        <button type="button" onClick={toggleAddTask}>Cancel</button>
                     </div>
                 </form>
             </div>

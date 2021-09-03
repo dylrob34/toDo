@@ -56,7 +56,12 @@
   background-color: transparent;
 }
 
-
+/* General Page Styling */
+.page-config {
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+}
 
 /* NavBar styling */
 .navbar-start {
@@ -137,8 +142,7 @@
 .left-sidebar {
   position: relative;
   width: 15%;
-  height: 100%; /* figure out how to tie this
-  to the height of the main class */
+  min-height: 100vh; 
   left: 0px;
   background-color: var(--mid-gray);
   float: left;
@@ -239,7 +243,8 @@ background-color: var(--accent1);
 .main {
   background-color: var(--base-gray);
   float: right;
-  height: 100%;
+  min-height: 100vh;
+  /* height: 100%; */
   width: 85%;
 }
 
@@ -319,3 +324,23 @@ font-size: 16px;
     color: var(--highlight_color);
   }
   
+
+  /* Task List Styling */
+
+  .task-edit {
+    color: white;
+  }
+  .task-edit:hover {
+    color: var(--accent1);
+  }
+
+  .task {
+    margin: 25px;
+  }
+
+  .task-delete {
+    color: white;
+  }
+  .task-delete:hover {
+    color: var(--accent1);
+  }

@@ -1,4 +1,4 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 
 
 
@@ -42,20 +42,50 @@ function createUser(email, password, firstName, lastName) {
     });
 }
 
-function getToDos(email) {
+function getTasks(email) {
     return new Promise((resolve, reject) => {
-        console.log(`Finding todos from: ${email}`)
-        client.db("toDo").collection("todos").find({user: email}).toArray()
-        .then((todos) => {
-            console.log(`todos: ${todos}`)
-            resolve(todos);
+        client.db("toDo").collection("tasks").find({user: email}).toArray()
+        .then((tasks) => {
+            resolve(tasks);
         })
     });
 }
 
-function createToDo(email, title, body) {
+function getTask(id) {
     return new Promise((resolve, reject) => {
-        client.db("toDo").collection("todos").insertOne(
+        client.db("toDo").collection("tasks").findOne({_id: ObjectId(id)})
+        .then((task) => {
+            resolve(task);
+        });
+    });
+}
+
+function updateTask(id, email, title, body) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("tasks").updateOne({_id: ObjectId(id)},
+        {
+            user: email,
+            title,
+            body
+        })
+        .then((task) => {
+            resolve(task);
+        });
+    });
+}
+
+function deleteTask(id) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("tasks").deleteOne({_id: ObjectId(id)})
+        .then((task) => {
+            resolve(task);
+        });
+    });
+}
+
+function createTask(email, title, body) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("tasks").insertOne(
             {
                 user: email,
                 title,
@@ -71,6 +101,9 @@ function createToDo(email, title, body) {
 module.exports = {
     getUser,
     createUser,
-    getToDos,
-    createToDo
+    getTasks,
+    getTask,
+    updateTask,
+    deleteTask,
+    createTask
 }

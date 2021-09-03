@@ -20,7 +20,6 @@ export function AddTaskProvider({ children }) {
     function toggleAddTask(e) {
         e.preventDefault();
         setShowAddTask(prevShowAddTask => !prevShowAddTask);
-        console.log(showAddTask);
     }
 
     // Passing both of these values down into our children.

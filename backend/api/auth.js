@@ -57,7 +57,6 @@ function verifyToken(req, res, next) {
     if (typeof bearerHeader !== 'undefined') {
     const bearer = bearerHeader.split(" ");
     const bearerToken = bearer[1];
-    console.log("Token: " + bearerToken);
     
     jwt.verify(bearerToken, process.env.secretKey, async (err, data) => {
       if (err) {
