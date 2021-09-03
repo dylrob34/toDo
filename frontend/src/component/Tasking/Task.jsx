@@ -22,17 +22,16 @@ const Task = ({task, setReload}) => {
                 authorization: "bearer " + token,
             },
             body: JSON.stringify({
-            title,
-            body
-      })
+                "id": task._id,
+                title,
+                body
+           })
     })
     .then((res) => res.json())
     .then((resJson) => {
       if (resJson.error === true) {
         console.log("Error submiting new task");
       } else {
-          setTitle("");
-          setBody("");
           setReload(true);
       }
     })

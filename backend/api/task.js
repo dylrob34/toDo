@@ -26,7 +26,7 @@ router.post('/editTask', auth.verifyToken, async function(req, res) {
     const taskId = req.body.id
     const title = req.body.title;
     const body = req.body.body;
-    const task = await database.getTask(taskId);
+    const task = await database.getTask(String(taskId));
     if (task.user == user) {
         await database.updateTask(taskId, user, title, body);
         return res.json({error:false});
