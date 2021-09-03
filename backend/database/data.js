@@ -64,9 +64,8 @@ function updateTask(id, email, title, body) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("tasks").updateOne({_id: ObjectId(id)},
         {
-            user: email,
-            title,
-            body
+            "$set": {title},
+            "$set": {body}
         })
         .then((task) => {
             resolve(task);
