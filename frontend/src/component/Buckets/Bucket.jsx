@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Bucket = () => {
+const Bucket = ({bucket, setReload}) => {
     return (
         <div>
-            <span>Work</span>
+            <span>{bucket}</span>
         </div>
     )
 }

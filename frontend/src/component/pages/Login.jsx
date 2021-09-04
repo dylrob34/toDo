@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {Link, Redirect} from "react-router-dom";
 import { login, logout } from "../../context/loggedInState";
-import { domain } from "../../App";
+import { post } from "../../tools/request";
 
 function LoginPage() {
     const [error, setError] = useState("");
@@ -46,22 +46,12 @@ return (
 }
 
   const userLogin = (details, setError, setAutoToDo) => {
-    console.log(details);
-    console.log("fetching from: " + "http://" + domain + "/api/auth/login");
     
     //Added by Dylan to authenticate from backend
-    fetch("http://" + domain + "/api/auth/login", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        user: details.email,
-        pass: details.password
-      })
+    post("/api/auth/login", {
+      user: details.email,
+      pass: details.password
     })
-    .then((res) => res.json())
     .then((resJson) => {
       if (resJson.error === true) {
         console.log("The login information didn't match...");

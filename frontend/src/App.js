@@ -9,6 +9,7 @@ import { LoginPage } from './component/pages/Login';
 import NavBar from './component/layout/NavBar';
 import ToDo from './component/pages/ToDo';
 import { AddTaskProvider } from './context/AddTaskContext';
+import {get} from "./tools/request";
 
 const domain = "localhost"
 
@@ -21,21 +22,14 @@ function App() {
   var jwt = cookie.load("jwt")
   if (typeof jwt !== "undefined") {
     if (jwt !== "") {
-      fetch("http://" + domain + "/api/auth/checkLogin", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          authorization: "bearer " + jwt
-        }
+      get("/api/auth/checkLogin")
+      .then((res) => {
+          if (res.loggedIn === true) {
+            login(jwt);
+          } else {
+            console.log("jwt is invalid");
+          }
       })
-      .then((res) => res.json())
-      .then((resJson) => {
-        if (resJson.loggedIn === true) {
-          login(jwt);
-        } else {
-          console.log("jwt is invalid");
-        }
-      });
     }
   }
  

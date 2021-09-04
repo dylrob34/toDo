@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { domain } from "../../App";
+import {post} from "../../tools/request";
 import { login } from "../../context/loggedInState";
 import { Redirect } from 'react-router';
 import validator from 'validator'
@@ -59,29 +59,21 @@ const SignUp = () => {
             setCheckEmail('');
             setEmail('');
         }
-        fetch("http://" + domain + "/api/user/createUser", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"          
-        },
-        body: JSON.stringify({
+        post("/api/user/createUser", {
             firstName: first,
             lastName: last,
             email,
             password,
             passCheck: check            
         })
-      })
-      .then((res) => res.json())
-      .then((resJson) => {
-        if (resJson.loggedIn === true) {
-          login(resJson.token);
-          setRedirect(true);
-        } else {
-          console.log("Error Creating User");
-        }
-      });
+        .then((resJson) => {
+            if (resJson.loggedIn === true) {
+                login(resJson.token);
+                setRedirect(true);
+            } else {
+                console.log("Error Creating User");
+            }
+        });
         
     }
     

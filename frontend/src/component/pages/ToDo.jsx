@@ -1,7 +1,6 @@
 import React, { useState, createContext, useReducer, useContext } from 'react'
 import { Redirect } from 'react-router';
 import { getLoggedIn, getToken } from '../../context/loggedInState';
-import { domain } from "../../App";
 import Tasks from '../Tasking/Tasks'
 import Buckets from '../Buckets/Buckets';
 
