@@ -73,12 +73,11 @@ function getTask(id) {
     });
 }
 
-function updateTask(id, title, body) {
+function updateTask(id, title, body, buckets) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("tasks").updateOne({_id: ObjectId(id)},
         {
-            "$set": {title},
-            "$set": {body}
+            "$set": {title, body, buckets}
         })
         .then((task) => {
             resolve(task);
@@ -95,13 +94,14 @@ function deleteTask(id) {
     });
 }
 
-function createTask(email, title, body) {
+function createTask(email, title, body, buckets) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("tasks").insertOne(
             {
                 user: email,
                 title,
-                body
+                body,
+                buckets
             }
         )
         .then((result) => {
