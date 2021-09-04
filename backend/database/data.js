@@ -26,16 +26,29 @@ function getUser(email) {
     
 }
 
-function createUser(email, password, firstName, lastName) {
+function createUser(email, password, firstName, lastName, buckets) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("users").insertOne(
             {
                 email,
                 password,
                 firstName,
-                lastName
+                lastName,
+                buckets
             }
         )
+        .then((result) => {
+            resolve(result);
+        })
+    });
+}
+
+function setBuckets(email, buckets) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("users").updateOne({email},
+            {
+                "$set" : {buckets}
+            })
         .then((result) => {
             resolve(result);
         })
@@ -60,7 +73,7 @@ function getTask(id) {
     });
 }
 
-function updateTask(id, email, title, body) {
+function updateTask(id, title, body) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("tasks").updateOne({_id: ObjectId(id)},
         {
@@ -100,6 +113,7 @@ function createTask(email, title, body) {
 module.exports = {
     getUser,
     createUser,
+    setBuckets,
     getTasks,
     getTask,
     updateTask,

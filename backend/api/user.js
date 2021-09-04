@@ -3,9 +3,10 @@ var router = express.Router();
 var database = require("../database/data");
 var auth = require("./auth");
 const jwt = require('jsonwebtoken');
+const User = require("../database/models/user");
 
 router.get('/getUser', auth.verifyToken, async function(req, res) {
-    const user = await database.getUser(req.authData.user);
+    const user = await User.getUser(req.authData.user);
     res.json({user});
 });
 
@@ -15,53 +16,23 @@ router.post('/createUser', async function(req, res) {
     const email = req.body.email;
     const pass = req.body.password;
     const passCheck = req.body.passCheck;
-
-
-    if (typeof email === 'undefined' || email === '')
-    {
-        res.json({
-            error: true
-        })
+    try {
+        const user = await User.createUser(email, pass, passCheck, firstName, lastName, true);
+    } catch (error) {
+        return res.json({error:true, message: error});
     }
-    if (typeof firstName === 'undefined' || firstName === '')
-    {
-        res.json({
-            error: true
-        })
-    }
-    if (typeof lastName === 'undefined' || lastName === '')
-    {
-        res.json({
-            error: true
-        })
-    }
-    if (typeof pass === 'undefined' || passCheck === 'undefined' || pass.length < 4 || pass !== passCheck)
-    {
-        res.json({
-            error: true
-        })
-    }
-    const hash = await auth.hashPassword(pass);
-    const result = await database.createUser(
-        req.body.email,
-        hash,
-        req.body.firstName,
-        req.body.lastName);
-
     jwt.sign({ user: email }, process.env.secretKey, { expiresIn: "2h" }, (err, token) => {
         if (err) {
             console.log("signing error");
-            res.json({error: true});
+            return res.json({error: true});
         } 
         res.cookie("jwt", token);
-        res.json({
+        return res.json({
             error: false,
             loggedIn: true,
             token
         });
     });
-
-    
 });
 
 
