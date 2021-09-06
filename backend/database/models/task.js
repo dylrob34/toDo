@@ -37,6 +37,7 @@ class Task {
             if (body[char] == "#") {
                 track = true;
                 buckets.push("");
+                continue;
             }
             if (body[char] == " " && track == true) {
                 track = false;

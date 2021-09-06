@@ -6,6 +6,7 @@ import { get } from "../../tools/request";
 import AddTask from '../Tasking/AddTask';
 import { useAddTask, useAddTaskUpdate } from '../../context/AddTaskContext'
 import { FaAngleRight, FaAngleDoubleRight, FaCommentsDollar } from 'react-icons/fa';
+import { useToDoContext, useUpdateToDoContext } from '../../context/ToDoContext';
 
 
 
@@ -16,6 +17,7 @@ const Tasks = () => {
     const loggedIn = getLoggedIn()
     const showAddTask = useAddTask();
     const toggleAddTask = useAddTaskUpdate();
+    const toDoContext = useToDoContext();
 
     useEffect(() => {
         // Fetch todos
@@ -54,9 +56,13 @@ const Tasks = () => {
             <div name='AddTaskForm' className={showAddTask ? 'visible' : 'invisible'}>
                 <AddTask setReload={setReload} />
             </div>
-            {tasks.map((task) => (
-                <Task key={task._id} task={task} setReload={setReload} />
-            ))}
+            <div name='taskList' className='task-list'>
+            {tasks.map((task, index) => {
+                if (toDoContext.currentBucket == "" || task.buckets.includes(toDoContext.currentBucket)) {
+                    return <Task key={index} task={task} setReload={setReload} />
+                }
+        })}
+            </div>
         </div>
     )
 }

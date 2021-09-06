@@ -63,6 +63,10 @@
   display: flex;
 }
 
+.tip-popup {
+
+}
+
 /* NavBar styling */
 .navbar-start {
   position: fixed;
@@ -238,6 +242,18 @@ background-color: var(--accent1);
   width: 500px;
   height: 500px;
 }
+
+.bucket-item {
+  color: white;
+  cursor: pointer;
+}
+.selected {
+  color: var(--accent1);
+}
+
+.bucket-item:hover {
+  color: var(--accent1);
+}
 /* Main Styling */
 
 .main {
@@ -325,7 +341,7 @@ font-size: 16px;
   }
   
 
-  /* Task List Styling */
+  /* Task Styling */
 
   .task-edit {
     color: white;
@@ -335,12 +351,22 @@ font-size: 16px;
   }
 
   .task {
+    display: flex;
+    flex-direction: column;
     margin: 25px;
+    border: solid 0.5px var(--top-gray);
+    color: white;
   }
-
   .task-delete {
     color: white;
   }
   .task-delete:hover {
     color: var(--accent1);
   }
+
+  /* Task List Styling */
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+}

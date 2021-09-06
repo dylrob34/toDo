@@ -1,69 +1,77 @@
-import React, {useContext, useReducer, useState} from 'react'
-import { useAddTask, useAddTaskUpdate } from '../../context/AddTaskContext'
-import { domain } from "../../App";
-import { getToken } from '../../context/loggedInState';
+import React, { useContext, useReducer, useState } from "react";
+import { useAddTask, useAddTaskUpdate } from "../../context/AddTaskContext";
+import { post } from "../../tools/request";
+import { getToken } from "../../context/loggedInState";
+import {
+  useToDoContext,
+  useUpdateToDoContext,
+} from "../../context/ToDoContext";
 
+const AddTask = ({ setReload }) => {
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
 
-const AddTask = ({setReload}) => {
+  // Using custom hooks from AddTaskContext to update context and state.
+  const toggleAddTask = useAddTaskUpdate();
+  const toDoContext = useToDoContext();
+  const updateToDoContext = useUpdateToDoContext();
 
-    const [title, setTitle] = useState("");
-    const [body, setBody] = useState("");
-
-// Using custom hooks from AddTaskContext to update context and state.
-    const toggleAddTask = useAddTaskUpdate();
-
-    function submitTask(e) {
-        toggleAddTask(e);
-        const token = getToken();
-        fetch("http://" + domain + "/api/task/createTask", {
-                method: "POST",
-                headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                authorization: "bearer " + token,
-            },
-            body: JSON.stringify({
-            title,
-            body
-      })
-    })
-    .then((res) => res.json())
-    .then((resJson) => {
+  function submitTask(e) {
+    toggleAddTask(e);
+    const token = getToken();
+    post("/api/task/createTask", { title, body }).then((resJson) => {
       if (resJson.error === true) {
         console.log("Error submiting new task");
       } else {
-          setTitle("");
-          setBody("");
-          setReload(true);
+        setTitle("");
+        setBody("");
+        setReload(true);
+        updateToDoContext({ ...toDoContext, reloadBuckets: true });
       }
-    })
-    }
+    });
+  }
 
-    return (
-        <div className='task-editor-area'>
-            <div>
-                <form className='add-task-form' onSubmit={submitTask}>
-                    <div className='textarea-container1'>
-                        <textarea onChange={e => setTitle(e.target.value)} name="taskTitle" id="taskTitle" cols="85" rows="1" 
-                        className='task-area1' placeholder='Task Title...' value={title}>
-                        </textarea>
-                        <br />
-                        <textarea onChange={e => setBody(e.target.value)} className='' name="taskDetails" id="" cols="85" rows="6" 
-                        className='task-area2' placeholder='Task Details...' value={body}>
-                        </textarea>
-                    </div>
-                    <div className='textarea-container-submit'>
-                        <button>Add</button>
-                        <button type="button" onClick={toggleAddTask}>Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    )
-}
+  return (
+    <div className="task-editor-area">
+      <div>
+        <form className="add-task-form" onSubmit={submitTask}>
+          <div className="textarea-container1">
+            <textarea
+              onChange={(e) => setTitle(e.target.value)}
+              name="taskTitle"
+              id="taskTitle"
+              cols="85"
+              rows="1"
+              className="task-area1"
+              placeholder="Task Title..."
+              value={title}
+            ></textarea>
+            <br />
+            <textarea
+              onChange={(e) => setBody(e.target.value)}
+              className=""
+              name="taskDetails"
+              id=""
+              cols="85"
+              rows="6"
+              className="task-area2"
+              placeholder="Task Details..."
+              value={body}
+            ></textarea>
+          </div>
+          <div className="textarea-container-submit">
+            <button>Add</button>
+            <button type="button" onClick={toggleAddTask}>
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
 
-export default AddTask
-
+export default AddTask;
 
 /* Notes:
 

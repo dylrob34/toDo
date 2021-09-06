@@ -1,19 +1,27 @@
 import React from 'react'
-import { FaSun, FaTimes, FaEdit } from 'react-icons/fa'
+import { FaSun, FaTimes, FaEdit, FaCalendar } from 'react-icons/fa'
 import { useState } from 'react'
 import { post } from "../../tools/request";
 import { getToken } from '../../context/loggedInState';
+import { useToDoContext, useUpdateToDoContext } from '../../context/ToDoContext';
 
+const Schedule = ({}) => {
+    return (
+        <div className='test'>test</div>
+    )
+}
 
 const Task = ({ task, setReload }) => {
     const [title, setTitle] = useState(task.title)
-    const [buckets, setBuckets] = useState(task.bucket)
+    const [buckets, setBuckets] = useState(task.buckets)
     const [body, setBody] = useState(task.body)
     const [reminder, setReminder] = useState(task.reminder)
     const [dueDate, setDueDate] = useState(task.dueDate)
+    const [calendar, setCalendar] = useState(false);
+    const toDoContext = useToDoContext();
+    const updateToDoContext = useUpdateToDoContext();
 
     function editTask() {
-        const token = getToken();
         post("/api/task/editTask", {
             "id": task._id,
             title,
@@ -24,6 +32,7 @@ const Task = ({ task, setReload }) => {
                     console.log("Error submiting new task");
                 } else {
                     setReload(true);
+                    updateToDoContext({...toDoContext, reloadBuckets: true})
                 }
             })
     }
@@ -57,17 +66,49 @@ const Task = ({ task, setReload }) => {
     function moveTomorrow() {
         setDueDate(dueDate + 1);
     }
+    function parseBody() {
+        let track = false;
+        var newBody = '';
+        for (const char in body) {
+            if (body[char] == "#") {
+                track = true;
+                continue
+            }
+            if (body[char] == " " && track == true) {
+                track = false;
+                continue
+            }
+            if (!track) {
+                newBody = newBody.concat(body[char]);
+            }
+        }
+        return newBody;
+    }
+
+    function toggleCalendar(e) {
+        console.log("what the fuck")
+        setCalendar(!calendar);
+    }
 
     return (
         <div className='task' >
             <h3>{title}</h3>
-            <p>{body}</p>
+            <p>{parseBody()}</p>
+            {buckets.map((bucket, index) => (
+                    <span key={index}>#{bucket}</span>
+                ))}
+            <span>   
+                {dueDate}
+            </span>
             <FaSun onClick={moveTomorrow} />
             {/* Placeholder for "Move to tomorrow" icon */}
             <FaEdit className='task-edit' onClick={editTask} />
             {/* Edit Task */}
             <FaTimes className='task-delete' onClick={deleteTask} />
             {/* Delete */}
+            <FaCalendar className='task-delete' onClick={toggleCalendar}/>
+
+            {calendar ? <Schedule/> : null}
 
         </div>
     )
