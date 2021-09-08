@@ -91,22 +91,30 @@ const Task = ({ task, setReload }) => {
     }
 
     return (
-        <div className='task' >
-            <h3>{title}</h3>
-            <p>{parseBody()}</p>
-            {buckets.map((bucket, index) => (
-                    <span key={index}>#{bucket}</span>
-                ))}
+        <div className='task-item' >
+            <div className='task-header'>
+                <h3 className='task-element task-title'>{title}</h3>
+                <div className='fade-out'></div>
+                <span className='task-icons'>
+                    <FaSun className='task-icon' onClick={moveTomorrow} />
+                    {/* Placeholder for "Move to tomorrow" icon */}
+                    <FaEdit className='task-edit task-icon' onClick={editTask} />
+                    {/* Edit Task */}
+                    <FaTimes className='task-delete task-icon' onClick={deleteTask} />
+                    {/* Delete */}
+                    <FaCalendar className='task-delete task-icon' onClick={toggleCalendar}/>
+                </span>
+            </div>
+            <div className='task-body'>
+                <p className='task-element'>{parseBody()}</p>
+                {buckets.map((bucket, index) => (
+                        <span className='task-bucket task-element'key={index}>#{bucket}</span>
+                    ))}
+            </div>
             <span>   
                 {dueDate}
             </span>
-            <FaSun onClick={moveTomorrow} />
-            {/* Placeholder for "Move to tomorrow" icon */}
-            <FaEdit className='task-edit' onClick={editTask} />
-            {/* Edit Task */}
-            <FaTimes className='task-delete' onClick={deleteTask} />
-            {/* Delete */}
-            <FaCalendar className='task-delete' onClick={toggleCalendar}/>
+
 
             {calendar ? <Schedule/> : null}
 
