@@ -15,7 +15,7 @@ class Task {
 
     static async getTask(id) {
         const temp = await database.getTask(id);
-        return new Task(id, temp.user, temp.title, temp.body, temp.buckets);
+        return new Task(temp._id, temp.user, temp.title, temp.body, temp.buckets);
     }
 
     static async createTask(email, title, body) {
@@ -62,8 +62,8 @@ class Task {
         })
     }
 
-    async deleteTask(id) {
-        database.deleteTask(id);
+    async deleteTask() {
+        database.deleteTask(this.id);
     }
 
     async editTask(title, body) {

@@ -37,7 +37,7 @@ router.post('/deleteTask', auth.verifyToken, async function(req, res) {
     const taskId = req.body.id;
     const task = await Task.getTask(taskId);
     if (task.user == user) {
-        await task.deleteTask(taskId);
+        await task.deleteTask();
         return res.json({error: false});
     } else {
         return res.json({error: true});

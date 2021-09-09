@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useToDoContext,
   useUpdateToDoContext,
@@ -6,9 +6,14 @@ import {
 
 const Bucket = ({ bucket }) => {
   const [selected, setSelected] = useState(false);
+  const [text, setText] = useState(bucket);
 
   const toDoContext = useToDoContext();
   const updateToDoContext = useUpdateToDoContext();
+
+  useEffect(() => {
+    setText(bucket);
+  }, [bucket])
 
   const setCurrentBucket = () => {
     if (selected) {
@@ -22,7 +27,7 @@ const Bucket = ({ bucket }) => {
 
   return (
     <div>
-      <span onClick={setCurrentBucket} className={selected ? 'bucket-item selected':'bucket-item'}>{bucket}</span>
+      <span onClick={setCurrentBucket} className={selected ? 'bucket-item selected':'bucket-item'}>{text}</span>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react'
 import { FaSun, FaTimes, FaEdit, FaCalendar } from 'react-icons/fa'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { post } from "../../tools/request";
 import { getToken } from '../../context/loggedInState';
 import { useToDoContext, useUpdateToDoContext } from '../../context/ToDoContext';
@@ -15,15 +15,17 @@ const Task = ({ task, setReload }) => {
     const [title, setTitle] = useState(task.title)
     const [buckets, setBuckets] = useState(task.buckets)
     const [body, setBody] = useState(task.body)
+    const [id, setId] = useState(task._id);
     const [reminder, setReminder] = useState(task.reminder)
     const [dueDate, setDueDate] = useState(task.dueDate)
     const [calendar, setCalendar] = useState(false);
     const toDoContext = useToDoContext();
     const updateToDoContext = useUpdateToDoContext();
 
+
     function editTask() {
         post("/api/task/editTask", {
-            "id": task._id,
+            "id": id,
             title,
             body
         })
@@ -31,21 +33,21 @@ const Task = ({ task, setReload }) => {
                 if (resJson.error === true) {
                     console.log("Error submiting new task");
                 } else {
-                    setReload(true);
                     updateToDoContext({...toDoContext, reloadBuckets: true})
+                    setReload(true);
                 }
             })
     }
 
     function deleteTask() {
-        const token = getToken();
-        post("/api/task/deleteTask", { "id": task._id, })
+        post("/api/task/deleteTask", { "id": id, })
             .then((resJson) => {
                 if (resJson.error === true) {
                     console.log("Error submiting new task");
                 }
+                console.log("deleting and reloading")
+                setReload(true);
             })
-        setReload(true);
     }
 
     function onBucket(e) {
