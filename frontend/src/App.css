@@ -52,6 +52,7 @@
 .invisible {
   display: none;
 }
+
 .visible {
   background-color: transparent;
 }
@@ -63,9 +64,6 @@
   display: flex;
 }
 
-.tip-popup {
-
-}
 
 /* NavBar styling */
 .navbar-start {
@@ -369,7 +367,6 @@ font-size: 16px;
     align-self: flex-start;
     text-align: left;
   }
-
   .task-header{
     display: flex;
     flex-direction: row;
@@ -377,15 +374,20 @@ font-size: 16px;
   .task-title{
     margin-right: auto;
     overflow-x: hidden;
+    cursor: pointer;
   }
   .task-body {
     display: flex;
     flex-direction: column;
   }
+  .invisible-icons {
+    display: none;
+  }
   .task-icons {
     display: flex;
     white-space: nowrap;
     margin-top: 4px;
+    transition: 1s;
   }
   .task-icon {
     margin-left: 4px;

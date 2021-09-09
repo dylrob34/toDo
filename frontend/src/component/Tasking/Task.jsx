@@ -13,6 +13,7 @@ const Schedule = ({}) => {
 
 const Task = ({ task, setReload }) => {
     const [title, setTitle] = useState(task.title)
+    const [hover, setHover] = useState(false)
     const [buckets, setBuckets] = useState(task.buckets)
     const [body, setBody] = useState(task.body)
     const [id, setId] = useState(task._id);
@@ -21,6 +22,7 @@ const Task = ({ task, setReload }) => {
     const [calendar, setCalendar] = useState(false);
     const toDoContext = useToDoContext();
     const updateToDoContext = useUpdateToDoContext();
+
 
 
     function editTask() {
@@ -91,21 +93,29 @@ const Task = ({ task, setReload }) => {
         console.log("what the fuck")
         setCalendar(!calendar);
     }
+    
+    function handleHover() {
+        setHover(!hover)
+        console.log(hover)
+    }
 
     return (
         <div className='task-item' >
             <div className='task-header'>
-                <h3 className='task-element task-title'>{title}</h3>
+                <h3 className='task-element task-title' 
+                onMouseEnter={handleHover} 
+                onMouseLeave={handleHover}
+                >{title}</h3>
                 <div className='fade-out'></div>
-                <span className='task-icons'>
+                <div className={hover ? 'task-icons ' : ' invisible-icons'}>
                     <FaSun className='task-icon' onClick={moveTomorrow} />
                     {/* Placeholder for "Move to tomorrow" icon */}
+                    <FaCalendar className='task-delete task-icon' onClick={toggleCalendar}/>
                     <FaEdit className='task-edit task-icon' onClick={editTask} />
                     {/* Edit Task */}
                     <FaTimes className='task-delete task-icon' onClick={deleteTask} />
                     {/* Delete */}
-                    <FaCalendar className='task-delete task-icon' onClick={toggleCalendar}/>
-                </span>
+                </div>
             </div>
             <div className='task-body'>
                 <p className='task-element'>{parseBody()}</p>
@@ -116,10 +126,7 @@ const Task = ({ task, setReload }) => {
             <span>   
                 {dueDate}
             </span>
-
-
             {calendar ? <Schedule/> : null}
-
         </div>
     )
 }
