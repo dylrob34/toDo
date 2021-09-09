@@ -101,11 +101,10 @@ const Task = ({ task, setReload }) => {
 
     return (
         <div className='task-item' >
-            <div className='task-header'>
-                <h3 className='task-element task-title' 
-                onMouseEnter={handleHover} 
-                onMouseLeave={handleHover}
-                >{title}</h3>
+            <div className='task-header'
+            onMouseEnter={handleHover} 
+            onMouseLeave={handleHover}>
+                <h3 className='task-element task-title'>{title}</h3>
                 <div className='fade-out'></div>
                 <div className={hover ? 'task-icons ' : ' invisible-icons'}>
                     <FaSun className='task-icon' onClick={moveTomorrow} />
