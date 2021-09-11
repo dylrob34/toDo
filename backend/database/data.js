@@ -16,6 +16,13 @@ client.connect((err, client) => {
 });
 
 
+/*******************
+ * 
+ *******Users*******
+ * 
+ *******************/
+
+
 function getUser(email) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("users").findOne({email})
@@ -55,6 +62,93 @@ function setBuckets(email, buckets) {
     });
 }
 
+/*******************
+ * 
+ *******Teams*******
+ * 
+ *******************/
+
+ function createTeam(owner, name) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("teams").insertOne(
+            {
+                owner,
+                name,
+                admins: [],
+                users: [],
+                buckets: []
+            }
+        )
+        .then((result) => {
+            resolve(result);
+        })
+    });
+ }
+
+ function getTeam(id) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("teams").findOne({_id: ObjectId(id)})
+        .then((team) => {
+            resolve(team);
+        })
+    });
+    
+}
+
+function getTeams(email) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("teams").find({
+            "$or": [
+                {owner: email},
+                {admins: { "$in": [email]}},
+                {users: { "$in": [email]}}
+            ]
+        })
+        .then((teams) => {
+            resolve(teams);
+        })
+    });
+}
+
+function updateTeam(id, owner, name, admins, users) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("teams").updateOne({_id: ObjectId(id)},
+        {
+            "$set": {owner, name, admins, users}
+        })
+        .then((team) => {
+            resolve(team);
+        });
+    });
+}
+
+function setTeamBuckets(id, buckets) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("teams").updateOne({_id: ObjectId(id)},
+            {
+                "$set" : {buckets}
+            })
+        .then((result) => {
+            resolve(result);
+        })
+    });
+}
+
+function deleteTeam(id) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("teams").deleteOne({_id: ObjectId(id)})
+        .then((team) => {
+            resolve(team);
+        });
+    });
+}
+
+/*******************
+ * 
+ *******TASKS*******
+ * 
+ *******************/
+
 function getTasks(email) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("tasks").find({user: email}).toArray()
@@ -73,11 +167,11 @@ function getTask(id) {
     });
 }
 
-function updateTask(id, title, body, buckets) {
+function updateTask(id, assignees, title, body, buckets) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("tasks").updateOne({_id: ObjectId(id)},
         {
-            "$set": {title, body, buckets}
+            "$set": {assignees, title, body, buckets}
         })
         .then((task) => {
             resolve(task);
@@ -94,11 +188,13 @@ function deleteTask(id) {
     });
 }
 
-function createTask(email, title, body, buckets) {
+function createTask(user, team, assignees, title, body, buckets) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("tasks").insertOne(
             {
-                user: email,
+                user,
+                team,
+                assignees,
                 title,
                 body,
                 buckets
@@ -114,6 +210,12 @@ module.exports = {
     getUser,
     createUser,
     setBuckets,
+    createTeam,
+    getTeam,
+    getTeams,
+    updateTeam,
+    setTeamBuckets,
+    deleteTeam,
     getTasks,
     getTask,
     updateTask,
