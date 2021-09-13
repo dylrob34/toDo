@@ -3,9 +3,11 @@ import {FaPlus} from 'react-icons/fa';
 import Bucket from './Bucket';
 import {get} from "../../tools/request";
 import { useToDoContext, useUpdateToDoContext } from '../../context/ToDoContext';
+import Popup from '../layout/Popup';
 
 const Buckets = ({ setCurrentBucket }) => {
     const [buckets, setBuckets] = useState([]);
+    const [popup, setPopup] = useState(false);
     const reload = useToDoContext();
     const setReload = useUpdateToDoContext();
 
@@ -20,22 +22,22 @@ const Buckets = ({ setCurrentBucket }) => {
         }
     }, [reload.reloadBuckets])
 
+
     return (
-        <div>
+        <div className='buckets'>
             <div className='buckets-title'>
                 <header className='buckets-header'>Buckets</header>
                 <span className='flex-spacer-4'></span>
-                <FaPlus className='buckets-add' />
+                <FaPlus className='buckets-add' onClick={() => setPopup(true)} />
             </div>
             <ul>
                 {buckets.map((bucket, index) => (
                     <Bucket key={index} bucket={bucket} className='bucket-item'/>
                 ))}
             </ul>
-
-            {/* <div className='buckets-popup'>
-
-            </div> */}
+            <Popup trigger={popup} setTrigger={setPopup}>
+                <h4>Bucket List</h4>
+            </Popup>
         </div>
     )
 }
