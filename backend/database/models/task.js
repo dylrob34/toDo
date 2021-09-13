@@ -1,12 +1,15 @@
 const database = require("../data");
 const User = require("./user");
+const Team = require("./teams")
 
 const day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 class Task {
-    constructor(id, user, title, body, buckets)  {
+    constructor(id, user, team, assignees, title, body, buckets)  {
         this.id = id;
         this.user = user;
+        this.team = team;
+        this.assignees = assignees;
         this.title = title;
         this.body = body;
         this.buckets = buckets;
@@ -15,13 +18,15 @@ class Task {
 
     static async getTask(id) {
         const temp = await database.getTask(id);
-        return new Task(temp._id, temp.user, temp.title, temp.body, temp.buckets);
+        return new Task(temp._id, temp.user, temp.team, temp.assignees, temp.title, temp.body, temp.buckets);
     }
 
-    static async createTask(email, title, body) {
+    static async createTask(user, team, assignees, title, body) {
         const buckets = Task.parseBuckets(body);
         const result = await database.createTask(
-            email,
+            user,
+            team,
+            assignees,
             title,
             body,
             buckets);
@@ -49,11 +54,16 @@ class Task {
         return buckets;
     }
 
-    async updateUserBuckets() {
-        const user = await User.getUser(this.user);
+    async updateBuckets() {
+        var owner = null;
+        if (this.user != "undefined") {
+            owner = await User.getUser(this.user);
+        } else {
+            owner = await Team.getTeam(this.team);
+        }
         this.buckets.forEach(async (bucket) =>  {
             try {
-                await user.addBucket(bucket);
+                await owner.addBucket(bucket);
             } catch (error) {
                 if (error != "Bucket Already Exists") {
                     throw "An unknown error has occured";
@@ -66,12 +76,13 @@ class Task {
         database.deleteTask(this.id);
     }
 
-    async editTask(title, body) {
+    async editTask(assignees, title, body) {
+        this.assignees = assignees;
         this.title = title;
         this.body = body;
         this.buckets = Task.parseBuckets(body);
-        this.updateUserBuckets();
-        const newTask = await database.updateTask(this.id, title, body, this.buckets);
+        this.updateBuckets();
+        const newTask = await database.updateTask(this.id, assignees, title, body, this.buckets);
 
     }
 

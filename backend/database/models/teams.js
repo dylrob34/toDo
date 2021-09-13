@@ -1,0 +1,81 @@
+const database = require("../data");
+
+class Team {
+    constructor(id, owner, name, admins, users, buckets)  {
+        this.id = id;
+        this.owner = owner; // email
+        this.name = name; // string
+        this.admins = admins; // list of emails
+        this.users = users; // list of emails
+        this.buckets = buckets; // list of strings
+
+    }
+
+    static async getTeam(id) {
+        const temp = await database.getTeam(id);
+        return new Team(temp._id, temp.owner, temp.name, temp.admins, temp.users, temp.buckets);
+    }
+
+    static async getTeams(email) {
+        const temp = await database.getTeams(email);
+        var teams = []
+        for (const team in temp) {
+            teams.push(new Team(team._id, team.owner, team.name, team.admins, team.users, team.buckets));
+        }
+        return teams;
+    }
+
+    static async createTeam(email, name) {
+        const result = await database.createTeam(
+            email,
+            name);
+        var team = await Team.getTeam(result.ops[0]._id);
+        return team;
+    }
+
+    async deleteTeam() {
+        database.deleteTeam(this.id);
+    }
+
+    async editTeam(owner, admins, users, name) {
+        this.owner = owner;
+        this.admins = admins;
+        this.users = users;
+        this.name = name;
+        const newTask = await database.updateTeam(this.id, this.owner, this.name, this.admins, this.users);
+        var team = await Team.getTeam(this.id);
+        return team;
+    }
+
+    async addBucket(bucket) {
+        if (this.buckets.includes(bucket)) {
+            throw "Bucket Already Exists";
+        }
+        this.buckets.push(bucket);
+        const res = await database.setTeamBuckets(this.email, this.buckets);
+        this.buckets = await Team.getTeam(this.id).buckets;
+    }
+
+    deleteBucket(bucket) {
+        if (this.buckets.includes(bucket)) {
+            const index = this.buckets.indexOf(bucket);
+            this.buckets.splice(index, 1);
+            database.setTeamBuckets(this.id, this.buckets);
+        } else {
+            throw "Bucket Does Not Exist";
+        }
+    }
+
+    editBucket(oldBucket, newBucket) {
+        if (this.buckets.includes(oldBucket)) {
+            const index = this.buckets.indexOf(oldBucket);
+            this.buckets[index] = newBucket;
+            database.setTeamBuckets(this.id, this.buckets);
+        } else {
+            throw "Bucket Does Not Exist";
+        }
+    }
+
+}
+
+module.exports = Team

@@ -60,7 +60,7 @@ function verifyToken(req, res, next) {
     
     jwt.verify(bearerToken, process.env.secretKey, async (err, data) => {
       if (err) {
-        return res.json({loggedIn: false});
+        return res.json({error: true, message: "You are not logged in"});
       } else {
           req.authData = data;
           return next();

@@ -10,6 +10,7 @@ corsOptions = {
 const indexRouter = require('./index');
 const authRouter = require('./api/auth').router;
 const userRouter = require('./api/user');
+const teamRouter = require('./api/teams');
 const taskRouter = require('./api/task');
 const bucketRouter = require("./api/bucket");
 
@@ -25,6 +26,7 @@ app.use(cors(corsOptions));
 app.use('/', indexRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
+app.use('/api/teams', teamRouter);
 app.use('/api/task', taskRouter);
 app.use('/api/buckets', bucketRouter);
 
