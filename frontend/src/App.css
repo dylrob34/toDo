@@ -337,25 +337,25 @@ background-color: var(--accent1);
   position: relative;
 }
 
-.task-area1 {
-background: transparent;
-outline: none;
-resize: none;
-color: white;
-border: none;
-border-bottom: solid 0.5px var(--top-gray) ;
-margin-top: 5px;
-font-size: 16px;
-}
-.task-area2 {
+  .task-area1 {
   background: transparent;
   outline: none;
   resize: none;
   color: white;
-  margin-bottom: 3px;
   border: none;
+  border-bottom: solid 0.5px var(--top-gray) ;
+  margin-top: 5px;
   font-size: 16px;
   }
+  .task-area2 {
+    background: transparent;
+    outline: none;
+    resize: none;
+    color: white;
+    margin-bottom: 3px;
+    border: none;
+    font-size: 16px;
+    }
 
 
   .hover {
@@ -364,65 +364,84 @@ font-size: 16px;
   
 
   /* Task Styling */
-  .fade-out{
-    width: 5px;
-    opacity: 0.3;
-    background: rgba(31,31,31, 0.3);
-  }
-  /* Figure out how to make the overflow fadeout cleanly */
+.fade-out{
+  width: 5px;
+  opacity: 0.3;
+  background: rgba(31,31,31, 0.3);
+}
+/* Figure out how to make the overflow fadeout cleanly */
 
-  .task-edit {
-    color: white;
-  }
-  .task-edit:hover {
-    color: var(--accent1);
-  }
+.task-edit {
+  color: white;
+}
+.task-edit:hover {
+  color: var(--accent1);
+}
 
-  .task-item {
-    display: flex;
-    flex-direction: column;
-    margin: 25px;
-    padding: 5px;
-    border: solid 0.5px var(--top-gray);
-    color: white;
-  }
-  .task-element {
-    margin: 0px 0px 0px 10px;
-    align-self: flex-start;
-    text-align: left;
-  }
-  .task-header{
-    display: flex;
-    flex-direction: row;
-  }
-  .task-title{
-    margin-right: auto;
-    overflow-x: hidden;
-    cursor: pointer;
-  }
-  .task-body {
-    display: flex;
-    flex-direction: column;
-  }
-  .invisible-icons {
-    display: none;
-  }
-  .task-icons {
-    display: flex;
-    white-space: nowrap;
-    margin-top: 4px;
-    transition: 1s;
-  }
-  .task-icon {
-    margin-left: 4px;
-    margin-right:  4px;
-  }
-  .task-bucket {
-    margin: 10px 10px 10px 10px;
-    padding: 3px 5px 3px 5px;
-    border: solid 1px var(--top-gray);
-    border-radius: 5px;
-  }
+.task-item {
+  display: flex;
+  flex-direction: column;
+  margin: 25px;
+  padding: 5px;
+  border: solid 0.5px var(--top-gray);
+  color: white;
+}
+.task-element {
+  margin: 0px 0px 0px 10px;
+  align-self: flex-start;
+  text-align: left;
+}
+.task-header{
+  display: flex;
+  flex-direction: row;
+}
+.task-title{
+  margin-right: auto;
+  overflow-x: hidden;
+  cursor: pointer;
+}
+.task-body {
+  display: flex;
+  flex-direction: column;
+}
+.invisible-icons {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  transition: 300ms ease-in-out;
+  transform: scaleX(0);
+  transform-origin: right;
+}
+.task-icons {
+  display: flex;
+  white-space: nowrap;
+  margin-top: 4px;
+  z-index: 1;
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  transition: 300ms ease-in-out;
+  transform: scaleX(1);
+  transform-origin: right;
+}
+
+.task-icon {
+  margin-left: 4px;
+  margin-right:  4px;
+}
+
+.task-bucket {
+  margin: 10px 10px 10px 10px;
+  padding: 3px 5px 3px 5px;
+  border: solid 1px var(--top-gray);
+  border-radius: 5px;
+}
 .task-bucket:hover {
   border: solid 1px var(--mid-gray);
   background-color: var(--top-gray);
@@ -434,9 +453,10 @@ font-size: 16px;
     color: var(--accent1);
   }
 
+
   /* Task List Styling */
 
-.task-list {
-  display: flex;
-  flex-direction: column;
-}
+  .task-list {
+    display: flex;
+    flex-direction: column;
+  }

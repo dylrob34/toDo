@@ -100,13 +100,12 @@ const Task = ({ task, setReload }) => {
     }
 
     return (
-        <div className='task-item' >
-            <div className='task-header'
-            onMouseEnter={handleHover} 
-            onMouseLeave={handleHover}>
+        <div className='task-item'             
+        onMouseEnter={handleHover} 
+        onMouseLeave={handleHover}>
+            <div className='task-header'>
                 <h3 className='task-element task-title'>{title}</h3>
-                <div className='fade-out'></div>
-                <div className={hover ? 'task-icons ' : ' invisible-icons'}>
+                <div className={hover ? 'task-icons task-icons-fade' : ' invisible-icons'}>
                     <FaSun className='task-icon' onClick={moveTomorrow} />
                     {/* Placeholder for "Move to tomorrow" icon */}
                     <FaCalendar className='task-delete task-icon' onClick={toggleCalendar}/>
