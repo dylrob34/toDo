@@ -31,7 +31,7 @@ class Task {
             body,
             buckets);
         var task = await Task.getTask(result.ops[0]._id);
-        await task.updateUserBuckets();
+        await task.updateBuckets();
         return task;
     }
 
@@ -56,7 +56,7 @@ class Task {
 
     async updateBuckets() {
         var owner = null;
-        if (this.user != "undefined") {
+        if (this.user != undefined) {
             owner = await User.getUser(this.user);
         } else {
             owner = await Team.getTeam(this.team);

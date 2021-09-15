@@ -98,14 +98,19 @@ function setBuckets(email, buckets) {
 function getTeams(email) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("teams").find({
-            "$or": [
-                {owner: email},
-                {admins: { "$in": [email]}},
-                {users: { "$in": [email]}}
-            ]
+            // "$or": [
+            //     {owner: email},
+            //     {admins: { "$in": [email]}},
+            //     {users: { "$in": [email]}}
+            // ]
+            owner: email
         })
-        .then((teams) => {
-            resolve(teams);
+        .toArray((err, teams) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(teams);
+            }
         })
     });
 }

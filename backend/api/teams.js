@@ -15,7 +15,7 @@ router.post('/createTeam', auth.verifyToken, async function(req, res) {
 
 router.get('/getTeams', auth.verifyToken, async function(req, res) {
     const teams = await Team.getTeams(req.authData.user);
-    return teams;
+    return res.json({teams});
 })
 
 router.post('/editTeam', auth.verifyToken, async function(req, res) {

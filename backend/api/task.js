@@ -13,7 +13,7 @@ router.get('/getTasks', auth.verifyToken, async function(req, res) {
 router.post('/createTask', auth.verifyToken, async function(req, res) {
     var user = null;
     var team = null;
-    if (req.body.team != 'undefined') {
+    if (req.body.team != undefined) {
         team = req.body.team;
     } else {
         user = req.authData.user;
@@ -33,7 +33,7 @@ router.post('/editTask', auth.verifyToken, async function(req, res) {
     const title = req.body.title;
     const body = req.body.body;
     const task = await Task.getTask(taskId);
-    if (task.team != "undefined") {
+    if (task.team != undefined) {
         const team = await Team.getTeam(task.team);
         if (team.owner == user || team.admins.includes(user) || team.users.includes(user)) {
             await task.editTask(assignees, title, body);
@@ -41,7 +41,7 @@ router.post('/editTask', auth.verifyToken, async function(req, res) {
         }
     }
     if (task.user == user) {
-        await task.editTask(title, body);
+        await task.editTask(assignees, title, body);
         return res.json({error:false});
     }
     return res.json({error: true});

@@ -18,9 +18,10 @@ class Team {
 
     static async getTeams(email) {
         const temp = await database.getTeams(email);
+        console.log(`Temp: ${temp}`)
         var teams = []
-        for (const team in temp) {
-            teams.push(new Team(team._id, team.owner, team.name, team.admins, team.users, team.buckets));
+        for (var i = 0; i < temp.length; i++) {
+            teams.push(new Team(temp[i]._id, temp[i].owner, temp[i].name, temp[i].admins, temp[i].users, temp[i].buckets));
         }
         return teams;
     }
@@ -52,7 +53,7 @@ class Team {
             throw "Bucket Already Exists";
         }
         this.buckets.push(bucket);
-        const res = await database.setTeamBuckets(this.email, this.buckets);
+        const res = await database.setTeamBuckets(this.id, this.buckets);
         this.buckets = await Team.getTeam(this.id).buckets;
     }
 
