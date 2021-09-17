@@ -385,6 +385,7 @@ background-color: var(--accent1);
   padding: 5px;
   border: solid 0.5px var(--top-gray);
   color: white;
+  min-height: 50px;
 }
 .task-element {
   margin: 0px 0px 0px 10px;
@@ -404,36 +405,36 @@ background-color: var(--accent1);
   display: flex;
   flex-direction: column;
 }
+.task-icons {
+margin: 4px;
+font-size: 1rem;
+display: flex;
+white-space: nowrap;
+}
 .invisible-icons {
-  position: relative;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 0;
-  transition: 300ms ease-in-out;
+  transition: 400ms ease-in-out;
   transform: scaleX(0);
   transform-origin: right;
 }
-.task-icons {
-  display: flex;
-  white-space: nowrap;
-  margin-top: 4px;
+.task-icons-hover {
   z-index: 1;
-  position: relative;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 0;
-  transition: 300ms ease-in-out;
+  transition: 400ms ease-in-out;
   transform: scaleX(1);
   transform-origin: right;
 }
-
 .task-icon {
   margin-left: 4px;
   margin-right:  4px;
+  font-size: 1rem;
 }
 
 .task-bucket {
