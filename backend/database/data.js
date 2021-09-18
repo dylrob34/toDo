@@ -98,12 +98,11 @@ function setBuckets(email, buckets) {
 function getTeams(email) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("teams").find({
-            // "$or": [
-            //     {owner: email},
-            //     {admins: { "$in": [email]}},
-            //     {users: { "$in": [email]}}
-            // ]
-            owner: email
+            "$or": [
+                {owner: email},
+                {admins: { "$in": [email]}},
+                {users: { "$in": [email]}}
+            ]
         })
         .toArray((err, teams) => {
             if (err) {
@@ -157,6 +156,15 @@ function deleteTeam(id) {
 function getTasks(email) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("tasks").find({user: email}).toArray()
+        .then((tasks) => {
+            resolve(tasks);
+        })
+    });
+}
+
+function getTeamTasks(id) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("tasks").find({team: id}).toArray()
         .then((tasks) => {
             resolve(tasks);
         })
@@ -222,6 +230,7 @@ module.exports = {
     setTeamBuckets,
     deleteTeam,
     getTasks,
+    getTeamTasks,
     getTask,
     updateTask,
     deleteTask,

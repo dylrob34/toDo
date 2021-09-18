@@ -22,26 +22,36 @@ function LoginPage() {
     }
 
 return (
-    <form onSubmit={submitHandler}>
-        <div className="form-inner">
-        <h2>Login</h2>
-            {(error !=="") ? ((<div className='error'>{error}</div>)) : ""}
-            <div className="form-group">
-                <label htmlFor="email">Email: </label>
-                <input type="email" name="email" id="email"
-                // On change for event e, call setDetails pulling in what details already is + the value of the event (keystroke)
-                // then set the value of the state email in details to ...details + the new keystroke.
-                onChange={e => setDetails({...details, email: e.target.value})} value={details.email}/>
+  <div name='Main' className='main-login'>
+    <div className='login-panel'>
+      <div className='login-element'>
+        {/* Placeholder for logo */}
+        Placeholder for Logo
+      </div>
+      <div className='login-element'>
+        <form name='Login' onSubmit={submitHandler}>
+            <div className="form-inner">
+                {(error !=="") ? ((<div className='error'>{error}</div>)) : ""}
+                <div className="form-element">
+                    <label htmlFor="email">Email: </label>
+                    <input type="email" name="email" id="email"
+                    // On change for event e, call setDetails pulling in what details already is + the value of the event (keystroke)
+                    // then set the value of the state email in details to ...details + the new keystroke.
+                    onChange={e => setDetails({...details, email: e.target.value})} value={details.email}/>
+                </div>
+                <div className="form-element">
+                    <label htmlFor="password">Password: </label>
+                    <input type="password" name="password" id='password' 
+                    onChange={e => setDetails({...details, password: e.target.value})} value={details.password}/>
+                </div>
+            <input type="submit" value="LOGIN"></input>
+            <Link to="/signup">Create Account</Link>
             </div>
-            <div className="form-group">
-                <label htmlFor="password">Password: </label>
-                <input type="password" name="password" id='password' 
-                onChange={e => setDetails({...details, password: e.target.value})} value={details.password}/>
-            </div>
-        <input type="submit" value="LOGIN"></input>
-        <Link to="/signup">Create Account</Link>
-        </div>
-    </form>
+        </form>
+      </div>
+    </div>
+  </div>
+
 )
 }
 
@@ -65,7 +75,6 @@ return (
     })
   }
   const userLogout = () => {
-    console.log("Logged Out.")
     logout();
   }
 

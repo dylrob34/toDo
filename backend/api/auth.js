@@ -8,13 +8,13 @@ var database = require("../database/data");
 /* Login API */
 router.post('/login', async function(req, res) {
     if (req.body.user === "" || req.body.pass === "") {
-        res.json({error: true, login: false});
-        return;
+        return res.json({error: true, login: false});
     }
-    console.log(req.body.user + " Attempting to login...")
+    const email = req.body.user.toLowerCase()
+    console.log(email + " Attempting to login...")
     const pass = req.body.pass;
-    var user = await database.getUser(req.body.user);
-    if (user === false || (typeof user) == "undefined") {
+    var user = await database.getUser(email);
+    if (user === null || (typeof user) == "undefined") {
         console.log("Error: idk");
         res.json({ error: true });
     } else {

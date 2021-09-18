@@ -12,6 +12,7 @@ function login(t) {
     token = t;
     loggedIn = true;
     loggedInCallback(true);
+    console.log("state has been changed to true")
 }
 
 function logout() {

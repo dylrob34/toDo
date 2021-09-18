@@ -13,7 +13,7 @@ router.get('/getUser', auth.verifyToken, async function(req, res) {
 router.post('/createUser', async function(req, res) {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
-    const email = req.body.email;
+    const email = req.body.email.toLowerCase();
     const pass = req.body.password;
     const passCheck = req.body.passCheck;
     try {

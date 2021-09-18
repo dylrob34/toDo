@@ -18,12 +18,10 @@ export function ToDoProvider({ children }) {
     const [toDo, setToDo] = useState(
         {
             reloadBuckets : true,
-            currentBucket: ""
+            reloadTasks: true,
+            currentBucket: [],
+            currentTeam: ""
         })
-// Updating our state
-    function updateToDo(newState) {
-        setToDo(newState);
-    }
 
     // Passing both of these values down into our children.
     return (

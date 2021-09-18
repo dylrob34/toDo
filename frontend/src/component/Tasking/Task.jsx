@@ -1,11 +1,10 @@
 import React from 'react'
 import { FaSun, FaTimes, FaEdit, FaCalendar } from 'react-icons/fa'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { post } from "../../tools/request";
-import { getToken } from '../../context/loggedInState';
 import { useToDoContext, useUpdateToDoContext } from '../../context/ToDoContext';
 
-const Schedule = ({}) => {
+const Schedule = () => {
     return (
         <div className='test'>test</div>
     )
@@ -47,7 +46,6 @@ const Task = ({ task, setReload }) => {
                 if (resJson.error === true) {
                     console.log("Error submiting new task");
                 }
-                console.log("deleting and reloading")
                 setReload(true);
             })
     }
@@ -74,11 +72,11 @@ const Task = ({ task, setReload }) => {
         let track = false;
         var newBody = '';
         for (const char in body) {
-            if (body[char] == "#") {
+            if (body[char] === "#") {
                 track = true;
                 continue
             }
-            if (body[char] == " " && track == true) {
+            if (body[char] === " " && track === true) {
                 track = false;
                 continue
             }
@@ -90,13 +88,11 @@ const Task = ({ task, setReload }) => {
     }
 
     function toggleCalendar(e) {
-        console.log("what the fuck")
         setCalendar(!calendar);
     }
     
     function handleHover() {
         setHover(!hover)
-        console.log(hover)
     }
 
     return (
@@ -116,10 +112,12 @@ const Task = ({ task, setReload }) => {
                 </div>
             </div>
             <div className='task-body'>
-                <p className='task-element'>{parseBody()}</p>
-                {buckets.map((bucket, index) => (
-                        <span className='task-bucket task-element'key={index}>#{bucket}</span>
-                    ))}
+                <p name='taskdetails' className='task-element task-details'>{parseBody()}</p>
+                <div className='task-buckets'>
+                    {buckets.map((bucket, index) => (
+                            <span className='task-bucket task-element'key={index}>#{bucket}</span>
+                        ))}
+                </div>
             </div>
             <span>   
                 {dueDate}

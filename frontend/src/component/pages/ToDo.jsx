@@ -1,18 +1,27 @@
-import React, { useState, createContext, useReducer, useContext } from "react";
+import React, { useEffect } from "react";
 import { Redirect } from "react-router";
-import { getLoggedIn, getToken } from "../../context/loggedInState";
+import { getLoggedIn } from "../../context/loggedInState";
 import Tasks from "../Tasking/Tasks";
 import Buckets from "../Buckets/Buckets";
-import { ToDoProvider } from "../../context/ToDoContext";
+import { useToDoContext, useUpdateToDoContext } from "../../context/ToDoContext";
 
-const ToDo = () => {
+const ToDo = (props) => {
+  const toDoContext = useToDoContext();
+  const setToDoContext = useUpdateToDoContext();
+
+  useEffect(() => {
+    var teamName = props.location.pathname.substring(5, props.location.pathname.length);
+    if (teamName.length > 0) {
+      teamName = teamName.substring(1, teamName.length);
+    }
+    setToDoContext({...toDoContext, reloadBuckets: true, reloadTasks: true, currentTeam: teamName});
+  }, [props.location.pathname])
 
   if (getLoggedIn() === false) {
     return <Redirect to="/login" />;
   }
 
   return (
-    <ToDoProvider>
       <div className="page-config">
         <div className="left-sidebar">
           <div name="viewContainer">
@@ -42,7 +51,6 @@ const ToDo = () => {
           </div>
         </div>
       </div>
-    </ToDoProvider>
   );
 };
 

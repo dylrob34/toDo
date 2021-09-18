@@ -10,6 +10,11 @@ router.get('/getTasks', auth.verifyToken, async function(req, res) {
     return res.json({tasks});
 });
 
+router.post("/getTeamTasks", auth.verifyToken, async (req, res) => {
+    const tasks = await database.getTeamTasks(req.body.team);
+    return res.json({tasks});
+})
+
 router.post('/createTask', auth.verifyToken, async function(req, res) {
     var user = null;
     var team = null;

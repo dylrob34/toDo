@@ -1,43 +1,45 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { logout, getLoggedIn } from "../../context/loggedInState";
 import { get } from "../../tools/request";
 import { FaUser } from 'react-icons/fa';
+import { Dropdown, Option } from "./Dropdown";
 
-function NavBar() {
+function NavBar({setTeam}) {
   const loggedIn = getLoggedIn();
 
   const [name, setName] = useState("");
-  const [scrolled, setScrolled] = useState(false)
+  const [teams, setTeams] = useState([]);
 
   useEffect(() => {
+    console.log(`am i logged in ${loggedIn}`)
     if (loggedIn) {
       get("/api/user/getUser")
         .then((resJson) => {
           setName(resJson.user.firstName);
         })
+      get("/api/teams/getTeams")
+      .then((res) => {
+        setTeams(res.teams);
+      })
     }
   }, [loggedIn]);
 
-  // const handleScroll=()=>{
-  //   var offset=window.scrollY;
-  //   if(offset > 15 ) {
-  //     setScrolled(true);
-  //   } else {
-  //     setScrolled(false);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   window.addEventListener('scroll',handleScroll)
-  // }, [])
-
+  function clicked(e) {
+    setTeam(e.target.innerHTML);
+  }
 
   if (loggedIn) {
     return (
       <div>
         <div className='navbar-container'>
-          <Link to="/todo" className='navbar-page'>ToDo</Link>
+          <Dropdown first={<Link to="/todo" className='navbar-page'>ToDo</Link>}>
+              {
+                teams.map((team) => (
+                  <Option clicked={clicked} key={team.id} value={<Link to={`/todo/${team.id}`} className='navbar-page'>{team.name}</Link>} />
+                ))
+              }
+          </Dropdown>
           <Link to="/capture" className='navbar-page'>Capture</Link>
           <Link to="/timeblock" className='navbar-page'>TimeBlock</Link>
           <div className='flex-spacer-4'></div>
@@ -50,8 +52,7 @@ function NavBar() {
   }
   return (
     <div>
-      <h1></h1>
-      <Link to="/login">Login</Link>
+      {/* <Link to="/login">Login</Link> */}
     </div>
   )
 }

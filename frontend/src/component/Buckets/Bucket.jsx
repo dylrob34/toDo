@@ -18,10 +18,17 @@ const Bucket = ({ bucket }) => {
   const setCurrentBucket = () => {
     if (selected) {
       setSelected(false);
-      updateToDoContext({ ...toDoContext, currentBucket: ""});
+      var currentBuckets = toDoContext.currentBucket;
+      const index = currentBuckets.indexOf(bucket);
+      if (index > -1) {
+        currentBuckets.splice(index, 1);
+      }
+      updateToDoContext({ ...toDoContext, currentBucket: currentBuckets});
     } else {
       setSelected(true);
-      updateToDoContext({ ...toDoContext, currentBucket: bucket});
+      let currentBuckets = toDoContext.currentBucket;
+      currentBuckets.push(bucket)
+      updateToDoContext({ ...toDoContext, currentBucket: currentBuckets});
     }
   };
 

@@ -18,6 +18,11 @@ router.get('/getTeams', auth.verifyToken, async function(req, res) {
     return res.json({teams});
 })
 
+router.post("/getTeam", auth.verifyToken, async (req, res) => {
+    const team = await Team.getTeam(req.body.team);
+    return res.json({team});
+})
+
 router.post('/editTeam', auth.verifyToken, async function(req, res) {
     const user = await User.getUser(req.authData.user);
     try {

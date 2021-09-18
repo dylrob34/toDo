@@ -2,8 +2,6 @@ import React, {useState} from 'react';
 import {post} from "../../tools/request";
 import { login } from "../../context/loggedInState";
 import { Redirect } from 'react-router';
-import validator from 'validator'
-import { isEmail } from 'validator'
 
 const SignUp = () => {
 

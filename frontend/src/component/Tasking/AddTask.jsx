@@ -1,7 +1,6 @@
-import React, { useContext, useReducer, useState } from "react";
-import { useAddTask, useAddTaskUpdate } from "../../context/AddTaskContext";
+import React, { useState } from "react";
+import { useAddTaskUpdate } from "../../context/AddTaskContext";
 import { post } from "../../tools/request";
-import { getToken } from "../../context/loggedInState";
 import {
   useToDoContext,
   useUpdateToDoContext,
@@ -18,7 +17,6 @@ const AddTask = ({ setReload }) => {
 
   function submitTask(e) {
     toggleAddTask(e);
-    const token = getToken();
     post("/api/task/createTask", { title, body }).then((resJson) => {
       if (resJson.error === true) {
         console.log("Error submiting new task");
@@ -49,7 +47,6 @@ const AddTask = ({ setReload }) => {
             <br />
             <textarea
               onChange={(e) => setBody(e.target.value)}
-              className=""
               name="taskDetails"
               id=""
               cols="85"
