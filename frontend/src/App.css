@@ -73,6 +73,10 @@
   align-content: flex-start;
 }
 
+.highlight:hover {
+  color: var(--accent1);
+}
+
 /* Login Styling */
 .main-login {
   height: 100vh;
@@ -333,16 +337,28 @@ background-color: var(--accent1);
 .bucket-element-pop {
   display: flex;
   flex-direction: row;
+  margin: 10px 0px 10px 0px;
+  min-height: 22px;
 }
 .bucket-item-pop {
   display: flex;
   flex-grow: 1;
   justify-content: flex-start;
+
 }
 .bucket-icons-pop {
   display: flex;
   flex-grow: 4;
   justify-content: flex-end;
+}
+.bucket-item-edit {
+  display: flex;
+  justify-content: flex-start;
+  outline: none;
+  color: white;
+  border: none;
+  border-bottom: solid 2px var(--top-gray);
+  flex-grow: 4;
 }
 
 .bucket-item {
@@ -560,6 +576,7 @@ flex-direction: row;
     position: absolute;
     z-index: 3;
     background-color: var(--mid-gray);
+    opacity: 0.9;
   }
 
   .dropdown-content-items{

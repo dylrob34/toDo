@@ -52,7 +52,7 @@ function NavBar({setTeam}) {
   }
   return (
     <div>
-      {/* <Link to="/login">Login</Link> */}
+      <Link to="/login">Login</Link>
     </div>
   )
 }
