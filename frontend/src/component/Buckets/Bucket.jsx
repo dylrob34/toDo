@@ -35,6 +35,16 @@ const Bucket = ({ bucket }) => {
   return (
     <div>
       <span onClick={setCurrentBucket} className={selected ? 'bucket-item selected':'bucket-item'}>{text}</span>
+      <div key={bucket.id} className='bucket-element-pop'>
+          <input type="text" className={isEditing ? "visible bucket-item-edit" : "invisible"}/>
+          <div className={isEditing ? 'invisible' : 'bucket-item-pop'} key={index}>
+              {bucket}
+            </div>
+          <div className='bucket-icons-pop'>
+              <FaEdit className='highlight' onClick={showEdit} key={index}/>
+              <FaTimes onClick={deleteBucket}/>
+            </div>
+        </div>
     </div>
   );
 };

@@ -78,7 +78,21 @@ const Buckets = () => {
                 <h4>Bucket List</h4>
                 <ul className='bucket-list-pop'>
                     <div className='bucket-elements-pop'>
-                        {buckets.map((bucket, index) => (
+                    
+                    {buckets.map((bucket) => {
+                    // CK edits 9/20 @ 9:30pm (Big pseudo code below lol)
+                    // if logic I want:
+                    // if buckets array !== 0 or "some condition I haven't thought of" then display buckets.
+                    // if not then return a warning there is no buckets.
+                    if (bucket.array !== 0 || 'some other condition') {
+                        return <Bucket key={index} task={bucket} setReload={setReload} />
+                    }
+                    return null;
+                        })
+                    }
+                        {/* 
+                        CK edits 9/20 @ 9:23pm commented out "working" code below.
+                        {buckets.map((bucket) => (
                             <div key={bucket.id} className='bucket-element-pop'>
                                 <input type="text" className={isEditing ? "visible bucket-item-edit" : "invisible"}/>
                                 <div className={isEditing ? 'invisible' : 'bucket-item-pop'} key={index}>
@@ -89,7 +103,7 @@ const Buckets = () => {
                                     <FaTimes onClick={deleteBucket}/>
                                 </div>
                             </div>
-                                    ))}
+                                    ))} */}
                     </div>
                 </ul>
                 <button>Add</button>
