@@ -11,6 +11,7 @@ import ToDo from './component/pages/ToDo';
 import { AddTaskProvider } from './context/AddTaskContext';
 import {get} from "./tools/request";
 import { ToDoProvider } from './context/ToDoContext';
+import TimeBlock from './component/pages/TimeBlock';
 
 const domain = "localhost"
 
@@ -50,6 +51,7 @@ function App() {
             )}>
 
           </Route>
+          <Route exact path='/timeblock' component={ TimeBlock }></Route>
         </Switch>
       </div>
       </AddTaskProvider>

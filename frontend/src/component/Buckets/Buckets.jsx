@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {FaPlus, FaTimes, FaEdit, FaBars} from 'react-icons/fa';
+import {FaBars} from 'react-icons/fa';
 import Bucket from './Bucket';
 import {get, post} from "../../tools/request";
 import { useToDoContext, useUpdateToDoContext } from '../../context/ToDoContext';
@@ -8,9 +8,6 @@ import Popup from '../layout/Popup';
 const Buckets = () => {
     const [buckets, setBuckets] = useState([]);
     const [popup, setPopup] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
-    const [bucketId, setBucketId] = useState(''); // NEED to find bucket Id's
-    // CK edits 9/19 @ 11:34pm
     const reload = useToDoContext();
     const setReload = useUpdateToDoContext();
 
@@ -32,35 +29,19 @@ const Buckets = () => {
             }
         }
     }, [reload, setReload])
-
-// This is the first attempt at the submit bucket editing need backend sync...
-// CK edit on 9/19 @ 10:40pm
-    function showEdit(index) {
-        setIsEditing(!isEditing)
-        console.log("Show editing " + isEditing)
-    }
-
-    // I don't think _id is the write thing to pass.
-    // CK edit on 9/19 @ 11:35pm
-    function handleEdit(_id, newBucketName) {
-        const editBucketList = buckets.map(bucket => {
-            if (_id === bucketId) {
-                return { ...bucket, name: newBucketName}
-            }
-            return bucket
-        });
-        // setBuckets(editBucketList_placeholder)
-    }
-
-    function deleteBucket() {
-        post("/api/task/deleteBucket", { "id": bucketId })
-            .then((resJson) => {
-                if (resJson.error === true) {
-                    console.log("Error deleting bucket");
-                }
-                setReload(true);
-            })
-    }
+    
+    // This all could be wrong now... CK Edits 9/21/2021 10:00pm
+    // // I don't think _id is the right thing to pass.
+    // // CK edit on 9/19 @ 11:35pm
+    // function handleEdit(_id, newBucketName) {
+    //     const editBucketList = buckets.map(bucket => {
+    //         if (_id === bucketId) {
+    //             return { ...bucket, name: newBucketName}
+    //         }
+    //         return bucket
+    //     });
+    //         // setBuckets(editBucketList_placeholder)
+    //     }
 
     return (
         <div className='buckets'>
@@ -85,7 +66,7 @@ const Buckets = () => {
                     // if buckets array !== 0 or "some condition I haven't thought of" then display buckets.
                     // if not then return a warning there is no buckets.
                     if (bucket.array !== 0 || 'some other condition') {
-                        return <Bucket key={index} task={bucket} setReload={setReload} />
+                        return <Bucket key={''} task={bucket} setReload={setReload} />
                     }
                     return null;
                         })
