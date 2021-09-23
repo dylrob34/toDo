@@ -18,10 +18,22 @@ const TimeTable = () => {
                     
                     <tr>
                         <td>5:00am</td>
+                        <td> Drive to Work</td>
+                        <td> Wake up</td>
+                        <td> Wake up</td>
+                        <td> Wake up</td>
+                        <td> Wake up</td>
                     </tr>
+
                     <tr>
                         <td>5:30</td>
+                        <td>.</td>
+                        <td>Breakfast</td>
+
+
+
                     </tr>
+
                     <tr>
                         <td>6:00</td>
                     </tr>
@@ -137,8 +149,23 @@ const TimeTable = () => {
 
                 </table>
             </body>
+        
+        
+            
+            <div name='column-1'></div>
+        
+        
         </div>
+    
+
+    
     )
+
 }
+
+
+
+
+
 
 export default TimeTable
