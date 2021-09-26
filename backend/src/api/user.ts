@@ -1,16 +1,16 @@
-var express = require('express');
-var router = express.Router();
-var database = require("../database/data");
-var auth = require("./auth");
-const jwt = require('jsonwebtoken');
-const User = require("../database/models/user");
+import express from "express";
+const router = express.Router();
+import database from "../database/data";
+import auth from "./auth";
+import jwt from "jsonwebtoken";
+import User from "../database/models/user";
 
-router.get('/getUser', auth.verifyToken, async function(req, res) {
+router.get('/getUser', auth.verifyToken, async (req: any, res) => {
     const user = await User.getUser(req.authData.user);
     res.json({user});
 });
 
-router.post('/createUser', async function(req, res) {
+router.post('/createUser', async (req, res) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email.toLowerCase();
@@ -25,7 +25,7 @@ router.post('/createUser', async function(req, res) {
         if (err) {
             console.log("signing error");
             return res.json({error: true});
-        } 
+        }
         res.cookie("jwt", token);
         return res.json({
             error: false,
@@ -36,4 +36,4 @@ router.post('/createUser', async function(req, res) {
 });
 
 
-module.exports = router;
+export default router;

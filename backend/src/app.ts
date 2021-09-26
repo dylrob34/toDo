@@ -1,18 +1,18 @@
-const express = require('express');
-const cookieParser = require('cookie-parser');
-require('dotenv').config();
-var cors = require('cors');
-
-corsOptions = {
+import express from "express";
+import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
+import cors from "cors";
+dotenv.config();
+const corsOptions = {
   origin: "http://localhost:3000"
 }
 
-const indexRouter = require('./index');
-const authRouter = require('./api/auth').router;
-const userRouter = require('./api/user');
-const teamRouter = require('./api/teams');
-const taskRouter = require('./api/task');
-const bucketRouter = require("./api/bucket");
+import indexRouter from "./index";
+import authRouter from "./api/auth";
+import userRouter from "./api/user";
+import teamRouter from "./api/teams";
+import taskRouter from "./api/task";
+import bucketRouter from "./api/bucket";
 
 const app = express();
 const port = 80;
@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 
 app.use('/', indexRouter);
-app.use('/api/auth', authRouter);
+app.use('/api/auth', authRouter.router);
 app.use('/api/user', userRouter);
 app.use('/api/teams', teamRouter);
 app.use('/api/task', taskRouter);

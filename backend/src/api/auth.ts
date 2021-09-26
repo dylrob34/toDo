@@ -1,30 +1,39 @@
-const express = require('express');
+import express, { Response, NextFunction } from "express";
 const router = express.Router();
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+import jwt from "jsonwebtoken"
+import bcrypt from "bcrypt";
+import { ObjectId } from "mongodb";
 
-var database = require("../database/data");
+import database from "../database/data";
 
 /* Login API */
-router.post('/login', async function(req, res) {
+router.post('/login', async (req, res) => {
     if (req.body.user === "" || req.body.pass === "") {
         return res.json({error: true, login: false});
     }
     const email = req.body.user.toLowerCase()
     console.log(email + " Attempting to login...")
     const pass = req.body.pass;
-    var user = await database.getUser(email);
-    if (user === null || (typeof user) == "undefined") {
+    class User {
+        _id: ObjectId;
+        email: string;
+        password: string;
+        firstName: string;
+        lastName: string;
+        buckets: string[];
+    }
+    const user = await database.getUser(email) as User;
+    if (user === null || (typeof user) === "undefined") {
         console.log("Error: idk");
         res.json({ error: true });
     } else {
         bcrypt.compare(pass, user.password, (err, result) => {
             if (result) {
-                jwt.sign({ user: user.email }, process.env.secretKey, { expiresIn: "2h" }, (err, token) => {
-                    if (err) {
+                jwt.sign({ user: user.email }, process.env.secretKey, { expiresIn: "2h" }, (errr, token) => {
+                    if (errr) {
                         console.log("signing error");
                         res.json({error: true});
-                    } 
+                    }
                     res.cookie("jwt", token);
                     res.json({
                         error: false,
@@ -39,26 +48,26 @@ router.post('/login', async function(req, res) {
     }
 });
 
-router.get('/checkLogin', async function(req, res) {
+router.get('/checkLogin', async (req, res) => {
     res.json({loggedIn: true});
 })
 
 
-function hashPassword(pass) {
+function hashPassword(pass: string) {
     return new Promise((resolve, reject) => {
         bcrypt.hash(pass, 10)
         .then((hashed) => {resolve(hashed);});
     });
 }
 
-function verifyToken(req, res, next) {
-    const bearerHeader = req.headers['authorization'];
+function verifyToken(req: any, res: Response, next: NextFunction) {
+    const bearerHeader = req.headers.authorization;
 
     if (typeof bearerHeader !== 'undefined') {
     const bearer = bearerHeader.split(" ");
     const bearerToken = bearer[1];
-    
-    jwt.verify(bearerToken, process.env.secretKey, async (err, data) => {
+
+    jwt.verify(bearerToken, process.env.secretKey, async (err: any, data: any) => {
       if (err) {
         return res.json({error: true, message: "You are not logged in"});
       } else {
@@ -71,4 +80,4 @@ function verifyToken(req, res, next) {
   }
 }
 
-module.exports = { router, hashPassword, verifyToken };
+export default { router, hashPassword, verifyToken };

@@ -1,12 +1,21 @@
-const database = require("../data");
-const User = require("./user");
-const Team = require("./teams")
+import database from "../data";
+import User from "./user";
+import Team from "./teams";
+import {ObjectId} from "mongodb";
 
 const day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-class Task {
-    constructor(id, user, team, assignees, title, body, buckets)  {
-        this.id = id;
+export default class Task {
+    _id: ObjectId;
+    user: string;
+    team: string;
+    assignees: string[];
+    title: string;
+    body: string;
+    buckets: string[];
+
+    constructor(id: ObjectId, user: string, team: string, assignees: string[], title: string, body: string, buckets: string[])  {
+        this._id = id;
         this.user = user;
         this.team = team;
         this.assignees = assignees;
@@ -16,12 +25,12 @@ class Task {
 
     }
 
-    static async getTask(id) {
-        const temp = await database.getTask(id);
+    static async getTask(id: ObjectId): Promise<Task> {
+        const temp = await database.getTask(id) as Task;
         return new Task(temp._id, temp.user, temp.team, temp.assignees, temp.title, temp.body, temp.buckets);
     }
 
-    static async createTask(user, team, assignees, title, body) {
+    static async createTask(user: string, team: string, assignees: string[], title: string, body: string): Promise<Task> {
         const buckets = Task.parseBuckets(body);
         const result = await database.createTask(
             user,
@@ -29,34 +38,34 @@ class Task {
             assignees,
             title,
             body,
-            buckets);
-        var task = await Task.getTask(result.ops[0]._id);
+            buckets) as any;
+        const task = await Task.getTask(result.ops[0]._id);
         await task.updateBuckets();
         return task;
     }
 
-    static parseBuckets(body) {
-        let buckets = [];
+    static parseBuckets(body: string) {
+        const buckets = [];
         let track = false;
-        for (const char in body) {
-            if (body[char] == "#") {
+        for (const char of body) {
+            if (char === "#") {
                 track = true;
                 buckets.push("");
                 continue;
             }
-            if (body[char] == " " && track == true) {
+            if (char === " " && track === true) {
                 track = false;
             }
             if (track) {
-                buckets[buckets.length-1] = buckets[buckets.length-1].concat(body[char]);
+                buckets[buckets.length-1] = buckets[buckets.length-1].concat(char);
             }
         }
         return buckets;
     }
 
     async updateBuckets() {
-        var owner = null;
-        if (this.user != undefined) {
+        let owner: User | Team = null;
+        if (this.user !== undefined) {
             owner = await User.getUser(this.user);
         } else {
             owner = await Team.getTeam(this.team);
@@ -65,27 +74,25 @@ class Task {
             try {
                 await owner.addBucket(bucket);
             } catch (error) {
-                if (error != "Bucket Already Exists") {
-                    throw "An unknown error has occured";
+                if (error !== "Bucket Already Exists") {
+                    throw new Error("An unknown error has occured");
                 }
             }
         })
     }
 
     async deleteTask() {
-        database.deleteTask(this.id);
+        database.deleteTask(this._id);
     }
 
-    async editTask(assignees, title, body) {
+    async editTask(assignees: string[], title: string, body: string) {
         this.assignees = assignees;
         this.title = title;
         this.body = body;
         this.buckets = Task.parseBuckets(body);
         this.updateBuckets();
-        const newTask = await database.updateTask(this.id, assignees, title, body, this.buckets);
+        const newTask = await database.updateTask(this._id, assignees, title, body, this.buckets);
 
     }
 
 }
-
-module.exports = Task
