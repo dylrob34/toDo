@@ -44,13 +44,15 @@ const Buckets = () => {
             </ul>
             <Popup trigger={popup} setTrigger={setPopup}>
                 <h4>Bucket List</h4>
-                <ul className='bucket-list-pop'>
-                    <div className='bucket-elements-pop'>
-                    {buckets.map((bucket, index) => {
-                    return <Bucket key={index} bucket={bucket} popup={true} />
-                    })}
-                    </div>
-                </ul>
+                <div className='bucket-list-sizing'>
+                    <ul className='bucket-list-pop'>
+                        <div className='bucket-elements-pop'>
+                        {buckets.map((bucket, index) => {
+                        return <Bucket key={index} bucket={bucket} popup={true} />
+                        })}
+                        </div>
+                    </ul>
+                </div>
                 <button>Add</button>
             </Popup>
         </div>
