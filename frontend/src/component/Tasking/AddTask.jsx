@@ -29,6 +29,27 @@ const AddTask = ({ setReload }) => {
     });
   }
 
+  function handleBody() {
+
+    let track = false;
+    var newBody = '';
+    for (const char in body) {
+        if (body[char] === "#") {
+            track = true;
+            continue
+        }
+        if (body[char] !== "#") {
+            track = false;
+            continue
+        }
+        if (!track) {
+            newBody = newBody.concat(body[char]);
+        }
+    }
+    return newBody;
+}
+
+
   return (
     <div className="task-editor-area">
       <div>
@@ -55,6 +76,17 @@ const AddTask = ({ setReload }) => {
               placeholder="Task Details..."
               value={body}
             ></textarea>
+            {/* 
+            USE THIS ONE once you ask Dylan why its not working on submit.
+            <div
+              contentEditable={true}
+              onChange={(e) => setBody(e.target.value)}
+              name="taskDetails"
+              id="textarea"
+              cols="85"
+              rows="6"
+              className="task-area2"
+            >{body}</div> */}
           </div>
           <div className="textarea-container-submit">
             <button>Add</button>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {FaPlus, FaTimes, FaEdit, FaBars} from 'react-icons/fa';
+import {FaPlus, FaTimes, FaEdit, FaBars, FaDiceD6} from 'react-icons/fa';
 import {get, post} from "../../tools/request";
 import {
   useToDoContext,
@@ -74,7 +74,10 @@ function handleEnter(e) {
             <FaTimes onClick={''}/>
           </div>
       </div>
-      ) : <span onClick={setCurrentBucket} className={selected ? 'bucket-item selected':'bucket-item'}>{text}</span> }
+      ) : <div onClick={setCurrentBucket} className={selected ? 'bucket-item selected':'bucket-item'}>
+          <FaDiceD6/> {/* Placeholder until we get custom icons */}
+          {text}
+        </div> }
     </div>
   );
 };

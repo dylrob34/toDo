@@ -37,7 +37,7 @@ const Buckets = () => {
                 <span className='flex-spacer-4'></span>
                 <FaBars className='buckets-add' onClick={() => setPopup(true)} />
             </div>
-            <ul>
+            <ul className='bucket-list'>
                 {buckets.map((bucket, index) => (
                     <Bucket key={index} bucket={bucket} className='bucket-item' popup={false} />
                 ))}
