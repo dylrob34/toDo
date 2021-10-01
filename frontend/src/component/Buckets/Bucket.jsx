@@ -41,22 +41,28 @@ function showEdit(index) {
   setIsEditing(!isEditing)
   console.log("Show editing " + isEditing)
 }
-// Uncomment when we figure out what Buckets look like on the backend. Yay!
-// function deleteBucket() {
-//   post("/api/task/deleteBucket", { "id": bucketId })
-//       .then((resJson) => {
-//           if (resJson.error === true) {
-//               console.log("Error deleting bucket");
-//           }
-//           setReload(true);
-//       })
-// }
 
 function handleEnter(e) {
   if (e.keyCode === 13) {
     console.log("Press enter.")
   }
 }
+
+function deleteBucket() {
+  post("/api/bucket/deleteBucket", { "id": id, })
+      .then((resJson) => {
+          if (resJson.error === true) {
+              console.log("Delete Buckets");
+          }
+          setReload(true);
+      })
+}
+
+// function editBucket() {
+//   if (isEditing) {
+
+//   }
+// }
 
   return (
     <div>
@@ -71,7 +77,7 @@ function handleEnter(e) {
           </div>
         <div className='bucket-icons-pop'>
             <FaEdit className='highlight' onClick={showEdit}/>
-            <FaTimes onClick={''}/>
+            <FaTimes onClick={deleteBucket}/>
           </div>
       </div>
       ) : <div onClick={setCurrentBucket} className={selected ? 'bucket-item selected':'bucket-item'}>
