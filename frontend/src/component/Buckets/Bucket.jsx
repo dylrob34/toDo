@@ -12,6 +12,7 @@ const Bucket = ({ bucket, popup }) => {
   const [selected, setSelected] = useState(false);
   const [text, setText] = useState(bucket);
   const [isEditing, setIsEditing] = useState(false);
+  const [_id, setId] = useState(bucket._id);
 
   const toDoContext = useToDoContext();
   const updateToDoContext = useUpdateToDoContext();
@@ -42,14 +43,9 @@ function showEdit(index) {
   console.log("Show editing " + isEditing)
 }
 
-function handleEnter(e) {
-  if (e.keyCode === 13) {
-    console.log("Press enter.")
-  }
-}
 
 function deleteBucket() {
-  post("/api/bucket/deleteBucket", { "id": id, })
+  post("/api/bucket/deleteBucket", { "_id": _id, })
       .then((resJson) => {
           if (resJson.error === true) {
               console.log("Delete Buckets");
@@ -58,11 +54,20 @@ function deleteBucket() {
       })
 }
 
-// function editBucket() {
-//   if (isEditing) {
+function editBucket(e) {
+  if (e.keycode === 13 && isEditing) {
+        post("/api/bucket/editBucket", { "_id": _id, "name": text })
+        .then((resJson) => {
+            if (resJson.error === false) {
+                console.log("Edit Buckets");
+            } else {
+              console.log("error editing bucket");
+            }
+            setReload(true);
+        })
+      }
+  }
 
-//   }
-// }
 
   return (
     <div>
@@ -70,7 +75,7 @@ function deleteBucket() {
         <div className='bucket-element-pop'>
         <input type="text" className={isEditing ? "visible bucket-item-edit" : "invisible"} value={text}
         onChange={e => setText(e.target.value)}
-        onKeyDown={handleEnter}
+        onKeyDown={editBucket}
         />
         <div className={isEditing ? 'invisible' : 'bucket-item-pop'}>
             {text}
@@ -86,6 +91,6 @@ function deleteBucket() {
         </div> }
     </div>
   );
-};
 
+}
 export default Bucket;

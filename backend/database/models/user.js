@@ -61,16 +61,6 @@ class User {
         }
     }
 
-    editBucket(oldBucket, newBucket) {
-        if (this.buckets.includes(oldBucket)) {
-            const index = this.buckets.indexOf(oldBucket);
-            this.buckets[index] = newBucket;
-            database.setBuckets(this.email, this.buckets);
-        } else {
-            throw "Bucket Does Not Exist";
-        }
-    }
-
     deleteUser() {
         console.log("Does not exist yet");
     }

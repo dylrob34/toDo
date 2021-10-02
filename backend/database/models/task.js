@@ -1,6 +1,7 @@
 const database = require("../data");
 const User = require("./user");
-const Team = require("./teams")
+const Team = require("./teams");
+const Bucket = require("./buckets");
 
 const day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
@@ -17,21 +18,26 @@ class Task {
     }
 
     static async getTask(id) {
-        const temp = await database.getTask(id);
+        const temp = await database.getTask(id)
+        .catch(() => {
+            throw "Error Getting Task";
+        });
         return new Task(temp._id, temp.user, temp.team, temp.assignees, temp.title, temp.body, temp.buckets);
     }
 
     static async createTask(user, team, assignees, title, body) {
-        const buckets = Task.parseBuckets(body);
         const result = await database.createTask(
             user,
             team,
             assignees,
             title,
             body,
-            buckets);
+            [])
+        .catch(() => {
+            throw "Error Creating Task";
+        });
         var task = await Task.getTask(result.ops[0]._id);
-        await task.updateBuckets();
+        task.updateBuckets();
         return task;
     }
 
@@ -44,7 +50,7 @@ class Task {
                 buckets.push("");
                 continue;
             }
-            if (body[char] == " " && track == true) {
+            if ((body[char] === " " || body[char].charCodeAt(0) === 13) && track == true) {
                 track = false;
             }
             if (track) {
@@ -55,15 +61,29 @@ class Task {
     }
 
     async updateBuckets() {
-        var owner = null;
+        const buckets = parseBuckets(this.body);
+        let updatedBuckets = [];
+        let owner = null;
+        let user = null;
+        let team = null;
         if (this.user != undefined) {
             owner = await User.getUser(this.user);
+            user = owner;
         } else {
             owner = await Team.getTeam(this.team);
+            team = owner;
         }
-        this.buckets.forEach(async (bucket) =>  {
+        const ownerBucketIds = Bucket.getBuckets(owner);
+        let ownerBuckets = [];
+        for (const bucket of ownerBucketIds) {
+            ownerBuckets.push(Bucket.getBucket(bucket));
+        }
+        buckets.forEach(async (bucket) =>  {
             try {
-                await owner.addBucket(bucket);
+                if (!ownerBuckets.includes(bucket)) {
+                    const newBucket = Bucket.createBucket(bucket, user, owner)
+                    updatedBuckets.push(newBucket);
+                }
             } catch (error) {
                 if (error != "Bucket Already Exists") {
                     throw "An unknown error has occured";
@@ -82,7 +102,7 @@ class Task {
         this.body = body;
         this.buckets = Task.parseBuckets(body);
         this.updateBuckets();
-        const newTask = await database.updateTask(this.id, assignees, title, body, this.buckets);
+        const newTask = await database.editTask(this.id, assignees, title, body, this.buckets);
 
     }
 

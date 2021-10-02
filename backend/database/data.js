@@ -149,6 +149,85 @@ function deleteTeam(id) {
 
 /*******************
  * 
+ ******Buckets******
+ * 
+ *******************/
+
+ function getBucket(_id) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("buckets").findOne({_id: ObjectId(_id)})
+        .then((bucket) => {
+            resolve(bucket);
+        });
+    });
+ }
+
+ function getBuckets(owner) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("buckets").find({
+            "$or": [
+                {user: owner},
+                {team: owner}
+            ]
+        }).toArray()
+        .then((buckets) => {
+            resolve(buckets);
+        });
+    });
+ }
+
+ function getBucketByName(owner, name) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("buckets").find({
+            "$or": [
+                {user: owner},
+                {team: owner}
+            ]
+        }).toArray()
+        .then((result) => {
+            resolve(result[0]);
+        })
+    });
+ }
+
+ function createBucket(name, user, team) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("buckets").insertOne(
+            {
+                name,
+                user,
+                team
+            }
+        )
+        .then((result) => {
+            resolve(result);
+        })
+    });
+ }
+
+ function editBucket(_id, name) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("buckets").updateOne({_id: ObjectId(_id)},
+        {
+            "$set": {name}
+        })
+        .then((bucket) => {
+            resolve(bucket);
+        });
+    });
+ }
+
+ function deleteBucket(_id) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("buckets").deleteOne({_id: ObjectId(_id)})
+        .then((bucket) => {
+            resolve(bucket);
+        });
+    });
+}
+
+/*******************
+ * 
  *******TASKS*******
  * 
  *******************/
@@ -180,7 +259,7 @@ function getTask(id) {
     });
 }
 
-function updateTask(id, assignees, title, body, buckets) {
+function editTask(id, assignees, title, body, buckets) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("tasks").updateOne({_id: ObjectId(id)},
         {
@@ -229,10 +308,16 @@ module.exports = {
     updateTeam,
     setTeamBuckets,
     deleteTeam,
+    getBucket,
+    getBucketByName,
+    getBuckets,
+    createBucket,
+    editBucket,
+    deleteBucket,
     getTasks,
     getTeamTasks,
     getTask,
-    updateTask,
+    editTask,
     deleteTask,
     createTask
 }

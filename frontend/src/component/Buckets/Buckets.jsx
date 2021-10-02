@@ -8,6 +8,7 @@ import Popup from '../layout/Popup';
 const Buckets = () => {
     const [buckets, setBuckets] = useState([]);
     const [popup, setPopup] = useState(false);
+    const [addingBucket, setBucketAdd] = useState(false);
     const reload = useToDoContext();
     const setReload = useUpdateToDoContext();
 
@@ -17,8 +18,15 @@ const Buckets = () => {
             if (reload.currentTeam === "") {
                 get("/api/user/getuser")
                 .then((response) => {
+                    let tempBuckets = [];
+                    for (const bucket of response.user.buckets) {
+                        post("/api/buckets/getBucket", {"_id": bucket})
+                        .then((res) => {
+                            tempBuckets.push(res.bucket);
+                        })
+                    }
                     setReload({...reload, reloadBuckets: false});
-                    setBuckets(response.user.buckets);
+                    setBuckets(tempBuckets);
                 })
             } else {
                 post("/api/teams/getTeam", {team: reload.currentTeam})
@@ -29,6 +37,16 @@ const Buckets = () => {
             }
         }
     }, [reload, setReload])
+    
+    function addBucket(text) {
+        post("/api/bucket/addBucket", {"name": text, 'team': reload.team})
+        .then((resJson) => {
+            if (resJson.error === true) {
+                console.log("Add Buckets");
+            }
+            setReload(true);
+        })
+    }
     
     return (
         <div className='buckets'>
@@ -43,8 +61,9 @@ const Buckets = () => {
                 ))}
             </ul>
             <Popup trigger={popup} setTrigger={setPopup}>
-                <h4>Bucket List</h4>
+                <h4 className='item-center'>Bucket List</h4>
                 <div className='bucket-list-sizing'>
+                {addingBucket ? <AddingBucket add={addBucket} cancel={setBucketAdd}/>: null}
                     <ul className='bucket-list-pop'>
                         <div className='bucket-elements-pop'>
                         {buckets.map((bucket, index) => {
@@ -53,9 +72,37 @@ const Buckets = () => {
                         </div>
                     </ul>
                 </div>
-                <button>Add</button>
+                <div className='item-center'>
+                    <button className='btn-sm' onClick={() => setBucketAdd(true)}>Add</button>
+                    <button className='btn-sm' onClick={()=> setPopup(false)}>Close</button>
+                </div>
+
             </Popup>
         </div>
+    )
+}
+
+const AddingBucket = ({add, cancel}) => {
+    const [text, setText] = useState("");
+    let style = {
+        marginTop: 'auto'
+    }
+
+    function editBucket(e) {
+        if (e.keycode === 13) {
+              add(text);
+            }
+        }
+    
+    return (
+        <div className='bucket-add-pop'>
+            <input type="text" className={"visible bucket-item-edit"} value={text}
+            onChange={e => setText(e.target.value)}
+            onKeyDown={editBucket}
+            />
+            <button className='btn-text' style={style} onClick={() => cancel(false)}>Cancel</button>
+        </div>
+
     )
 }
 

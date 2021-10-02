@@ -29,6 +29,12 @@ const AddTask = ({ setReload }) => {
     });
   }
 
+  function cancel() {
+    setTitle("");
+    setBody("");
+    toggleAddTask();
+  }
+
   function handleBody() {
 
     let track = false;
@@ -90,7 +96,7 @@ const AddTask = ({ setReload }) => {
           </div>
           <div className="textarea-container-submit">
             <button>Add</button>
-            <button type="button" onClick={toggleAddTask}>
+            <button type="button" onClick={cancel}>
               Cancel
             </button>
           </div>

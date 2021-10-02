@@ -49,7 +49,8 @@
   --font-gray: #8C979A;
   --login-welcome: rgb(45,204,116);
   --login-form: rgb(40,40,40);
-
+  --button: rgb(52,180,135);
+  --button-hover: rgb(36, 150, 110);
 
 }
 
@@ -72,11 +73,49 @@
   flex-grow: 4;
   align-content: flex-start;
 }
-
+.item-center {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+}
 .highlight:hover {
   color: var(--accent1);
 }
+.btn-text {
+  background: none;
+  padding: 4px 8px 0px 8px;
+  margin: 0px 5px 0px 5px;
+  color: var(--button);
+  outline: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+.btn-text:hover {
+  color: var(--button-hover)
+}
+.btn-sm {
+padding: 4px 8px 4px 8px;
+margin: 5px;
+background-color: var(--button);
+border-radius: 10px;
+color: white;
+outline: none;
+border: none;
+cursor: pointer;
+font-size: 14px;
+}
+.btn-sm:hover {
+  background-color: var(--button-hover);
+}
 
+.btn-md {
+
+}
+.btn-lg {
+
+}
 /* Login Styling */
 .main-login {
   height: 100vh;
@@ -210,6 +249,7 @@ border-radius: 15px;
   height: 420px;
   background-color: var(--mid-gray);
   color: white;
+  border-radius: 20px;
 
 }
 .popup-close {
@@ -305,6 +345,25 @@ background-color: var(--accent1);
   color: white;
   cursor: default;
 }
+
+.bucket-item-edit {
+  display: flex;
+  justify-content: flex-start;
+  outline: none;
+  color: white;
+  border: none;
+  border-bottom: solid 2px var(--top-gray);
+  flex-grow: 4;
+}
+
+.bucket-item {
+  color: white;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.bucket-item:hover {
+  color: var(--accent1);
+}
 .buckets-add {
   display: flex;
   align-items: center;
@@ -328,6 +387,7 @@ background-color: var(--accent1);
   overflow-x: hidden;
   height: 325px ;
 }
+
 .bucket-list-pop {
  display: flex;
  flex-direction: column;
@@ -356,25 +416,10 @@ background-color: var(--accent1);
   justify-content: flex-end;
   align-items: center;
 }
-.bucket-item-edit {
-  display: flex;
-  justify-content: flex-start;
-  outline: none;
-  color: white;
-  border: none;
-  border-bottom: solid 2px var(--top-gray);
-  flex-grow: 4;
-}
 
-.bucket-item {
-  color: white;
-  cursor: pointer;
-  white-space: nowrap;
+.bucket-add-pop {
+display: flex;
 }
-.bucket-item:hover {
-  color: var(--accent1);
-}
-
 
 .selected {
   color: var(--accent1);
