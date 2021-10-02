@@ -26,23 +26,24 @@ class Task {
     }
 
     static async createTask(user, team, assignees, title, body) {
+        const buckets = await Task.parseBuckets(user, team, body);
         const result = await database.createTask(
             user,
             team,
             assignees,
             title,
             body,
-            [])
+            buckets)
         .catch(() => {
             throw "Error Creating Task";
         });
         var task = await Task.getTask(result.ops[0]._id);
-        task.updateBuckets();
         return task;
     }
 
-    static parseBuckets(body) {
+    static async parseBuckets(user, team, body) {
         let buckets = [];
+        let bucketIds = [];
         let track = false;
         for (const char in body) {
             if (body[char] == "#") {
@@ -57,39 +58,32 @@ class Task {
                 buckets[buckets.length-1] = buckets[buckets.length-1].concat(body[char]);
             }
         }
-        return buckets;
+        let owner;
+        if (user != undefined) {
+            owner = user;
+        } else {
+            owner = team;
+        }
+        const ownerBuckets = await Bucket.getBuckets(owner);
+        for (const bucket of buckets) {
+            let found = false;
+            for (const oBucket of ownerBuckets) {
+                if (oBucket.name === bucket) {
+                    found = true;
+                    bucketIds.push(oBucket._id);
+                }
+            }
+            if (!found) {
+                const newBucket = await Bucket.createBucket(bucket, user, team);
+                bucketIds.push(newBucket._id);
+            }
+        }
+
+
+        return bucketIds;
     }
 
     async updateBuckets() {
-        const buckets = parseBuckets(this.body);
-        let updatedBuckets = [];
-        let owner = null;
-        let user = null;
-        let team = null;
-        if (this.user != undefined) {
-            owner = await User.getUser(this.user);
-            user = owner;
-        } else {
-            owner = await Team.getTeam(this.team);
-            team = owner;
-        }
-        const ownerBucketIds = Bucket.getBuckets(owner);
-        let ownerBuckets = [];
-        for (const bucket of ownerBucketIds) {
-            ownerBuckets.push(Bucket.getBucket(bucket));
-        }
-        buckets.forEach(async (bucket) =>  {
-            try {
-                if (!ownerBuckets.includes(bucket)) {
-                    const newBucket = Bucket.createBucket(bucket, user, owner)
-                    updatedBuckets.push(newBucket);
-                }
-            } catch (error) {
-                if (error != "Bucket Already Exists") {
-                    throw "An unknown error has occured";
-                }
-            }
-        })
     }
 
     async deleteTask() {
@@ -100,8 +94,7 @@ class Task {
         this.assignees = assignees;
         this.title = title;
         this.body = body;
-        this.buckets = Task.parseBuckets(body);
-        this.updateBuckets();
+        this.buckets = await Task.parseBuckets(this.user, this.team, body);
         const newTask = await database.editTask(this.id, assignees, title, body, this.buckets);
 
     }

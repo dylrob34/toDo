@@ -1,6 +1,6 @@
 import React from 'react'
 import { FaSun, FaTimes, FaEdit, FaCalendar } from 'react-icons/fa'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { post } from "../../tools/request";
 import { useToDoContext, useUpdateToDoContext } from '../../context/ToDoContext';
 
@@ -13,7 +13,7 @@ const Schedule = () => {
 const Task = ({ task, setReload }) => {
     const [title, setTitle] = useState(task.title)
     const [hover, setHover] = useState(false)
-    const [buckets, setBuckets] = useState(task.buckets)
+    const [buckets, setBuckets] = useState([])
     const [body, setBody] = useState(task.body)
     const [id, setId] = useState(task._id);
     const [reminder, setReminder] = useState(task.reminder)
@@ -22,7 +22,12 @@ const Task = ({ task, setReload }) => {
     const toDoContext = useToDoContext();
     const updateToDoContext = useUpdateToDoContext();
 
-
+    useEffect(() => {
+        post("/api/buckets/getTaskBuckets", {"_id": task._id})
+        .then((res) => {
+            setBuckets(res.buckets);
+        })
+    }, [task.buckets, task._id])
 
     function editTask() {
         post("/api/task/editTask", {

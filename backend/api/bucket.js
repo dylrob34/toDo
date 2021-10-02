@@ -4,6 +4,7 @@ var auth = require("./auth");
 const User = require("../database/models/user");
 const Team = require('../database/models/teams');
 const Bucket = require("../database/models/buckets");
+const Task = require("../database/models/task");
 
 router.post('/createBucket', auth.verifyToken, async function(req, res) {
     const user = await User.getUser(req.authData.user);
@@ -33,6 +34,16 @@ router.post("/getBuckets", auth.verifyToken, async (req, res) => {
     } catch (error) {
         return res.json({error: true, message: error});
     }
+})
+
+router.post("/getTaskBuckets", auth.verifyToken, async (req, res) => {
+    const task = await Task.getTask(req.body._id);
+    let buckets = [];
+    for (const bucket of task.buckets) {
+        const temp = await Bucket.getBucket(bucket);
+        buckets.push(temp.name);
+    }
+    return res.json({buckets});
 })
 
 router.post("/getBucketByName", auth.verifyToken, async (req, res) => {

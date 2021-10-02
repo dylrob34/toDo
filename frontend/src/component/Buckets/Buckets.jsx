@@ -19,12 +19,12 @@ const Buckets = () => {
                 get("/api/user/getuser")
                 .then((response) => {
                     let tempBuckets = [];
-                    for (const bucket of response.user.buckets) {
-                        post("/api/buckets/getBucket", {"_id": bucket})
-                        .then((res) => {
-                            tempBuckets.push(res.bucket);
-                        })
-                    }
+                    post("/api/buckets/getBuckets", {})
+                    .then((res) => {
+                        for (const bucket of res.buckets) {
+                            tempBuckets.push(bucket.name);
+                        }
+                    })
                     setReload({...reload, reloadBuckets: false});
                     setBuckets(tempBuckets);
                 })
