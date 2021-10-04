@@ -23,16 +23,13 @@ router.post("/getBucket", auth.verifyToken, async (req, res) => {
 })
 
 router.post("/getBuckets", auth.verifyToken, async (req, res) => {
-    console.log('Team ' + req.body.team)
-    console.log('User ' + req.authData.user)
     try {
         let buckets = null;
-        if (req.body.team !== "" || req.body.team === 'undefined' || req.body.team === null) {
+        if (typeof(req.body.team) !== "undefined" && req.body.team !== "" && req.body.team !== null) {
             buckets = await Bucket.getBuckets(req.body.team);
         } else {
             buckets = await Bucket.getBuckets(req.authData.user);
         }
-        console.log(buckets)
         return res.json({buckets});
     } catch (error) {
         return res.json({error: true, message: error});
