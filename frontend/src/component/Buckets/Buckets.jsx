@@ -16,18 +16,17 @@ const Buckets = () => {
         // Fetch todos
         if (reload.reloadBuckets === true) {
             if (reload.currentTeam === "") {
-                get("/api/user/getuser")
-                .then((response) => {
-                    let tempBuckets = [];
+                    // let tempBuckets = [];
                     post("/api/buckets/getBuckets", {})
                     .then((res) => {
-                        for (const bucket of res.buckets) {
-                            tempBuckets.push(bucket.name);
-                        }
+                        // for (const bucket of res.buckets) {
+                        //     tempBuckets.push(bucket.name);
+                        // }
+                        setBuckets(res.buckets);
                     })
                     setReload({...reload, reloadBuckets: false});
-                    setBuckets(tempBuckets);
-                })
+
+                
             } else {
                 post("/api/teams/getTeam", {team: reload.currentTeam})
                 .then((res) => {

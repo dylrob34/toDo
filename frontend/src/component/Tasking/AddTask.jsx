@@ -6,9 +6,9 @@ import {
   useUpdateToDoContext,
 } from "../../context/ToDoContext";
 
-const AddTask = ({ setReload }) => {
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+const AddTask = ({ setReload, t, b }) => {
+  const [title, setTitle] = useState(t);
+  const [body, setBody] = useState(b);
 
   // Using custom hooks from AddTaskContext to update context and state.
   const toggleAddTask = useAddTaskUpdate();
@@ -29,10 +29,10 @@ const AddTask = ({ setReload }) => {
     });
   }
 
-  function cancel() {
+  function cancel(e) {
     setTitle("");
     setBody("");
-    toggleAddTask();
+    toggleAddTask(e);
   }
 
   function handleBody() {

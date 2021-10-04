@@ -3,6 +3,7 @@ import { FaSun, FaTimes, FaEdit, FaCalendar } from 'react-icons/fa'
 import { useState, useEffect } from 'react'
 import { post } from "../../tools/request";
 import { useToDoContext, useUpdateToDoContext } from '../../context/ToDoContext';
+import AddTask from './AddTask';
 
 const Schedule = () => {
     return (
@@ -19,6 +20,7 @@ const Task = ({ task, setReload }) => {
     const [reminder, setReminder] = useState(task.reminder)
     const [dueDate, setDueDate] = useState(task.dueDate)
     const [calendar, setCalendar] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
     const toDoContext = useToDoContext();
     const updateToDoContext = useUpdateToDoContext();
 
@@ -100,6 +102,12 @@ const Task = ({ task, setReload }) => {
         setHover(!hover)
     }
 
+    if (isEditing) {
+
+    return (<AddTask setReload={setReload} t={title} b={body} />)
+
+    } else {
+        
     return (
         <div className='task-item'             
         onMouseEnter={handleHover} 
@@ -110,7 +118,7 @@ const Task = ({ task, setReload }) => {
                     <FaSun className='task-icon' onClick={moveTomorrow} />
                     {/* Placeholder for "Move to tomorrow" icon */}
                     <FaCalendar className='task-delete task-icon' onClick={toggleCalendar}/>
-                    <FaEdit className='task-edit task-icon' onClick={editTask} />
+                    <FaEdit className='task-edit task-icon' onClick={() => setIsEditing(true)} />
                     {/* Edit Task */}
                     <FaTimes className='task-delete task-icon' onClick={deleteTask} />
                     {/* Delete */}
@@ -129,9 +137,8 @@ const Task = ({ task, setReload }) => {
             </span>
             {calendar ? <Schedule/> : null}
         </div>
-    )
+    )}
 }
-
 export default Task
 
 

@@ -75,7 +75,7 @@ const Tasks = () => {
                 >Add Task</button>
             </div>
             <div name='AddTaskForm' className={showAddTask ? 'visible' : 'invisible'}>
-                <AddTask setReload={setReload} />
+                <AddTask setReload={setReload} t={''} b={''} />
             </div>
             <div name='taskList' className='task-list'>
                 {tasks.map((task) => {

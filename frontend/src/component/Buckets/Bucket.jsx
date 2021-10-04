@@ -10,7 +10,7 @@ const Bucket = ({ bucket, popup }) => {
   const reload = useToDoContext();
   const setReload = useUpdateToDoContext();
   const [selected, setSelected] = useState(false);
-  const [text, setText] = useState(bucket);
+  const [text, setText] = useState(bucket.name);
   const [isEditing, setIsEditing] = useState(false);
   const [_id, setId] = useState(bucket._id);
 
@@ -18,7 +18,7 @@ const Bucket = ({ bucket, popup }) => {
   const updateToDoContext = useUpdateToDoContext();
 
   useEffect(() => {
-    setText(bucket);
+    setText(bucket.name);
   }, [bucket])
 
   const setCurrentBucket = () => {
