@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../../../Timeblock.css'
+// import '../../Timeblock.css'
 
 const TimeTable1 = () => {
     return (

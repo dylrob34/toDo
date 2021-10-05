@@ -1,5 +1,5 @@
 import React from 'react'
-import TimeTable1 from '../Tables/TimeTable'
+import TimeTable1 from '../Tables/TimeTable1'
 
 const TimeBlock = () => {
     return (

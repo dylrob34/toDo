@@ -658,3 +658,22 @@ flex-direction: row;
     color: var(--accent1);
     cursor: pointer;
   }
+
+  .table{
+    display: table;
+    width: auto;
+    border: 1px solid black;
+}
+
+.table-row {
+    display: table-row;
+    width: auto;
+    clear: both;
+}
+
+.table-col {
+    float: left;
+    display: table-column;
+    width: 150px;
+    border: 1px solid gray;
+}
