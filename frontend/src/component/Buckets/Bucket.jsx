@@ -45,13 +45,16 @@ function showEdit(index) {
 
 
 function deleteBucket() {
+  console.log('Delete Buckets')
   post("/api/bucket/deleteBucket", { "_id": _id, })
-      .then((resJson) => {
-          if (resJson.error === true) {
-              console.log("Delete Buckets");
-          }
-          setReload(true);
-      })
+      .then(res => res.text())
+      .then(text => console.log(text))
+    // .then((resText) => {
+      //     if (resJson.error === true) {
+      //         console.log("Delete Buckets");
+      //     }
+      //     setReload(true);
+      // })
 }
 
 function editBucket(e) {
@@ -82,7 +85,7 @@ function editBucket(e) {
           </div>
         <div className='bucket-icons-pop'>
             <FaEdit className='highlight' onClick={showEdit}/>
-            <FaTimes onClick={deleteBucket}/>
+            <FaTimes className='highlight' onClick={deleteBucket}/>
           </div>
       </div>
       ) : <div onClick={setCurrentBucket} className={selected ? 'bucket-item selected':'bucket-item'}>

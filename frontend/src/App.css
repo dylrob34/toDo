@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  font-family: 'Inter', sans-serif;
 }
 
 .App-logo {
@@ -63,6 +64,7 @@
 }
 
 /* General Page Styling */
+
 .page-config {
   min-height: 100vh;
   height: 100%;
@@ -82,6 +84,7 @@
 .highlight:hover {
   color: var(--accent1);
 }
+
 .btn-text {
   background: none;
   padding: 4px 8px 0px 8px;
@@ -92,9 +95,11 @@
   font-size: 14px;
   cursor: pointer;
 }
+
 .btn-text:hover {
   color: var(--button-hover)
 }
+
 .btn-sm {
 padding: 4px 8px 4px 8px;
 margin: 5px;
@@ -106,6 +111,7 @@ border: none;
 cursor: pointer;
 font-size: 14px;
 }
+
 .btn-sm:hover {
   background-color: var(--button-hover);
 }
@@ -116,6 +122,17 @@ font-size: 14px;
 .btn-lg {
 
 }
+
+.font-header {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+}
+.font-body {
+  font-size: 14px;
+  font-weight: 200;
+}
+
 /* Login Styling */
 .main-login {
   height: 100vh;
@@ -539,15 +556,28 @@ display: flex;
 .task-edit:hover {
   color: var(--accent1);
 }
+  /* Task List Styling */
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 .task-item {
   display: flex;
   flex-direction: column;
-  margin: 25px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  margin-left: auto;
+  margin-right: auto;
   padding: 5px;
   border: solid 0.5px var(--top-gray);
   color: white;
   min-height: 50px;
+  min-width: 600px;
+  width: 1000px;
+  max-width: 1000px;
 }
 .task-element {
   margin: 0px 0px 0px 10px;
@@ -557,6 +587,7 @@ display: flex;
 .task-header{
   display: flex;
   flex-direction: row;
+
 }
 .task-title{
   margin-right: auto;
@@ -629,13 +660,6 @@ flex-direction: row;
     color: var(--accent1);
   }
 
-
-  /* Task List Styling */
-
-  .task-list {
-    display: flex;
-    flex-direction: column;
-  }
 
   /* Dropdown Styling */
 

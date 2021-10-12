@@ -113,7 +113,7 @@ const Task = ({ task, setReload }) => {
         onMouseOver={handleHover} 
         onMouseOut={handleHover}>
             <div className='task-header'>
-                <h3 className='task-element task-title'>{title}</h3>
+                <div className='task-element task-title font-header'>{title}</div>
                 <div className={`'task-icons' ${hover ? 'task-icons-hover' : ' invisible-icons'}`}>
                     <FaSun className='task-icon' onClick={moveTomorrow} />
                     {/* Placeholder for "Move to tomorrow" icon */}
@@ -124,7 +124,7 @@ const Task = ({ task, setReload }) => {
                     {/* Delete */}
                 </div>
             </div>
-            <div className='task-body'>
+            <div className='task-body font-body'>
                 <p name='taskdetails' className='task-element task-details'>{parseBody()}</p>
                 <div className='task-buckets'>
                     {buckets.map((bucket, index) => (
