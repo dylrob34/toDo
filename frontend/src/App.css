@@ -239,7 +239,7 @@ border-radius: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0,0,0,0.2);
+  background-color: rgba(0,0,0,0.7);
 }
 .popup-inner  {
   position: relative;
@@ -499,8 +499,7 @@ display: flex;
   }
   .task-area2 {
     height: 100px;
-    padding: 2px;
-    margin: 2px 12px 2px 16px;
+    margin: 2px 8px 2px 10px;
     overflow: auto;
     resize: both;
     -moz-appearance: textfield-multiline;

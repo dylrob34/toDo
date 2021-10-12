@@ -1,7 +1,6 @@
 const { MongoClient, ObjectId } = require("mongodb");
 
 
-
 // Connection URI
 const uri = "mongodb+srv://" + process.env.DB_USER + ":" + process.env.DB_PASS + "@todo.5yfiz.mongodb.net/toDo?retryWrites=true&w=majority";
 // Create a new MongoClient

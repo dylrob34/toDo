@@ -71,13 +71,12 @@ const AddTask = ({ setReload, t, b }) => {
               placeholder="Task Title..."
               value={title}
             ></textarea>
-            <br />
             <textarea
               onChange={(e) => setBody(e.target.value)}
               name="taskDetails"
               id=""
               cols="85"
-              rows="6"
+              rows="5"
               className="task-area2"
               placeholder="Task Details..."
               value={body}
