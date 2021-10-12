@@ -110,8 +110,8 @@ const Task = ({ task, setReload }) => {
         
     return (
         <div className='task-item'             
-        onMouseEnter={handleHover} 
-        onMouseLeave={handleHover}>
+        onMouseOver={handleHover} 
+        onMouseOut={handleHover}>
             <div className='task-header'>
                 <h3 className='task-element task-title'>{title}</h3>
                 <div className={`'task-icons' ${hover ? 'task-icons-hover' : ' invisible-icons'}`}>
