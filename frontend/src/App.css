@@ -94,10 +94,12 @@
   border: none;
   font-size: 14px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .btn-text:hover {
-  color: var(--button-hover)
+  color: var(--button-hover);
+  text-decoration: underline;
 }
 
 .btn-sm {
@@ -120,7 +122,16 @@ font-size: 14px;
 
 }
 .btn-lg {
-
+padding: 10px 96px 10px 96px;
+margin: 5px;
+background-color: var(--button);
+border-radius: 10px;
+color: white;
+color: white;
+outline: none;
+border: none;
+cursor: pointer;
+font-size: 14px;
 }
 
 .font-header {
@@ -139,7 +150,16 @@ font-size: 14px;
   width: 100%;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   background-color: var(--base-gray);
+}
+.login-title {
+  position: absolute;
+  top: 25px;
+  left: 10px;
+  color: white;
+  font-weight: 600;
+  font-size: 22px;
 }
 /* .welcome-side{
   height: 100vh;
@@ -176,6 +196,39 @@ border-radius: 15px;
   align-items: center;
   flex-direction: column;
 }
+.form-element {
+  width: 380px;
+  height: 64px;
+  text-align: left;
+  margin: 10px 0px 10px 0px;
+}
+.form-item {
+  margin: 15px 0px 10px 0px;
+}
+.login-input {
+  padding: 2px 4px 2px 4px;
+  width: 360px;
+  height: 28px;
+  margin: 5px;
+  border-radius: 10px;
+  outline:none;
+  font-size: 14px;
+  color: white;
+  background-color:rgba(0,0,0,0.2);
+}
+.login-label1 {
+  position: relative;
+  padding-left:8px;
+  opacity: 1;
+  color: var(--button);
+}
+.login-label2 {
+  position: relative;
+  padding-left:8px;
+  opacity: 0.4;
+  color: white;
+}
+
 /* NavBar styling */
 .navbar-start {
   position: fixed;
