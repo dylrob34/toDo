@@ -75,6 +75,12 @@
   flex-grow: 4;
   align-content: flex-start;
 }
+.flex-spacer-end {
+  flex-grow: 4;
+  justify-content: flex-end;
+  margin-right: 1.2rem;
+
+}
 .item-center {
   display: flex;
   align-items: center;
@@ -504,6 +510,45 @@ display: flex;
   /* height: 100%; */
   width: 85%;
 }
+
+.menu-container {
+display: flex;
+flex-direction: row;
+background-color: var(--mid-gray);
+border-top: solid 2px var(--top-gray);
+padding: 5px;
+align-items: center;
+}
+
+.menu-element {
+display: flex;
+flex-direction: row;
+align-items: center;
+color: white;
+padding: 5px 10px 5px 10px;
+}
+.menu-element:hover {
+  background-color: var(--base-gray);
+  border-radius: 8px;
+  color: var(--button);
+  cursor: pointer;
+  user-select: none;
+}
+.menu-item {
+padding: 0px 3px 0px 3px;
+}
+
+.menu-sort {
+display: flex;
+margin-right: 1%;
+}
+/* .menu-sort:hover {
+justify-content: flex-start;
+background-color: var(--base-gray);
+border-radius: 8px;
+color: var(--button);
+cursor: pointer;
+} */
 
 .add-task-container {
   position: relative;
