@@ -12,6 +12,7 @@ import { AddTaskProvider } from './context/AddTaskContext';
 import {get} from "./tools/request";
 import { ToDoProvider } from './context/ToDoContext';
 import TimeBlock from './component/pages/TimeBlock';
+import { CounterProvider } from './context/CounterContext';
 
 const domain = "localhost"
 
@@ -46,10 +47,11 @@ function App() {
           <Route exact path='/signup' component={ SignUp }></Route>
           <Route path='/todo' render={ routeProps => (
             <ToDoProvider>
-              <ToDo {...routeProps}/>
+              <CounterProvider>
+                <ToDo {...routeProps}/>
+              </CounterProvider>
             </ToDoProvider>
             )}>
-
           </Route>
           <Route exact path='/timeblock' component={ TimeBlock }></Route>
         </Switch>

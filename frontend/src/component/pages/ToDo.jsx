@@ -1,16 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Redirect } from "react-router";
-import { getLoggedIn } from "../../context/loggedInState";
 import Tasks from "../Tasking/Tasks";
 import Buckets from "../Buckets/Buckets";
 import Sort from "../layout/Sort";
+import { FaPlus, FaSort } from 'react-icons/fa';
+
+// Importing custom hooks from our context components for use in this function comp.
+import { useCounter, useCounterUpdate } from "../../context/CounterContext";
 import { useToDoContext, useUpdateToDoContext } from "../../context/ToDoContext";
-import { FaPlus, FaSort } from 'react-icons/fa'
+import { getLoggedIn } from "../../context/loggedInState";
+
 
 const ToDo = (props) => {
   const toDoContext = useToDoContext();
   const setToDoContext = useUpdateToDoContext();
+  const counter = useCounter();
+  const counterUpdate = useCounterUpdate();
+  const [c, setC] = useState(false)
   const [sort, setSort] = useState(false);
+
+  useEffect( () => {
+
+    if(counter > 3) {
+      setC(true)
+    } else {
+        console.log(counter)
+    }
+    if(c === true) {
+      counterUpdate(0)
+      setC(false)
+    }
+  }, [counter])
+
 
   useEffect(() => {
     var teamName = props.location.pathname.substring(5, props.location.pathname.length);
@@ -26,6 +47,10 @@ const ToDo = (props) => {
 
   function toggleSort() {
     setSort(!sort)
+    // counterUpdate()
+  }
+  function counterAdd(){
+    counterUpdate()
   }
 
   return (
@@ -60,11 +85,14 @@ const ToDo = (props) => {
               <div className='menu-item'>New Task</div>
             </div>
             <div className='flex-spacer-end'></div>
-            <div className='menu-element menu-sort' onClick={toggleSort}>
-              <FaSort className='menu-item'/>
-              <div className='menu-item'>Sort</div>
-              <div className={sort ? 'visible':'invisible'}><Sort/></div>
-            </div>
+              <div className='menu-element menu-sort' onClick={counterAdd}
+              onMouseOver={toggleSort}
+              onMouseOut={toggleSort}
+              >
+                <FaSort className='menu-item'/>
+                <div className='menu-item'>Sort</div>
+                <div className={sort ? 'visible':'invisible'}><Sort/></div>
+              </div>
           </div>
           <div className="task-textedit">
             <Tasks className="tasks" />
