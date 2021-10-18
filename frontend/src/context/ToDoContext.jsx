@@ -2,7 +2,8 @@ import React, { useContext, createContext, useState } from 'react'
 
 const toDoContext = createContext();
 const updateToDoContext = createContext();
-
+const CounterContext = React.createContext();
+const CounterUpdateContext = React.createContext();
 
 // Custom Hooks that give us easy access to these values:
 export function useToDoContext() {
@@ -11,6 +12,13 @@ export function useToDoContext() {
 export function useUpdateToDoContext() {
     return useContext(updateToDoContext)
 }
+export function useCounter() {
+    return useContext(CounterContext)
+}
+export function useCounterUpdate() {
+    return useContext(CounterUpdateContext)
+}
+
 
 // Main Add Task Provider:
 // Creating our state
@@ -22,12 +30,22 @@ export function ToDoProvider({ children }) {
             currentBucket: [],
             currentTeam: ""
         })
+        const [counter, setCounter] = useState(0)
+
+        function incCounter() {
+            setCounter(counter + 1)
+    
+        }
 
     // Passing both of these values down into our children.
     return (
         <toDoContext.Provider value={toDo}>
             <updateToDoContext.Provider value={setToDo}> 
-                {children}
+                <CounterContext.Provider value={counter}>
+                    <CounterUpdateContext.Provider value={incCounter}>
+                        {children}
+                    </CounterUpdateContext.Provider>
+                </CounterContext.Provider>
             </updateToDoContext.Provider>
         </toDoContext.Provider>
     )

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 // Importing custom hooks from our context components for use in this function comp.
-import { useCounter, useCounterUpdate } from "../../context/CounterContext";
+import { useCounter, useCounterUpdate } from "../../context/ToDoContext";
 
 const Sort = () => {
     const counter = useCounter();

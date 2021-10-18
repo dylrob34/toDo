@@ -6,7 +6,7 @@ import Sort from "../layout/Sort";
 import { FaPlus, FaSort } from 'react-icons/fa';
 
 // Importing custom hooks from our context components for use in this function comp.
-import { useCounter, useCounterUpdate } from "../../context/CounterContext";
+import { useCounter, useCounterUpdate } from "../../context/ToDoContext";
 import { useToDoContext, useUpdateToDoContext } from "../../context/ToDoContext";
 import { getLoggedIn } from "../../context/loggedInState";
 
@@ -16,19 +16,29 @@ const ToDo = (props) => {
   const setToDoContext = useUpdateToDoContext();
   const counter = useCounter();
   const counterUpdate = useCounterUpdate();
-  const [c, setC] = useState(false)
+  const [reset, setReset] = useState(false)
   const [sort, setSort] = useState(false);
 
   useEffect( () => {
-
     if(counter > 3) {
-      setC(true)
+      setReset(true)
+      // if(reset === true) {
+      //   counterUpdate(counter - 3)
+      //   setReset(false)
+      //   console.log("if loop: " + counter)
+      //   console.log("Reset state: " + reset )
+      // }
     } else {
-        console.log(counter)
+      console.log(counter)
     }
-    if(c === true) {
+  }, [reset])
+  useEffect(() => {
+    if(reset === true) {
       counterUpdate(0)
-      setC(false)
+      setReset(false)
+      console.log(counter)
+    } else {
+      console.log(counter)
     }
   }, [counter])
 
