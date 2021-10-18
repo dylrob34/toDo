@@ -1,10 +1,10 @@
 import React from 'react'
-import TimeTable1 from '../Tables/TimeTable1'
+import TimeTable2 from '../Tables/TimeTable2'
 
 const TimeBlock = () => {
     return (
         <div>
-            <TimeTable1 />
+            <TimeTable2 />
         </div>
     )
 }

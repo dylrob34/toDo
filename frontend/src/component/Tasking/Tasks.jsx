@@ -20,7 +20,7 @@ const Tasks = () => {
     const setToDoContext = useUpdateToDoContext();
 
     useEffect(() => {
-        // Fetch todos
+        // Fetch task items
         if (loggedIn === true && toDoContext.reloadTasks === true) {
             if (toDoContext.currentTeam === "") {
                 get("/api/task/getTasks")

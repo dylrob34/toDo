@@ -9,6 +9,7 @@ import { FaPlus, FaSort } from 'react-icons/fa';
 import { useCounter, useCounterUpdate } from "../../context/ToDoContext";
 import { useToDoContext, useUpdateToDoContext } from "../../context/ToDoContext";
 import { getLoggedIn } from "../../context/loggedInState";
+import { useAddTask, useAddTaskUpdate } from '../../context/AddTaskContext'
 
 
 const ToDo = (props) => {
@@ -16,6 +17,7 @@ const ToDo = (props) => {
   const setToDoContext = useUpdateToDoContext();
   const counter = useCounter();
   const counterUpdate = useCounterUpdate();
+  const toggleAddTask = useAddTaskUpdate();
   const [reset, setReset] = useState(false)
   const [sort, setSort] = useState(false);
 
@@ -92,7 +94,7 @@ const ToDo = (props) => {
             <div className='menu-element'>Bucket Name Here</div>
             <div className='menu-element'>
               <FaPlus className='menu-item'/>
-              <div className='menu-item'>New Task</div>
+              <div className='menu-item' onClick={toggleAddTask}>New Task</div>
             </div>
             <div className='flex-spacer-end'></div>
               <div className='menu-element menu-sort' onClick={counterAdd}
