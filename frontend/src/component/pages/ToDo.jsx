@@ -23,26 +23,12 @@ const ToDo = (props) => {
 
   useEffect( () => {
     if(counter > 3) {
-      setReset(true)
-      // if(reset === true) {
-      //   counterUpdate(counter - 3)
-      //   setReset(false)
-      //   console.log("if loop: " + counter)
-      //   console.log("Reset state: " + reset )
-      // }
-    } else {
-      console.log(counter)
-    }
-  }, [reset])
-  useEffect(() => {
-    if(reset === true) {
       counterUpdate(0)
-      setReset(false)
-      console.log(counter)
     } else {
       console.log(counter)
     }
   }, [counter])
+
 
 
   useEffect(() => {
@@ -62,7 +48,7 @@ const ToDo = (props) => {
     // counterUpdate()
   }
   function counterAdd(){
-    counterUpdate()
+    counterUpdate(counter + 1)
   }
 
   return (

@@ -30,19 +30,17 @@ export function ToDoProvider({ children }) {
             currentBucket: [],
             currentTeam: ""
         })
-        const [counter, setCounter] = useState(0)
 
-        function incCounter() {
-            setCounter(counter + 1)
+    const [counter, setCounter] = useState(0)
+
     
-        }
 
     // Passing both of these values down into our children.
     return (
         <toDoContext.Provider value={toDo}>
             <updateToDoContext.Provider value={setToDo}> 
                 <CounterContext.Provider value={counter}>
-                    <CounterUpdateContext.Provider value={incCounter}>
+                    <CounterUpdateContext.Provider value={setCounter}>
                         {children}
                     </CounterUpdateContext.Provider>
                 </CounterContext.Provider>

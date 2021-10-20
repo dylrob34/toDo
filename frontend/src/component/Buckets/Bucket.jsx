@@ -46,20 +46,18 @@ function showEdit(index) {
 
 function deleteBucket() {
   console.log('Delete Buckets')
-  post("/api/bucket/deleteBucket", { "_id": _id, })
-      .then(res => res.text())
-      .then(text => console.log(text))
-    // .then((resText) => {
-      //     if (resJson.error === true) {
-      //         console.log("Delete Buckets");
-      //     }
-      //     setReload(true);
-      // })
+  post("/api/buckets/deleteBucket", { "_id": _id, })
+    .then((resJson) => {
+          if (resJson.error === true) {
+              console.log("Delete Buckets");
+          }
+          setReload(true);
+      })
 }
 
 function editBucket(e) {
   if (e.keycode === 13 && isEditing) {
-        post("/api/bucket/editBucket", { "_id": _id, "name": text })
+        post("/api/buckets/editBucket", { "_id": _id, "name": text })
         .then((resJson) => {
             if (resJson.error === false) {
                 console.log("Edit Buckets");

@@ -6,15 +6,19 @@ import TimeCell from './TimeCell'; // Don't know if need a different type of cel
 
 
 const TimeTable2 = () => {
-    const [divisions, setDivisions] = useState(0)
+    // const [divisions, setDivisions] = useState(0)
     var timerows = [];
 
     function timeLoop() {
-        for(var i = 0; i < 3; i++) {
+        for(var i = 0; i < 39; i++) {
             timerows.push(< TimeCell key={i} />)
         }
         return <div>{timerows}</div>
     }
+
+    // function cellLoop() {
+    //     for()
+    // }
 
     return (
         <div className='table'>
@@ -24,6 +28,7 @@ const TimeTable2 = () => {
             </div>
             <div className='table-col' id='sunday'>
                 Sunday
+                {/* {cellLoop()} */}
             </div>
             <div className='table-col' id='monday'>
                 Monday

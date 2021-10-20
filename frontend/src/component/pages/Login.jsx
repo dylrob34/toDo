@@ -34,7 +34,7 @@ return (
             <div className="form-inner">
                 {(error !=="") ? ((<div className='error'>{error}</div>)) : ""}
                 <div className="form-element">
-                    <label htmlFor="email" className='login-label1'>USERNAME/EMAIL: </label>
+                    <label htmlFor="email" className='login-label2'>USERNAME/EMAIL: </label>
                     <input type="email" name="email" id="email" className='login-input'
                     // On change for event e, call setDetails pulling in what details already is + the value of the event (keystroke)
                     // then set the value of the state email in details to ...details + the new keystroke.
