@@ -25,7 +25,7 @@ const Bucket = ({ bucket, popup }) => {
     if (selected) {
       setSelected(false);
       var currentBuckets = toDoContext.currentBucket;
-      const index = currentBuckets.indexOf(bucket);
+      const index = currentBuckets.indexOf(bucket._id);
       if (index > -1) {
         currentBuckets.splice(index, 1);
       }
@@ -33,7 +33,7 @@ const Bucket = ({ bucket, popup }) => {
     } else {
       setSelected(true);
       let currentBuckets = toDoContext.currentBucket;
-      currentBuckets.push(bucket)
+      currentBuckets.push(bucket._id)
       updateToDoContext({ ...toDoContext, currentBucket: currentBuckets});
     }
   };
