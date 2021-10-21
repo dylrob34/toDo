@@ -115,7 +115,7 @@ const Task = ({ task, setReload }) => {
         onMouseOut={() => handleHover(false)}>
             <div className='task-header'>
                 <FaRegCircle onClick={ () => {setCompleteTask(!completeTask)}} className={completeTask ? 'invisible':'visible task-complete'}/>
-                <FaCheckCircle onClick={ () => {setCompleteTask(!completeTask)}} className={completeTask ? 'visible':'invisible'}/>
+                <FaCheckCircle onClick={ () => {setCompleteTask(!completeTask)}} className={completeTask ? 'visible task-complete':'invisible'}/>
                 <div className='task-element task-title font-header'>{title}</div>
                 <div className={`'task-icons' ${hover ? 'task-icons-hover' : ' invisible-icons'}`}>
                     <FaSun className='task-icon' onClick={moveTomorrow} />
