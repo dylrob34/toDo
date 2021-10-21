@@ -1,6 +1,6 @@
 const database = require("../data");
 const User = require("./user");
-const Team = require("./teams")
+const Team = require("./teams");
 
 class Bucket {
     constructor(_id, name, user, team)  {
@@ -54,9 +54,15 @@ class Bucket {
     }
 
     async deleteBucket() {
-        database.deleteBucket(this._id);
         if (this.user !== undefined) {
             let user = User.getUser(this.user);
+            let tasks = database.getTasks(this.user);
+            for (task of tasks) {
+                if (task.buckets.includes(this.name)){
+                    throw "Bucket Still In Use"
+                }
+            }
+            database.deleteBucket(this._id);
             await user.deleteBucket(this._id);
         } else {
             let team = Team.getTeam(this.team);

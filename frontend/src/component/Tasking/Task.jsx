@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaSun, FaTimes, FaEdit, FaCalendar } from 'react-icons/fa'
+import { FaSun, FaTimes, FaEdit, FaCalendar, FaCheckCircle, FaRegCircle, FaRegCheckCircle } from 'react-icons/fa'
 import { useState, useEffect } from 'react'
 import { post } from "../../tools/request";
 import { useToDoContext, useUpdateToDoContext } from '../../context/ToDoContext';
@@ -21,6 +21,7 @@ const Task = ({ task, setReload }) => {
     const [dueDate, setDueDate] = useState(task.dueDate)
     const [calendar, setCalendar] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const [completeTask, setCompleteTask] = useState(false)
     const toDoContext = useToDoContext();
     const updateToDoContext = useUpdateToDoContext();
 
@@ -98,30 +99,30 @@ const Task = ({ task, setReload }) => {
         setCalendar(!calendar);
     }
     
-    function handleHover() {
-        setHover(!hover)
+    function handleHover(input) {
+        setHover(input)
     }
 
     if (isEditing) {
 
-    return (<AddTask setReload={setReload} t={title} b={body} />)
+    return (<AddTask setReload={setReload} t={title} b={body} cancelEdit={() => {setIsEditing(false); handleHover(false)}}/>)
 
     } else {
         
     return (
         <div className='task-item'             
-        onMouseOver={handleHover} 
-        onMouseOut={handleHover}>
+        onMouseOver={() => handleHover(true)} 
+        onMouseOut={() => handleHover(false)}>
             <div className='task-header'>
+                <FaRegCircle onClick={ () => {setCompleteTask(!completeTask)}} className={completeTask ? 'invisible':'visible task-complete'}/>
+                <FaCheckCircle onClick={ () => {setCompleteTask(!completeTask)}} className={completeTask ? 'visible':'invisible'}/>
                 <div className='task-element task-title font-header'>{title}</div>
                 <div className={`'task-icons' ${hover ? 'task-icons-hover' : ' invisible-icons'}`}>
                     <FaSun className='task-icon' onClick={moveTomorrow} />
                     {/* Placeholder for "Move to tomorrow" icon */}
                     <FaCalendar className='task-delete task-icon' onClick={toggleCalendar}/>
                     <FaEdit className='task-edit task-icon' onClick={() => setIsEditing(true)} />
-                    {/* Edit Task */}
                     <FaTimes className='task-delete task-icon' onClick={deleteTask} />
-                    {/* Delete */}
                 </div>
             </div>
             <div className='task-body font-body'>

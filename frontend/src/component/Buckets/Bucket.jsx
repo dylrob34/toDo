@@ -46,12 +46,12 @@ function showEdit(index) {
 
 function deleteBucket() {
   console.log('Delete Buckets')
-  post("/api/buckets/deleteBucket", { "_id": _id, })
+  post("/api/buckets/deleteBucket", { "bucket": _id, })
     .then((resJson) => {
           if (resJson.error === true) {
-              console.log("Delete Buckets");
+              console.log("Error");
           }
-          setReload(true);
+          setReload({...reload, reloadBuckets: true});
       })
 }
 
@@ -64,7 +64,7 @@ function editBucket(e) {
             } else {
               console.log("error editing bucket");
             }
-            setReload(true);
+            setReload({...reload, reloadBuckets: true});
         })
       }
   }

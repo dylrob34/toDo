@@ -39,7 +39,10 @@ class User {
 
     static async getUser(email) {
         const user = await database.getUser(email);
-        return new User(user.email, user.password, user.firstName, user.lastName, user.buckets);
+        const buckets = user.buckets.map((buck) => {
+            return buck.toString()
+        })
+        return new User(user.email, user.password, user.firstName, user.lastName, buckets);
     }
 
     async addBucket(bucket) {
@@ -51,11 +54,11 @@ class User {
         this.buckets = await User.getUser(this.email).buckets;
     }
 
-    deleteBucket(bucket) {
+    async deleteBucket(bucket) {
         if (this.buckets.includes(bucket)) {
             const index = this.buckets.indexOf(bucket);
             this.buckets.splice(index, 1);
-            database.setBuckets(this.email, this.buckets);
+            await database.setBuckets(this.email, this.buckets);
         } else {
             throw "Bucket Does Not Exist";
         }

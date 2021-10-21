@@ -9,13 +9,13 @@ const Buckets = () => {
     const [buckets, setBuckets] = useState([]);
     const [popup, setPopup] = useState(false);
     const [addingBucket, setBucketAdd] = useState(false);
-    const reload = useToDoContext();
-    const setReload = useUpdateToDoContext();
+    const toDoContext = useToDoContext();
+    const setToDoContext = useUpdateToDoContext();
 
     useEffect(() => {
         // Fetch todos
-        if (reload.reloadBuckets === true) {
-            if (reload.currentTeam === "") {
+        if (toDoContext.reloadBuckets === true) {
+            if (toDoContext.currentTeam === "") {
                     // let tempBuckets = [];
                     post("/api/buckets/getBuckets", {})
                     .then((res) => {
@@ -24,26 +24,26 @@ const Buckets = () => {
                         // }
                         setBuckets(res.buckets);
                     })
-                    setReload({...reload, reloadBuckets: false});
+                    setToDoContext({...toDoContext, reloadBuckets: false});
 
                 
             } else {
-                post("/api/teams/getTeam", {team: reload.currentTeam})
+                post("/api/teams/getTeam", {team: toDoContext.currentTeam})
                 .then((res) => {
-                    setReload({...reload, reloadBuckets: false});
+                    setToDoContext({...toDoContext, reloadBuckets: false});
                     setBuckets(res.team.buckets);
                 })
             }
         }
-    }, [reload, setReload])
+    }, [toDoContext.reload])
     
     function addBucket(text) {
-        post("/api/bucket/addBucket", {"name": text, 'team': reload.team})
+        post("/api/bucket/addBucket", {"name": text, 'team': toDoContext.team})
         .then((resJson) => {
             if (resJson.error === true) {
                 console.log("Add Buckets");
             }
-            setReload(true);
+            setToDoContext({...toDoContext, reloadBuckets: true});
         })
     }
     

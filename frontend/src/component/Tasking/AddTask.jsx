@@ -6,7 +6,7 @@ import {
   useUpdateToDoContext,
 } from "../../context/ToDoContext";
 
-const AddTask = ({ setReload, t, b }) => {
+const AddTask = ({ setReload, t, b, cancelEdit }) => {
   const [title, setTitle] = useState(t);
   const [body, setBody] = useState(b);
 
@@ -32,7 +32,11 @@ const AddTask = ({ setReload, t, b }) => {
   function cancel(e) {
     setTitle("");
     setBody("");
-    toggleAddTask(e);
+    if (cancelEdit === null) {
+      toggleAddTask(e);
+    } else {
+      cancelEdit();
+    }
   }
 
   function handleBody() {

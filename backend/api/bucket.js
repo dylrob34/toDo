@@ -68,12 +68,13 @@ router.post('/editBucket', auth.verifyToken, async function(req, res) {
 
 router.post('/deleteBucket', auth.verifyToken, async function(req, res) {
     const user = await User.getUser(req.authData.user);
+    console.log(req.body.bucket);
     try {
         await user.deleteBucket(req.body.bucket);
     } catch (error) {
         return res.json({error: true, message: error});
     }
-    res.json({error: false});
+    return res.json({error: false});
 });
 
 
