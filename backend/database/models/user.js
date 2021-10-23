@@ -58,7 +58,7 @@ class User {
         if (this.buckets.includes(bucket)) {
             const index = this.buckets.indexOf(bucket);
             this.buckets.splice(index, 1);
-            await database.setBuckets(this.email, this.buckets);
+            return await database.setBuckets(this.email, this.buckets);
         } else {
             throw "Bucket Does Not Exist";
         }

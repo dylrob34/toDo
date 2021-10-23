@@ -68,8 +68,19 @@ router.post('/editBucket', auth.verifyToken, async function(req, res) {
 
 router.post('/deleteBucket', auth.verifyToken, async function(req, res) {
     const user = await User.getUser(req.authData.user);
-    console.log(req.body.bucket);
+    let bucket = null;
     try {
+        bucket = await Bucket.getBucket(req.body.bucket);
+    } catch (error) {
+        return res.json({error: true, message: "Bucket Does Not Exist"})
+    }
+    const tasks = await Task.getTasksWithBuckets(user.email, bucket._id);
+    
+    if (tasks.length !== 0 ) {
+        return res.json({error: true, message: "Bucket Still In Use"});
+    }
+    try {
+        await bucket.deleteBucket();
         await user.deleteBucket(req.body.bucket);
     } catch (error) {
         return res.json({error: true, message: error});

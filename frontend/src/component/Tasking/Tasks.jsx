@@ -44,7 +44,7 @@ const Tasks = () => {
                 <Redirect to="/login" />
             )
         }
-    }, [toDoContext.currentTeam, toDoContext.reloadTasks, tasks, loggedIn])
+    }, [toDoContext, tasks, loggedIn])
 
 
 

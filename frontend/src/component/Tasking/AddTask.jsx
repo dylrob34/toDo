@@ -6,7 +6,7 @@ import {
   useUpdateToDoContext,
 } from "../../context/ToDoContext";
 
-const AddTask = ({ setReload, t, b, cancelEdit }) => {
+const AddTask = ({ setReload, t, b, cancelEdit, edit }) => {
   const [title, setTitle] = useState(t);
   const [body, setBody] = useState(b);
 
@@ -16,6 +16,13 @@ const AddTask = ({ setReload, t, b, cancelEdit }) => {
   const updateToDoContext = useUpdateToDoContext();
 
   function submitTask(e) {
+
+    if (edit !== undefined) {
+      cancelEdit();
+      edit(title, body);
+      return;
+    }
+
     toggleAddTask(e);
     post("/api/task/createTask", { title, body }).then((resJson) => {
       if (resJson.error === true) {
@@ -38,6 +45,7 @@ const AddTask = ({ setReload, t, b, cancelEdit }) => {
       cancelEdit();
     }
   }
+
 
   function handleBody() {
 
@@ -98,7 +106,7 @@ const AddTask = ({ setReload, t, b, cancelEdit }) => {
             >{body}</div> */}
           </div>
           <div className="textarea-container-submit">
-            <button>Add</button>
+            <button name='Submit'>{edit === undefined ? "Add" : "Edit"}</button>
             <button type="button" onClick={cancel}>
               Cancel
             </button>

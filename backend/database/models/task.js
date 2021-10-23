@@ -25,6 +25,11 @@ class Task {
         return new Task(temp._id, temp.user, temp.team, temp.assignees, temp.title, temp.body, temp.buckets);
     }
 
+    static async getTasksWithBuckets(user, bucket) {
+        const buckets = await database.getTasksWithBucket(user, bucket);
+        return buckets;
+    }
+
     static async createTask(user, team, assignees, title, body) {
         const buckets = await Task.parseBuckets(user, team, body);
         const result = await database.createTask(

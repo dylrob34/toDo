@@ -43,15 +43,25 @@
   --highlight_color: #61dafb;
   --accent1: #2e8b57;
   --accent2: #2574A9;
-  --base-gray: rgb(31,31,31) ;
-  --mid-gray: rgb(40,40,40) ;
-  --top-gray: rgb(54,54,54) ;
   --accent3: #006400;
-  --font-gray: #8C979A;
+
   --login-welcome: rgb(45,204,116);
   --login-form: rgb(40,40,40);
   --button: rgb(52,180,135);
   --button-hover: rgb(36, 150, 110);
+
+  --task-shadow: 0 0 5px rgba(0,0,0,.05), 2px 2px 5px rgba(0,0,0,.1);
+  --font-gray: #8C979A;
+
+  /* Color Palete Colors */
+  --primary-green: #34B487;
+  --bgrnd-green: #1B5C45;
+  --accent-green: #74C4A8;
+  --base-gray: rgb(31,31,31) ;
+  --mid-gray: rgb(40,40,40) ;
+  --mid-gray2: rgb(45,45,45);
+  --top-gray: rgb(54,54,54) ;
+  --top-gray2: #3b3b3b; /*(59,59,59)*/
 
 }
 
@@ -669,12 +679,15 @@ cursor: pointer;
   margin-left: auto;
   margin-right: auto;
   padding: 6px;
-  border: solid 0.5px var(--top-gray);
+  border: solid 0.5px var(--mid-gray);
+  border-radius: 6px;
+  box-shadow: var(--task-shadow);
   color: white;
   min-height: 50px;
   min-width: 600px;
   width: 1000px;
   max-width: 1000px;
+  background-color: var(--mid-gray2);
 }
 .task-element {
   margin: 0px 0px 0px 10px;

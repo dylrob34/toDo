@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaSun, FaTimes, FaEdit, FaCalendar, FaCheckCircle, FaRegCircle, FaRegCheckCircle } from 'react-icons/fa'
+import { FaSun, FaTimes, FaEdit, FaCalendar, FaCheckCircle, FaRegCircle, FaRegCheckCircle, FaCheckSquare, FaRegSquare } from 'react-icons/fa'
 import { useState, useEffect } from 'react'
 import { post } from "../../tools/request";
 import { useToDoContext, useUpdateToDoContext } from '../../context/ToDoContext';
@@ -30,19 +30,23 @@ const Task = ({ task, setReload }) => {
         .then((res) => {
             setBuckets(res.buckets);
         })
-    }, [task.buckets, task._id])
+        setId(task._id);
+        setTitle(task.title);
+        setBody(task.body);
+    }, [task])
 
-    function editTask() {
+
+    function editTask(t, b) {
         post("/api/task/editTask", {
             "id": id,
-            title,
-            body
+            title: t,
+            body: b
         })
             .then((resJson) => {
                 if (resJson.error === true) {
                     console.log("Error submiting new task");
                 } else {
-                    updateToDoContext({...toDoContext, reloadBuckets: true})
+                    updateToDoContext({...toDoContext, reloadBuckets: true, reloadTasks: true})
                     setReload(true);
                 }
             })
@@ -105,7 +109,7 @@ const Task = ({ task, setReload }) => {
 
     if (isEditing) {
 
-    return (<AddTask setReload={setReload} t={title} b={body} cancelEdit={() => {setIsEditing(false); handleHover(false)}}/>)
+        return (<AddTask setReload={setReload} t={title} b={body} cancelEdit={() => {setIsEditing(false); handleHover(false)}} edit={editTask}/>)
 
     } else {
         
@@ -114,8 +118,8 @@ const Task = ({ task, setReload }) => {
         onMouseOver={() => handleHover(true)} 
         onMouseOut={() => handleHover(false)}>
             <div className='task-header'>
-                <FaRegCircle onClick={ () => {setCompleteTask(!completeTask)}} className={completeTask ? 'invisible':'visible task-complete'}/>
-                <FaCheckCircle onClick={ () => {setCompleteTask(!completeTask)}} className={completeTask ? 'visible task-complete':'invisible'}/>
+                <FaRegSquare onClick={ () => {setCompleteTask(!completeTask)}} className={completeTask ? 'invisible':'visible task-complete'}/>
+                <FaCheckSquare onClick={ () => {setCompleteTask(!completeTask)}} className={completeTask ? 'visible task-complete':'invisible'}/>
                 <div className='task-element task-title font-header'>{title}</div>
                 <div className={`'task-icons' ${hover ? 'task-icons-hover' : ' invisible-icons'}`}>
                     <FaSun className='task-icon' onClick={moveTomorrow} />

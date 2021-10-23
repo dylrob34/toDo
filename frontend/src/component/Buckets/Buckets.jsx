@@ -24,18 +24,18 @@ const Buckets = () => {
                         // }
                         setBuckets(res.buckets);
                     })
-                    setToDoContext({...toDoContext, reloadBuckets: false});
 
                 
             } else {
                 post("/api/teams/getTeam", {team: toDoContext.currentTeam})
                 .then((res) => {
-                    setToDoContext({...toDoContext, reloadBuckets: false});
                     setBuckets(res.team.buckets);
                 })
             }
+            console.log("Setting reloadBuckets to false")
+            setToDoContext({...toDoContext, reloadBuckets: false});
         }
-    }, [toDoContext.reload])
+    }, [toDoContext])
     
     function addBucket(text) {
         post("/api/bucket/addBucket", {"name": text, 'team': toDoContext.team})
@@ -56,7 +56,7 @@ const Buckets = () => {
             </div>
             <ul className='bucket-list'>
                 {buckets.map((bucket, index) => (
-                    <Bucket key={index} bucket={bucket} className='bucket-item' popup={false} />
+                    <Bucket key={bucket._id} bucket={bucket} className='bucket-item' popup={false} />
                 ))}
             </ul>
             <Popup trigger={popup} setTrigger={setPopup}>

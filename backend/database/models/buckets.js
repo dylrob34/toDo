@@ -54,20 +54,7 @@ class Bucket {
     }
 
     async deleteBucket() {
-        if (this.user !== undefined) {
-            let user = User.getUser(this.user);
-            let tasks = database.getTasks(this.user);
-            for (task of tasks) {
-                if (task.buckets.includes(this.name)){
-                    throw "Bucket Still In Use"
-                }
-            }
-            database.deleteBucket(this._id);
-            await user.deleteBucket(this._id);
-        } else {
-            let team = Team.getTeam(this.team);
-            await team.deleteBucket(this._id);
-        }
+        return await database.deleteBucket(this._id);
     }
 
 }

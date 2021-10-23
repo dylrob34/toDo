@@ -258,6 +258,19 @@ function getTask(id) {
     });
 }
 
+function getTasksWithBucket(email, bucket) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("tasks").find(
+            {
+                user: email,
+                buckets: { "$in": [ObjectId(bucket)]}
+            }).toArray()
+        .then((tasks) => {
+            resolve(tasks);
+        });
+    });
+}
+
 function editTask(id, assignees, title, body, buckets) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("tasks").updateOne({_id: ObjectId(id)},
@@ -316,6 +329,7 @@ module.exports = {
     getTasks,
     getTeamTasks,
     getTask,
+    getTasksWithBucket,
     editTask,
     deleteTask,
     createTask
