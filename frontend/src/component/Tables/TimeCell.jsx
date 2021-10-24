@@ -1,9 +1,9 @@
 import React from 'react'
 
-const TimeCell = () => {
+const TimeCell = ({time}) => {
     return (
         <div className='table-col'>
-            <div className='table-row'>5:30</div>             
+            <div className='table-row'>{time}</div>             
         </div>
     )
 }

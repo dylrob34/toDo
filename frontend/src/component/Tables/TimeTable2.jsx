@@ -6,19 +6,51 @@ import TimeCell from './TimeCell'; // Don't know if need a different type of cel
 
 
 const TimeTable2 = () => {
-    // const [divisions, setDivisions] = useState(0)
-    var timerows = [];
+    const [divisions, setDivisions] = useState(15);
+    const [military, setMilitary] = useState(false);
+
+    const data = {
+        title: "Test",
+        body: "something",
+        dow: "Monday",
+        time: 450,
+        duration: 30
+    }
 
     function timeLoop() {
-        for(var i = 0; i < 39; i++) {
-            timerows.push(< TimeCell key={i} />)
+        var timerows = [];
+        let count = 0;
+        for(var i = 0; i < 1440; i+=divisions) {
+            console.log("cell: " + i);
+            let hourMath = (i % 60 === 0) ? i:i-(i % 60)
+            let hour = hourMath/60;
+            if (!military) {
+                hour = (hour > 12) ? hour - 12: (hour === 0) ? 12 : hour;
+            }
+            let minute = i % 60;
+            minute = (minute === 0) ? "00" : minute;
+            timerows.push(< TimeCell key={i} time={`${hour}:${minute}`}/>)
+            count++;
         }
         return <div>{timerows}</div>
     }
 
-    // function cellLoop() {
-    //     for()
-    // }
+    function fill(day) {
+        let cells = [];
+        for (let i = 0; i < 1440; i += divisions) {
+            if (data.time === i && data.dow === day) {
+                cells.push(<Cell key={i} data={data}/>)
+                if (data.duration > divisions) {
+                    i += data.duration - divisions;
+                }
+            } else {
+                cells.push(<Blank key={i} />)
+            }
+        }
+        return cells;
+    }
+
+    const dow = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
     return (
         <div className='table'>
@@ -26,31 +58,29 @@ const TimeTable2 = () => {
                 Admin
                 {timeLoop()}
             </div>
-            <div className='table-col' id='sunday'>
-                Sunday
-                {/* {cellLoop()} */}
-            </div>
-            <div className='table-col' id='monday'>
-                Monday
-            </div>
-            <div className='table-col' id='tuesday'>
-                Tuesday
-            </div>
-            <div className='table-col' id='wednesday'>
-                Wednesday
-            </div>
-            <div className='table-col' id='thursday'>
-                Thursday
-            </div>
-            <div className='table-col' id='friday'>
-                Friday
-            </div>
-            <div className='table-col' id='saturday'>
-                Saturday
-            </div>
+            {
+                dow.map((day) => {
+                    return (
+                        <div className='table-col' id={day}>
+                            {day}
+                            {fill(day)}
+                        </div>
+                    )
+                })
+            }
         </div>
     )
 }
+
+const Blank = () => {
+
+    return (
+        <div className="table-col">
+            <div className='table-row table-fill'>fill</div>
+        </div>
+    )
+}
+
 
 export default TimeTable2
 

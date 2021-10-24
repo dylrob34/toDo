@@ -814,3 +814,8 @@ flex-direction: row;
     width: 150px;
     border: 1px solid gray;
 }
+
+.table-fill {
+  color: white;
+  user-select: none;
+}
