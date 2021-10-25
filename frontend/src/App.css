@@ -812,6 +812,7 @@ flex-direction: row;
     float: left;
     display: table-column;
     width: 150px;
+    height: 22px;
     border: 1px solid gray;
 }
 

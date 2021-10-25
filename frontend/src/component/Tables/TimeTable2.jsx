@@ -6,7 +6,7 @@ import TimeCell from './TimeCell'; // Don't know if need a different type of cel
 
 
 const TimeTable2 = () => {
-    const [divisions, setDivisions] = useState(15);
+    const [divisions, setDivisions] = useState(30);
     const [military, setMilitary] = useState(false);
 
     const data = {

@@ -58,7 +58,6 @@ const Bucket = ({ bucket, popup }) => {
       post("/api/buckets/editBucket", { "_id": _id, "name": text })
         .then((resJson) => {
           if (resJson.error === false) {
-            console.log("Edit Buckets");
           } else {
             console.log("error editing bucket");
           }
