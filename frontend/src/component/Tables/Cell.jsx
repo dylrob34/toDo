@@ -21,37 +21,45 @@ const Cell = ({data}) => {
 
     return (
         <div className="table-col">
-            <div onClick={editBlock}>{
-                isEditing ? <form ><EditBlockRow/></form> : <ReadOnlyRow title={title}/>
+            <div>{
+                isEditing ? <EditBlockCell isEditing={isEditing} setIsEditing={setIsEditing} title={title} setTitle={setTitle}/> : <ReadOnlyCell editBlock={editBlock} title={title}/>
             }
             </div>
         </div>
     )
 }
 
-const ReadOnlyRow = ({title}) => {
-
+const ReadOnlyCell = ({title, editBlock}) => {
     return (
-        <div className='table-row editable'>{title}</div>
+        <div title={title} onClick={editBlock} className='table-row editable'>{title}</div>
     )
 }
 
-const EditBlockRow = ({title}) => {
+const EditBlockCell = ({title, setTitle, setIsEditing, isEditing}) => {
+    
+    function handleSubmit(e) {
+        e.preventDefault();
+        setTitle(title)
+        setIsEditing(!isEditing)
+    }
+    
 
     return (
     <div className="table-col">
         <div className='table-row table-fill'>
-            <input 
-                type="text"
-                name="title" 
-                id="title" 
-                required='required' 
-                placeholder='Timeblock...'/>
+            <form action="" onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    className='table-input'
+                    name="title" 
+                    id="title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder='Timeblock...'/>
+            </form>
         </div>
     </div>
     )
 }
 export default Cell
 
-
-// So close on the editable field just need to get it so that when the input box stays open until enter is pressed or something like that.
