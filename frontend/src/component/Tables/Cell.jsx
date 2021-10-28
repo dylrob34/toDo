@@ -31,7 +31,7 @@ const Cell = ({data}) => {
 
 const ReadOnlyCell = ({title, editBlock}) => {
     return (
-        <div title={title} onClick={editBlock} className='table-row editable'>{title}</div>
+        <div title={title} onClick={editBlock} className='table-row editable readonly-cell'>{title}</div>
     )
 }
 
@@ -46,7 +46,7 @@ const EditBlockCell = ({title, setTitle, setIsEditing, isEditing}) => {
 
     return (
     <div className="table-col">
-        <div className='table-row table-fill'>
+        <div className='table-row table-fill editable-cell'>
             <form action="" onSubmit={handleSubmit}>
                 <input
                     type="text"
