@@ -671,11 +671,18 @@ cursor: pointer;
   justify-content: center;
 }
 
+.task-shell {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  /* To fix the problem of grip disappearing see task in Blockz.*/
+  position: relative;
+}
+
 .task-item {
   display: flex;
   flex-direction: column;
-  margin-top: 25px;
-  margin-bottom: 25px;
   margin-left: auto;
   margin-right: auto;
   padding: 6px;
@@ -712,6 +719,32 @@ cursor: pointer;
 .task-details {
   white-space: pre-wrap;
   padding:4px 0px 4px 16px;
+}
+
+/* I know what the problem is regarding the kinda jumpy transition delays on fast
+task hovering. I would need to specifiy all the exact transition-delays.
+Ideally there would only be a delay on first hover and after you leave it would
+just snap back into position. */
+
+.task-grip-invisible {
+position: absolute;
+left: -2px;
+top: 9.0px;
+z-index: -1;
+color: transparent;
+}
+
+.task-grip {
+  position: absolute;
+  left: -20px;
+  top: 9.0px;
+  color: rgb(255, 255, 255, 0.5);
+  transition: 500ms ease-in-out;
+  transition-delay: 1s;
+}
+.task-grip:hover {
+  position: absolute;
+  color: var(--accent-green);
 }
 
 .task-icons {
