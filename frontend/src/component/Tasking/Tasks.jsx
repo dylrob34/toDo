@@ -68,11 +68,6 @@ const Tasks = () => {
             <div name='addTaskCtn' className={showAddTask ? 'invisible add-task-container' : 'visible add-task-container'}
                 onMouseEnter={handleHover}
                 onMouseLeave={handleHover}>
-                <FaAngleRight name='angleRight' className={hover ? 'invisible add-task-angle' : 'add-task-angle'} />
-                <FaAngleDoubleRight name='angleRightDouble' className={hover ? 'add-task-angle hover' : 'invisible add-task-angle'} />
-                <button name='addTask' onClick={toggleAddTask}
-                    className={hover ? 'add-task-btn hover' : 'add-task-btn'}
-                >Add Task</button>
             </div>
             <div name='AddTaskForm' className={showAddTask ? 'visible' : 'invisible'}>
                 <AddTask setReload={setReload} t={''} b={''} cancelEdit={null} />
