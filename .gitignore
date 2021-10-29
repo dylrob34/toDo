@@ -1,3 +1,7 @@
+# Build
+frontend/build
+backend/build
+
 # Logs
 logs
 *.log
