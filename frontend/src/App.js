@@ -13,7 +13,7 @@ import {get} from "./tools/request";
 import { ToDoProvider } from './context/ToDoContext';
 import TimeBlock from './component/pages/TimeBlock';
 
-const domain = "localhost"
+const domain = "http://localhost"
 
 function App() {
   

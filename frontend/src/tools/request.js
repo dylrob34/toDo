@@ -3,7 +3,7 @@ import { getToken } from '../context/loggedInState';
 
 async function get(url) {
     const token = getToken();
-    const res = await fetch(`http://${domain}${url}`, {
+    const res = await fetch(`${domain}${url}`, {
                 method: "GET",
                 headers: {
                   Accept: "application/json",
@@ -16,7 +16,7 @@ async function get(url) {
 
 async function post(url, data) {
     const token = getToken();
-    const res = await fetch(`http://${domain}${url}`, {
+    const res = await fetch(`${domain}${url}`, {
                 method: "POST",
                 headers: {
                   Accept: "application/json",
