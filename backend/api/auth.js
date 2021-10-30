@@ -39,7 +39,7 @@ router.post('/login', async function(req, res) {
     }
 });
 
-router.get('/checkLogin', async function(req, res) {
+router.get('/checkLogin', verifyToken, async function(req, res) {
     res.json({loggedIn: true});
 })
 
@@ -60,7 +60,7 @@ function verifyToken(req, res, next) {
     
     jwt.verify(bearerToken, process.env.secretKey, async (err, data) => {
       if (err) {
-        return res.json({error: true, message: "You are not logged in"});
+        return res.json({loggedIn: false, error: true, message: "You are not logged in"});
       } else {
           req.authData = data;
           return next();

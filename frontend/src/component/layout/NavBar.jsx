@@ -16,6 +16,7 @@ function NavBar({setTeam}) {
     if (loggedIn) {
       get("/api/user/getUser")
         .then((resJson) => {
+          console.log(resJson)
           setName(resJson.user.firstName);
         })
       get("/api/teams/getTeams")

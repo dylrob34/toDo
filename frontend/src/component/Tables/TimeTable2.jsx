@@ -1,6 +1,8 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import Cell from './Cell';
 import TimeCell from './TimeCell'; // Don't know if need a different type of cell component for the Admin col, but its late and I didnt want to think.
+import PopupEditBlock from './tools/PopupEditBlock';
+import { FaCommentAlt } from 'react-icons/fa'
 
 
 
@@ -8,20 +10,29 @@ import TimeCell from './TimeCell'; // Don't know if need a different type of cel
 const TimeTable2 = () => {
     const [divisions, setDivisions] = useState(30);
     const [military, setMilitary] = useState(false);
+    const [height, setHeight] = useState(0);
+    const [cellHeight, setCellHeight] = useState(0);
+    const heightRef = useRef(null);
 
     const data = {
         title: "Test",
         body: "something",
         dow: "Monday",
         time: 450,
-        duration: 30
+        duration: 60
     }
+
+    useEffect(() => {
+        if (heightRef.current !== null) {
+            setCellHeight(heightRef.current.getBoundingClientRect().height);
+            console.log(`Height: ${cellHeight}`)
+        }
+    }, [heightRef.current]);
 
     function timeLoop() {
         var timerows = [];
         let count = 0;
         for(var i = 0; i < 1440; i+=divisions) {
-            console.log("cell: " + i);
             let hourMath = (i % 60 === 0) ? i:i-(i % 60)
             let hour = hourMath/60;
             if (!military) {
@@ -29,40 +40,42 @@ const TimeTable2 = () => {
             }
             let minute = i % 60;
             minute = (minute === 0) ? "00" : minute;
-            timerows.push(< TimeCell key={i} time={`${hour}:${minute}`}/>)
+            timerows.push(< TimeCell key={i} time={`${hour}:${minute}`} r={heightRef}/>)
             count++;
         }
-        return <div>{timerows}</div>
+        return timerows
     }
 
     function fill(day) {
         let cells = [];
         for (let i = 0; i < 1440; i += divisions) {
             if (data.time === i && data.dow === day) {
-                cells.push(<Cell key={i} data={data}/>)
+                cells.push(<Cell className='cell' key={i} data={data} height={cellHeight} div={divisions}/>)
                 if (data.duration > divisions) {
                     i += data.duration - divisions;
                 }
             } else {
-                cells.push(<Blank key={i} />)
+                cells.push(<Blank key={i} height={cellHeight}/>)
             }
         }
         return cells;
     }
 
     const dow = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
+    console.log("Cell Height: " + cellHeight);
     return (
         <div className='table'>
             <div className='table-col' id='admin' name='admin'>
-                Admin
+                <div className="table-row">Admin</div>
                 {timeLoop()}
             </div>
             {
                 dow.map((day) => {
                     return (
-                        <div className='table-col' id={day}>
-                            {day}
+                        <div className="table-col" id={day}>
+                            <div className="table-row">
+                                {day}
+                            </div>
                             {fill(day)}
                         </div>
                     )
@@ -72,12 +85,36 @@ const TimeTable2 = () => {
     )
 }
 
-const Blank = () => {
+const Blank = ({height}) => {
+
+    const [popup, setPopup] = useState(false)
+    const [middle, setMiddle] = useState(0);
+    const [right, setRight] = useState(0);
+    const topRef = useRef(null);
+
+    useEffect(() => {
+        if (topRef.current !== null) {
+            const rect = topRef.current.getBoundingClientRect();
+            setMiddle(Math.floor((rect.top + rect.bottom) / 2));
+            setRight(rect.right)
+        }
+    }, [topRef.current]);
+
+    function handlePopup () {
+        console.log("Popup")
+        setPopup(!popup)
+    }
 
     return (
-        <div className="table-col">
-            <div className='table-row table-fill'>fill</div>
+        <div className='table-blank' ref={topRef} style={{height: height}} onClick={handlePopup}>
+            <div className='table-row table-fill' >
+                fill
+            </div>
+            {
+                popup ? <PopupEditBlock s={{top: middle-48, left: right+4}} className='popup-timeblock' trigger={popup} setTrigger={setPopup}/> : null
+            }       
         </div>
+        
     )
 }
 

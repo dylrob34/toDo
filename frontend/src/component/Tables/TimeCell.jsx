@@ -1,10 +1,8 @@
 import React from 'react'
 
-const TimeCell = ({time}) => {
+const TimeCell = ({time, r}) => {
     return (
-        <div className='table-col'>
-            <div className='table-row'>{time}</div>             
-        </div>
+        <div className="table-row" ref={r}>{time}</div>
     )
 }
 

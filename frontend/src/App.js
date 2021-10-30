@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route, } from 'react-router-dom';
 import './App.css';
 import Landing from './component/pages/Landing';
 import SignUp from './component/pages/SignUp';
-import { login, setLoggedInCallback} from './context/loggedInState';
+import { login, logout, setLoggedInCallback} from './context/loggedInState';
 import cookie from 'react-cookies';
 import { LoginPage } from './component/pages/Login';
 import NavBar from './component/layout/NavBar';
@@ -30,6 +30,7 @@ function App() {
           if (res.loggedIn === true) {
             login(jwt);
           } else {
+            logout(jwt);
             console.log("jwt is invalid");
           }
       })

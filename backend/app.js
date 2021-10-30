@@ -23,12 +23,12 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(cors(corsOptions));
 
-app.use('/', indexRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/teams', teamRouter);
 app.use('/api/task', taskRouter);
 app.use('/api/buckets', bucketRouter);
+app.use('/', indexRouter);
 
 app.listen(port, () => {
   console.log(`To Do App listening at http://localhost:${port}`);
