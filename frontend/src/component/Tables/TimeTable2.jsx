@@ -50,9 +50,7 @@ const TimeTable2 = () => {
     }, [heightRef.current, divisions]);
 
     const setThaData = (newData) => {
-        let temp = [...data];
-        temp.push(newData);
-        setData(temp);
+        setData([...data, newData]);
     }
 
     function timeLoop() {
