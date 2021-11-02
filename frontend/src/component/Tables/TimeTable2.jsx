@@ -76,7 +76,7 @@ const TimeTable2 = () => {
             for (let datum of data) {
                 if (datum.time === i && datum.dow === day) {
                     found = true;
-                    cells.push(<Cell className='cell' key={datum.title} data={datum} height={cellHeight} div={divisions}/>)
+                    cells.push(<Cell className='cell' key={datum.title} data={datum} height={cellHeight} div={divisions} timeStrings={timeStrings}/>)
                     if (datum.duration > divisions) {
                         i += datum.duration - divisions;
                     }
@@ -129,18 +129,35 @@ const Blank = ({d, t, timeStrings, height, setData}) => {
         }
     }, [topRef.current]);
 
-    function handlePopup () {
-        console.log("Popup")
+    function handlePopup (e) {
+        //e.target.focus();
         setPopup(true)
     }
 
+    const handleBlur = e => {
+        const currentTarget = e.currentTarget;
+
+        setTimeout(() => {
+            if (!currentTarget.contains(document.activeElement)) {
+                setPopup(false);
+            }
+        })
+    }
+    
+    const data = {
+        title: "",
+        body: "",
+        dow,
+        time
+    }
+
     return (
-        <div className='table-blank' ref={topRef} style={{height: height}} >
-            <div className='table-row table-fill' onClick={handlePopup}>
+        <div className='table-blank' ref={topRef} onDoubleClick={handlePopup} onBlur={handleBlur} style={{height: height}} >
+            <div className='table-row table-fill' >
                 fill
             </div>
             {
-                popup ? <PopupEditBlock s={{top: middle-48, left: right+4}} dow={dow} time={time} timeStrings={timeStrings} setData={setData} setPopup={setPopup} className='popup-timeblock' trigger={popup} setTrigger={setPopup}/> : null
+                popup ? <PopupEditBlock cell={false} s={{top: middle-48, left: right+4}} data={data} timeStrings={timeStrings} setData={setData} setPopup={setPopup} className='popup-timeblock' trigger={popup} setTrigger={setPopup}/> : null
             }       
         </div>
         
