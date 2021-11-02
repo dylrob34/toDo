@@ -16,12 +16,8 @@ const Buckets = () => {
         // Fetch todos
         if (toDoContext.reloadBuckets === true) {
             if (toDoContext.currentTeam === "") {
-                    // let tempBuckets = [];
                     post("/api/buckets/getBuckets", {})
                     .then((res) => {
-                        // for (const bucket of res.buckets) {
-                        //     tempBuckets.push(bucket.name);
-                        // }
                         setBuckets(res.buckets);
                     })
 

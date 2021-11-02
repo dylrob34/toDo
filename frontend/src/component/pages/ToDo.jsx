@@ -10,7 +10,6 @@ import { useCounter, useCounterUpdate } from "../../context/ToDoContext";
 import { useToDoContext, useUpdateToDoContext } from "../../context/ToDoContext";
 import { getLoggedIn } from "../../context/loggedInState";
 import { useAddTask, useAddTaskUpdate } from '../../context/AddTaskContext'
-import Bucket from "../Buckets/Bucket";
 
 
 const ToDo = (props) => {
@@ -42,18 +41,22 @@ const ToDo = (props) => {
     return <Redirect to="/login" />;
   }
 
+  // Function for setting the Sort Feature state
   function toggleSort() {
     setSort(!sort)
-    // counterUpdate()
   }
+  // Function for incrementing the counter by +1, to change display of Sort Feature
   function counterAdd(){
     counterUpdate(counter + 1)
   }
 
-  let selectedBucketsIdArray = toDoContext.currentBucket
-
-  function selectedBucketName() {
-    let selectedBucketsNameArray = selectedBucketsIdArray.map()
+  // Function to show Bucket Name(s) selected by user in the toolbar section to ToDo page
+  function selectedBucketName(Buckets) {
+  //   {buckets.map((bucket, index) => (
+  // ))} CK: Need to pull the buckets into this component before you can do this...
+    let selectedBucketsIdArray = toDoContext.currentBucket
+    let selectedBucketsNameArray = selectedBucketsIdArray
+    console.log(toDoContext.currentBucket)
     return <span>{selectedBucketsNameArray}</span>
   }
 
