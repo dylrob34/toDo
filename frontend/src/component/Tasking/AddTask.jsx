@@ -34,11 +34,9 @@ const AddTask = ({ setReload, t, b, cancelEdit, edit }) => {
         updateToDoContext({ ...toDoContext, reloadBuckets: true });
       }
     });
-  }
-
-  function cancel(e) {
-    setTitle("");
-    setBody("");
+  }  function cancel(e) {
+    setTitle("")
+    setBody("")
     if (cancelEdit === null) {
       toggleAddTask(e);
     } else {
