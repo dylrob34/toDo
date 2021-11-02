@@ -20,8 +20,6 @@ const Buckets = () => {
                     .then((res) => {
                         setBuckets(res.buckets);
                     })
-
-                
             } else {
                 post("/api/teams/getTeam", {team: toDoContext.currentTeam})
                 .then((res) => {

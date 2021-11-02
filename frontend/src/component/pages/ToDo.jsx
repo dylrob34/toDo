@@ -51,13 +51,9 @@ const ToDo = (props) => {
   }
 
   // Function to show Bucket Name(s) selected by user in the toolbar section to ToDo page
-  function selectedBucketName(Buckets) {
-  //   {buckets.map((bucket, index) => (
-  // ))} CK: Need to pull the buckets into this component before you can do this...
-    let selectedBucketsIdArray = toDoContext.currentBucket
-    let selectedBucketsNameArray = selectedBucketsIdArray
-    console.log(toDoContext.currentBucket)
-    return <span>{selectedBucketsNameArray}</span>
+  function selectedBucketName() {
+    var currentBuckets = toDoContext.currentBucket;
+    return currentBuckets.map(bucket => {return `${bucket.name}, `})
   }
 
   return (

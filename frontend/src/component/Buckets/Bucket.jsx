@@ -18,11 +18,20 @@ const Bucket = ({ bucket, popup }) => {
     setText(bucket.name);
   }, [bucket])
 
+  function getCurrentBucketIndex(currentBucket, id) {
+    for (var i = 0; i < currentBucket.length; i++) {
+      if(currentBucket[i].id === id) {
+        console.log(i)
+        return i;
+      }
+    }
+  }
+
   const setCurrentBucket = () => {
     if (selected) {
       setSelected(false);
       var currentBuckets = toDoContext.currentBucket;
-      const index = currentBuckets.indexOf(bucket._id);
+      const index = getCurrentBucketIndex(currentBuckets, bucket._id);
       if (index > -1) {
         currentBuckets.splice(index, 1);
       }
@@ -30,7 +39,7 @@ const Bucket = ({ bucket, popup }) => {
     } else {
       setSelected(true);
       let currentBuckets = toDoContext.currentBucket;
-      currentBuckets.push(bucket._id)
+      currentBuckets.push({id: bucket._id, name: bucket.name})
       updateToDoContext({ ...toDoContext, currentBucket: currentBuckets });
     }
   };
