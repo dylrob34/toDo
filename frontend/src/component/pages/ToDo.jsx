@@ -10,6 +10,7 @@ import { useCounter, useCounterUpdate } from "../../context/ToDoContext";
 import { useToDoContext, useUpdateToDoContext } from "../../context/ToDoContext";
 import { getLoggedIn } from "../../context/loggedInState";
 import { useAddTask, useAddTaskUpdate } from '../../context/AddTaskContext'
+import Bucket from "../Buckets/Bucket";
 
 
 const ToDo = (props) => {
@@ -29,8 +30,6 @@ const ToDo = (props) => {
     }
   }, [counter])
 
-
-
   useEffect(() => {
     var teamName = props.location.pathname.substring(5, props.location.pathname.length);
     if (teamName.length > 0) {
@@ -49,6 +48,13 @@ const ToDo = (props) => {
   }
   function counterAdd(){
     counterUpdate(counter + 1)
+  }
+
+  let selectedBucketsIdArray = toDoContext.currentBucket
+
+  function selectedBucketName() {
+    let selectedBucketsNameArray = selectedBucketsIdArray.map()
+    return <span>{selectedBucketsNameArray}</span>
   }
 
   return (
@@ -76,19 +82,19 @@ const ToDo = (props) => {
           </div>
         </div>
         <div className="main" id="main">
-          <div className='menu-container'>
-            <div className='menu-element'>Bucket Name Here</div>
-            <div className='menu-element'>
-              <FaPlus className='menu-item'/>
-              <div className='menu-item' onClick={toggleAddTask}>New Task</div>
+          <div className='toolbar-container'>
+            <div className='toolbar-element'>{selectedBucketName()}</div>
+            <div className='toolbar-element'>
+              <FaPlus className='toolbar-item'/>
+              <div className='toolbar-item' onClick={toggleAddTask}>New Task</div>
             </div>
             <div className='flex-spacer-end'></div>
-              <div className='menu-element menu-sort' onClick={counterAdd}
+              <div className='toolbar-element toolbar-sort' onClick={counterAdd}
               onMouseOver={toggleSort}
               onMouseOut={toggleSort}
               >
-                <FaSort className='menu-item'/>
-                <div className='menu-item'>Sort</div>
+                <FaSort className='toolbar-item'/>
+                <div className='toolbar-item'>Sort</div>
                 <div className={sort ? 'visible':'invisible'}><Sort/></div>
               </div>
           </div>
