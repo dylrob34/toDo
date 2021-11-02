@@ -352,6 +352,7 @@ border-radius: 15px;
   width: 76px;
   height: var(--timeblock-pop-h);
   background-color: var(--mid-gray2);
+  border: 2px;
   z-index: 100;
 }
 
