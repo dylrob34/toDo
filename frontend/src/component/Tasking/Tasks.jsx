@@ -67,7 +67,7 @@ const Tasks = () => {
 
     return (
         <div>
-            <AddTaskProvider>
+            {/* <AddTaskProvider> */}
             <div name='addTaskCtn' className={showAddTask ? 'invisible add-task-container' : 'visible add-task-container'}
                 onMouseEnter={handleHover}
                 onMouseLeave={handleHover}>
@@ -84,7 +84,7 @@ const Tasks = () => {
                 })
                 }
             </div>
-            </AddTaskProvider>
+            {/* </AddTaskProvider> */}
         </div>
     )
 }

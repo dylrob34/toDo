@@ -114,56 +114,56 @@ const TimeTable2 = () => {
     )
 }
 
-const Blank = ({d, t, timeStrings, height, setData}) => {
-    const [dow, setDow] = useState(d);
-    const [time, setTime] = useState(t);
-    const [popup, setPopup] = useState(false)
-    const [middle, setMiddle] = useState(0);
-    const [right, setRight] = useState(0);
-    const topRef = useRef(null);
+// const Blank = ({d, t, timeStrings, height, setData}) => {
+//     const [dow, setDow] = useState(d);
+//     const [time, setTime] = useState(t);
+//     const [popup, setPopup] = useState(false)
+//     const [middle, setMiddle] = useState(0);
+//     const [right, setRight] = useState(0);
+//     const topRef = useRef(null);
 
-    useEffect(() => {
-        if (topRef.current !== null) {
-            const rect = topRef.current.getBoundingClientRect();
-            setMiddle(Math.floor((rect.top + rect.bottom) / 2));
-            setRight(rect.right)
-        }
-    }, [topRef.current]);
+//     useEffect(() => {
+//         if (topRef.current !== null) {
+//             const rect = topRef.current.getBoundingClientRect();
+//             setMiddle(Math.floor((rect.top + rect.bottom) / 2));
+//             setRight(rect.right)
+//         }
+//     }, [topRef.current]);
 
-    function handlePopup (e) {
-        //e.target.focus();
-        setPopup(true)
-    }
+//     function handlePopup (e) {
+//         //e.target.focus();
+//         setPopup(true)
+//     }
 
-    const handleBlur = e => {
-        const currentTarget = e.currentTarget;
+//     const handleBlur = e => {
+//         const currentTarget = e.currentTarget;
 
-        setTimeout(() => {
-            if (!currentTarget.contains(document.activeElement)) {
-                setPopup(false);
-            }
-        })
-    }
+//         setTimeout(() => {
+//             if (!currentTarget.contains(document.activeElement)) {
+//                 setPopup(false);
+//             }
+//         })
+//     }
     
-    const data = {
-        title: "",
-        body: "",
-        dow,
-        time
-    }
+//     const data = {
+//         title: "",
+//         body: "",
+//         dow,
+//         time
+//     }
 
-    return (
-        <div className='table-blank' ref={topRef} onDoubleClick={handlePopup} onBlur={handleBlur} style={{height: height}} >
-            <div className='table-row table-fill' >
-                fill
-            </div>
-            {
-                popup ? <PopupEditBlock cell={false} s={{top: middle-48, left: right+4}} data={data} timeStrings={timeStrings} setData={setData} setPopup={setPopup} className='popup-timeblock' trigger={popup} setTrigger={setPopup}/> : null
-            }       
-        </div>
+//     return (
+//         <div className='table-blank' ref={topRef} onDoubleClick={handlePopup} onBlur={handleBlur} style={{height: height}} >
+//             <div className='table-row table-fill' >
+//                 fill
+//             </div>
+//             {
+//                 popup ? <PopupEditBlock cell={false} s={{top: middle-48, left: right+4}} data={data} timeStrings={timeStrings} setData={setData} setPopup={setPopup} className='popup-timeblock' trigger={popup} setTrigger={setPopup}/> : null
+//             }       
+//         </div>
         
-    )
-}
+//     )
+// }
 
 
 export default TimeTable2

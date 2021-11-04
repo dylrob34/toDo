@@ -49,7 +49,9 @@ function App() {
           <Route exact path='/signup' component={ SignUp }></Route>
           <Route path='/todo' render={ routeProps => (
             <ToDoProvider>
+              <AddTaskProvider>
                 <ToDo {...routeProps}/>
+              </AddTaskProvider>
             </ToDoProvider>
             )}>
           </Route>

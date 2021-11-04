@@ -886,6 +886,7 @@ flex-direction: row;
   width: 100%;
   line-height: normal;
   vertical-align: middle;
+  font-size: 0.9rem;
 }
 
 .editable-cell {
@@ -898,4 +899,5 @@ flex-direction: row;
   padding: 0;
   vertical-align: middle;
   line-height: normal;
+  font-size: 0.9rem;
 }

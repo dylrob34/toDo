@@ -28,6 +28,7 @@ const AddTask = ({ setReload, t, b, cancelEdit, edit }) => {
       if (resJson.error === true) {
         console.log("Error submiting new task");
       } else {
+        console.log('New Task')
         setTitle("");
         setBody("");
         setReload(true);

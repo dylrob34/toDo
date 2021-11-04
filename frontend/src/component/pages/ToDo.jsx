@@ -9,7 +9,7 @@ import { FaPlus, FaSort } from 'react-icons/fa';
 import { useCounter, useCounterUpdate } from "../../context/ToDoContext";
 import { useToDoContext, useUpdateToDoContext } from "../../context/ToDoContext";
 import { getLoggedIn } from "../../context/loggedInState";
-import { useAddTask, useAddTaskUpdate } from '../../context/AddTaskContext'
+import { AddTaskProvider, useAddTask, useAddTaskUpdate } from '../../context/AddTaskContext'
 
 
 const ToDo = (props) => {
@@ -58,49 +58,51 @@ const ToDo = (props) => {
 
   return (
       <div className="page-config">
-        <div className="left-sidebar">
-          <div name="viewContainer">
-            <div className="left-sb-logo">Views</div>
-            <ul name="views" className="left-sb-navigation">
-              <li name="dayView" className={"left-sb-element"}>
-                {" "}
-                Day{" "}
-              </li>
-              <li name="weekView" className={"left-sb-element"}>
-                {" "}
-                Week{" "}
-              </li>
-              <li name="timeblockView" className={"left-sb-element"}>
-                {" "}
-                TimeBlock{" "}
-              </li>
-            </ul>
-          </div>
-          <div className="bucket-container" name="bucketContainer">
-            <Buckets/>
-          </div>
-        </div>
-        <div className="main" id="main">
-          <div className='toolbar-container'>
-            <div className='toolbar-element'>{selectedBucketName()}</div>
-            <div className='toolbar-element'>
-              <FaPlus className='toolbar-item'/>
-              <div className='toolbar-item' onClick={toggleAddTask}>New Task</div>
+          <div className="left-sidebar">
+            <div name="viewContainer">
+              <div className="left-sb-logo">Views</div>
+              <ul name="views" className="left-sb-navigation">
+                <li name="dayView" className={"left-sb-element"}>
+                  {" "}
+                  Day{" "}
+                </li>
+                <li name="weekView" className={"left-sb-element"}>
+                  {" "}
+                  Week{" "}
+                </li>
+                <li name="timeblockView" className={"left-sb-element"}>
+                  {" "}
+                  TimeBlock{" "}
+                </li>
+              </ul>
             </div>
-            <div className='flex-spacer-end'></div>
-              <div className='toolbar-element toolbar-sort' onClick={counterAdd}
-              onMouseOver={toggleSort}
-              onMouseOut={toggleSort}
-              >
-                <FaSort className='toolbar-item'/>
-                <div className='toolbar-item'>Sort</div>
-                <div className={sort ? 'visible':'invisible'}><Sort/></div>
+            <div className="bucket-container" name="bucketContainer">
+              <Buckets/>
+            </div>
+          </div>
+          <div className="main" id="main">
+            <div className='toolbar-container'>
+              <div className='toolbar-element'>{selectedBucketName()}</div>
+              <div className='toolbar-element'>
+                <AddTaskProvider>
+                  <FaPlus className='toolbar-item'/>
+                  <div className='toolbar-item' onClick={toggleAddTask}>New Task</div>
+                </AddTaskProvider>
               </div>
+              <div className='flex-spacer-end'></div>
+                <div className='toolbar-element toolbar-sort' onClick={counterAdd}
+                onMouseOver={toggleSort}
+                onMouseOut={toggleSort}
+                >
+                  <FaSort className='toolbar-item'/>
+                  <div className='toolbar-item'>Sort</div>
+                  <div className={sort ? 'visible':'invisible'}><Sort/></div>
+                </div>
+            </div>
+            <div className="task-textedit">
+              <Tasks className="tasks" />
+            </div>
           </div>
-          <div className="task-textedit">
-            <Tasks className="tasks" />
-          </div>
-        </div>
       </div>
   );
 };
