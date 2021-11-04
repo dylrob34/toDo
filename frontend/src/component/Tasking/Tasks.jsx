@@ -4,7 +4,7 @@ import { Redirect } from 'react-router';
 import { getLoggedIn } from '../../context/loggedInState';
 import { get, post } from "../../tools/request";
 import AddTask from '../Tasking/AddTask';
-import { AddTaskProvider, useAddTask, useAddTaskUpdate } from '../../context/AddTaskContext'
+import { useAddTask, useAddTaskUpdate } from '../../context/AddTaskContext'
 import { FaAngleRight, FaAngleDoubleRight } from 'react-icons/fa';
 import { useToDoContext, useUpdateToDoContext } from '../../context/ToDoContext';
 
@@ -67,7 +67,6 @@ const Tasks = () => {
 
     return (
         <div>
-            {/* <AddTaskProvider> */}
             <div name='addTaskCtn' className={showAddTask ? 'invisible add-task-container' : 'visible add-task-container'}
                 onMouseEnter={handleHover}
                 onMouseLeave={handleHover}>
@@ -84,7 +83,6 @@ const Tasks = () => {
                 })
                 }
             </div>
-            {/* </AddTaskProvider> */}
         </div>
     )
 }

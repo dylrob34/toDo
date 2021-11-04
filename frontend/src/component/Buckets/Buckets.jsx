@@ -26,7 +26,6 @@ const Buckets = () => {
                     setBuckets(res.team.buckets);
                 })
             }
-            console.log("Setting reloadBuckets to false")
             setToDoContext({...toDoContext, reloadBuckets: false});
         }
     }, [toDoContext])

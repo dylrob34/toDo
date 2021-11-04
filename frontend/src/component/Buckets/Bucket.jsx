@@ -56,7 +56,8 @@ const Bucket = ({ bucket, popup }) => {
       .then((resJson) => {
         if (resJson.error === true) {
           console.log("Error");
-        }
+          alert("Can't delete. Please delete all tasks from bucket")
+        } 
         updateToDoContext({ ...toDoContext, reloadBuckets: true });
       })
   }
