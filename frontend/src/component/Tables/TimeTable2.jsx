@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react'
-import Cell from './Cell';
+import Cells from './Cells';
 import TimeCell from './TimeCell'; // Don't know if need a different type of cell component for the Admin col, but its late and I didnt want to think.
 import PopupEditBlock from './tools/PopupEditBlock';
 import { FaCommentAlt, FaMicrophoneAltSlash } from 'react-icons/fa'
@@ -49,9 +49,6 @@ const TimeTable2 = () => {
         setTimeStrings(strings);
     }, [heightRef.current, divisions]);
 
-    const setThaData = (newData) => {
-        setData([...data, newData]);
-    }
 
     function timeLoop() {
         var timerows = [];
@@ -68,22 +65,26 @@ const TimeTable2 = () => {
         return timerows
     }
 
+    const setTheData = (newData) => {
+        setData([...data, newData]);
+    }
+
     function fill(day) {
         console.log("filling")
         let cells = [];
-        for (let i = 0; i < 1440; i += divisions) {
+        for (var i = 0; i < 1440; i += divisions) {
             let found = false;
             for (let datum of data) {
                 if (datum.time === i && datum.dow === day) {
                     found = true;
-                    cells.push(<Cell className='cell' key={datum.title} data={datum} height={cellHeight} div={divisions} timeStrings={timeStrings}/>)
+                    cells.push(<Cells key={datum.title} data={datum} timeStrings={timeStrings} height={cellHeight} div={divisions} setData={setTheData}/>)
                     if (datum.duration > divisions) {
                         i += datum.duration - divisions;
                     }
                 }
             }
             if (!found) {
-                cells.push(<Blank key={i} d={day} t={i} timeStrings={timeStrings} height={cellHeight} setData={setThaData}/>)
+                cells.push(<Cells key={i} data={{ title: '', body: '', dow: day, time: i, duration: divisions }} timeStrings={timeStrings} height={cellHeight} div={divisions} setData={setTheData}/>)
             }
         }
         return cells;

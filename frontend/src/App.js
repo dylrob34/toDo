@@ -1,27 +1,29 @@
 import React, {useState} from 'react';
 import { BrowserRouter as Router, Switch, Route, } from 'react-router-dom';
+import cookie from 'react-cookies';
+import { ToDoProvider } from './context/ToDoContext';
+import { login, logout, setLoggedInCallback} from './context/loggedInState';
+import { AddTaskProvider } from './context/AddTaskContext';
+import {get} from "./tools/request";
 import './App.css';
 import Landing from './component/pages/Landing';
 import SignUp from './component/pages/SignUp';
-import { login, logout, setLoggedInCallback} from './context/loggedInState';
-import cookie from 'react-cookies';
 import { LoginPage } from './component/pages/Login';
 import NavBar from './component/layout/NavBar';
 import ToDo from './component/pages/ToDo';
-import { AddTaskProvider } from './context/AddTaskContext';
-import {get} from "./tools/request";
-import { ToDoProvider } from './context/ToDoContext';
 import TimeBlock from './component/pages/TimeBlock';
 
 const domain = "http://localhost"
 
 function App() {
   
+  // Declare component states:
   const [loggedIn, setLoggedIn] = useState(false);
   const [team, setTeam] = useState("");
 
   setLoggedInCallback(setLoggedIn);
 
+  // Cookie stores data on the persons computer
   var jwt = cookie.load("jwt")
   if (typeof jwt !== "undefined") {
     if (jwt !== "") {
@@ -36,9 +38,9 @@ function App() {
       })
     }
   }
+
   return (
     <Router>
-      <AddTaskProvider>
       <div className="App">
         <NavBar setTeam={setTeam}/>
         <Switch>
@@ -54,7 +56,6 @@ function App() {
           <Route exact path='/timeblock' component={ TimeBlock }></Route>
         </Switch>
       </div>
-      </AddTaskProvider>
     </Router>
 
   );
