@@ -22,23 +22,38 @@ const PopupEditBlock = (props) => {
             body,
             dow,
             time,
-            duration
+            duration,
+            catagory: "none"
         });
+    }
+
+    const getTimes = () => {
+        let temp = []
+        for (const key of Object.keys(props.timeStrings)) {
+            temp.push(props.timeStrings[key]);
+        }
+        return temp;
     }
 
     return (
     <div className="popup-timeblock" style={props.s}>
         {
             props.cell ? 
-            <input type="text" default="Title..." onChange={(e) => setTitle(e.target.value)} value={title}/>
+            <input className='popup-timeblock-text' ype="text" default="Title..." onChange={(e) => props.data.setTitle(e.target.value)} value={title}/>
             :
-            <input autoFocus type="text" default="Title..." onChange={(e) => setTitle(e.target.value)} value={title}/>
+            <input className='popup-timeblock-text' autoFocus type="text" default="Title..." onChange={(e) => setTitle(e.target.value)} value={title}/>
         }
-        <input type="text" default="Body..." onChange={(e) => setBody(e.target.value)} value={body}/>
-        <input type="text" default="DOW..." onChange={(e) => setDow(e.target.value)} value={dow}/>
-        <input type="text" default="Time..." onChange={(e) => setTime(parseInt(e.target.value))} value={props.timeStrings[time]}/>
-        <input type="text" default="Duration..." onChange={(e) => setDuration(parseInt(e.target.value))} value={duration}/>
-        <button onClick={setData} type="button">Submit</button>
+        <input className='popup-timeblock-text' type="text" default="Body..." onChange={(e) => setBody(e.target.value)} value={body}/>
+        <input className='popup-timeblock-text' type="text" default="DOW..." onChange={(e) => setDow(e.target.value)} value={dow}/>
+        <select className='popup-timeblock-text' default="Time..." onChange={(e) => setTime(parseInt(e.target.value))} value={props.timeStrings[time]}> 
+            {
+                getTimes().map((key) => {
+                    return <option value={key}>{key}</option>
+                })
+            }
+        </select>
+        <input className='popup-timeblock-text' type="text" default="Duration..." onChange={(e) => setDuration(parseInt(e.target.value === "" ? 0 : e.target.value))} value={duration}/>
+        <button className='btn-sm' onClick={setData} type="button">Replace w/ auto</button>
     </div>
     );
 }

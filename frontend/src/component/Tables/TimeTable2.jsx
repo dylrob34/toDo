@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react'
 import Cells from './Cells';
 import TimeCell from './TimeCell'; // Don't know if need a different type of cell component for the Admin col, but its late and I didnt want to think.
 import PopupEditBlock from './tools/PopupEditBlock';
-import { FaCommentAlt, FaMicrophoneAltSlash } from 'react-icons/fa'
+import { FaCommentAlt, FaMicrophoneAltSlash, FaRegBuilding } from 'react-icons/fa'
 
 
 
@@ -13,6 +13,7 @@ const TimeTable2 = () => {
     const [height, setHeight] = useState(0);
     const [cellHeight, setCellHeight] = useState(0);
     const [data, setData] = useState([]);
+    const [catagories, setCategories] = useState({});
     const heightRef = useRef(null);
     const [timeStrings, setTimeStrings] = useState({});
     const [notSet, setNotSet] = useState(true);
@@ -22,15 +23,23 @@ const TimeTable2 = () => {
         body: "something",
         dow: "Monday",
         time: 450,
-        duration: 60
+        duration: 60,
+        catagory: "Test"
+    }
+
+    const categorieDefault = {
+        name: "Test",
+        description: "None",
+        color: "#34B487"
     }
 
     useEffect(() => {
         if (notSet) {
-            let temp = data;
-            temp.push(dataDefault);
+            let temp = {};
+            temp[categorieDefault.name] = categorieDefault;
             setNotSet(false);
-            setData(temp);
+            setData([dataDefault]);
+            setCategories(temp);
         }
         if (heightRef.current !== null) {
             setCellHeight(heightRef.current.getBoundingClientRect().height);
@@ -77,14 +86,14 @@ const TimeTable2 = () => {
             for (let datum of data) {
                 if (datum.time === i && datum.dow === day) {
                     found = true;
-                    cells.push(<Cells key={datum.title} data={datum} timeStrings={timeStrings} height={cellHeight} div={divisions} setData={setTheData}/>)
+                    cells.push(<Cells key={datum.title} data={datum} timeStrings={timeStrings} height={cellHeight} div={divisions} setData={setTheData} catagories={catagories[datum.catagory]}/>)
                     if (datum.duration > divisions) {
                         i += datum.duration - divisions;
                     }
                 }
             }
             if (!found) {
-                cells.push(<Cells key={i} data={{ title: '', body: '', dow: day, time: i, duration: divisions }} timeStrings={timeStrings} height={cellHeight} div={divisions} setData={setTheData}/>)
+                cells.push(<Cells key={i} data={{ title: '', body: '', dow: day, time: i, duration: divisions, catagory: "" }} timeStrings={timeStrings} height={cellHeight} div={divisions} setData={setTheData} catagories={catagories}/>)
             }
         }
         return cells;
