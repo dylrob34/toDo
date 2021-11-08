@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react'
-import PopupEditBlock from './tools/PopupEditBlock';
+import PopupEditBlock from './Popup/PopupEditBlock';
 
 
 const Cells = ({data, timeStrings, height, div, setData, catagories}) => {

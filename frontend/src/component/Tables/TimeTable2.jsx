@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react'
 import Cells from './Cells';
 import TimeCell from './TimeCell'; // Don't know if need a different type of cell component for the Admin col, but its late and I didnt want to think.
-import PopupEditBlock from './tools/PopupEditBlock';
+import PopupEditBlock from './Popup/PopupEditBlock';
 import { FaCommentAlt, FaMicrophoneAltSlash, FaRegBuilding } from 'react-icons/fa'
 
 
@@ -27,7 +27,7 @@ const TimeTable2 = () => {
         catagory: "Test"
     }
 
-    const categorieDefault = {
+    const categoriesDefault = {
         name: "Test",
         description: "None",
         color: "#34B487"
@@ -36,7 +36,7 @@ const TimeTable2 = () => {
     useEffect(() => {
         if (notSet) {
             let temp = {};
-            temp[categorieDefault.name] = categorieDefault;
+            temp[categoriesDefault.name] = categoriesDefault;
             setNotSet(false);
             setData([dataDefault]);
             setCategories(temp);
