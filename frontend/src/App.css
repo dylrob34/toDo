@@ -51,6 +51,7 @@
   --button-hover: rgb(36, 150, 110);
 
   --task-shadow: 0 0 5px rgba(0,0,0,.05), 2px 2px 5px rgba(0,0,0,.1);
+  --popup-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 2px 2px 5px rgba(0, 0, 0, 0.1);
   --font-gray: #8C979A;
 
   /* Color Palete Colors */
@@ -912,12 +913,15 @@ flex-direction: row;
   z-index: 100;
   justify-content: center;
   align-items: center;
+  box-shadow: var(--popup-shadow);
 }
 .popup-timeblock-text {
 width: 125px;
 margin: 2px 0px 2px 0px;
 border-radius: 6px;
-outline: var(--primary-green);
+}
+.popup-timeblock-text:focus {
+  outline: solid 1px var(--primary-green);
 }
 
 .categories-container {

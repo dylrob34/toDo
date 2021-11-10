@@ -16,7 +16,10 @@ const AddTask = ({ setReload, t, b, cancelEdit, edit }) => {
   const updateToDoContext = useUpdateToDoContext();
 
   function submitTask(e) {
-
+    let team = undefined;
+    if (toDoContext.currentTeam !== "") {
+      team = toDoContext.currentTeam;
+    }
     if (edit !== undefined) {
       cancelEdit();
       edit(title, body);
@@ -24,7 +27,7 @@ const AddTask = ({ setReload, t, b, cancelEdit, edit }) => {
     }
 
     toggleAddTask(e);
-    post("/api/task/createTask", { title, body }).then((resJson) => {
+    post("/api/task/createTask", { title, body, team}).then((resJson) => {
       if (resJson.error === true) {
         console.log("Error submiting new task");
       } else {

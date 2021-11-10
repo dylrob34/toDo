@@ -56,7 +56,14 @@ router.post('/deleteTask', auth.verifyToken, async function(req, res) {
     const user = req.authData.user;
     const taskId = req.body.id;
     const task = await Task.getTask(taskId);
-    if (task.user == user) {
+    if (task.team !== undefined) {
+        const team = await Team.getTeam(task.team);
+        if (team.owner === user || team.admins.includes(user) || team.users.includes(user)) {
+            await task.deleteTask();
+            return res.json({error: false});
+        }
+    }
+    else if (task.user == user) {
         await task.deleteTask();
         return res.json({error: false});
     } else {

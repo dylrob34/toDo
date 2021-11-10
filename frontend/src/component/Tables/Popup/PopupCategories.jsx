@@ -27,6 +27,7 @@ const PopupCategories = (props) => {
                 <Categories className='categories-item' title={categoriesDefault.title} desc={categoriesDefault.description} color={categoriesDefault.color}/>
                 <FaEdit className='categories-item'></FaEdit>
                 <FaEyeDropper onClick={() => setToggleColorPicker(!toggleColorPicker)} className='categories-item'>{colorPicker()}</FaEyeDropper>
+                {/* <CirclePicker /> */}
             </div>
             <div className='categories-element'>
                 <Categories className='categories-item' title={categoriesDefault.title} desc={categoriesDefault.description} color={categoriesDefault.color}/>
