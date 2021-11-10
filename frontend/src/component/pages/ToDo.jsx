@@ -64,11 +64,11 @@ const ToDo = (props) => {
               <ul name="views" className="left-sb-navigation">
                 <li name="dayView" className={"left-sb-element"}>
                   {" "}
-                  Day{" "}
+                  List{" "}
                 </li>
                 <li name="weekView" className={"left-sb-element"}>
                   {" "}
-                  Week{" "}
+                  Grid{" "}
                 </li>
                 <li name="timeblockView" className={"left-sb-element"}>
                   {" "}
