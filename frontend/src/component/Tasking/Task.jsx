@@ -24,6 +24,7 @@ const Task = ({ task, setReload }) => {
     const [calendar, setCalendar] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [completeTask, setCompleteTask] = useState(false)
+    const [draggable, setDraggable] = useState(false)
     const toDoContext = useToDoContext();
     const updateToDoContext = useUpdateToDoContext();
 
@@ -109,6 +110,11 @@ const Task = ({ task, setReload }) => {
         setHover(input)
     }
 
+    function handleDragStart() {
+        setDraggable(!draggable)
+    }
+
+
     if (isEditing) {
 
         return (<AddTask setReload={setReload} t={title} b={body} cancelEdit={() => {setIsEditing(false); handleHover(false)}} edit={editTask}/>)
@@ -119,33 +125,36 @@ const Task = ({ task, setReload }) => {
         <div className="task-shell"
         onMouseOver={() => handleHover(true)} 
         onMouseOut={() => handleHover(false)}>
-            <FaGripVertical className={`'task-grip-invisible' ${hover ? 'task-grip' : 'task-grip-invisible'}`}/>
-            <div className='task-item'>
-                <div className='task-header'>
-                    <FaRegSquare onClick={ () => {setCompleteTask(!completeTask)}} className={completeTask ? 'invisible':'visible task-complete'}/>
-                    <FaCheckSquare onClick={ () => {setCompleteTask(!completeTask)}} className={completeTask ? 'visible task-complete':'invisible'}/>
-                    <div className='task-element task-title font-header'>{title}</div>
-                    <div className={`'task-icons' ${hover ? 'task-icons-hover' : ' invisible-icons'}`}>
-                        <FaSun className='task-icon' onClick={moveTomorrow} />
-                        {/* Placeholder for "Move to tomorrow" icon */}
-                        <FaCalendar className='task-delete task-icon' onClick={toggleCalendar}/>
-                        <FaEdit className='task-edit task-icon' onClick={() => setIsEditing(true)} />
-                        <FaTimes className='task-delete task-icon' onClick={deleteTask} />
+            <div draggable={draggable ? true : false} className='task-container'>
+                <FaGripVertical onClick={handleDragStart} className={`'task-grip-invisible' ${hover ? 'task-grip draggable' : 'task-grip-invisible'}`}/>
+                <div className='task-item'>
+                    <div className='task-header'>
+                        <FaRegSquare onClick={ () => {setCompleteTask(!completeTask)}} className={completeTask ? 'invisible':'visible task-complete'}/>
+                        <FaCheckSquare onClick={ () => {setCompleteTask(!completeTask)}} className={completeTask ? 'visible task-complete':'invisible'}/>
+                        <div className='task-element task-title font-header'>{title}</div>
+                        <div className={`'task-icons' ${hover ? 'task-icons-hover' : ' invisible-icons'}`}>
+                            <FaSun className='task-icon' onClick={moveTomorrow} />
+                            {/* Placeholder for "Move to tomorrow" icon */}
+                            <FaCalendar className='task-delete task-icon' onClick={toggleCalendar}/>
+                            <FaEdit className='task-edit task-icon' onClick={() => setIsEditing(true)} />
+                            <FaTimes className='task-delete task-icon' onClick={deleteTask} />
+                        </div>
                     </div>
-                </div>
-                <div className='task-body font-body'>
-                    <p name='taskdetails' className='task-element task-details'>{parseBody()}</p>
-                    <div className='task-buckets'>
-                        {buckets.map((bucket, index) => (
-                                <span className='task-bucket task-element'key={index}>#{bucket}</span>
-                            ))}
+                    <div className='task-body font-body'>
+                        <p name='taskdetails' className='task-element task-details'>{parseBody()}</p>
+                        <div className='task-buckets'>
+                            {buckets.map((bucket, index) => (
+                                    <span className='task-bucket task-element'key={index}>#{bucket}</span>
+                                ))}
+                        </div>
                     </div>
+                    <span>   
+                        {dueDate}
+                    </span>
+                    {calendar ? <Schedule/> : null}
                 </div>
-                <span>   
-                    {dueDate}
-                </span>
-                {calendar ? <Schedule/> : null}
             </div>
+
         </div>
 
     )}
