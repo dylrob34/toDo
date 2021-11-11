@@ -64,7 +64,7 @@ class Task {
             }
         }
         let owner;
-        if (user != undefined) {
+        if (user != null) {
             owner = user;
         } else {
             owner = team;
@@ -86,9 +86,6 @@ class Task {
 
 
         return bucketIds;
-    }
-
-    async updateBuckets() {
     }
 
     async deleteTask() {

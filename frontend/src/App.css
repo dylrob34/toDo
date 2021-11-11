@@ -682,6 +682,13 @@ cursor: pointer;
   flex-direction: column;
   justify-content: center;
 }
+.task-list-container {
+
+}
+
+.task-list-element {
+
+}
 
 .task-shell {
   display: flex;

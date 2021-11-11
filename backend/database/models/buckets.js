@@ -38,7 +38,7 @@ class Bucket {
             user,
             team);
         var bucket = await Bucket.getBucket(result.ops[0]._id);
-        if (user !== undefined) {
+        if (user !== null) {
             let use = await User.getUser(user);
             use.addBucket(bucket._id);
         } else {

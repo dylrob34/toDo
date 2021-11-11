@@ -75,6 +75,15 @@ const Tasks = () => {
                 <AddTask setReload={setReload} t={''} b={''} cancelEdit={null} />
             </div>
             <div name='taskList' className='task-list'>
+                <div name="CurrentDay" className='task-list-container'>
+                Current DOW Here
+                </div>
+                <div name="ThisWeek" className='task-list-container'>
+                Upcoming Here
+                </div>
+                <div name="CompletedTasks" className='task-list-container'>
+                Archive Here
+                </div>
                 {tasks.map((task) => {
                     if (toDoContext.currentBucket.length === 0 || checkBucketsSelected(task.buckets)) {
                         return <Task key={task._id} task={task} setReload={setReload} />

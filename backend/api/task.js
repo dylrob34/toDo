@@ -28,6 +28,7 @@ router.post('/createTask', auth.verifyToken, async function(req, res) {
     const body = req.body.body;
 
     const task = await Task.createTask(user, team, assignees, title, body);
+    
     return res.json({error: false});
 });
 
