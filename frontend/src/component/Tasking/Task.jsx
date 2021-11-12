@@ -122,13 +122,13 @@ const Task = ({ task, setReload }) => {
     } else {
         
     return (
-        <div className="task-shell"
-        onMouseOver={() => handleHover(true)} 
-        onMouseOut={() => handleHover(false)}>
-            <div draggable={draggable ? true : false} className='task-container'>
-                <FaGripVertical onClick={handleDragStart} className={`'task-grip-invisible' ${hover ? 'task-grip draggable' : 'task-grip-invisible'}`}/>
+        <div className="task-shell">
+            <div draggable={draggable ? true : false} className='task-container'
+                onMouseOver={() => handleHover(true)} 
+                onMouseOut={() => handleHover(false)}>
                 <div className='task-item'>
                     <div className='task-header'>
+                    <FaGripVertical onClick={handleDragStart} className={`'task-grip-invisible' ${hover ? 'task-grip draggable' : 'task-grip-invisible'}`}/>
                         <FaRegSquare onClick={ () => {setCompleteTask(!completeTask)}} className={completeTask ? 'invisible':'visible task-complete'}/>
                         <FaCheckSquare onClick={ () => {setCompleteTask(!completeTask)}} className={completeTask ? 'visible task-complete':'invisible'}/>
                         <div className='task-element task-title font-header'>{title}</div>
