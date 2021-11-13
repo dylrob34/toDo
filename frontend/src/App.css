@@ -79,7 +79,14 @@
 }
 
 /* General Page Styling */
-
+.bottom {
+  display: flex;
+  flex-direction: row;
+}
+.top {
+  display: flex;
+  justify-content: center;
+}
 .page-config {
   min-height: 100vh;
   height: 100%;
@@ -860,8 +867,7 @@ flex-direction: row;
     width: 75%;
     height: 75%;
 }
-.table-blank {
-}
+
 .table-col {
   display: flex;
   flex-direction: column;
