@@ -13,7 +13,10 @@ class Team {
 
     static async getTeam(id) {
         const temp = await database.getTeam(id);
-        return new Team(temp._id, temp.owner, temp.name, temp.admins, temp.users, temp.buckets);
+        const buckets = temp.buckets.map((buck) => {
+            return buck.toString()
+        })
+        return new Team(temp._id, temp.owner, temp.name, temp.admins, temp.users, buckets);
     }
 
     static async getTeams(email) {

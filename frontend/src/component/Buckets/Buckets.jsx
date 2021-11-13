@@ -16,14 +16,14 @@ const Buckets = () => {
         // Fetch todos
         if (toDoContext.reloadBuckets === true) {
             if (toDoContext.currentTeam === "") {
-                    post("/api/buckets/getBuckets", {})
-                    .then((res) => {
-                        setBuckets(res.buckets);
-                    })
-            } else {
-                post("/api/teams/getTeam", {team: toDoContext.currentTeam})
+                post("/api/buckets/getBuckets", {})
                 .then((res) => {
-                    setBuckets(res.team.buckets);
+                    setBuckets(res.buckets);
+                })
+            } else {
+                post("/api/buckets/getBuckets", {team: toDoContext.currentTeam})
+                .then((res) => {
+                    setBuckets(res.buckets);
                 })
             }
             setToDoContext({...toDoContext, reloadBuckets: false});

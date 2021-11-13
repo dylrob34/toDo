@@ -21,9 +21,9 @@ const Task = ({ task, setReload }) => {
     const [id, setId] = useState(task._id);
     const [reminder, setReminder] = useState(task.reminder)
     const [dueDate, setDueDate] = useState(task.dueDate)
+    const [completeTask, setCompleteTask] = useState(task.complete)
     const [calendar, setCalendar] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-    const [completeTask, setCompleteTask] = useState(false)
     const [draggable, setDraggable] = useState(false)
     const toDoContext = useToDoContext();
     const updateToDoContext = useUpdateToDoContext();
@@ -36,14 +36,17 @@ const Task = ({ task, setReload }) => {
         setId(task._id);
         setTitle(task.title);
         setBody(task.body);
+        setCompleteTask(task.complete);
     }, [task])
 
 
-    function editTask(t, b) {
+    const editTask = (t, b, complete) => {
+        let c = (complete === undefined ? completeTask : complete);
         post("/api/task/editTask", {
             "id": id,
             title: t,
-            body: b
+            body: b,
+            complete: c
         })
             .then((resJson) => {
                 if (resJson.error === true) {
@@ -78,6 +81,11 @@ const Task = ({ task, setReload }) => {
 
     function onReminder(e) {
         setReminder(e.target.value);
+    }
+
+    const onComplete = (comp) => {
+        setCompleteTask(comp);
+        editTask(title, body, comp);
     }
 
     function moveTomorrow() {
@@ -123,14 +131,17 @@ const Task = ({ task, setReload }) => {
         
     return (
         <div className="task-shell">
-            <div draggable={draggable ? true : false} className='task-container'
+            <div draggable={draggable} className='task-container'
                 onMouseOver={() => handleHover(true)} 
                 onMouseOut={() => handleHover(false)}>
                 <div className='task-item'>
+                <FaGripVertical onClick={handleDragStart} className={`'task-grip-invisible' ${hover ? 'task-grip draggable' : 'task-grip-invisible'}`}/>
                     <div className='task-header'>
-                    <FaGripVertical onClick={handleDragStart} className={`'task-grip-invisible' ${hover ? 'task-grip draggable' : 'task-grip-invisible'}`}/>
-                        <FaRegSquare onClick={ () => {setCompleteTask(!completeTask)}} className={completeTask ? 'invisible':'visible task-complete'}/>
-                        <FaCheckSquare onClick={ () => {setCompleteTask(!completeTask)}} className={completeTask ? 'visible task-complete':'invisible'}/>
+                        {
+                            completeTask ? <FaCheckSquare onClick={ () => {onComplete(false)}} className={'task-complete'}/>
+                            :
+                            <FaRegSquare onClick={ () => {onComplete(true)}} className={'task-complete'}/>
+                        }
                         <div className='task-element task-title font-header'>{title}</div>
                         <div className={`'task-icons' ${hover ? 'task-icons-hover' : ' invisible-icons'}`}>
                             <FaSun className='task-icon' onClick={moveTomorrow} />

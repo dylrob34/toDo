@@ -5,6 +5,7 @@ const User = require("../database/models/user");
 const Team = require('../database/models/teams');
 const Bucket = require("../database/models/buckets");
 const Task = require("../database/models/task");
+const Owner = require("../database/models/owner");
 
 router.post('/createBucket', auth.verifyToken, async function(req, res) {
     const user = await User.getUser(req.authData.user);
@@ -25,10 +26,10 @@ router.post("/getBucket", auth.verifyToken, async (req, res) => {
 router.post("/getBuckets", auth.verifyToken, async (req, res) => {
     try {
         let buckets = null;
-        if (typeof(req.body.team) !== "undefined" && req.body.team !== "" && req.body.team !== null) {
-            buckets = await Bucket.getBuckets(req.body.team);
-        } else {
+        if (req.body.team === undefined || req.body.team === "" || req.body.team === null) {
             buckets = await Bucket.getBuckets(req.authData.user);
+        } else {
+            buckets = await Bucket.getBuckets(req.body.team);
         }
         return res.json({buckets});
     } catch (error) {
@@ -74,14 +75,16 @@ router.post('/deleteBucket', auth.verifyToken, async function(req, res) {
     } catch (error) {
         return res.json({error: true, message: "Bucket Does Not Exist"})
     }
-    const tasks = await Task.getTasksWithBuckets(user.email, bucket._id);
+    let owner = bucket.user || bucket.team;
+    const tasks = await Task.getTasksWithBuckets(owner, bucket._id);
     
     if (tasks.length !== 0 ) {
         return res.json({error: true, message: "Bucket Still In Use"});
     }
     try {
+        const own = await Owner.getOwner(bucket.user === null ? bucket.team : bucket.user);
+        await own.deleteBucket(req.body.bucket);
         await bucket.deleteBucket();
-        await user.deleteBucket(req.body.bucket);
     } catch (error) {
         return res.json({error: true, message: error});
     }

@@ -258,11 +258,14 @@ function getTask(id) {
     });
 }
 
-function getTasksWithBucket(email, bucket) {
+function getTasksWithBucket(owner, bucket) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("tasks").find(
             {
-                user: email,
+                "$or": [
+                    {user: owner},
+                    {team: owner}
+                ],
                 buckets: { "$in": [ObjectId(bucket)]}
             }).toArray()
         .then((tasks) => {
@@ -271,11 +274,11 @@ function getTasksWithBucket(email, bucket) {
     });
 }
 
-function editTask(id, assignees, title, body, buckets) {
+function editTask(id, assignees, title, body, buckets, complete) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("tasks").updateOne({_id: ObjectId(id)},
         {
-            "$set": {assignees, title, body, buckets}
+            "$set": {assignees, title, body, buckets, complete}
         })
         .then((task) => {
             resolve(task);
@@ -292,7 +295,7 @@ function deleteTask(id) {
     });
 }
 
-function createTask(user, team, assignees, title, body, buckets) {
+function createTask(user, team, assignees, title, body, buckets, complete) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("tasks").insertOne(
             {
@@ -301,7 +304,8 @@ function createTask(user, team, assignees, title, body, buckets) {
                 assignees,
                 title,
                 body,
-                buckets
+                buckets,
+                complete
             }
         )
         .then((result) => {

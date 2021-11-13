@@ -697,10 +697,12 @@ cursor: pointer;
 }
 
 .task-container {
+  display: flex;
+  position: relative;
+  justify-content: center;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
-  position: relative;
-  width: 1025px;
+  width: 1050px;
 }
 .task-item {
   display: flex;
@@ -748,7 +750,7 @@ just snap back into position. */
 
 .task-grip-invisible {
 position: absolute;
-left: -2px;
+left: 10px;
 top: 9.0px;
 z-index: -1;
 color: transparent;
@@ -756,7 +758,7 @@ color: transparent;
 
 .task-grip {
   position: absolute;
-  left: -20px;
+  left: -2px;
   top: 9.0px;
   color: rgb(255, 255, 255, 0.5);
   transition: 500ms ease-in-out;

@@ -42,8 +42,8 @@ class Bucket {
             let use = await User.getUser(user);
             use.addBucket(bucket._id);
         } else {
-            let team = await Team.getTeam(team);
-            team.addBucket(bucket._id);
+            let teamm = await Team.getTeam(team);
+            teamm.addBucket(bucket._id);
         }
         return bucket;
     }

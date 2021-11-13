@@ -21,13 +21,15 @@ function LoginPage() {
       )
     }
 
+    //<img src="CUBE-NUMBER3-BOTTOMUP.gif" alt="Loading..." width="100%" height="50px"/>
 return (
   <div name='Main' className='main-login'>
     <div className='login-title'>BLOCKZ by Aether Studios</div>
     <div className='login-panel'>
-      <div className='login-element'>
+      <div className='login-element' style={{}/*{background: "no-repeat url(CUBE-NUMBER3-BOTTOMUP.gif) 50% 50%"}*/}>
         {/* Placeholder for logo */}
-        Placeholder for logo
+        <img src="CUBE-NUMBER3-BOTTOMUP.gif" alt="Loading..." width="100%" height="100%"/>
+
       </div>
       <div className='login-element'>
         <form name='Login' onSubmit={submitHandler}>
