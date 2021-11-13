@@ -2,6 +2,7 @@ const User = require("./user");
 const Team = require("./teams");
 
 class Owner {
+    // not in use
     constructor(owner) {
         this.parent = owner;
     }
@@ -25,7 +26,7 @@ class Owner {
         }
         return parent;
     }
-
+    // not in use
     async deleteBucket(id) {
         await this.parent.deleteBucket(id);
     }
