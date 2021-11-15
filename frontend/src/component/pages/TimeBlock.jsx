@@ -40,7 +40,7 @@ const TimeBlock = () => {
                 </div>
             </div>
             <Popup trigger={popup} setTrigger={setPopup} >
-                <PopupCategories popup={popup} setPopup={setPopup} />
+            <PopupCategories popup={popup} setPopup={setPopup} />
             </Popup>
         </div>
 

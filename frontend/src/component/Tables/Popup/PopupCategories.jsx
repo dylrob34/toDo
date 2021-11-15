@@ -1,47 +1,61 @@
 import React, {useState} from 'react'
 import { CirclePicker } from 'react-color';
 import { FaEyeDropper, FaEdit, FaSquare, } from 'react-icons/fa';
+import Popup from '../../layout/Popup';
+import PopupColorPicker from './PopupColorPicker';
 
 // Ask dylan why it has to be props and not just (popup, setPopup)?
 const PopupCategories = (props) => {
 
-    const [toggleColorPicker, setToggleColorPicker] = useState(false)
+    // Test Data so that I can build the popup. Delete this later.
     const categoriesDefault = {
         title: "Test",
         description: "None",
         color: "#34B487" // Primary green
     }
+    
+    const [toggleColorPicker, setToggleColorPicker] = useState(false) // State to toggle the colorpicker visiability
 
-    console.log(toggleColorPicker)
-    const colorPicker = (toggleColorPicker) => {
-        console.log('Working...')
-        if (toggleColorPicker) {
-            return <CirclePicker />
-        }
-        return null
+    // Function to handle the update of color picker state.
+    const handleColorPicker = (input) => {
+        setToggleColorPicker(input)
     }
 
     return (
-        <div className='categories-container'>
-            <div className='categories-element'>
-                <Categories className='categories-item' title={categoriesDefault.title} desc={categoriesDefault.description} color={categoriesDefault.color}/>
-                <FaEdit className='categories-item'></FaEdit>
-                <FaEyeDropper onClick={() => setToggleColorPicker(!toggleColorPicker)} className='categories-item'>{colorPicker()}</FaEyeDropper>
-                {/* <CirclePicker /> */}
-            </div>
-            <div className='categories-element'>
-                <Categories className='categories-item' title={categoriesDefault.title} desc={categoriesDefault.description} color={categoriesDefault.color}/>
-                <FaEdit className='categories-item'></FaEdit>
-                <FaEyeDropper onClick={colorPicker()} className='categories-item'></FaEyeDropper>
-            </div>
-            {/* How do I get it work like this? Below: */}
-            <div className='categories-element'>
-                <Categories className='categories-item' categoriesDefault={categoriesDefault} />
-                <FaEdit className='categories-item'></FaEdit>
-                <FaEyeDropper onClick={colorPicker()} className='categories-item'></FaEyeDropper>
+        <div>
+            <div className='categories-container'>
+                <div>
+                    <div className='categories-element'>
+                        <Categories className='categories-item' title={categoriesDefault.title} desc={categoriesDefault.description} color={categoriesDefault.color}/>
+                        <FaEdit className='categories-item'></FaEdit>
+                        <FaEyeDropper onClick={() => handleColorPicker(!toggleColorPicker)} className='categories-item'/>
+                    </div>
+                    <div className='categories-element'>
+                        <Categories className='categories-item' title={categoriesDefault.title} desc={categoriesDefault.description} color={categoriesDefault.color}/>
+                        <FaEdit className='categories-item'></FaEdit>
+                        <FaEyeDropper onClick={() => handleColorPicker(!toggleColorPicker)} className='categories-item'/>
+                    </div>
+                    <div className='categories-element'>
+                        <Categories className='categories-item' categoriesDefault={categoriesDefault} />
+                        <FaEdit className='categories-item'></FaEdit>
+                        <FaEyeDropper onClick={() => handleColorPicker(!toggleColorPicker)} className='categories-item'/>
+                    </div>
+                </div>
+                <div>
+                    {/* Need to still style this correctly CSS file line 417 */}
+                    {/* Either going to have to make the Popup file more generic or completely redo it for different popups... */}
+                    <Popup trigger={toggleColorPicker} setTrigger={setToggleColorPicker} >
+                        <PopupColorPicker 
+                        toggleColorPicker={toggleColorPicker} 
+                        setToggleColorPicker={setToggleColorPicker} 
+                        className='color-picker'
+                        />
+                    </Popup>
+                </div>
             </div>
             <button onClick={() => props.setPopup(false)}>close</button>
         </div>
+
     )
 }
 

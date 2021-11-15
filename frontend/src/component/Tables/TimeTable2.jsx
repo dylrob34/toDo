@@ -104,14 +104,14 @@ const TimeTable2 = () => {
     return (
         <div className='table'>
             <div className='table-col' id='admin' name='admin'>
-                <div className="table-row">Admin</div>
+                <div className="table-row admin-cell">Admin</div>
                 {timeLoop()}
             </div>
             {
                 dow.map((day) => {
                     return (
                         <div className="table-col" id={Math.random()}>
-                            <div className="table-row">
+                            <div className="table-row admin-cell">
                                 {day}
                             </div>
                             {fill(day)}
