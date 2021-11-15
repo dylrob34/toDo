@@ -82,9 +82,9 @@
   display: none;
 }
 .visible {
-  position: absolute;
+  /* position: absolute; */
+  background-color: transparent;
 }
-
 
 /* General Page Styling */
 
@@ -808,7 +808,6 @@ cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
-
 }
 .task-title{
   margin-right: auto;
@@ -905,6 +904,9 @@ flex-direction: row;
   .task-delete:hover {
     color: var(--accent1);
   }
+  .task-complete{
+    font-size: min(1rem);
+  }
   .task-complete:hover {
     cursor: pointer;
     user-select: none;
@@ -943,7 +945,6 @@ flex-direction: row;
 .table-blank {
 
 }
-
 
 .table-col {
   display: flex;
