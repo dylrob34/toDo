@@ -83,12 +83,12 @@ const ToDo = (props) => {
           <div className="main" id="main">
             <div className='toolbar-container'>
               <div className='toolbar-element'>{selectedBucketName()}</div>
-              <div className='toolbar-element'>
-                <AddTaskProvider>
-                  <FaPlus className='toolbar-item'/>
-                  <div className='toolbar-item' onClick={toggleAddTask}>New Task</div>
-                </AddTaskProvider>
-              </div>
+              <AddTaskProvider>
+                <div className='toolbar-element' onClick={toggleAddTask}>
+                    <FaPlus className='toolbar-item'/>
+                    <div className='toolbar-item'>New Task</div>
+                </div>
+              </AddTaskProvider>
               <div className='flex-spacer-end'></div>
                 <div className='toolbar-element toolbar-sort' onClick={counterAdd}
                 onMouseOver={toggleSort}
