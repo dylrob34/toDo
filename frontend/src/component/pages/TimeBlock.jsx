@@ -3,13 +3,19 @@ import TimeTable2 from '../Tables/TimeTable2'
 import { FaFolder, FaFolderOpen } from 'react-icons/fa';
 import PopupCategories from '../Tables/Popup/PopupCategories';
 import Popup from '../layout/Popup';
+import Modal from '../layout/Modal/Modal';
+import NestedModal from '../layout/Modal/NestedModal';
+import { CirclePicker } from 'react-color';
 
 const TimeBlock = () => {
-    const [popup, setPopup] = useState(false)
+    // const [popup, setPopup] = useState(false)
+    const [modal, setModal] = useState(false)
+    const [nestedModal, setNestedModal] = useState(false)
+
     return (
         <div>
             <div className='toolbar-container'>
-                <div className='toolbar-element' onClick={() => setPopup(true)}>
+                <div className='toolbar-element' onClick={() => setModal(true)}>
                     <FaFolderOpen/>
                     <div className='toolbar-item'> Categories</div>
                 </div>
@@ -39,9 +45,24 @@ const TimeBlock = () => {
                     </section>
                 </div>
             </div>
-            <Popup trigger={popup} setTrigger={setPopup} >
+            <Modal trigger={modal} setTrigger={setModal}>
+                <div className='popup'>
+                    <div className='popup-inner'>
+                        Test
+                        <button onClick={() => setModal(false)}>Close</button>
+                        <button onClick={() => setNestedModal(true)}>Open Nested</button>
+                        <NestedModal trigger={nestedModal} setTrigger={setNestedModal}>
+                            <CirclePicker/>
+                            <button onClick={() => setNestedModal(false)}>Close</button>
+                            <button onClick={() => setModal(false)}>Close All</button>
+                        </NestedModal>
+                    </div>
+                </div>
+            </Modal>
+
+            {/* <Popup trigger={popup} setTrigger={setPopup} >
                 <PopupCategories popup={popup} setPopup={setPopup} />
-            </Popup>
+            </Popup> */}
         </div>
 
     )
