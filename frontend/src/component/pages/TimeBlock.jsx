@@ -12,6 +12,10 @@ const TimeBlock = () => {
     const [modal, setModal] = useState(false)
     const [nestedModal, setNestedModal] = useState(false)
 
+    const handleCloseAll = () => {
+        setNestedModal(false)
+        setModal(false)
+    }
     return (
         <div>
             <div className='toolbar-container'>
@@ -48,21 +52,16 @@ const TimeBlock = () => {
             <Modal trigger={modal} setTrigger={setModal}>
                 <div className='popup'>
                     <div className='popup-inner'>
-                        Test
-                        <button onClick={() => setModal(false)}>Close</button>
-                        <button onClick={() => setNestedModal(true)}>Open Nested</button>
+                        <PopupCategories nestedModal={nestedModal} setNestedModal={setNestedModal}/>
+                            <button onClick={() => setModal(false)}>Close</button>
                         <NestedModal trigger={nestedModal} setTrigger={setNestedModal}>
                             <CirclePicker/>
                             <button onClick={() => setNestedModal(false)}>Close</button>
-                            <button onClick={() => setModal(false)}>Close All</button>
+                            <button onClick={() => handleCloseAll()}>Close All</button>
                         </NestedModal>
                     </div>
                 </div>
             </Modal>
-
-            {/* <Popup trigger={popup} setTrigger={setPopup} >
-                <PopupCategories popup={popup} setPopup={setPopup} />
-            </Popup> */}
         </div>
 
     )
