@@ -34,8 +34,7 @@ router.post('/createTask', auth.verifyToken, async function(req, res) {
 });
 
 router.post('/editTask', auth.verifyToken, async function(req, res) {
-    const user = req.auth
-    Data.user;
+    const user = req.authData.user;
     const taskId = req.body.id;
     const assignees = req.body.assignees;
     const title = req.body.title;
