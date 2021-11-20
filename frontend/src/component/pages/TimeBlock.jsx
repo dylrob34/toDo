@@ -50,15 +50,19 @@ const TimeBlock = () => {
                 </div>
             </div>
             <Modal trigger={modal} setTrigger={setModal}>
-                <div className='popup'>
-                    <div className='popup-inner'>
+                <div className='modal-background'>
+                    <div className='modal'>
                         <PopupCategories nestedModal={nestedModal} setNestedModal={setNestedModal}/>
-                            <button onClick={() => setModal(false)}>Close</button>
-                        <NestedModal trigger={nestedModal} setTrigger={setNestedModal}>
-                            <CirclePicker/>
-                            <button onClick={() => setNestedModal(false)}>Close</button>
-                            <button onClick={() => handleCloseAll()}>Close All</button>
-                        </NestedModal>
+                        <button onClick={() => setModal(false)}>Close</button>
+                    </div>
+                    <div className={nestedModal ? 'nested-modal-background' : 'invisible'}>
+                        <div className={nestedModal ? 'nested-modal-timeblock visible' : 'invisible'}>
+                                <NestedModal trigger={nestedModal} setTrigger={setNestedModal}>
+                                        <CirclePicker/>
+                                        <button onClick={() => setNestedModal(false)}>Close</button>
+                                        <button onClick={() => handleCloseAll()}>Close All</button>
+                                </NestedModal>
+                        </div>
                     </div>
                 </div>
             </Modal>
