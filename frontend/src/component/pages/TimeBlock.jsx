@@ -5,7 +5,7 @@ import PopupCategories from '../Tables/Popup/PopupCategories';
 import Popup from '../layout/Popup';
 import Modal from '../layout/Modal/Modal';
 import NestedModal from '../layout/Modal/NestedModal';
-import { CirclePicker } from 'react-color';
+import { CirclePicker, CompactPicker } from 'react-color';
 
 const TimeBlock = () => {
     // const [popup, setPopup] = useState(false)
@@ -55,7 +55,7 @@ const TimeBlock = () => {
                         <PopupCategories nestedModal={nestedModal} setNestedModal={setNestedModal}/>
                         <button onClick={() => setModal(false)}>Close</button>
                     </div>
-                    <div className={nestedModal ? 'nested-modal-background' : 'invisible'}>
+                    {/* <div className={nestedModal ? 'nested-modal-background' : 'invisible'}>
                         <div className={nestedModal ? 'nested-modal-timeblock visible' : 'invisible'}>
                                 <NestedModal trigger={nestedModal} setTrigger={setNestedModal}>
                                         <CirclePicker/>
@@ -63,7 +63,7 @@ const TimeBlock = () => {
                                         <button onClick={() => handleCloseAll()}>Close All</button>
                                 </NestedModal>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </Modal>
         </div>

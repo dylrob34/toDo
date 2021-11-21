@@ -398,14 +398,18 @@ border-radius: 6px;
   outline: solid 1px var(--primary-green);
 }
 .categories-container {
-display: flex;
-flex-direction: row;
-z-index: 1001;
+
+}
+.categories-list {
+  display: flex;
+  flex-direction: column;
+  z-index: 1001;
 }
 .categories-element {
 display: flex;
 flex-direction: row;
 align-items: center;
+justify-content: flex-start;
 }
 .categories-item {
 justify-content: flex-start;
@@ -413,7 +417,11 @@ justify-content: flex-start;
 .categories-item:hover {
   color: var(--accent-green);
 }
-
+.picker-compact {
+  position: absolute;
+  right: 100%;
+  z-index: 3000;
+}
 
 /* -------------------------- */
 
