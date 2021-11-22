@@ -47,6 +47,11 @@
 
 :root {
   --orange_text: #ff8c00;
+
+  --light-orange: #FB8B00;
+  --mid-orange: #FA7711;
+  --dark-orange: #F34508;
+
   --highlight_color: #61dafb;
   --accent1: #2e8b57;
   --accent2: #2574A9;
@@ -87,6 +92,10 @@
 }
 
 /* General Page Styling */
+
+.spacer-buckets { 
+  width: 14px;
+  }
 
 .page-config {
   min-height: 100vh;
@@ -498,7 +507,7 @@ z-index: 1004;
 .left-sb-logo {
   font-size: 24px;
   padding: 5px 10px 10px 5px;
-  background-color: var(--accent1);
+  background-color: var(--primary-green);
   color: white;
   box-shadow: 0.5px 0px 5px rgba(0,0,0,0.6);
   /* border-bottom: solid var(--accent3) 0.5px; */
@@ -560,7 +569,7 @@ position: relative;
 
 .buckets-title {
 display: flex;
-background-color: var(--accent1);
+background-color: var(--bgrnd-green);
 }
 
 .buckets-header {
@@ -884,7 +893,38 @@ cursor: pointer;
   white-space: pre-wrap;
   padding: 4px 0px 4px 16px;
 }
+.task-lastrow {
+  display: flex;
+  flex-direction: row;
+}
+.task-duedate, .task-reminder {
+  display: flex;
+  flex-direction: row;
+}
+.duedate {
+  margin: 5px 10px 5px 10px;
+  padding: 3px 5px 3px 5px;
+  border: solid 1px var(--top-gray2);
+  background-color: var(--top-gray);
+  border-radius: 5px;
+  cursor: pointer;
+  color: var(--accent-green);
+}
+.reminder {
+  margin: 5px 10px 5px 10px;
+  padding: 3px 5px 3px 5px;
+  border: solid 1px var(--top-gray2);
+  background-color: var(--top-gray);
+  border-radius: 5px;
+  cursor: pointer;
+  color: var(--light-orange);
+}
 
+.duedate:hover, .reminder:hover {
+  border: solid 1px var(--mid-gray);
+  background-color: var(--top-gray2);
+  color: rgb(255, 255, 255, 0.8);
+}
 
 .task-grip-invisible {
 position: absolute;
@@ -945,6 +985,7 @@ white-space: nowrap;
 display: flex;
 flex-direction: row;
 }
+
 
 .task-bucket {
   margin: 5px 10px 5px 10px;
