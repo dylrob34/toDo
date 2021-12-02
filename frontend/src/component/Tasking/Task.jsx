@@ -143,19 +143,19 @@ const Task = ({ task, setReload }) => {
                         </div>
                     </div>
                     <div className='task-body font-body'>
-                        <p name='taskdetails' className={hover ? 'task-element task-details' : 'invisible'}>{parseBody()}</p>
+                        <p name='taskdetails' className={hover ? 'task-element task-details' : 'task-element task-details'}>{parseBody()}</p>
                         <div className='task-lastrow'>
                         <span className='spacer-buckets'>{/*Placeholder for different icon*/}</span>
-                            <div className='task-duedate'>
-                                <span className='task-element duedate'>Due Date</span>
-                            </div>
-                            <div className='task-reminder'>
-                                <span className='task-element reminder'>Reminder</span>
-                            </div>
                             <div className='task-buckets'>
                                 {buckets.map((bucket, index) => (
                                         <span className='task-bucket task-element'key={index}>#{bucket}</span>
                                     ))}
+                            </div>
+                            <div className='task-reminder'>
+                                <span className='task-element reminder'>Reminder</span>
+                            </div>
+                            <div className='task-duedate'>
+                                <span className='task-element duedate'>Due Date</span>
                             </div>
                         </div>
                     </div>
