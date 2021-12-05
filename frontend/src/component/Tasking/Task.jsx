@@ -36,14 +36,16 @@ const Task = ({ task, setReload }) => {
         setId(task._id);
         setTitle(task.title);
         setBody(task.body);
+        setCompleteTask(task.complete);
     }, [task])
 
 
-    function editTask(t, b) {
+    function editTask(t, b, complete) {
         post("/api/task/editTask", {
             "id": id,
             title: t,
-            body: b
+            body: b,
+            complete
         })
             .then((resJson) => {
                 if (resJson.error === true) {
@@ -80,9 +82,15 @@ const Task = ({ task, setReload }) => {
         setReminder(e.target.value);
     }
 
+    const onComplete = async (state) => {
+        setCompleteTask(state);
+        editTask(title, body, state);
+    }
+
     function moveTomorrow() {
         setDueDate(dueDate + 1);
     }
+
     function parseBody() {
         let track = false;
         var newBody = '';
@@ -131,8 +139,8 @@ const Task = ({ task, setReload }) => {
                     <FaGripVertical onClick={handleDragStart} className={`'task-grip-invisible' ${hover ? 'task-grip draggable' : 'task-grip-invisible'}`}
                         onMouseOver={() => handleHover(true)} 
                         onMouseOut={() => handleHover(false)}/>
-                        <FaRegSquare onClick={ () => {setCompleteTask(!completeTask)}} className={completeTask ? 'invisible':'visible task-complete'}/>
-                        <FaCheckSquare onClick={ () => {setCompleteTask(!completeTask)}} className={completeTask ? 'visible task-complete':'invisible'}/>
+                        <FaRegSquare onClick={ () => {onComplete(true)}} className={completeTask ? 'invisible':'visible task-complete'}/>
+                        <FaCheckSquare onClick={ () => {onComplete(false)}} className={completeTask ? 'visible task-complete':'invisible'}/>
                         <div className='task-element task-title font-header'>{title}</div>
                         <div className={`'task-icons' ${hover ? 'task-icons-hover' : ' invisible-icons'}`}>
                             <FaSun className='task-icon' onClick={moveTomorrow} />
