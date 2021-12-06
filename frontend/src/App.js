@@ -14,6 +14,8 @@ import TimeBlock from './component/pages/TimeBlock';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import './Signup.css';
+
 
 const domain = "http://localhost"
 
