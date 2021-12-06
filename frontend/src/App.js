@@ -5,13 +5,15 @@ import { ToDoProvider } from './context/ToDoContext';
 import { login, logout, setLoggedInCallback} from './context/loggedInState';
 import { AddTaskProvider } from './context/AddTaskContext';
 import {get} from "./tools/request";
-import './App.css';
 import Landing from './component/pages/Landing';
 import SignUp from './component/pages/SignUp';
 import { LoginPage } from './component/pages/Login';
 import NavBar from './component/layout/NavBar';
 import ToDo from './component/pages/ToDo';
 import TimeBlock from './component/pages/TimeBlock';
+
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 
 const domain = "http://localhost"
 

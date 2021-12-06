@@ -32,7 +32,7 @@ const TimeBlock = () => {
                 <div className='flex-spacer-end'></div>
             </div>
             <div className='page-config'>
-                <div className='left-sidebar'></div>
+                <div className='left-sidebar-sm'></div>
                 <div className='main' name='table_metrics'>
                     <section className='top'>
                         <TimeTable2 />

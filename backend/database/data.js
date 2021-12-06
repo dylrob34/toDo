@@ -231,18 +231,9 @@ function deleteTeam(id) {
  * 
  *******************/
 
-function getTasks(email) {
+function getTasks(owner) {
     return new Promise((resolve, reject) => {
-        client.db("toDo").collection("tasks").find({user: email}).toArray()
-        .then((tasks) => {
-            resolve(tasks);
-        })
-    });
-}
-
-function getTeamTasks(id) {
-    return new Promise((resolve, reject) => {
-        client.db("toDo").collection("tasks").find({team: id}).toArray()
+        client.db("toDo").collection("tasks").find({owner}).toArray()
         .then((tasks) => {
             resolve(tasks);
         })
@@ -262,10 +253,7 @@ function getTasksWithBucket(owner, bucket) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("tasks").find(
             {
-                "$or": [
-                    {user: owner},
-                    {team: owner}
-                ],
+                owner,
                 buckets: { "$in": [ObjectId(bucket)]}
             }).toArray()
         .then((tasks) => {
@@ -295,12 +283,11 @@ function deleteTask(id) {
     });
 }
 
-function createTask(user, team, assignees, title, body, buckets, complete) {
+function createTask(owner, assignees, title, body, buckets, complete) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("tasks").insertOne(
             {
-                user,
-                team,
+                owner,
                 assignees,
                 title,
                 body,
@@ -331,7 +318,6 @@ module.exports = {
     editBucket,
     deleteBucket,
     getTasks,
-    getTeamTasks,
     getTask,
     getTasksWithBucket,
     editTask,

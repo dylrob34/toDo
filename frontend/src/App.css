@@ -549,6 +549,16 @@ z-index: 1004;
 
 
 /* Side Bar styling */
+.left-sidebar-sm {
+  position: relative;
+  width: 5%;
+  min-height: 100vh;
+  left: 0px;
+  background-color: var(--mid-gray);
+  float: left;
+  box-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.2);
+  z-index: 2;
+}
 
 .left-sidebar {
   position: relative;
@@ -723,8 +733,7 @@ display: flex;
   background-color: var(--base-gray);
   float: right;
   min-height: 100vh;
-  /* height: 100%; */
-  width: 85%;
+  width: 100%;
 }
 
 .top {
@@ -1095,15 +1104,12 @@ flex-direction: row;
 
 /* TimeBlock section  */
 
-.table {
+.table-blockz {
     /* border: 1px solid black; */
     display: flex;
     z-index: 0;
     width: 80%;
     height: 75%;
-}
-.table-blank {
-
 }
 
 .table-col {
@@ -1119,6 +1125,15 @@ flex-direction: row;
     display: flex;
     width: 100%;
     border: 1px solid gray;
+}
+.table-row-drag {
+    display: flex;
+    width: 100%;
+    border: 1px solid gray;
+    background-color: var(--accent-green);
+}
+.table-row:hover{
+  /* background-color: var(--accent-green); */
 }
 
 .table-fill {
@@ -1138,6 +1153,9 @@ flex-direction: row;
   color: white;
 }
 
+.cell:hover{
+background-color: var(--primary-green);
+}
 .readonly-cell {
   position: relative;
   text-align: left;

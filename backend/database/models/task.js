@@ -4,10 +4,9 @@ const Bucket = require("./buckets");
 const day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 class Task {
-    constructor(id, user, team, assignees, title, body, buckets, complete)  {
+    constructor(id, owner, assignees, title, body, buckets, complete)  {
         this.id = id;
-        this.user = user;
-        this.team = team;
+        this.owner = owner;
         this.assignees = assignees;
         this.title = title;
         this.body = body;
@@ -20,23 +19,11 @@ class Task {
         .catch(() => {
             throw "Error Getting Task";
         });
-        if (temp.complete === null || temp.complete === undefined) {
-            console.log("Adding Complete to Task");
-            temp = new Task(temp._id, temp.user, temp.team, temp.assignees, temp.title, temp.body, temp.buckets, temp.complete);
-            temp.editTask(temp.assignees, temp.title, temp.body, false);
-        }
-        return new Task(temp._id, temp.user, temp.team, temp.assignees, temp.title, temp.body, temp.buckets, temp.complete);
+        return new Task(temp._id, temp.owner, temp.assignees, temp.title, temp.body, temp.buckets, temp.complete);
     }
 
-    static async getTasks(user) {
-        const tasks = await database.getTasks(user);
-        for (let task of tasks) {
-            if (task.complete === null || task.complete === undefined) {
-                console.log("Adding Complete to Task");
-                task = new Task(task._id, task.user, task.team, task.assignees, task.title, task.body, task.buckets, task.complete);
-                task.editTask(task.assignees, task.title, task.body, false);
-            }
-        }
+    static async getTasks(owner) {
+        const tasks = await database.getTasks(owner);
         return tasks;
     }
 
@@ -45,11 +32,10 @@ class Task {
         return buckets;
     }
 
-    static async createTask(user, team, assignees, title, body) {
+    static async createTask(owner, assignees, title, body) {
         const buckets = await Task.parseBuckets(user, team, body);
         const result = await database.createTask(
-            user,
-            team,
+            owner,
             assignees,
             title,
             body,
@@ -62,7 +48,7 @@ class Task {
         return task;
     }
 
-    static async parseBuckets(user, team, body) {
+    static async parseBuckets(owner, body) {
         let buckets = [];
         let bucketIds = [];
         let track = false;
@@ -79,12 +65,6 @@ class Task {
                 buckets[buckets.length-1] = buckets[buckets.length-1].concat(body[char]);
             }
         }
-        let owner;
-        if (user === null || user === undefined) {
-            owner = team;
-        } else {
-            owner = user;
-        }
     
         const ownerBuckets = await Bucket.getBuckets(owner);
         for (const bucket of buckets) {
@@ -96,7 +76,7 @@ class Task {
                 }
             }
             if (!found) {
-                const newBucket = await Bucket.createBucket(bucket, user, team);
+                const newBucket = await Bucket.createBucket(bucket, owner, team);
                 bucketIds.push(newBucket._id);
             }
         }

@@ -2,7 +2,8 @@ import React, {useState, useEffect, useRef} from 'react'
 import Cells from './Cells';
 import TimeCell from './TimeCell'; // Don't know if need a different type of cell component for the Admin col, but its late and I didnt want to think.
 import PopupEditBlock from './Popup/PopupEditBlock';
-import { FaCommentAlt, FaMicrophoneAltSlash, FaRegBuilding } from 'react-icons/fa'
+import { FaCommentAlt, FaMicrophoneAltSlash, FaRegBuilding } from 'react-icons/fa';
+import {getTableData} from "./TableData";
 
 
 
@@ -78,7 +79,7 @@ const TimeTable2 = () => {
         setData([...data, newData]);
     }
 
-    function fill(day) {
+    function fill(day, colNum) {
         console.log("filling")
         let cells = [];
         for (var i = 0; i < 1440; i += divisions) {
@@ -86,35 +87,36 @@ const TimeTable2 = () => {
             for (let datum of data) {
                 if (datum.time === i && datum.dow === day) {
                     found = true;
-                    cells.push(<Cells key={datum.title} data={datum} timeStrings={timeStrings} height={cellHeight} div={divisions} setData={setTheData} catagories={catagories[datum.catagory]}/>)
+                    cells.push(<Cells key={datum.title} row={i} col={colNum} data={datum} timeStrings={timeStrings} height={cellHeight} div={divisions} setData={setTheData} catagories={catagories[datum.catagory]}/>)
                     if (datum.duration > divisions) {
                         i += datum.duration - divisions;
                     }
                 }
             }
             if (!found) {
-                cells.push(<Cells key={i} data={{ title: '', body: '', dow: day, time: i, duration: divisions, catagory: "" }} timeStrings={timeStrings} height={cellHeight} div={divisions} setData={setTheData} catagories={catagories}/>)
+                cells.push(<Cells key={i} row={i} col={colNum} data={{ title: '', body: '', dow: day, time: i, duration: divisions, catagory: "" }} timeStrings={timeStrings} height={cellHeight} div={divisions} setData={setTheData} catagories={catagories}/>)
             }
         }
+        console.log(getTableData());
         return cells;
     }
 
     const dow = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     console.log("Cell Height: " + cellHeight);
     return (
-        <div className='table'>
-            <div className='table-col' id='admin' name='admin'>
+        <div className='table-blockz'>
+            <div className='table-col' name='admin'>
                 <div className="table-row admin-cell">Admin</div>
                 {timeLoop()}
             </div>
             {
-                dow.map((day) => {
+                dow.map((day, index) => {
                     return (
-                        <div className="table-col" id={Math.random()}>
+                        <div className="table-col" >
                             <div className="table-row admin-cell">
                                 {day}
                             </div>
-                            {fill(day)}
+                            {fill(day, index)}
                         </div>
                     )
                 })

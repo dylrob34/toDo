@@ -1,9 +1,11 @@
 import React, {useState, useEffect, useRef} from 'react'
 import PopupEditBlock from './Popup/PopupEditBlock';
+import { setTableData, getTableData } from './TableData';
 
 
-const Cells = ({data, timeStrings, height, div, setData, catagories}) => {
-
+const Cells = ({row, col, data, timeStrings, height, div, setData, catagories}) => {
+    const [colNum, setColNum] = useState(col);
+    const [rowNum, setRowNum] = useState(row);
     const [title, setTitle] = useState(data.title);
     const [body, setBody] = useState(data.body);
     const [dow, setDow] = useState(data.dow);
@@ -13,7 +15,10 @@ const Cells = ({data, timeStrings, height, div, setData, catagories}) => {
     const [isEditing, setIsEditing] = useState(false);
     const [middle, setMiddle] = useState(0);
     const [right, setRight] = useState(0);
+    const [top, setTop] = useState(0);
+    const [bottom, setBottom] = useState(0);
     const [popup, setPopup] = useState(false);
+    const [draggedOver, setDraggedOver] = useState(false);
     const cellRef = useRef(null);
 
     // Gets the reference to the DOM cell object and calcs the middle height at the right side
@@ -22,6 +27,18 @@ const Cells = ({data, timeStrings, height, div, setData, catagories}) => {
             const rect = cellRef.current.getBoundingClientRect();
             setMiddle(Math.floor((rect.top + rect.bottom) / 2));
             setRight(rect.right)
+            setTop(rect.top);
+            setBottom(rect.bottom);
+            setColNum(col);
+            setRowNum(row);
+            const tableData = getTableData();
+            setTableData({...tableData, [`${col}${row}`]: {
+                x: col,
+                y: row,
+                top: rect.top,
+                bottom: rect.bottom,
+                setDraggedOverState
+            }})
         }
     }, [cellRef.current]);
 
@@ -37,8 +54,48 @@ const Cells = ({data, timeStrings, height, div, setData, catagories}) => {
         })
     }
 
+    const setDraggedOverState = (state) => {
+        setDraggedOver(state);
+    }
+
+    const handleMouseDown = (e) => {
+        window.addEventListener("mousemove", dragCell);
+    }
+
+    const handleMouseUp = (e) => {
+        window.removeEventListener("mousemove", dragCell)
+    }
+
+    const dragCell = (e) => {
+        e.preventDefault();
+        const x = e.clientX;
+        const y = e.clientY;
+        const tableData = getTableData();
+        let stopped = false;
+        for (let r = row+div; r < row+100000; r=r+div) {
+            const currentCell = tableData[`${col}${r}`];
+            if (currentCell === undefined) {
+                return;
+            }
+            console.log("Y: " + y);
+            console.log("bot: " + bottom);
+            console.log("top: " + currentCell.bottom);
+            if (y > bottom && y > currentCell.top && y < currentCell.bottom) {
+                stopped = true;
+                console.log("yes return")
+                currentCell.setDraggedOverState(true);
+            } else if (y > bottom && y > currentCell.top && !stopped) {
+                console.log("yes")
+                currentCell.setDraggedOverState(true);
+            } else {
+                console.log("no")
+                currentCell.setDraggedOverState(false);
+            }
+        }
+    }
+
     return (
-        <div className="table-row" ref={cellRef} style={{minHeight: `${(height * duration / div)-2}px`, backgroundColor: `${catagories.color}`}} onClick={() => setIsEditing(true)} onBlur={handleBlur} onDoubleClick={() => setPopup(true)}>
+        <div className={draggedOver ? "table-row-drag":"table-row"} ref={cellRef} style={{minHeight: `${(height * duration / div)-2}px`, backgroundColor: `${catagories.color}`}} onClick={() => setIsEditing(true)} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onBlur={handleBlur} onDoubleClick={() => setPopup(true)}>
             <div className='cell'>
             {
                 isEditing ?

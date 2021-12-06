@@ -12,7 +12,7 @@ router.get('/getTasks', auth.verifyToken, async function(req, res) {
 });
 
 router.post("/getTeamTasks", auth.verifyToken, async (req, res) => {
-    const tasks = await database.getTeamTasks(req.body.team);
+    const tasks = await database.getTasks(req.body.team);
     return res.json({tasks});
 })
 
