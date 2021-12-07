@@ -5,6 +5,7 @@ var auth = require("./auth");
 const Task = require("../database/models/task");
 const Team = require("../database/models/teams");
 const Bucket = require("../database/models/buckets");
+const Owner = require("../database/models/owner");
 
 router.get('/getTasks', auth.verifyToken, async function(req, res) {
     const tasks = await Task.getTasks(req.authData.user);
@@ -17,18 +18,11 @@ router.post("/getTeamTasks", auth.verifyToken, async (req, res) => {
 })
 
 router.post('/createTask', auth.verifyToken, async function(req, res) {
-    let user = null;
-    let team = null;
-    if (req.body.team != undefined) {
-        team = req.body.team;
-    } else {
-        user = req.authData.user;
-    }
     const assignees = [];
     const title = req.body.title;
     const body = req.body.body;
 
-    const task = await Task.createTask(user, team, assignees, title, body);
+    const task = await Task.createTask(req.body.team || req.authData.user, assignees, title, body);
     
     return res.json({error: false});
 });
@@ -59,16 +53,15 @@ router.post('/deleteTask', auth.verifyToken, async function(req, res) {
     const user = req.authData.user;
     const taskId = req.body.id;
     const task = await Task.getTask(taskId);
-    if (task.team !== undefined && task.team !== null) {
-        const team = await Team.getTeam(task.team);
-        if (team.owner === user || team.admins.includes(user) || team.users.includes(user)) {
+    const owner = await Owner.getOwner(task.owner);
+    if (task.owner === user) {
+        await task.deleteTask();
+        return res.json({error: false});
+    } else if (owner !== null) {
+        if (owner.owner === user || owner.admins.includes(user) || owner.users.includes(user)) {
             await task.deleteTask();
             return res.json({error: false});
         }
-    }
-    else if (task.user == user) {
-        await task.deleteTask();
-        return res.json({error: false});
     } else {
         return res.json({error: true});
     }

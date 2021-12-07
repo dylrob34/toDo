@@ -33,7 +33,7 @@ class Task {
     }
 
     static async createTask(owner, assignees, title, body) {
-        const buckets = await Task.parseBuckets(user, team, body);
+        const buckets = await Task.parseBuckets(owner, body);
         const result = await database.createTask(
             owner,
             assignees,
