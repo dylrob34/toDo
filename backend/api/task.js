@@ -35,16 +35,13 @@ router.post('/editTask', auth.verifyToken, async function(req, res) {
     const body = req.body.body;
     const complete = req.body.complete;
     const task = await Task.getTask(taskId);
-    if (task.team != undefined) {
-        const team = await Team.getTeam(task.team);
-        if (team.owner == user || team.admins.includes(user) || team.users.includes(user)) {
-            await task.editTask(assignees, title, body, complete);
-            return res.json({error: false});
-        }
-    }
-    if (task.user == user) {
+    const owner = await Owner.getOwner(task.owner);
+    if (task.owner === user) {
         await task.editTask(assignees, title, body, complete);
         return res.json({error:false});
+    } else if (owner.owner === user || owner.admins.includes(user) || owner.users.includes(user)) {
+        await task.editTask(assignees, title, body, complete);
+        return res.json({error: false});
     }
     return res.json({error: true});
 });

@@ -8,7 +8,6 @@ class Owner {
     }
 
     static async getOwner(owner) {
-        console.log(owner);
         let parent = null;
         try {
             try {

@@ -52,17 +52,17 @@ class Task {
         let buckets = [];
         let bucketIds = [];
         let track = false;
-        for (const char in body) {
-            if (body[char] == "#") {
+        for (const char of body) {
+            if (char == "#") {
                 track = true;
                 buckets.push("");
                 continue;
             }
-            if ((body[char] === " " || body[char].charCodeAt(0) === 13) && track == true) {
+            if ((char === " " || char.charCodeAt(0) === 13) || char === "\n" && track == true) {
                 track = false;
             }
             if (track) {
-                buckets[buckets.length-1] = buckets[buckets.length-1].concat(body[char]);
+                buckets[buckets.length-1] = buckets[buckets.length-1].concat(char);
             }
         }
     
@@ -76,7 +76,7 @@ class Task {
                 }
             }
             if (!found) {
-                const newBucket = await Bucket.createBucket(bucket, owner, team);
+                const newBucket = await Bucket.createBucket(bucket, owner);
                 bucketIds.push(newBucket._id);
             }
         }
@@ -91,9 +91,9 @@ class Task {
         this.assignees = assignees;
         this.title = title;
         this.body = body;
-        this.buckets = await Task.parseBuckets(this.user, this.team, body);
+        this.buckets = await Task.parseBuckets(this.owner, body);
         this.complete = complete;
-        const newTask = await database.editTask(this.id, assignees, title, body, this.buckets, this.complete);
+        const newTask = await database.editTask(this.id, assignees, title, body, this.buckets, this.complete || false);
 
     }
 

@@ -1,23 +1,21 @@
 const database = require("../data");
-const User = require("./user");
-const Team = require("./teams");
+const Owner = require("./owner");
 
 class Bucket {
-    constructor(_id, name, user, team)  {
+    constructor(_id, name, owner)  {
         this._id = _id;
         this.name = name;
-        this.user = user;
-        this.team = team;
+        this.owner = owner;
     }
 
     static async getBucket(_id) {
         const temp = await database.getBucket(_id);
-        return new Bucket(temp._id, temp.name, temp.user, temp.team);
+        return new Bucket(temp._id, temp.name, temp.owner);
     }
 
     static async getBucketByName(owner, name) {
         const temp = await database.getBucketByName(owner, name);
-        return new Bucket(temp._id, temp.name, temp.user, temp.team);
+        return new Bucket(temp._id, temp.name, temp.owner);
     }
 
     static async getBuckets(owner) {
@@ -27,24 +25,18 @@ class Bucket {
         });
         let buckets = [];
         for (const bucket of tempBuckets) {
-            buckets.push(new Bucket(bucket._id, bucket.name, bucket.user, bucket.team));
+            buckets.push(new Bucket(bucket._id, bucket.name, bucket.owner));
         }
         return buckets;
     }
 
-    static async createBucket(name, user, team) {
+    static async createBucket(name, owner) {
         const result = await database.createBucket(
             name,
-            user,
-            team);
-        var bucket = await Bucket.getBucket(result.ops[0]._id);
-        if (user !== null) {
-            let use = await User.getUser(user);
-            use.addBucket(bucket._id);
-        } else {
-            let teamm = await Team.getTeam(team);
-            teamm.addBucket(bucket._id);
-        }
+            owner);
+        const bucket = await Bucket.getBucket(result.ops[0]._id);
+        const own = await Owner.getOwner(owner);
+        own.addBucket(bucket);
         return bucket;
     }
 
