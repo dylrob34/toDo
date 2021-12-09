@@ -30,13 +30,13 @@ class Bucket {
         return buckets;
     }
 
-    static async createBucket(name, owner) {
+    static async createBucket(owner, name) {
         const result = await database.createBucket(
-            name,
-            owner);
+            owner,
+            name);
         const bucket = await Bucket.getBucket(result.ops[0]._id);
         const own = await Owner.getOwner(owner);
-        own.addBucket(bucket);
+        own.addBucket(bucket._id);
         return bucket;
     }
 

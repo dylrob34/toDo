@@ -76,7 +76,7 @@ class Task {
                 }
             }
             if (!found) {
-                const newBucket = await Bucket.createBucket(bucket, owner);
+                const newBucket = await Bucket.createBucket(owner, bucket);
                 bucketIds.push(newBucket._id);
             }
         }

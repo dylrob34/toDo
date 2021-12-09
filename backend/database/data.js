@@ -163,12 +163,7 @@ function deleteTeam(id) {
 
  function getBuckets(owner) {
     return new Promise((resolve, reject) => {
-        client.db("toDo").collection("buckets").find({
-            "$or": [
-                {user: owner},
-                {team: owner}
-            ]
-        }).toArray()
+        client.db("toDo").collection("buckets").find({owner}).toArray()
         .then((buckets) => {
             resolve(buckets);
         });
@@ -189,13 +184,12 @@ function deleteTeam(id) {
     });
  }
 
- function createBucket(name, user, team) {
+ function createBucket(owner, name) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("buckets").insertOne(
             {
-                name,
-                user,
-                team
+                owner,
+                name
             }
         )
         .then((result) => {

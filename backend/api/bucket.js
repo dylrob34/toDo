@@ -8,9 +8,8 @@ const Task = require("../database/models/task");
 const Owner = require("../database/models/owner");
 
 router.post('/createBucket', auth.verifyToken, async function(req, res) {
-    const user = await User.getUser(req.authData.user);
     try {
-        const bucket = await Bucket.createBucket(req.body.name, req.authData.user, req.body.team);
+        const bucket = await Bucket.createBucket(req.body.team || req.authData.user, req.body.name);
         return res.json(bucket);
     } catch (error) {
       return res.json({error: true, message: error});
@@ -73,19 +72,20 @@ router.post('/deleteBucket', auth.verifyToken, async function(req, res) {
     try {
         bucket = await Bucket.getBucket(req.body.bucket);
     } catch (error) {
+        console.log(error);
         return res.json({error: true, message: "Bucket Does Not Exist"})
     }
-    let owner = bucket.user || bucket.team;
-    const tasks = await Task.getTasksWithBuckets(owner, bucket._id);
     
+    const tasks = await Task.getTasksWithBuckets(bucket.owner, bucket._id);
     if (tasks.length !== 0 ) {
         return res.json({error: true, message: "Bucket Still In Use"});
     }
     try {
-        const own = await Owner.getOwner(bucket.user === null ? bucket.team : bucket.user);
+        const own = await Owner.getOwner(bucket.owner);
         await own.deleteBucket(req.body.bucket);
         await bucket.deleteBucket();
     } catch (error) {
+        console.log(error);
         return res.json({error: true, message: error});
     }
     return res.json({error: false});

@@ -38,7 +38,7 @@ class Team {
     }
 
     async deleteTeam() {
-        database.deleteTeam(this.id);
+        return await database.deleteTeam(this.id);
     }
 
     async editTeam(owner, admins, users, name) {

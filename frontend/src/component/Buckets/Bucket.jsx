@@ -16,6 +16,7 @@ const Bucket = ({ bucket, popup }) => {
 
   useEffect(() => {
     setText(bucket.name);
+    setId(bucket._id);
   }, [bucket])
 
   function getCurrentBucketIndex(currentBucket, id) {
@@ -51,7 +52,12 @@ const Bucket = ({ bucket, popup }) => {
 
 
   function deleteBucket() {
-    console.log('Delete Buckets')
+    var currentBuckets = toDoContext.currentBucket;
+    const index = getCurrentBucketIndex(currentBuckets, bucket._id);
+    if (index > -1) {
+      currentBuckets.splice(index, 1);
+    }
+    updateToDoContext({ ...toDoContext, currentBucket: currentBuckets });
     post("/api/buckets/deleteBucket", { "bucket": _id, })
       .then((resJson) => {
         if (resJson.error === true) {
