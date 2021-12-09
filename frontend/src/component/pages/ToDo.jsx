@@ -34,7 +34,7 @@ const ToDo = (props) => {
     if (teamName.length > 0) {
       teamName = teamName.substring(1, teamName.length);
     }
-    setToDoContext({...toDoContext, reloadBuckets: true, reloadTasks: true, currentTeam: teamName});
+    setToDoContext({reloadBuckets: true, reloadTasks: true, currentBucket: [], currentTeam: teamName});
   }, [props.location.pathname])
 
   if (getLoggedIn() === false) {
