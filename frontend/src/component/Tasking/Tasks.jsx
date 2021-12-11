@@ -53,9 +53,9 @@ const Tasks = () => {
     }
 
     function checkBucketsSelected(buckets) {
-        for (var i = 0; i < buckets.length; i++) {
+        for (const taskBucket of buckets) {
             for (const bucket of toDoContext.currentBucket){
-                if (bucket.id === buckets[i]) return true;
+                if (bucket.id === taskBucket) return true;
             }
         }
         return false;

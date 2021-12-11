@@ -52,6 +52,7 @@ const Cell = ({data, height, div, timeStrings}) => {
             {
                 isEditing ?
                     <div>
+                        <div className='draggable-div'> </div>
                         <input
                         autoFocus
                         type="text"
@@ -62,6 +63,7 @@ const Cell = ({data, height, div, timeStrings}) => {
                         onChange={(e) => setTitle(e.target.value)}>
                             </input>
                             <PopupEditBlock cell={true} s={{top: middle-48, left: right+4}} data={{title, body, dow, time, duration}} timeStrings={timeStrings} setData={setData} setPopup={setPopup} className='popup-timeblock'/>
+                        <div className="draggable-div"></div>
                     </div>
                 : 
                     <div title={title} onFocus={editBlock} className='readonly-cell'>{title}</div>

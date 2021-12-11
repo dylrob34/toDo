@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react'
 import PopupEditBlock from './Popup/PopupEditBlock';
-import { setTableData, getTableData } from './TableData';
+import { setTableData, getTableData, setDragged, unSetDragged, drag, setCount } from './TableData';
 
 
 const Cells = ({row, col, data, timeStrings, height, div, setData, catagories}) => {
@@ -59,44 +59,42 @@ const Cells = ({row, col, data, timeStrings, height, div, setData, catagories}) 
     }
 
     const handleMouseDown = (e) => {
-        window.addEventListener("mousemove", dragCell);
+        setDragged(dragCell, (count) => {setDuration(duration + count * div)});
+        window.addEventListener("mousemove", drag);
     }
 
     const handleMouseUp = (e) => {
-        window.removeEventListener("mousemove", dragCell)
+        window.removeEventListener("mousemove", drag)
+        unSetDragged();
     }
 
     const dragCell = (e) => {
-        e.preventDefault();
         const x = e.clientX;
         const y = e.clientY;
         const tableData = getTableData();
         let stopped = false;
+        let count = 0;
         for (let r = row+div; r < row+100000; r=r+div) {
             const currentCell = tableData[`${col}${r}`];
             if (currentCell === undefined) {
-                return;
+                break;
             }
-            console.log("Y: " + y);
-            console.log("bot: " + bottom);
-            console.log("top: " + currentCell.bottom);
             if (y > bottom && y > currentCell.top && y < currentCell.bottom) {
                 stopped = true;
-                console.log("yes return")
                 currentCell.setDraggedOverState(true);
+                count++;
             } else if (y > bottom && y > currentCell.top && !stopped) {
-                console.log("yes")
                 currentCell.setDraggedOverState(true);
+                count++;
             } else {
-                console.log("no")
                 currentCell.setDraggedOverState(false);
             }
         }
+        setCount(count);
     }
 
     return (
-        <div className={draggedOver ? "table-row-drag":"table-row"} ref={cellRef} style={{minHeight: `${(height * duration / div)-2}px`, backgroundColor: `${catagories.color}`}} onClick={() => setIsEditing(true)} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onBlur={handleBlur} onDoubleClick={() => setPopup(true)}>
-            <div className='cell'>
+        <div className={draggedOver ? "table-row-drag":"table-row"} ref={cellRef} style={{minHeight: `${(height * duration / div)-2}px`, maxHeight: `${(height * duration / div)-2}px`, backgroundColor: `${catagories.color}`}} onClick={() => setIsEditing(true)} onMouseUp={handleMouseUp} onBlur={handleBlur} onDoubleClick={() => setPopup(true)}>
             {
                 isEditing ?
                     <div className='cell'>
@@ -113,11 +111,14 @@ const Cells = ({row, col, data, timeStrings, height, div, setData, catagories}) 
                                 <PopupEditBlock cell={true} s={{top: middle-87, left: right+4}} data={{title, body, dow, time, duration, setTitle}} timeStrings={timeStrings} setData={setData} setPopup={setPopup} className='popup-timeblock'/>
                             :
                             null}
+                        <div className={isEditing ? "draggable-div" : '' } style={{ bottom: '1px'}} onMouseDown={handleMouseDown}>-</div>
                     </div>
                 : 
-                    <div title={title} onFocus={() => setIsEditing(true)} className=' cell readonly-cell'>{title}</div>
+                    <div title={title} onFocus={() => setIsEditing(true)} className=' readonly-cell'>
+                        <div className={isEditing ? "draggable-div" : '' } style={{bottom: '1px'}} onMouseDown={handleMouseDown}></div>
+                        {title}
+                    </div>
             }
-            </div>
         </div>
     )
 }
