@@ -1095,6 +1095,7 @@ flex-direction: row;
 }
 .cell {
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   color: white;
@@ -1108,6 +1109,7 @@ background-color: var(--primary-green);
   text-align: left;
   height: 100%;
   width: 100%;
+  color: white;
   margin: 0;
   padding: 1px;
   line-height: normal;
@@ -1128,4 +1130,17 @@ background-color: var(--primary-green);
   font-size: 0.9rem;
   text-align: left;
   cursor: pointer;
+
+}
+
+.draggable-div {
+  /* border-bottom: solid 1px yellow; */
+  position: relative;
+  width: 100%;
+  height: 5px;
+  color: transparent;
+}
+.draggable-div:hover {
+cursor: n-resize;
+color: transparent;
 }
