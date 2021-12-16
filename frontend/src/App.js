@@ -12,8 +12,6 @@ import NavBar from './component/layout/NavBar';
 import ToDo from './component/pages/ToDo';
 import TimeBlock from './component/pages/TimeBlock';
 
-import InsertionSort from './component/pages/InsertionSort';
-
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './Signup.css';
@@ -61,7 +59,7 @@ function App() {
             </ToDoProvider>
             )}>
           </Route>
-          <Route exact path='/capture' component={ InsertionSort }> </Route>
+          <Route exact path='/capture'> </Route>
           <Route exact path='/timeblock' component={ TimeBlock }></Route>
         </Switch>
       </div>

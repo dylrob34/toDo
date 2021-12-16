@@ -19,13 +19,13 @@ const ToDo = (props) => {
   const counterUpdate = useCounterUpdate();
   const toggleAddTask = useAddTaskUpdate();
   const [reset, setReset] = useState(false)
-  const [sort, setSort] = useState(false);
+  const [sortDisplay, setSortDisplay] = useState(false)
 
   useEffect( () => {
     if(counter > 3) {
       counterUpdate(0)
     } else {
-      console.log(counter)
+      console.log("Sort Counter is: " + counter)
     }
   }, [counter])
 
@@ -41,10 +41,11 @@ const ToDo = (props) => {
     return <Redirect to="/login" />;
   }
 
-  // Function for setting the Sort Feature state
+  // Function for displaying the sort options
   function toggleSort() {
-    setSort(!sort)
+    setSortDisplay(!sortDisplay)
   }
+
   // Function for incrementing the counter by +1, to change display of Sort Feature
   function counterAdd(){
     counterUpdate(counter + 1)
@@ -98,11 +99,10 @@ const ToDo = (props) => {
               <div className='flex-spacer-end'></div>
                 <div className='toolbar-element toolbar-sort' onClick={counterAdd}
                 onMouseOver={toggleSort}
-                onMouseOut={toggleSort}
-                >
+                onMouseOut={toggleSort}>
                   <FaSort className='toolbar-item'/>
                   <div className='toolbar-item'>Sort</div>
-                  <div className={sort ? 'visible':'invisible'}><Sort/></div>
+                  <div className={sortDisplay ? 'visible':'invisible'}><Sort/></div>
                 </div>
             </div>
             <div className="task-textedit">
