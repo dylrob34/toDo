@@ -7,6 +7,8 @@ import AddTask from '../Tasking/AddTask';
 import { useAddTask, useAddTaskUpdate } from '../../context/AddTaskContext'
 import { FaAngleRight, FaAngleDoubleRight } from 'react-icons/fa';
 import { useToDoContext, useUpdateToDoContext } from '../../context/ToDoContext';
+import { useCounter, useCounterUpdate } from "../../context/ToDoContext";
+
 
 
 
@@ -18,6 +20,8 @@ const Tasks = () => {
     const toggleAddTask = useAddTaskUpdate();
     const toDoContext = useToDoContext();
     const setToDoContext = useUpdateToDoContext();
+    const counter = useCounter();
+    const counterUpdate = useCounterUpdate();
 
     useEffect(() => {
         // Fetch task items
@@ -65,6 +69,30 @@ const Tasks = () => {
         setToDoContext({...toDoContext, reloadTasks: reload})
     }
 
+    function filterTasks(counter) {
+        if (counter === 0) {
+            tasks.map((task) => {
+                if (toDoContext.currentBucket.length === 0 || checkBucketsSelected(task.buckets)) {
+                    return <Task key={task._id} task={task} setReload={setReload} />
+                }
+                return null;
+            })
+        } else if (counter === 1) {
+
+        } else if (counter === 2) {
+
+        } else if (counter === 3) {
+
+        } else {
+            tasks.map((task) => {
+                if (toDoContext.currentBucket.length === 0 || checkBucketsSelected(task.buckets)) {
+                    return <Task key={task._id} task={task} setReload={setReload} />
+                }
+                return null;
+            })
+        }
+    }
+
     return (
         <div>
             <div name='addTaskCtn' className={showAddTask ? 'invisible add-task-container' : 'visible add-task-container'}
@@ -84,12 +112,8 @@ const Tasks = () => {
                 <div name="CompletedTasks" className='task-list-container'>
                 Archive Here
                 </div>
-                {tasks.map((task) => {
-                    if (toDoContext.currentBucket.length === 0 || checkBucketsSelected(task.buckets)) {
-                        return <Task key={task._id} task={task} setReload={setReload} />
-                    }
-                    return null;
-                })
+                {
+                    filterTasks()
                 }
             </div>
         </div>
