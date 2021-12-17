@@ -69,6 +69,7 @@ const Tasks = () => {
         setToDoContext({...toDoContext, reloadTasks: reload})
     }
 
+    // New Stuff 12/16:
     function filterTasks(counter) {
         if (counter === 0) {
             tasks.map((task) => {
@@ -92,6 +93,7 @@ const Tasks = () => {
             })
         }
     }
+    // ----
 
     return (
         <div>
@@ -113,7 +115,9 @@ const Tasks = () => {
                 Archive Here
                 </div>
                 {
+                    // New stuff 12/16
                     filterTasks()
+                    // ---
                 }
             </div>
         </div>
