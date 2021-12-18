@@ -69,31 +69,52 @@ const Tasks = () => {
         setToDoContext({...toDoContext, reloadTasks: reload})
     }
 
-    // New Stuff 12/16:
-    function filterTasks(counter) {
-        if (counter === 0) {
-            tasks.map((task) => {
-                if (toDoContext.currentBucket.length === 0 || checkBucketsSelected(task.buckets)) {
-                    return <Task key={task._id} task={task} setReload={setReload} />
-                }
-                return null;
-            })
-        } else if (counter === 1) {
-
-        } else if (counter === 2) {
-
-        } else if (counter === 3) {
-
-        } else {
-            tasks.map((task) => {
-                if (toDoContext.currentBucket.length === 0 || checkBucketsSelected(task.buckets)) {
-                    return <Task key={task._id} task={task} setReload={setReload} />
-                }
-                return null;
-            })
+    function insertionSortString(inputArrString) {
+        let n = inputArrString.length;
+        // As long as our i is less than inputArr increment i
+        for (let i = 1; i < n; i++) {
+            let current = inputArrString[i]; // Store the current item
+            // Create a loop to look at previous items. If they are greater we need to shift/copy them to the right.
+            let j = i-1; // Starting at the previous item before i
+            while ((j >= 0 ) && (current.title.localeCompare(inputArrString[j].title) < 0 )) {
+                inputArrString[j+1] = inputArrString[j]; // Shift the item to the right if both conditions are met
+                j--; // Decrement j to close the loop
+            }
+            inputArrString[j+1] = current;
         }
+        return inputArrString
     }
-    // ----
+    
+    function map(array, func) {
+        let temp = []
+        for (const element of array) {
+            let result = func(element) 
+            if (result !== undefined) {
+                temp.push(result)
+            }
+        }
+        return temp 
+    }
+
+    function filterTasks() {
+        let bucketFilteredTasks = map(tasks, (task) => {
+            if (toDoContext.currentBucket.length === 0 || checkBucketsSelected(task.buckets)) {
+                return task
+            }
+        })
+        switch (counter) {
+            case 1:
+                break
+            case 2:
+                break
+            case 3:
+                bucketFilteredTasks = insertionSortString(bucketFilteredTasks)
+                break
+        }
+        return bucketFilteredTasks.map((task) => {
+            return <Task key={task._id} task={task} setReload={setReload} />
+        })
+    }
 
     return (
         <div>
@@ -115,9 +136,7 @@ const Tasks = () => {
                 Archive Here
                 </div>
                 {
-                    // New stuff 12/16
                     filterTasks()
-                    // ---
                 }
             </div>
         </div>

@@ -6,11 +6,11 @@ const Sort = () => {
     const counter = useCounter();
     
     if (counter == 1) {
-        return (<div>(FIFO)</div>)
+        return (<div>(Due Date)</div>)
         
     }
     if (counter == 2) {
-        return (<div>(LIFO)</div>)
+        return (<div>(Priority)</div>)
         
     } 
     if (counter == 3) {
