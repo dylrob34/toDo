@@ -1,11 +1,8 @@
 import React, {useState} from 'react'
 import TimeTable2 from '../Tables/TimeTable2'
-import { FaFolder, FaFolderOpen } from 'react-icons/fa';
+import { FaPlus, FaTimes, FaFolder, FaFolderOpen } from 'react-icons/fa';
 import PopupCategories from '../Tables/Popup/PopupCategories';
-import Popup from '../layout/Popup';
 import Modal from '../layout/Modal/Modal';
-import NestedModal from '../layout/Modal/NestedModal';
-import { CirclePicker, CompactPicker } from 'react-color';
 
 const TimeBlock = () => {
     // const [popup, setPopup] = useState(false)
@@ -49,21 +46,22 @@ const TimeBlock = () => {
                     </section>
                 </div>
             </div>
+
+            {/* This is the Modal for the categories stuff. */}
             <Modal trigger={modal} setTrigger={setModal}>
                 <div className='modal-background'>
                     <div className='modal'>
-                        <PopupCategories nestedModal={nestedModal} setNestedModal={setNestedModal}/>
-                        <button onClick={() => setModal(false)}>Close</button>
-                    </div>
-                    {/* <div className={nestedModal ? 'nested-modal-background' : 'invisible'}>
-                        <div className={nestedModal ? 'nested-modal-timeblock visible' : 'invisible'}>
-                                <NestedModal trigger={nestedModal} setTrigger={setNestedModal}>
-                                        <CirclePicker/>
-                                        <button onClick={() => setNestedModal(false)}>Close</button>
-                                        <button onClick={() => handleCloseAll()}>Close All</button>
-                                </NestedModal>
+                        <div className='toolbar-container' style={{border: "none"}}>
+                            <div className='toolbar-element'>
+                                <FaPlus className='toolbar-item'></FaPlus>
+                                <div className='toolbar-item'>New Category</div>
+                            </div>
+                            <div className='flex-spacer-end'></div>
+                            <FaTimes className='toolbar-item hover' onClick={() => setModal(false)}></FaTimes>
                         </div>
-                    </div> */}
+                        <PopupCategories nestedModal={nestedModal} setNestedModal={setNestedModal}/>
+
+                    </div>
                 </div>
             </Modal>
         </div>

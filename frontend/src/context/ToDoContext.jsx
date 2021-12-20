@@ -4,8 +4,6 @@ const toDoContext = createContext();
 const updateToDoContext = createContext();
 const CounterContext = React.createContext();
 const CounterUpdateContext = React.createContext();
-const sortTypeContext = React.createContext();
-const sortTypeUpdateContext = React.createContext();
 
 
 // Custom Hooks that give us easy access to these values:
@@ -22,14 +20,6 @@ export function useCounterUpdate() {
     return useContext(CounterUpdateContext)
 }
 
-export function useSortType() {
-    return useContext(sortTypeContext)
-}
-
-export function useSortTypeUpdate() {
-    return useContext(sortTypeUpdateContext)
-}
-
 // Main Add Task Provider:
 // Creating our state
 export function ToDoProvider({ children }) {
@@ -42,7 +32,6 @@ export function ToDoProvider({ children }) {
         })
 
     const [counter, setCounter] = useState(0)
-    const [sortType, setSortType] = useState('Default')
 
     
 
@@ -52,11 +41,7 @@ export function ToDoProvider({ children }) {
             <updateToDoContext.Provider value={setToDo}>
                 <CounterContext.Provider value={counter}>
                     <CounterUpdateContext.Provider value={setCounter}>
-                        <sortTypeContext.Provider value={sortType}>
-                            <sortTypeUpdateContext.Provider value={setSortType}>
-                                {children}
-                            </sortTypeUpdateContext.Provider>
-                        </sortTypeContext.Provider>
+                        {children}
                     </CounterUpdateContext.Provider>
                 </CounterContext.Provider>
             </updateToDoContext.Provider>

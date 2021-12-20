@@ -819,8 +819,8 @@ cursor: pointer;
     content: 'Task Details...';
   }
 
-  .hover {
-    color: var(--highlight_color);
+  .hover:hover {
+    color: var(--primary-green);
   }
   
 

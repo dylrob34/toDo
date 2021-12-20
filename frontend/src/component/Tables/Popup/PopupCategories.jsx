@@ -36,16 +36,16 @@ const PopupCategories = (props) => {
                         <div className={compactPicker ? 'picker-compact' : "invisible"}>
                             <CompactPicker color={color} onChange={handleColorChange}/>
                         </div>
-                        <Categories className='categories-item' setCompactPicker={setCompactPicker} compactPicker={compactPicker} title={categoriesDefault.title} desc={categoriesDefault.description} color={color}/>
+                        <Category className='categories-item' setCompactPicker={setCompactPicker} compactPicker={compactPicker} title={categoriesDefault.title} desc={categoriesDefault.description} color={color}/>
                     </div>
-                </div>
+                </div> 
             </div>
         </div>
 
     )
 }
 
-const Categories = ({props, title, color, setCompactPicker, compactPicker}) => {
+const Category = ({props, title, color, setCompactPicker, compactPicker}) => {
     
     return(
         <div className='categories-element'>
