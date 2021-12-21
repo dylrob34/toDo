@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaEyeDropper, FaEdit, FaSquare, FaTimes } from 'react-icons/fa';
 import { CirclePicker, CompactPicker } from 'react-color';
 
@@ -11,12 +11,12 @@ const PopupCategories = (props) => {
         b: '135',
         a: '1',
     }
-    
+
     // Test Data so that I can build the popup. Delete this later.
     const categoriesDefault = {
         title: "Test",
         description: "None"
-    } 
+    }
 
     const [compactPicker, setCompactPicker] = useState(false)
     const [color, setColor] = useState(defaultColor) //Primary Green from CSS file.
@@ -32,29 +32,44 @@ const PopupCategories = (props) => {
         <div>
             <div className='categories-container'>
                 <div className='categories-list'>
-                    <div className='categories-element'>
-                        <div className={compactPicker ? 'picker-compact' : "invisible"}>
-                            <CompactPicker color={color} onChange={handleColorChange}/>
-                        </div>
-                        <Category className='categories-item' setCompactPicker={setCompactPicker} compactPicker={compactPicker} title={categoriesDefault.title} desc={categoriesDefault.description} color={color}/>
-                    </div>
-                </div> 
+                    <div className='categories-element'>{
+                        props.categories.map((category) => {
+                            return (
+                            <div>
+                                <div div className={compactPicker ? 'picker-compact' : "invisible"}>
+                                    <CompactPicker color={category.color} onChange={handleColorChange}/>
+                                </div>
+                                <Category className='categories-item' 
+                                    setCompactPicker={setCompactPicker} 
+                                    compactPicker={compactPicker}
+                                    onDelete={props.onDelete}
+                                    id={category.id}
+                                    title={category.title} 
+                                    color={category.color}
+                                />
+                            </div>
+                            )
+                        })
+                    }
+
+                </div>
             </div>
         </div>
+        </div >
 
     )
 }
 
-const Category = ({props, title, color, setCompactPicker, compactPicker}) => {
-    
-    return(
+const Category = ({ props, title, color, setCompactPicker, compactPicker, onDelete, id }) => {
+
+    return (
         <div className='categories-element'>
-            <FaSquare onClick={() => {setCompactPicker(!compactPicker)}} className='categories-item' 
-            style={{color: `rgba(${color.r }, ${color.g }, ${color.b }, ${color.a })`}}>
+            <FaSquare onClick={() => { setCompactPicker(!compactPicker) }} className='categories-item'
+                style={{ color: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` }}>
             </FaSquare>
             <div className='categories-item'>{title}</div>
             <FaEdit className='categories-item'></FaEdit>
-            <FaTimes className='categories-item'/>
+            <FaTimes onClick={() => onDelete(id) } className='categories-item' />
             {/* <FaEyeDropper onClick={() => props.setNestedModal(true)} className='categories-item'/> */}
         </div>
     )
