@@ -31,7 +31,7 @@ const Tasks = () => {
                     .then((resJson) => {
                         if (resJson.tasks !== undefined) {
                             setTasks(resJson.tasks);
-                            setToDoContext({...toDoContext, reloadTasks: false})
+                            setToDoContext({...toDoContext, reloadTasks: false, teamUsers: []})
                         }
                     })
             } else {
@@ -42,6 +42,14 @@ const Tasks = () => {
                             setToDoContext({...toDoContext, reloadTasks: false})
                         }
                     })
+                post("/api/teams/getTeamsUsers", {team: toDoContext.currentTeam})
+                .then((res) => {
+                    if (res.users != undefined) {
+                        setToDoContext({...toDoContext, teamUsers: insertionSortString(res.users)});
+                    } else {
+                        setToDoContext({...toDoContext, teamUsers: []});
+                    }
+                })
             }
         } else {
             return (
@@ -84,6 +92,22 @@ const Tasks = () => {
         }
         return inputArrString
     }
+
+    function insertionSortTasks(inputArrString) {
+        let n = inputArrString.length;
+        // As long as our i is less than inputArr increment i
+        for (let i = 1; i < n; i++) {
+            let current = inputArrString[i]; // Store the current item
+            // Create a loop to look at previous items. If they are greater we need to shift/copy them to the right.
+            let j = i-1; // Starting at the previous item before i
+            while ((j >= 0 ) && (current.title.localeCompare(inputArrString[j].title) < 0 )) {
+                inputArrString[j+1] = inputArrString[j]; // Shift the item to the right if both conditions are met
+                j--; // Decrement j to close the loop
+            }
+            inputArrString[j+1] = current;
+        }
+        return inputArrString
+    }
     
     function map(array, func) {
         let temp = []
@@ -108,7 +132,7 @@ const Tasks = () => {
             case 2:
                 break
             case 3:
-                bucketFilteredTasks = insertionSortString(bucketFilteredTasks)
+                bucketFilteredTasks = insertionSortTasks(bucketFilteredTasks)
                 break
         }
         return bucketFilteredTasks.map((task) => {

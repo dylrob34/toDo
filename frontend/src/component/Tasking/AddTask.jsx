@@ -5,10 +5,13 @@ import {
   useToDoContext,
   useUpdateToDoContext,
 } from "../../context/ToDoContext";
+import AutoFillDropdown from "../layout/AutoFillDropdown";
 
 const AddTask = ({ setReload, t, b, cancelEdit, edit }) => {
   const [title, setTitle] = useState(t);
   const [body, setBody] = useState(b);
+  const [autoUsers, setAutoUsers] = useState(false);
+  const [sub, setSub] = useState("");
 
   // Using custom hooks from AddTaskContext to update context and state.
   const toggleAddTask = useAddTaskUpdate();
@@ -16,6 +19,7 @@ const AddTask = ({ setReload, t, b, cancelEdit, edit }) => {
   const updateToDoContext = useUpdateToDoContext();
 
   function submitTask(e) {
+    setAutoUsers(false);
     let team = undefined;
     if (toDoContext.currentTeam !== "") {
       team = toDoContext.currentTeam;
@@ -38,7 +42,10 @@ const AddTask = ({ setReload, t, b, cancelEdit, edit }) => {
         updateToDoContext({ ...toDoContext, reloadBuckets: true });
       }
     });
-  }  function cancel(e) {
+  } 
+  
+  function cancel(e) {
+    setAutoUsers(false);
     setTitle("")
     setBody("")
     if (cancelEdit === null) {
@@ -49,24 +56,28 @@ const AddTask = ({ setReload, t, b, cancelEdit, edit }) => {
   }
 
 
-  function handleBody() {
-
-    let track = false;
-    var newBody = '';
+  function handleBody(body) {
+    let found = true;
+    let sub = "";
     for (const char in body) {
-        if (body[char] === "#") {
-            track = true;
-            continue
+        if (body[char] === "@") {
+            setAutoUsers(true);
+            found = true;
         }
-        if (body[char] !== "#") {
-            track = false;
-            continue
+        if (char == " ") {
+          found = false;
         }
-        if (!track) {
-            newBody = newBody.concat(body[char]);
+        if (found) {
+          sub += char;
         }
     }
-    return newBody;
+    setSub(sub);
+    setBody(body);
+}
+
+const handleKeyPress = (key) => {
+    console.log("key Press");
+    console.log(key);
 }
 
 
@@ -86,7 +97,8 @@ const AddTask = ({ setReload, t, b, cancelEdit, edit }) => {
               value={title}
             ></textarea>
             <textarea
-              onChange={(e) => setBody(e.target.value)}
+              onChange={(e) => handleBody(e.target.value)}
+              onKeyPress={(e) => {handleKeyPress(e.target.value)}}
               name="taskDetails"
               id=""
               cols="85"
@@ -94,7 +106,9 @@ const AddTask = ({ setReload, t, b, cancelEdit, edit }) => {
               className="task-area2"
               placeholder="Task Details..."
               value={body}
-            ></textarea>
+            >
+            </textarea>
+              {autoUsers ? <AutoFillDropdown options={toDoContext.teamUsers} text={sub} /> : null}
             {/* 
             USE THIS ONE once you ask Dylan why its not working on submit.
             <div

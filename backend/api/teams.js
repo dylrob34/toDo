@@ -33,6 +33,15 @@ router.post('/editTeam', auth.verifyToken, async function(req, res) {
     res.json({error: false});
 });
 
+router.post('/getTeamsUsers', auth.verifyToken, async (req, res) => {
+    try {
+        const team = await Team.getTeam(req.body.team);
+        res.json({users: team.getUsers()})
+    } catch (error) {
+        res.json({error: true, message: error});
+    }
+});
+
 router.post('/deleteTeam', auth.verifyToken, async function(req, res) {
     const user = await User.getUser(req.authData.user);
     try {

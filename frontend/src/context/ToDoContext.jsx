@@ -28,7 +28,8 @@ export function ToDoProvider({ children }) {
             reloadBuckets : true,
             reloadTasks: true,
             currentBucket: [],
-            currentTeam: ""
+            currentTeam: "",
+            teamUsers: []
         })
 
     const [counter, setCounter] = useState(0)

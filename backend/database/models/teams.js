@@ -37,6 +37,10 @@ class Team {
         return team;
     }
 
+    getUsers() {
+        return [this.owner].concat(this.admins).concat(this.users);
+    }
+
     async deleteTeam() {
         return await database.deleteTeam(this.id);
     }
