@@ -1,4 +1,6 @@
 import React, {useState, useEffect} from 'react'
+import TimeBlock_Popover from '../../../icons/TimeBlock_Popover.svg'
+
 
 const PopupEditBlock = (props) => {
     const [title, setTitle] = useState(props.data.title);
@@ -36,24 +38,26 @@ const PopupEditBlock = (props) => {
     }
 
     return (
-    <div className="popup-timeblock" style={props.s}>
-        {
-            props.cell ? 
-            <input className='popup-timeblock-text' ype="text" default="Title..." onChange={(e) => props.data.setTitle(e.target.value)} value={title}/>
-            :
-            <input className='popup-timeblock-text' autoFocus type="text" default="Title..." onChange={(e) => setTitle(e.target.value)} value={title}/>
-        }
-        <input className='popup-timeblock-text' type="text" default="Body..." onChange={(e) => setBody(e.target.value)} value={body}/>
-        <input className='popup-timeblock-text' type="text" default="DOW..." onChange={(e) => setDow(e.target.value)} value={dow}/>
-        <select className='popup-timeblock-text' default="Time..." onChange={(e) => setTime(parseInt(e.target.value))} value={props.timeStrings[time]}> 
+    <div>
+        <img src="TimeBlock_Popover" alt="Error..." className="popup-timeblock" style={props.s}>
             {
-                getTimes().map((key) => {
-                    return <option value={key}>{key}</option>
-                })
+                props.cell ? 
+                <input className='popup-timeblock-text' ype="text" default="Title..." onChange={(e) => props.data.setTitle(e.target.value)} value={title}/>
+                :
+                <input className='popup-timeblock-text' autoFocus type="text" default="Title..." onChange={(e) => setTitle(e.target.value)} value={title}/>
             }
-        </select>
-        <input className='popup-timeblock-text' type="text" default="Duration..." onChange={(e) => setDuration(parseInt(e.target.value === "" ? 0 : e.target.value))} value={duration}/>
-        <button className='btn-sm' onClick={setData} type="button">Replace w/ auto</button>
+            <input className='popup-timeblock-text' type="text" default="Body..." onChange={(e) => setBody(e.target.value)} value={body}/>
+            <input className='popup-timeblock-text' type="text" default="DOW..." onChange={(e) => setDow(e.target.value)} value={dow}/>
+            <select className='popup-timeblock-text' default="Time..." onChange={(e) => setTime(parseInt(e.target.value))} value={props.timeStrings[time]}> 
+                {
+                    getTimes().map((key) => {
+                        return <option value={key}>{key}</option>
+                    })
+                }
+            </select>
+            <input className='popup-timeblock-text' type="text" default="Duration..." onChange={(e) => setDuration(parseInt(e.target.value === "" ? 0 : e.target.value))} value={duration}/>
+            <button className='btn-sm' onClick={setData} type="button">Replace w/ auto</button>
+        </img>
     </div>
     );
 }
