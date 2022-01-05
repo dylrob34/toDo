@@ -38,8 +38,7 @@ const AddTask = ({ setReload, t, b, cancelEdit, edit }) => {
         console.log('New Task')
         setTitle("");
         setBody("");
-        setReload(true);
-        updateToDoContext({ ...toDoContext, reloadBuckets: true });
+        updateToDoContext({ ...toDoContext, reloadBuckets: true, reloadTasks: true });
       }
     });
   } 

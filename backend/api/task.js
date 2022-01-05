@@ -41,6 +41,7 @@ router.post('/editTask', auth.verifyToken, async function(req, res) {
         return res.json({error:false});
     } else if (owner.owner === user || owner.admins.includes(user) || owner.users.includes(user)) {
         await task.editTask(assignees, title, body, complete);
+        console.log("Anything...")
         return res.json({error: false});
     }
     return res.json({error: true});

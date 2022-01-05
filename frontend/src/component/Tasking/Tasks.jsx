@@ -35,6 +35,7 @@ const Tasks = () => {
                         }
                     })
             } else {
+                setToDoContext({...toDoContext, reloadTasks: false})
                 post("/api/task/getTeamTasks", {team: toDoContext.currentTeam})
                     .then((resJson) => {
                         if (resJson.tasks !== undefined) {
@@ -73,9 +74,9 @@ const Tasks = () => {
         return false;
     }
 
-    function setReload(reload) {
-        setToDoContext({...toDoContext, reloadTasks: reload})
-    }
+    // function setReload(reload) {
+    //     setToDoContext({...toDoContext, reloadTasks: reload})
+    // }
 
     function insertionSortString(inputArrString) {
         let n = inputArrString.length;
@@ -84,7 +85,7 @@ const Tasks = () => {
             let current = inputArrString[i]; // Store the current item
             // Create a loop to look at previous items. If they are greater we need to shift/copy them to the right.
             let j = i-1; // Starting at the previous item before i
-            while ((j >= 0 ) && (current.title.localeCompare(inputArrString[j].title) < 0 )) {
+            while ((j >= 0 ) && (current.localeCompare(inputArrString[j]) < 0 )) {
                 inputArrString[j+1] = inputArrString[j]; // Shift the item to the right if both conditions are met
                 j--; // Decrement j to close the loop
             }
@@ -136,7 +137,7 @@ const Tasks = () => {
                 break
         }
         return bucketFilteredTasks.map((task) => {
-            return <Task key={task._id} task={task} setReload={setReload} />
+            return <Task key={task._id} task={task} />
         })
     }
 
@@ -147,7 +148,7 @@ const Tasks = () => {
                 onMouseLeave={handleHover}>
             </div>
             <div name='AddTaskForm' className={showAddTask ? 'visible' : 'invisible'}>
-                <AddTask setReload={setReload} t={''} b={''} cancelEdit={null} />
+                <AddTask t={''} b={''} cancelEdit={null} />
             </div>
             <div name='taskList' className='task-list'>
                 <div name="CurrentDay" className='task-list-container'>

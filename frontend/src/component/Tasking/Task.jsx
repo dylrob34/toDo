@@ -13,7 +13,7 @@ const Schedule = () => {
     )
 }
 
-const Task = ({ task, setReload }) => {
+const Task = ({ task }) => {
     const [title, setTitle] = useState(task.title)
     const [hover, setHover] = useState(false)
     const [buckets, setBuckets] = useState([])
@@ -29,6 +29,7 @@ const Task = ({ task, setReload }) => {
     const updateToDoContext = useUpdateToDoContext();
 
     useEffect(() => {
+        console.log(task._id)
         post("/api/buckets/getTaskBuckets", {"_id": task._id})
         .then((res) => {
             setBuckets(res.buckets);
@@ -37,7 +38,7 @@ const Task = ({ task, setReload }) => {
         setTitle(task.title);
         setBody(task.body);
         setCompleteTask(task.complete);
-    }, [task])
+    }, [task._id, task.title, task.body, task.complete])
 
 
     function editTask(t, b, complete) {
@@ -52,7 +53,6 @@ const Task = ({ task, setReload }) => {
                     console.log("Error submiting new task");
                 } else {
                     updateToDoContext({...toDoContext, reloadBuckets: true, reloadTasks: true})
-                    setReload(true);
                 }
             })
     }
@@ -63,7 +63,6 @@ const Task = ({ task, setReload }) => {
                 if (resJson.error === true) {
                     console.log("Error submiting new task");
                 }
-                setReload(true);
             })
     }
 
@@ -125,7 +124,7 @@ const Task = ({ task, setReload }) => {
 
     if (isEditing) {
 
-        return (<AddTask setReload={setReload} t={title} b={body} cancelEdit={() => {setIsEditing(false); handleHover(false)}} edit={editTask}/>)
+        return (<AddTask t={title} b={body} cancelEdit={() => {setIsEditing(false); handleHover(false)}} edit={editTask}/>)
 
     } else {
         
