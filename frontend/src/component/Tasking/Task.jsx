@@ -153,7 +153,7 @@ const Task = ({ task }) => {
                         </div>
                     </div>
                     <div className='task-body font-body'>
-                        <p name='taskdetails' className={hover ? 'task-element task-details' : 'task-element task-details'}>{parseBody()}</p>
+                        <p name='taskdetails' className={'task-element task-details'}>{parseBody()}</p>
                         <div className='task-lastrow'>
                         <span className='spacer-buckets'>{/*Placeholder for different icon*/}</span>
                             <div className='task-buckets'>
