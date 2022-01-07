@@ -63,8 +63,11 @@ const Task = ({ task }) => {
                 if (resJson.error === true) {
                     console.log("Error submiting new task");
                 }
+                updateToDoContext({...toDoContext, reloadBuckets: true, reloadTasks: true})
             })
     }
+
+    // 61d7899843e9e72ee83dde79
 
     function onBucket(e) {
         setBuckets(e.target.value)
@@ -159,7 +162,7 @@ const Task = ({ task }) => {
                                     ))}
                             </div>
                             <div className='task-reminder'>
-                                <span className='task-element reminder'>Reminder</span>
+                                <span className='task-element reminder '>Reminder</span>
                             </div>
                             <div className='task-duedate'>
                                 <span className='task-element duedate'>Due Date</span>

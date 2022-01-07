@@ -88,6 +88,14 @@
 
 }
 
+.no-flickr {
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
 .invisible {
   display: none;
 }
@@ -978,6 +986,7 @@ white-space: nowrap;
   transform: scaleX(0);
   transform-origin: right;
 }
+
 .task-icons-hover {
   z-index: 1;
   top: 0;
@@ -988,6 +997,7 @@ white-space: nowrap;
   transform: scaleX(1);
   transform-origin: right;
 }
+
 .task-icon {
   margin-left: 4px;
   margin-right:  4px;
@@ -998,7 +1008,6 @@ white-space: nowrap;
 display: flex;
 flex-direction: row;
 }
-
 
 .task-bucket {
   margin: 5px 10px 5px 10px;
