@@ -13,6 +13,8 @@ const userRouter = require('./api/user');
 const teamRouter = require('./api/teams');
 const taskRouter = require('./api/task');
 const bucketRouter = require("./api/bucket");
+const timeblockingRouter = require("./api/timeblocking");
+const categoriesRouter = require("./api/categories");
 
 const app = express();
 const port = 80;
@@ -28,6 +30,8 @@ app.use('/api/user', userRouter);
 app.use('/api/teams', teamRouter);
 app.use('/api/task', taskRouter);
 app.use('/api/buckets', bucketRouter);
+app.use("/api/timeblocking", timeblockingRouter);
+app.use("/api/categories", categoriesRouter);
 app.use('/', indexRouter);
 
 app.listen(port, () => {

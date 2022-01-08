@@ -295,26 +295,162 @@ function createTask(owner, assignees, title, body, buckets, complete) {
     });
 }
 
+/*********************
+ * 
+ ****Timeblocking*****
+ * 
+ *********************/
+
+ function createTimeblock(owner, title, body, dow, time, duration, category) {
+     return new Promise((resolve, reject) => {
+         client.db("toDo").collection("timeblocking").insertOne({
+             owner,
+             title,
+             body,
+             dow,
+             time,
+             duration,
+             category
+         })
+         .then((result) => {
+             resolve(result);
+         })
+     })
+ }
+
+ function getTimeblock(id) {
+     return new Promise((resolve, reject) => {
+         client.db("toDo").collection("timeblocking").findOne({_id: ObjectId(id)})
+         .then((timeblock) => {
+             resolve(timeblock);
+         })
+     })
+ }
+
+ function getTimeblocks(owner) {
+     return new Promise((resolve, reject) => {
+         client.db("toDo").collection("timeblocking").find({owner}).toArray()
+         .then((timeblocks) => {
+             resolve(timeblocks);
+         })
+     })
+ }
+
+ function editTimeblock(id, title, body, dow, time, duration, category) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("timeblocking").updateOne({_id: ObjectId(id)},
+        {
+            "$set": {title, body, dow, time, duration, category}
+        })
+        .then((timeblock) => {
+            resolve(timeblock);
+        });
+    });
+}
+
+ function deleteTimeblock(id) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("timeblocking").deleteOne({_id: ObjectId(id)})
+        .then((timeblock) => {
+            resolve(timeblock);
+        });
+    });
+}
+
+/*********************
+ * 
+ ******Categories*****
+ * 
+ *********************/
+
+ function createCategory(owner, title, color) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("categories").insertOne({
+            owner,
+            title,
+            color
+        })
+        .then((result) => {
+            resolve(result);
+        })
+    })
+}
+
+function getCategory(id) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("categories").findOne({_id: ObjectId(id)})
+        .then((category) => {
+            resolve(category);
+        })
+    })
+}
+
+function getCategories(owner) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("categories").find({owner}).toArray()
+        .then((categories) => {
+            resolve(categories);
+        })
+    })
+}
+
+function editCategory(id, title, color) {
+   return new Promise((resolve, reject) => {
+       client.db("toDo").collection("categories").updateOne({_id: ObjectId(id)},
+       {
+           "$set": {title, color}
+       })
+       .then((category) => {
+           resolve(category);
+       });
+   });
+}
+
+function deleteCategory(id) {
+   return new Promise((resolve, reject) => {
+       client.db("toDo").collection("categories").deleteOne({_id: ObjectId(id)})
+       .then((category) => {
+           resolve(category);
+       });
+   });
+}
+
 module.exports = {
+    // users
     getUser,
     createUser,
-    setBuckets,
+    // teams
     createTeam,
     getTeam,
     getTeams,
     updateTeam,
     setTeamBuckets,
     deleteTeam,
+    // buckets
     getBucket,
+    setBuckets,
     getBucketByName,
     getBuckets,
     createBucket,
     editBucket,
     deleteBucket,
+    // tasks
     getTasks,
     getTask,
     getTasksWithBucket,
     editTask,
     deleteTask,
-    createTask
+    createTask,
+    // timeblocking
+    createTimeblock,
+    getTimeblock,
+    getTimeblocks,
+    editTimeblock,
+    deleteTimeblock,
+    // Categories
+    createCategory,
+    getCategory,
+    getCategories,
+    editCategory,
+    deleteCategory,
 }

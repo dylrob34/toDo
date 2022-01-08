@@ -1,4 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react'
+import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../context/TimeBlockContext';
+import { post, get } from "../../tools/request";
 import Cells from './Cells';
 import TimeCell from './TimeCell'; // Don't know if need a different type of cell component for the Admin col, but its late and I didnt want to think.
 import PopupEditBlock from './Popup/PopupEditBlock';
@@ -17,7 +19,8 @@ const TimeTable2 = () => {
     const [catagories, setCategories] = useState({});
     const heightRef = useRef(null);
     const [timeStrings, setTimeStrings] = useState({});
-    const [notSet, setNotSet] = useState(true);
+    const timeblockContext = useTimeBlockContext();
+    const updateTimeblockContext = useUpdateTimeBlockContext();
 
     const dataDefault = {
         title: "Test",
@@ -35,12 +38,16 @@ const TimeTable2 = () => {
     }
 
     useEffect(() => {
-        if (notSet) {
-            let temp = {};
-            temp[categoriesDefault.name] = categoriesDefault;
-            setNotSet(false);
-            setData([dataDefault]);
-            setCategories(temp);
+        if (timeblockContext.reloadTimeblocks) {
+            get("/api/timeblocking/getTimeblocks")
+            .then((res) => {
+                if (res.timeblocks === undefined) {
+                    setData([]);
+                } else {
+                    setData(res.timeblocks);
+                }
+                updateTimeblockContext({...timeblockContext, reloadTimeblocks: false});
+            })
         }
         if (heightRef.current !== null) {
             setCellHeight(heightRef.current.getBoundingClientRect().height);
@@ -57,7 +64,7 @@ const TimeTable2 = () => {
             strings[i] = `${hour}:${minute}`;
         }
         setTimeStrings(strings);
-    }, [heightRef.current, divisions]);
+    }, [heightRef.current, divisions, timeblockContext.reloadTimeblocks]);
 
 
     function timeLoop() {
@@ -87,14 +94,14 @@ const TimeTable2 = () => {
             for (let datum of data) {
                 if (datum.time === i && datum.dow === day) {
                     found = true;
-                    cells.push(<Cells key={datum.title} row={i} col={colNum} data={datum} timeStrings={timeStrings} height={cellHeight} div={divisions} setData={setTheData} catagories={catagories[datum.catagory]}/>)
+                    cells.push(<Cells key={datum.title} row={i} col={colNum} data={datum} timeStrings={timeStrings} height={cellHeight} div={divisions} setData={setTheData}/>)
                     if (datum.duration > divisions) {
                         i += datum.duration - divisions;
                     }
                 }
             }
             if (!found) {
-                cells.push(<Cells key={i} row={i} col={colNum} data={{ title: '', body: '', dow: day, time: i, duration: divisions, catagory: "" }} timeStrings={timeStrings} height={cellHeight} div={divisions} setData={setTheData} catagories={catagories}/>)
+                cells.push(<Cells key={i} row={i} col={colNum} data={{ title: '', body: '', dow: day, time: i, duration: divisions, catagory: "" }} timeStrings={timeStrings} height={cellHeight} div={divisions} setData={setTheData}/>)
             }
         }
         console.log(getTableData());
@@ -104,24 +111,24 @@ const TimeTable2 = () => {
     const dow = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     console.log("Cell Height: " + cellHeight);
     return (
-        <div className='table-blockz'>
-            <div className='table-col' name='admin'>
-                <div className="table-row admin-cell">Admin</div>
-                {timeLoop()}
-            </div>
-            {
-                dow.map((day, index) => {
-                    return (
-                        <div className="table-col" >
-                            <div className="table-row admin-cell">
-                                {day}
+            <div className='table-blockz'>
+                <div className='table-col' name='admin'>
+                    <div className="table-row admin-cell">Admin</div>
+                    {timeLoop()}
+                </div>
+                {
+                    dow.map((day, index) => {
+                        return (
+                            <div className="table-col" >
+                                <div className="table-row admin-cell">
+                                    {day}
+                                </div>
+                                {fill(day, index)}
                             </div>
-                            {fill(day, index)}
-                        </div>
-                    )
-                })
-            }
-        </div>
+                        )
+                    })
+                }
+            </div>
     )
 }
 

@@ -2,8 +2,8 @@ import React, { useContext, createContext, useState } from 'react'
 
 const toDoContext = createContext();
 const updateToDoContext = createContext();
-const CounterContext = React.createContext();
-const CounterUpdateContext = React.createContext();
+const CounterContext = createContext();
+const CounterUpdateContext = createContext();
 
 
 // Custom Hooks that give us easy access to these values:

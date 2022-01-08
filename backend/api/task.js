@@ -1,10 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var database = require("../database/data");
 var auth = require("./auth");
 const Task = require("../database/models/task");
-const Team = require("../database/models/teams");
-const Bucket = require("../database/models/buckets");
 const Owner = require("../database/models/owner");
 
 router.get('/getTasks', auth.verifyToken, async function(req, res) {
@@ -13,7 +10,7 @@ router.get('/getTasks', auth.verifyToken, async function(req, res) {
 });
 
 router.post("/getTeamTasks", auth.verifyToken, async (req, res) => {
-    const tasks = await database.getTasks(req.body.team);
+    const tasks = await Task.getTasks(req.body.team);
     return res.json({tasks});
 })
 

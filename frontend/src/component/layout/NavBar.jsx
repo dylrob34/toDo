@@ -5,7 +5,7 @@ import { get } from "../../tools/request";
 import { FaUser } from 'react-icons/fa';
 import { Dropdown, Option } from "./Dropdown";
 
-function NavBar({setTeam}) {
+function NavBar({ setTeam }) {
   const loggedIn = getLoggedIn();
 
   const [name, setName] = useState("");
@@ -20,9 +20,9 @@ function NavBar({setTeam}) {
           setName(resJson.user.firstName);
         })
       get("/api/teams/getTeams")
-      .then((res) => {
-        setTeams(res.teams);
-      })
+        .then((res) => {
+          setTeams(res.teams);
+        })
     }
   }, [loggedIn]);
 
@@ -30,30 +30,33 @@ function NavBar({setTeam}) {
     setTeam(e.target.innerHTML);
   }
 
-  if (loggedIn) {
-    return (
-      <div>
-        <div className='navbar-container'>
-          <Dropdown first={<Link to="/todo" className='navbar-page'>ToDo</Link>}>
-              {
-                teams.map((team) => (
-                  <Option clicked={clicked} key={team.id} value={<Link to={`/todo/${team.id}`} className='navbar-page'>{team.name}</Link>} />
-                ))
-              }
-          </Dropdown>
-          <Link to="/capture" className='navbar-page'>Capture</Link>
-          <Link to="/timeblock" className='navbar-page'>TimeBlock</Link>
-          <div className='flex-spacer-4'></div>
-          <Link to='/account'><FaUser className="navbar-user-icon"></FaUser></Link>
-          <span className='navbar-hello'>Hello, {name}</span>
-          <button onClick={logout} className="logout-btn">Logout</button>
-        </div>
-      </div>
-    )
-  }
   return (
     <div>
-      <Link to="/login">Login</Link>
+      <div className='navbar-container'>
+        <div className="navbar-brand">
+          <img src="/blocks.svg" className="navbar-logo" />
+          <h2>BLOCKZ</h2>
+        </div>
+        {
+          !loggedIn ? (<Link to="/login" className="navbar-login">Login</Link>) : (
+            <>
+              <Dropdown first={<Link to="/todo" className='navbar-page'>ToDo</Link>}>
+                {
+                  teams.map((team) => (
+                    <Option clicked={clicked} key={team.id} value={<Link to={`/todo/${team.id}`} className='navbar-page'>{team.name}</Link>} />
+                  ))
+                }
+              </Dropdown>
+              <Link to="/capture" className='navbar-page'>Capture</Link>
+              <Link to="/timeblock" className='navbar-page'>TimeBlock</Link>
+              <div className='flex-spacer-4'></div>
+              <Link to='/account'><FaUser className="navbar-user-icon"></FaUser></Link>
+              <span className='navbar-hello'>Hello, {name}</span>
+              <button onClick={logout} className="logout-btn">Logout</button>
+            </>
+          )
+        }
+      </div>
     </div>
   )
 }

@@ -3,6 +3,15 @@
   font-family: 'Inter', sans-serif;
 }
 
+body, #root, .App {
+  display: flex;
+  flex: 1 0 auto;
+}
+
+.App {
+  flex-direction: column;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -202,9 +211,10 @@ font-size: 14px;
 
 /* Login Styling */
 .main-login {
-  height: 100vh;
+  height: 100%;
   width: 100%;
   display: flex;
+  flex: 1 0 auto;
   justify-content: center;
   flex-direction: column;
   background-color: var(--base-gray);
@@ -286,18 +296,40 @@ border-radius: 15px;
 }
 
 /* NavBar styling */
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  flex-direction: row;
+  gap: 0.5rem;
+  color: white;
+}
+
+.navbar-brand h2 {
+  margin: 0;
+}
+
+.navbar-logo {
+  width: 3rem;
+  height: 3rem;
+}
+
 .navbar-start {
   position: fixed;
 }
 .navbar-container {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   background-color: var(--mid-gray);
   box-shadow: 0px 0.5px 0.5px rgba(0,0,0,0.5);
   z-index: 3;
   transition: all .7s ease-in;
+  padding: 10px 30px;
 }
 .scrolled {
   position: fixed;
@@ -314,6 +346,21 @@ border-radius: 15px;
   color: white;
 }
 
+.navbar-login {
+  position: relative;
+  padding: 8px 15px;
+  font-size: 18px;
+  text-decoration: none;
+  color: white;
+  border: 1px solid var(--primary-green);
+  border-radius: 10px;
+  margin: 0 10px;
+  transition: ease-in-out .2s;
+}
+
+.navbar-login:hover {
+  background-color: var(--primary-green);
+}
 
 .navbar-hello {
   display: flex;
@@ -394,26 +441,70 @@ border-radius: 15px;
 
 /* Timeblocking Categories Popup Styling */
 
-.popup-timeblock {
+.popup-timeblock-container{
+  position: absolute;
+  z-index: 100;
+}
+
+@keyframes fadeInRight {
+  0% {
+     opacity: 0;
+     transform: translate(5%, -50%);
+  }
+  100% {
+     opacity: 1;
+     transform: translate(0, -50%);
+  }
+}
+
+.popup-timeblock-relative {
+  position: relative;
+  left: 113%;
+  transform: translate(0, -50%);
+  display: flex;
+  flex-direction: column;
+  background-color: var(--mid-gray2);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: var(---popup-shadow);
+  margin-right: 10px;
+  animation: fadeInRight .5s;
+}
+
+.popup-timeblock-arrow {
+  position: absolute;
+  top: 45%;
+  left: -5px;
+  width: 0;
+  height: 0;
+  transform: translate(-50%, -50%);
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid var(--mid-gray2);
+}
+
+.popup-timeblock-bckgrnd {
   position: absolute;
   display: flex;
   flex-direction: column;
-  top: calc(var(--timeblock-pop-h) / 2 * -1 + 12);
-  left: 138px;
-  width: var(--timeblock-pop-w);
-  height: var(--timeblock-pop-h);
-  background-color: var(--mid-gray2);
-  border: 2px;
-  border-radius: 8px;
-  z-index: 100;
   justify-content: center;
   align-items: center;
-  box-shadow: var(--popup-shadow);
+  z-index: 105;
+  top: calc(var(--timeblock-pop-h) / 2 * -1 + 12);
+  transform: translateX(23px);
+  width: var(--timeblock-pop-w);
+  height: var(--timeblock-pop-h);
+  /* background-color: var(--mid-gray2);
+  border: 2px;
+  border-radius: 8px;
+  box-shadow: var(--popup-shadow); */
 }
+
 .popup-timeblock-text {
 width: 125px;
 margin: 2px 0px 2px 0px;
 border-radius: 6px;
+z-index: 120;
 }
 .popup-timeblock-text:focus {
   outline: solid 1px var(--primary-green);
@@ -970,33 +1061,26 @@ color: transparent;
 }
 
 .task-icons {
-margin: 4px;
-font-size: 1rem;
-display: flex;
-white-space: nowrap;
-}
-
-.invisible-icons {
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 0;
-  transition: 400ms ease-in-out;
-  transform: scaleX(0);
-  transform-origin: right;
-}
-
-.task-icons-hover {
-  z-index: 1;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  transition: 400ms ease-in-out;
-  transform: scaleX(1);
-  transform-origin: right;
-}
+  margin: 4px;
+  font-size: 1rem;
+  display: flex;
+  white-space: nowrap;
+  }
+  
+  /* Need to fix the translation work so that we don't get */
+  /* The flicker effect on all elements. */
+  
+  /* .invisible-icons {
+    position: relative;
+    z-index: -10;
+    transition: 1.5s ease-in-out;
+  }
+  
+  .task-icons-hover {
+    position: relative;
+    z-index: 1;
+    transition: 1.5s ease-in-out;
+  } */
 
 .task-icon {
   margin-left: 4px;

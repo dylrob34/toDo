@@ -3,7 +3,7 @@ import PopupEditBlock from './Popup/PopupEditBlock';
 import { setTableData, getTableData, setDragged, unSetDragged, drag, setCount } from './TableData';
 
 
-const Cells = ({row, col, data, timeStrings, height, div, setData, catagories}) => {
+const Cells = ({row, col, data, timeStrings, height, div, setData}) => {
     const [colNum, setColNum] = useState(col);
     const [rowNum, setRowNum] = useState(row);
     const [title, setTitle] = useState(data.title);
@@ -11,7 +11,7 @@ const Cells = ({row, col, data, timeStrings, height, div, setData, catagories}) 
     const [dow, setDow] = useState(data.dow);
     const [time, setTime] = useState(data.time);
     const [duration, setDuration] = useState(data.duration);
-    const [catagory, setCatagory] = useState(data.catagory);
+    const [category, setCatagory] = useState(data.catagory);
     const [isEditing, setIsEditing] = useState(false);
     const [middle, setMiddle] = useState(0);
     const [right, setRight] = useState(0);
@@ -94,7 +94,7 @@ const Cells = ({row, col, data, timeStrings, height, div, setData, catagories}) 
     }
 
     return (
-        <div className={draggedOver ? "table-row-drag":"table-row"} ref={cellRef} style={{minHeight: `${(height * duration / div)-2}px`, maxHeight: `${(height * duration / div)-2}px`, backgroundColor: `${catagories.color}`}} onClick={() => setIsEditing(true)} onMouseUp={handleMouseUp} onBlur={handleBlur} onDoubleClick={() => setPopup(true)}>
+        <div className={draggedOver ? "table-row-drag":"table-row"} ref={cellRef} style={{minHeight: `${(height * duration / div)-2}px`, maxHeight: `${(height * duration / div)-2}px`, backgroundColor: `${category.color}`}} onClick={() => setIsEditing(true)} onMouseUp={handleMouseUp} onBlur={handleBlur} onDoubleClick={() => setPopup(true)}>
             {
                 isEditing ?
                     <div className='cell'>
@@ -108,7 +108,7 @@ const Cells = ({row, col, data, timeStrings, height, div, setData, catagories}) 
                         onChange={(e) => setTitle(e.target.value)}>
                             </input>
                             {popup ? 
-                                <PopupEditBlock cell={true} s={{top: middle-87, left: right+4}} data={{title, body, dow, time, duration, setTitle}} timeStrings={timeStrings} setData={setData} setPopup={setPopup} className='popup-timeblock'/>
+                                <PopupEditBlock cell={true} s={{top: middle-150, left: right+4}} data={{title, body, dow, time, duration, setTitle}} timeStrings={timeStrings} setData={setData} setPopup={setPopup} className='popup-timeblock'/>
                             :
                             null}
                         <div className={isEditing ? "draggable-div" : '' } style={{ bottom: '1px'}} onMouseDown={handleMouseDown}>-</div>

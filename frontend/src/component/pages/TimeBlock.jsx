@@ -3,43 +3,50 @@ import TimeTable2 from '../Tables/TimeTable2'
 import { FaPlus, FaTimes, FaFolder, FaFolderOpen } from 'react-icons/fa';
 import PopupCategories from '../Tables/Popup/PopupCategories';
 import Modal from '../layout/Modal/Modal';
+import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../context/TimeBlockContext';
+import { get, post } from "../../tools/request";
 
-const TimeBlock = () => {
+const TimeBlock = (props) => {
     // const [popup, setPopup] = useState(false)
     const [modal, setModal] = useState(false)
     const [nestedModal, setNestedModal] = useState(false)
     const [userCategories, setUserCategories] = useState([])
+    const timeblockContext = useTimeBlockContext();
+    const updateTimeBlockContext = useUpdateTimeBlockContext();
 
     useEffect(() => {
-        setUserCategories([
-            {
-            id: 0,
-            title: "Category 1",
-            color: {
-                r: '52',
-                g: '180',
-                b: '135',
-                a: '1',
+        if (timeblockContext.reloadCategories === true) {
+            get("/api/categories/getCategories")
+            .then((res) => {
+                console.log("cats")
+                console.log(res.categories)
+                if (res.categories === undefined) {
+                    setUserCategories([]);
+                } else {
+                    setUserCategories(res.categories);
                 }
-            }
-        ])
-        return () => {
-
+                updateTimeBlockContext({...timeblockContext, reloadCategories: false});
+            })
         }
-    }, [])
+    }, [timeblockContext.reloadCategories])
 
     const handleAddCategory = () => {
-        setUserCategories([...userCategories, {id: userCategories[userCategories.length - 1 ].id + 1, title: '', color:{r:'52', g:'180', b:'135', a:'1'}}])
-    }
-
-    const handleDeleteCategory = (id) => {
-        let temp = []
-        for(const c of userCategories) {
-            if (c.id !== id) {
-                temp.push(c)
+        post("/api/categories/createCategory", {
+            title: "title",
+            color: {
+                r: "52",
+                g: "180",
+                b: "135"
             }
-        }
-        setUserCategories(temp)
+        })
+        .then((res) => {
+            if (res.error === false) {
+                let temp = userCategories;
+                temp.push(res.category);
+                setUserCategories(temp);
+                updateTimeBlockContext({...timeblockContext, reloadCategories: true})
+            }
+        })
     }
 
     const handleCloseAll = () => {
@@ -97,7 +104,6 @@ const TimeBlock = () => {
                         <PopupCategories nestedModal={nestedModal} 
                         setNestedModal={setNestedModal} 
                         categories={userCategories} 
-                        onDelete={handleDeleteCategory}
                         />
                     </div>
                 </div>

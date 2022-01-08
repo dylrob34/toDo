@@ -15,6 +15,7 @@ import TimeBlock from './component/pages/TimeBlock';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './Signup.css';
+import { TimeBlockProvider } from './context/TimeBlockContext';
 
 
 const domain = "http://localhost"
@@ -57,10 +58,13 @@ function App() {
                 <ToDo {...routeProps}/>
               </AddTaskProvider>
             </ToDoProvider>
-            )}>
-          </Route>
+            )}></Route>
           <Route exact path='/capture'> </Route>
-          <Route exact path='/timeblock' component={ TimeBlock }></Route>
+          <Route exact path='/timeblock' render={ routeProps => (
+            <TimeBlockProvider>
+              <TimeBlock {...routeProps} />
+            </TimeBlockProvider>
+           )}></Route>
         </Switch>
       </div>
     </Router>
