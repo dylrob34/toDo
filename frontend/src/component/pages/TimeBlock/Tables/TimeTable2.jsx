@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react'
-import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../context/TimeBlockContext';
-import { get } from "../../tools/request";
+import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../../../context/TimeBlockContext';
+import { get } from "../../../../tools/request";
 import Cells from './Cells';
 import TimeCell from './TimeCell'; // Don't know if need a different type of cell component for the Admin col, but its late and I didnt want to think.
 

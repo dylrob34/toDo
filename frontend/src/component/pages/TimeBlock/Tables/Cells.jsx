@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react'
-import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../context/TimeBlockContext';
-import { post } from '../../tools/request';
-import PopupEditBlock from './Popup/PopupEditBlock';
+import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../../../context/TimeBlockContext';
+import { post } from '../../../../tools/request';
+import PopupEditBlock from '../Popup/PopupEditBlock';
 import { setTableData, getTableData, setDragged, unSetDragged, drag, setCount } from './TableData';
 
 

@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import {FaBars} from 'react-icons/fa';
 import Bucket from './Bucket';
-import {get, post} from "../../tools/request";
-import { useToDoContext, useUpdateToDoContext } from '../../context/ToDoContext';
-import Popup from '../layout/Popup';
+import {get, post} from "../../../../tools/request";
+import { useToDoContext, useUpdateToDoContext } from '../../../../context/ToDoContext';
+import Popup from '../../../layout/Popup';
 
 const Buckets = () => {
     const [buckets, setBuckets] = useState([]);

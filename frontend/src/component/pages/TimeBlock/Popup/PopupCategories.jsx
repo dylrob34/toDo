@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { FaEyeDropper, FaEdit, FaSquare, FaTimes } from 'react-icons/fa';
 import { CirclePicker, CompactPicker } from 'react-color';
-import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../../context/TimeBlockContext';
-import { post } from '../../../tools/request';
+import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../../../context/TimeBlockContext';
+import { post } from '../../../../tools/request';
 
 
 // Ask dylan why it has to be props and not just (popup, setPopup)?

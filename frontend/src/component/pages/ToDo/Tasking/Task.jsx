@@ -3,8 +3,8 @@ import { FaSun, FaTimes, FaEdit, FaCalendar,
         FaCheckCircle, FaRegCircle, FaRegCheckCircle, 
         FaCheckSquare, FaRegSquare, FaGripVertical } from 'react-icons/fa'
 import { useState, useEffect } from 'react'
-import { post } from "../../tools/request";
-import { useToDoContext, useUpdateToDoContext } from '../../context/ToDoContext';
+import { post } from "../../../../tools/request";
+import { useToDoContext, useUpdateToDoContext } from '../../../../context/ToDoContext';
 import AddTask from './AddTask';
 
 const Schedule = () => {

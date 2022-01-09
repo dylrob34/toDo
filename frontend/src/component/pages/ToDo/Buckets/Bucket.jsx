@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { FaPlus, FaTimes, FaEdit, FaBars, FaDiceD6 } from 'react-icons/fa';
-import { get, post } from "../../tools/request";
+import { get, post } from "../../../../tools/request";
 import {
   useToDoContext,
   useUpdateToDoContext,
-} from "../../context/ToDoContext";
+} from "../../../../context/ToDoContext";
 
 const Bucket = ({ bucket, popup }) => {
   const [selected, setSelected] = useState(false);

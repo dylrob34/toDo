@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useAddTaskUpdate } from "../../context/AddTaskContext";
-import { post } from "../../tools/request";
+import { useAddTaskUpdate } from "../../../../context/AddTaskContext";
+import { post } from "../../../../tools/request";
 import {
   useToDoContext,
   useUpdateToDoContext,
-} from "../../context/ToDoContext";
-import AutoFillDropdown from "../layout/AutoFillDropdown";
+} from "../../../../context/ToDoContext";
+import AutoFillDropdown from "../../../layout/AutoFillDropdown";
 
 const AddTask = ({ setReload, t, b, cancelEdit, edit }) => {
   const [title, setTitle] = useState(t);

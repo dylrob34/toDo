@@ -1,13 +1,13 @@
 import Task from './Task'
 import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router';
-import { getLoggedIn } from '../../context/loggedInState';
-import { get, post } from "../../tools/request";
+import { getLoggedIn } from '../../../../context/loggedInState';
+import { get, post } from "../../../../tools/request";
 import AddTask from '../Tasking/AddTask';
-import { useAddTask, useAddTaskUpdate } from '../../context/AddTaskContext'
+import { useAddTask, useAddTaskUpdate } from '../../../../context/AddTaskContext'
 import { FaAngleRight, FaAngleDoubleRight } from 'react-icons/fa';
-import { useToDoContext, useUpdateToDoContext } from '../../context/ToDoContext';
-import { useCounter, useCounterUpdate } from "../../context/ToDoContext";
+import { useToDoContext, useUpdateToDoContext } from '../../../../context/ToDoContext';
+import { useCounter, useCounterUpdate } from "../../../../context/ToDoContext";
 
 
 

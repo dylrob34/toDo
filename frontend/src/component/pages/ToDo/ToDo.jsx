@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Redirect } from "react-router";
-import Tasks from "../../Tasking/Tasks";
-import Buckets from "../../Buckets/Buckets";
+import Tasks from "./Tasking/Tasks";
+import Buckets from "./Buckets/Buckets";
 import Sort from "../../layout/Sort";
 import { FaPlus, FaSort, FaTasks } from 'react-icons/fa';
 
