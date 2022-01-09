@@ -8,7 +8,7 @@ function LoginPage() {
   const [details, setDetails] = useState({ email: "", password: "" });
   const [autoToDo, setAutoToDo] = useState(false);
 
-  // Function to handle on submit of the login button:
+  // Function to handle on submit of the auth button:
   const submitHandler = (e) => {
     e.preventDefault();
     userLogin(details, setError, setAutoToDo);
@@ -20,31 +20,26 @@ function LoginPage() {
 
   //<img src="CUBE-NUMBER3-BOTTOMUP.gif" alt="Loading..." width="100%" height="50px"/>
   return (
-    <div name="Main" className="main-login">
-      <div className="login-panel">
-        <div className="login-content">
-          <div
-            className="login-element login-logo"
-            style={
-              {} /*{background: "no-repeat url(CUBE-NUMBER3-BOTTOMUP.gif) 50% 50%"}*/
-            }
-          >
+    <div name="Main" className="main-auth">
+      <div className="auth-panel">
+        <div className="auth-content">
+          <div className="auth-element auth-logo">
             <img alt="Blocks Logo" src="blocks.svg" />
             <h2>BLOCKZ</h2>
           </div>
-          <div className="login-element">
+          <div className="auth-element">
             <form name="Login" onSubmit={submitHandler}>
               <div className="form-inner">
                 {error !== "" ? <div className="error">{error}</div> : ""}
                 <div className="form-element">
-                  <label htmlFor="email" className="login-label">
+                  <label htmlFor="email" className="auth-label">
                     USERNAME/EMAIL:{" "}
                   </label>
                   <input
                     type="email"
                     name="email"
                     id="email"
-                    className="login-input"
+                    className="auth-input"
                     // On change for event e, call setDetails pulling in what details already is + the value of the event (keystroke)
                     // then set the value of the state email in details to ...details + the new keystroke.
                     onChange={(e) =>
@@ -54,14 +49,14 @@ function LoginPage() {
                   />
                 </div>
                 <div className="form-element">
-                  <label htmlFor="password" className="login-label">
+                  <label htmlFor="password" className="auth-label">
                     PASSWORD:{" "}
                   </label>
                   <input
                     type="password"
                     name="password"
                     id="password"
-                    className="login-input"
+                    className="auth-input"
                     onChange={(e) =>
                       setDetails({ ...details, password: e.target.value })
                     }
@@ -90,8 +85,8 @@ const userLogin = (details, setError, setAutoToDo) => {
     pass: details.password,
   }).then((resJson) => {
     if (resJson.error === true) {
-      console.log("The login information didn't match...");
-      setError("The login information didn't match...");
+      console.log("The auth information didn't match...");
+      setError("The auth information didn't match...");
     } else if (resJson.loggedIn === true) {
       console.log("logged in");
       login(resJson.token);

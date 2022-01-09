@@ -28,12 +28,6 @@ function NavBar({ setTeam }) {
     setTeam(e.target.innerHTML);
   }
 
-  console.log(window.location.href);
-
-  if (window.location.href.endsWith("/login")) {
-    return null;
-  }
-
   return (
     <div>
       <div className="navbar-container">
@@ -42,7 +36,7 @@ function NavBar({ setTeam }) {
           <h2>BLOCKZ</h2>
         </div>
         {!loggedIn ? (
-          <Link to="/login" className="navbar-login">
+          <Link to="/login" className="navbar-auth">
             Login
           </Link>
         ) : (

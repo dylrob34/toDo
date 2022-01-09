@@ -83,8 +83,8 @@ body,
   --midnight-layer2: rgb(28, 30, 41);
   --midnight-layer3: rgb(82, 85, 92);
 
-  --login-welcome: rgb(45, 204, 116);
-  --login-form: rgb(40, 40, 40);
+  --auth-welcome: rgb(45, 204, 116);
+  --auth-form: rgb(40, 40, 40);
   --button: rgb(52, 180, 135);
   --button-hover: rgb(36, 150, 110);
 
@@ -219,39 +219,39 @@ body,
   z-index: 101;
 }
 
-/* Login Styling */
-.main-login {
+/* auth Styling */
+.main-auth {
   flex: 1 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--base-gray);
 }
-.login-panel {
+.auth-panel {
   display: flex;
   background: var(--mid-gray);
   color: white;
   border-radius: 15px;
 }
-.login-content {
+.auth-content {
   margin: 60px;
   width: 100%;
 }
-.login-element {
+.auth-element {
   display: flex;
   flex-direction: column;
   margin: 10px auto;
   gap: 10px;
   width: 100%;
 }
-.login-logo {
+.auth-logo {
   align-items: center;
 }
-.login-element img {
+.auth-element img {
   width: 70px;
   height: 70px;
 }
-.login-element h2 {
+.auth-element h2 {
   margin: 0;
 }
 .form-inner {
@@ -279,19 +279,30 @@ body,
 .form-item input:hover {
   top:-2px;
 }
-.login-input {
+.form-group {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+.auth-input {
   height: 28px;
   border-radius: 5px;
   outline: none;
-  border: none;
+  border: 1px solid transparent;
   font-size: 14px;
   color: white;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.2);
   display: flex;
+  box-sizing: border-box;
+  padding: 0px 10px;
+  transition: ease 0.2s;
+}
+.auth-input:focus, .auth-input:active {
+  border:1px solid var(--primary-green);
 }
 
-.login-label {
+.auth-label {
   position: relative;
   opacity: 0.4;
   color: white;
@@ -350,7 +361,7 @@ body,
   color: white;
 }
 
-.navbar-login {
+.navbar-auth {
   position: relative;
   padding: 8px 15px;
   font-size: 18px;
@@ -362,7 +373,7 @@ body,
   transition: ease-in-out 0.2s;
 }
 
-.navbar-login:hover {
+.navbar-auth:hover {
   background-color: var(--primary-green);
 }
 

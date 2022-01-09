@@ -47,7 +47,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <NavBar setTeam={setTeam}/>
+        {(window.location.href.endsWith("/signup") || window.location.href.endsWith("/login")) ? '' : <NavBar setTeam={setTeam}/>}
         <Switch>
           <Route exact path='/' component={ Landing } />
           <Route exact path='/login' component={ LoginPage } />
