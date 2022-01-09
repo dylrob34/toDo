@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {post} from "../../tools/request";
-import { login } from "../../context/loggedInState";
+import {post} from "../../../tools/request";
+import { login } from "../../../context/loggedInState";
 import { Redirect } from 'react-router';
 import { FaUnlock, FaLock, FaEnvelope, FaUserAlt } from 'react-icons/fa';
 

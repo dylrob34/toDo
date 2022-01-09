@@ -1,15 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Redirect } from "react-router";
-import Tasks from "../Tasking/Tasks";
-import Buckets from "../Buckets/Buckets";
-import Sort from "../layout/Sort";
-import { FaPlus, FaSort } from 'react-icons/fa';
+import Tasks from "../../Tasking/Tasks";
+import Buckets from "../../Buckets/Buckets";
+import Sort from "../../layout/Sort";
+import { FaPlus, FaSort, FaTasks } from 'react-icons/fa';
 
 // Importing custom hooks from our context components for use in this function comp.
-import { useCounter, useCounterUpdate } from "../../context/ToDoContext";
-import { useToDoContext, useUpdateToDoContext } from "../../context/ToDoContext";
-import { getLoggedIn } from "../../context/loggedInState";
-import { AddTaskProvider, useAddTask, useAddTaskUpdate } from '../../context/AddTaskContext'
+import { useCounter, useCounterUpdate, useToDoContext, useUpdateToDoContext } from "../../../context/ToDoContext";
+import { getLoggedIn } from "../../../context/loggedInState";
+import { AddTaskProvider, useAddTask, useAddTaskUpdate } from '../../../context/AddTaskContext'
 
 
 const ToDo = (props) => {

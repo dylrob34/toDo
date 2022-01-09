@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {Link, Redirect} from "react-router-dom";
-import { login, logout } from "../../context/loggedInState";
-import { post } from "../../tools/request";
+import { login, logout } from "../../../context/loggedInState";
+import { post } from "../../../tools/request";
 
 function LoginPage() {
     const [error, setError] = useState("");

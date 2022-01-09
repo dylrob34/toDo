@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react'
-import TimeTable2 from '../Tables/TimeTable2'
+import TimeTable2 from '../../Tables/TimeTable2'
 import { FaPlus, FaTimes, FaFolder, FaFolderOpen } from 'react-icons/fa';
-import PopupCategories from '../Tables/Popup/PopupCategories';
-import Modal from '../layout/Modal/Modal';
-import { getLoggedIn } from "../../context/loggedInState";
-import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../context/TimeBlockContext';
-import { get, post } from "../../tools/request";
+import PopupCategories from '../../Tables/Popup/PopupCategories';
+import Modal from '../../layout/Modal/Modal';
+import { getLoggedIn } from "../../../context/loggedInState";
+import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../../context/TimeBlockContext';
+import { get, post } from "../../../tools/request";
 import { Redirect } from "react-router";
 
 const TimeBlock = (props) => {
