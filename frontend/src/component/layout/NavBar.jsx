@@ -50,9 +50,9 @@ function NavBar({ setTeam }) {
               <Link to="/capture" className='navbar-page'>Capture</Link>
               <Link to="/timeblock" className='navbar-page'>TimeBlock</Link>
               <div className='flex-spacer-4'></div>
-              <Link to='/account'><FaUser className="navbar-user-icon"></FaUser></Link>
-              <span className='navbar-hello'>Hello, {name}</span>
-              <button onClick={logout} className="logout-btn">Logout</button>
+                <Link to='/account'><FaUser className="navbar-user-icon"></FaUser></Link>
+                <span className='navbar-hello'>Hello, {name}</span>
+                <button onClick={logout} className="logout-btn">Logout</button>
             </>
           )
         }

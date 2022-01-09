@@ -25,6 +25,13 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(cors(corsOptions));
 
+function logging(req, res, next) {
+  console.log(req.url);
+  return next();
+}
+
+app.use(logging);
+
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/teams', teamRouter);

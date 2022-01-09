@@ -1,11 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react'
 import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../context/TimeBlockContext';
-import { post, get } from "../../tools/request";
+import { get } from "../../tools/request";
 import Cells from './Cells';
 import TimeCell from './TimeCell'; // Don't know if need a different type of cell component for the Admin col, but its late and I didnt want to think.
-import PopupEditBlock from './Popup/PopupEditBlock';
-import { FaCommentAlt, FaMicrophoneAltSlash, FaRegBuilding } from 'react-icons/fa';
-import {getTableData} from "./TableData";
 
 
 
@@ -21,21 +18,6 @@ const TimeTable2 = () => {
     const [timeStrings, setTimeStrings] = useState({});
     const timeblockContext = useTimeBlockContext();
     const updateTimeblockContext = useUpdateTimeBlockContext();
-
-    const dataDefault = {
-        title: "Test",
-        body: "something",
-        dow: "Monday",
-        time: 450,
-        duration: 60,
-        catagory: "Test"
-    }
-
-    const categoriesDefault = {
-        name: "Test",
-        description: "None",
-        color: "#34B487"
-    }
 
     useEffect(() => {
         if (timeblockContext.reloadTimeblocks) {
@@ -87,7 +69,6 @@ const TimeTable2 = () => {
     }
 
     function fill(day, colNum) {
-        console.log("filling")
         let cells = [];
         for (var i = 0; i < 1440; i += divisions) {
             let found = false;
@@ -101,10 +82,9 @@ const TimeTable2 = () => {
                 }
             }
             if (!found) {
-                cells.push(<Cells key={i} row={i} col={colNum} data={{ title: '', body: '', dow: day, time: i, duration: divisions, catagory: "" }} timeStrings={timeStrings} height={cellHeight} div={divisions} setData={setTheData}/>)
+                cells.push(<Cells key={i} row={i} col={colNum} data={{_id: null, title: '', body: '', dow: day, time: i, duration: divisions, catagory: null }} timeStrings={timeStrings} height={cellHeight} div={divisions} setData={setTheData}/>)
             }
         }
-        console.log(getTableData());
         return cells;
     }
 
