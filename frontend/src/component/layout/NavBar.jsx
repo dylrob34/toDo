@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { logout, getLoggedIn } from "../../context/loggedInState";
 import { get } from "../../tools/request";
 import { FaUser } from "react-icons/fa";
@@ -11,6 +11,7 @@ function NavBar({ setTeam }) {
   const [name, setName] = useState("");
   const [teams, setTeams] = useState([]);
   const [path, setPath] = useState(window.location.pathname)
+  const location = useLocation();
 
   useEffect(() => {
     console.log(`am i logged in ${loggedIn}`);
@@ -23,22 +24,19 @@ function NavBar({ setTeam }) {
         setTeams(res.teams);
       });
     }
-  }, [loggedIn]);
+  }, [loggedIn, location]);
 
   function clicked(e) {
     setTeam(e.target.innerHTML);
   }
 
-  function pageLoad () {
-    window.addEventListener('locationchange', (e) => {
-    setPath(window.location.pathname)
-    console.log("this is the path: " + path)
-  })}
+  if(location.pathname === "/login" || location.pathname === "/signup"){
+    return null;
+  }
  
   console.log(path)
   return (
     <div>
-      {pageLoad()}
       <div className="navbar-container">
         <Link to='/' className="navbar-brand">
           <img alt="Blocks Logo" src="/blocks.svg" className="navbar-logo" />

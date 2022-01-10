@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { BrowserRouter as Router, Switch, Route, } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import cookie from 'react-cookies';
 import { ToDoProvider } from './context/ToDoContext';
 import { login, logout, setLoggedInCallback} from './context/loggedInState';
@@ -25,7 +25,6 @@ function App() {
   // Declare component states:
   const [loggedIn, setLoggedIn] = useState(false);
   const [team, setTeam] = useState("");
-  const [path, setPath] = useState(window.location.pathname)
   setLoggedInCallback(setLoggedIn);
 
   // Cookie stores data on the persons computer
@@ -44,17 +43,9 @@ function App() {
     }
   }
 
-  function locationChange () {
-    window.addEventListener('locationchange', (e) => {
-    setPath(window.location.pathname)
-    console.log("this is the path: " + path)
-  })}
-
   return (
     <Router>
       <div className="App">
-        {/* {(window.location.href.endsWith("/signup") || window.location.href.endsWith("/login")) ? '' : <NavBar setTeam={setTeam}/>} */}
-        {locationChange()}
         <NavBar setTeam={setTeam} />
         <Switch>
           <Route exact path='/' component={ Landing } />
