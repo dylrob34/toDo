@@ -10,7 +10,6 @@ function NavBar({ setTeam }) {
 
   const [name, setName] = useState("");
   const [teams, setTeams] = useState([]);
-  const [path, setPath] = useState(window.location.pathname)
   const location = useLocation();
 
   useEffect(() => {
