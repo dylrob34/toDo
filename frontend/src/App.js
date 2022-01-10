@@ -25,7 +25,7 @@ function App() {
   // Declare component states:
   const [loggedIn, setLoggedIn] = useState(false);
   const [team, setTeam] = useState("");
-
+  const [path, setPath] = useState(window.location.pathname)
   setLoggedInCallback(setLoggedIn);
 
   // Cookie stores data on the persons computer
@@ -44,10 +44,18 @@ function App() {
     }
   }
 
+  function locationChange () {
+    window.addEventListener('locationchange', (e) => {
+    setPath(window.location.pathname)
+    console.log("this is the path: " + path)
+  })}
+
   return (
     <Router>
       <div className="App">
-        {(window.location.href.endsWith("/signup") || window.location.href.endsWith("/login")) ? '' : <NavBar setTeam={setTeam}/>}
+        {/* {(window.location.href.endsWith("/signup") || window.location.href.endsWith("/login")) ? '' : <NavBar setTeam={setTeam}/>} */}
+        {locationChange()}
+        <NavBar setTeam={setTeam} />
         <Switch>
           <Route exact path='/' component={ Landing } />
           <Route exact path='/login' component={ LoginPage } />

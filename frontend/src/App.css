@@ -319,6 +319,7 @@ body,
   flex-direction: row;
   gap: 0.5rem;
   color: white;
+  text-decoration: none;
 }
 
 .navbar-brand h2 {

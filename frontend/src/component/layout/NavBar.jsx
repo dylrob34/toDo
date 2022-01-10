@@ -10,6 +10,7 @@ function NavBar({ setTeam }) {
 
   const [name, setName] = useState("");
   const [teams, setTeams] = useState([]);
+  const [path, setPath] = useState(window.location.pathname)
 
   useEffect(() => {
     console.log(`am i logged in ${loggedIn}`);
@@ -28,14 +29,23 @@ function NavBar({ setTeam }) {
     setTeam(e.target.innerHTML);
   }
 
+  function pageLoad () {
+    window.addEventListener('locationchange', (e) => {
+    setPath(window.location.pathname)
+    console.log("this is the path: " + path)
+  })}
+ 
+  console.log(path)
   return (
     <div>
+      {pageLoad()}
       <div className="navbar-container">
-        <div className="navbar-brand">
+        <Link to='/' className="navbar-brand">
           <img alt="Blocks Logo" src="/blocks.svg" className="navbar-logo" />
           <h2>BLOCKZ</h2>
-        </div>
+        </Link>
         {!loggedIn ? (
+
           <Link to="/login" className="navbar-auth">
             Login
           </Link>

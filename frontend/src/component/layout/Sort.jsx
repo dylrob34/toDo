@@ -5,15 +5,15 @@ import { useCounter, useCounterUpdate } from "../../context/ToDoContext";
 const Sort = () => {
     const counter = useCounter();
     
-    if (counter == 1) {
+    if (counter === 1) {
         return (<div>(Due Date)</div>)
         
     }
-    if (counter == 2) {
+    if (counter === 2) {
         return (<div>(Priority)</div>)
         
     } 
-    if (counter == 3) {
+    if (counter === 3) {
         return (<div>(Alphabetical)</div>)
     }
     else {
