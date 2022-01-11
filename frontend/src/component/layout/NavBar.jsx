@@ -33,7 +33,6 @@ function NavBar({ setTeam }) {
     return null;
   }
  
-  console.log(path)
   return (
     <div>
       <div className="navbar-container">
