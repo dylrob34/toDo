@@ -6,11 +6,11 @@ import { login, logout, setLoggedInCallback} from './context/loggedInState';
 import { AddTaskProvider } from './context/AddTaskContext';
 import {get} from "./tools/request";
 import Landing from './component/pages/About/Landing';
-import SignUp from './component/pages/SignUp/SignUp';
+import SignUp from './component/pages/Signup/SignUp';
 import { LoginPage } from './component/pages/Login/Login';
 import NavBar from './component/layout/NavBar';
 import ToDo from './component/pages/ToDo/ToDo';
-import TimeBlock from './component/pages/TimeBlock/TimeBlock';
+import TimeBlock from './component/pages/Timeblock/TimeBlock';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -29,13 +29,13 @@ function App() {
 
   // Cookie stores data on the persons computer
   var jwt = cookie.load("jwt")
+  console.log("jwt: " + jwt);
   if (typeof jwt !== "undefined") {
-    if (jwt !== "") {
+    if (jwt !== "" && loggedIn === false) {
+      login(jwt);
       get("/api/auth/checkLogin")
       .then((res) => {
-          if (res.loggedIn === true) {
-            login(jwt);
-          } else {
+          if (res.loggedIn === false) {
             logout(jwt);
             console.log("jwt is invalid");
           }

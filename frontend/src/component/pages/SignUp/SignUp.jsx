@@ -4,7 +4,7 @@ import { login } from "../../../context/loggedInState";
 import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
 
-function SignUp() {
+export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [check, setCheck] = useState("");
@@ -154,5 +154,3 @@ function SignUp() {
     </div>
   );
 }
-
-export default SignUp;
