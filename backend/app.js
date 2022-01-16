@@ -2,6 +2,8 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
 var cors = require('cors');
+const logging = require("./logging/logger");
+const { verifyToken } = require('./api/auth');
 
 corsOptions = {
   origin: "http://localhost:3000"
@@ -24,11 +26,7 @@ app.use(express.static(__dirname + '/build'));
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors(corsOptions));
-
-function logging(req, res, next) {
-  console.log(req.url);
-  return next();
-}
+app.use(verifyToken);
 
 app.use(logging);
 

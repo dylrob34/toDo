@@ -7,7 +7,7 @@ const Bucket = require("../database/models/buckets");
 const Task = require("../database/models/task");
 const Owner = require("../database/models/owner");
 
-router.post('/createBucket', auth.verifyToken, async function(req, res) {
+router.post('/createBucket', async function(req, res) {
     try {
         const bucket = await Bucket.createBucket(req.body.team || req.authData.user, req.body.name);
         return res.json(bucket);
@@ -17,12 +17,12 @@ router.post('/createBucket', auth.verifyToken, async function(req, res) {
     return res.json({error: false});
 });
 
-router.post("/getBucket", auth.verifyToken, async (req, res) => {
+router.post("/getBucket", async (req, res) => {
     const bucket = await Bucket.getBucket(req.body._id);
     return res.json({bucket});
 })
 
-router.post("/getBuckets", auth.verifyToken, async (req, res) => {
+router.post("/getBuckets", async (req, res) => {
     try {
         let buckets = null;
         if (req.body.team === undefined || req.body.team === "" || req.body.team === null) {
@@ -36,7 +36,7 @@ router.post("/getBuckets", auth.verifyToken, async (req, res) => {
     }
 })
 
-router.post("/getTaskBuckets", auth.verifyToken, async (req, res) => {
+router.post("/getTaskBuckets", async (req, res) => {
     const task = await Task.getTask(req.body._id);
     let buckets = [];
     for (const bucket of task.buckets) {
@@ -46,12 +46,12 @@ router.post("/getTaskBuckets", auth.verifyToken, async (req, res) => {
     return res.json({buckets});
 })
 
-router.post("/getBucketByName", auth.verifyToken, async (req, res) => {
+router.post("/getBucketByName", async (req, res) => {
     const buckets = await Bucket.getBucketByName(req.authData.user, req.body.name);
     return res.json({buckets});
 })
 
-router.post('/editBucket', auth.verifyToken, async function(req, res) {
+router.post('/editBucket', async function(req, res) {
     try {
         const user = await User.getUser(req.authData.user);
         const bucket = await Bucket.getBucket(req.body._id);
@@ -66,7 +66,7 @@ router.post('/editBucket', auth.verifyToken, async function(req, res) {
     res.json({error: false});
 });
 
-router.post('/deleteBucket', auth.verifyToken, async function(req, res) {
+router.post('/deleteBucket', async function(req, res) {
     const user = await User.getUser(req.authData.user);
     let bucket = null;
     try {

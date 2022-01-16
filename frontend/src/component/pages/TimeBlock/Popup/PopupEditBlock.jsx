@@ -1,39 +1,34 @@
 import React, {useState, useEffect} from 'react'
+import { useTimeBlockContext } from '../../../../context/TimeBlockContext';
 
 
 
 const PopupEditBlock = (props) => {
-    const [title, setTitle] = useState(props.data.title);
-    const [body, setBody] = useState(props.data.body);
-    const [dow, setDow] = useState(props.data.dow);
-    const [time, setTime] = useState(props.data.time);
-    const [duration, setDuration] = useState(props.data.duration || 0);
+    const [categories, setCategories] = useState([]);
+
+    const timeBlockContext = useTimeBlockContext();
 
     useEffect(() => {
-        setTitle(props.data.title);
-        setBody(props.data.body);
-        setDow(props.data.dow);
-        setTime(props.data.time);
-        setDuration(props.data.duration);
-    }, [props.data.title, props.data.body, props.data.dow, props.data.time, props.data.duration])
-    
-    const setData = (e) => {
-        props.setPopup(false);
-        props.setData({
-            title,
-            body,
-            dow,
-            time,
-            duration,
-            catagory: "none"
-        });
-    }
+        setCategories(timeBlockContext.categories);
+    }, [timeBlockContext.categories])
 
     const getTimes = () => {
         let temp = []
         for (const key of Object.keys(props.timeStrings)) {
             temp.push(props.timeStrings[key]);
         }
+        return temp;
+    }
+
+    const getCategories = () => {
+        let temp = [];
+        for (const cat of categories) {
+            temp.push(cat);
+        }
+        temp.push({
+            none: true,
+            title: "None"
+        })
         return temp;
     }
 
@@ -44,21 +39,31 @@ const PopupEditBlock = (props) => {
                 <div className="popup-timeblock-arrow"/>
                 {
                     props.cell ? 
-                    <input className='popup-timeblock-text' ype="text" default="Title..." onChange={props.data.handleSetTitle} value={title}/>
+                    <input className='popup-timeblock-text' type="text" default="Title..." onChange={(e) => props.save("title", e.target.value)} value={props.data.title}/>
                     :
-                    <input className='popup-timeblock-text' autoFocus type="text" default="Title..." onChange={props.datahandleSetTitle} value={title}/>
+                    <input className='popup-timeblock-text' autoFocus type="text" default="Title..." onChange={(e) => props.save("title", e.target.value)} value={props.data.title}/>
                 }
-                <input className='popup-timeblock-text' type="text" default="Body..." onChange={props.data.handleSetBody} value={body}/>
-                <input className='popup-timeblock-text' type="text" default="DOW..." onChange={props.data.handleSetDow} value={dow}/>
-                <select className='popup-timeblock-text' default="Time..." onChange={props.data.handleSetTime} value={props.timeStrings[time]}> 
+                <input className='popup-timeblock-text' type="text" default="Body..." onChange={(e) => props.save("body", e.target.value)} value={props.data.body}/>
+                <input className='popup-timeblock-text' type="text" default="DOW..." onChange={(e) => props.save("dow", e.target.value)} value={props.data.dow}/>
+                <select className='popup-timeblock-text' default="Time..." onChange={(e) => props.save("time", e.target.value)} value={props.timeStrings[props.data.time]}> 
                     {
                         getTimes().map((key) => {
                             return <option value={key}>{key}</option>
                         })
                     }
                 </select>
-                <input className='popup-timeblock-text' type="text" default="Duration..." onChange={props.data.setDuration} value={duration}/>
-                <button className='btn-sm' onClick={setData} type="button">Replace w/ auto</button>
+                <input className='popup-timeblock-text' type="text" default="Duration..." onChange={(e) => props.save("duration", e.target.value)} value={props.data.duration}/>
+                <select className='popup-timeblock-text' onChange={(e) => props.save("category", e.target.value)} >
+                    {
+                        getCategories().map((category) => {
+                            if (props.category === category._id) {
+                                return <option value={category._id} selected>{category.title}</option>
+                            }
+                            return <option value={category._id}>{category.title}</option>
+                        })
+                    }
+                </select>
+                <button className="popup-timeblock-text" onClick={props.deleteCell}>Delete</button>
         </div>    
         </div>
     </div>

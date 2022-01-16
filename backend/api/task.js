@@ -4,17 +4,17 @@ var auth = require("./auth");
 const Task = require("../database/models/task");
 const Owner = require("../database/models/owner");
 
-router.get('/getTasks', auth.verifyToken, async function(req, res) {
+router.get('/getTasks', async function(req, res) {
     const tasks = await Task.getTasks(req.authData.user);
     return res.json({tasks});
 });
 
-router.post("/getTeamTasks", auth.verifyToken, async (req, res) => {
+router.post("/getTeamTasks", async (req, res) => {
     const tasks = await Task.getTasks(req.body.team);
     return res.json({tasks});
 })
 
-router.post('/createTask', auth.verifyToken, async function(req, res) {
+router.post('/createTask', async function(req, res) {
     const assignees = [];
     const title = req.body.title;
     const body = req.body.body;
@@ -24,7 +24,7 @@ router.post('/createTask', auth.verifyToken, async function(req, res) {
     return res.json({error: false});
 });
 
-router.post('/editTask', auth.verifyToken, async function(req, res) {
+router.post('/editTask', async function(req, res) {
     const user = req.authData.user;
     const taskId = req.body.id;
     const assignees = req.body.assignees;
@@ -44,7 +44,7 @@ router.post('/editTask', auth.verifyToken, async function(req, res) {
     return res.json({error: true});
 });
 
-router.post('/deleteTask', auth.verifyToken, async function(req, res) {
+router.post('/deleteTask', async function(req, res) {
     const user = req.authData.user;
     const taskId = req.body.id;
     const task = await Task.getTask(taskId);

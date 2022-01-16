@@ -29,7 +29,6 @@ function App() {
 
   // Cookie stores data on the persons computer
   var jwt = cookie.load("jwt")
-  console.log("jwt: " + jwt);
   if (typeof jwt !== "undefined") {
     if (jwt !== "" && loggedIn === false) {
       login(jwt);

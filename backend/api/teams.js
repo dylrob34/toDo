@@ -4,7 +4,7 @@ var auth = require("./auth");
 const User = require("../database/models/user");
 const Team = require("../database/models/teams");
 
-router.post('/createTeam', auth.verifyToken, async function(req, res) {
+router.post('/createTeam', async function(req, res) {
     console.log(`name: ${req.body.name}`)
     const team = await Team.createTeam(req.authData.user, req.body.name);
     if (team != null) {
@@ -13,17 +13,17 @@ router.post('/createTeam', auth.verifyToken, async function(req, res) {
     return res.json({error: false});
 });
 
-router.get('/getTeams', auth.verifyToken, async function(req, res) {
+router.get('/getTeams', async function(req, res) {
     const teams = await Team.getTeams(req.authData.user);
     return res.json({teams});
 })
 
-router.post("/getTeam", auth.verifyToken, async (req, res) => {
+router.post("/getTeam", async (req, res) => {
     const team = await Team.getTeam(req.body.team);
     return res.json({team});
 })
 
-router.post('/editTeam', auth.verifyToken, async function(req, res) {
+router.post('/editTeam', async function(req, res) {
     const user = await User.getUser(req.authData.user);
     try {
         await user.editBucket(req.body.oldBucket, req.body.newBucket);
@@ -33,7 +33,7 @@ router.post('/editTeam', auth.verifyToken, async function(req, res) {
     res.json({error: false});
 });
 
-router.post('/getTeamsUsers', auth.verifyToken, async (req, res) => {
+router.post('/getTeamsUsers', async (req, res) => {
     try {
         const team = await Team.getTeam(req.body.team);
         res.json({users: team.getUsers()})
@@ -42,7 +42,7 @@ router.post('/getTeamsUsers', auth.verifyToken, async (req, res) => {
     }
 });
 
-router.post('/deleteTeam', auth.verifyToken, async function(req, res) {
+router.post('/deleteTeam', async function(req, res) {
     const user = await User.getUser(req.authData.user);
     try {
         await user.deleteBucket(req.body.bucket);

@@ -4,59 +4,67 @@ var auth = require("./auth");
 const Timeblock = require("../database/models/timeblock");
 const Category = require("../database/models/category");
 
-router.get('/getTimeblocks', auth.verifyToken, async function(req, res) {
+router.get('/getTimeblocks', async function(req, res) {
     const timeblocks = await Timeblock.getTimeblocks(req.authData.user);
     return res.json({timeblocks});
 });
 
-router.post("/getTimeblock", auth.verifyToken, async (req, res) => {
-    const timeblock = await Timeblock.getTimeblock(req.body.id);
+router.post("/getTimeblock", async (req, res) => {
+    const timeblock = await Timeblock.getTimeblock(req.body._id);
     return res.json({timeblock});
 })
 
-router.post('/createTimeblock', auth.verifyToken, async function(req, res) {
+router.post('/createTimeblock', async function(req, res) {
     const owner = req.authData.user;
-    const title = req.body.title;
+    const title = req.body.title === "" ? "New Block" : req.body.title;
     const body = req.body.body;
     const dow = req.body.dow;
     const time = req.body.time;
     const duration = req.body.duration;
     const category = req.body.category;
 
+    let cat = null;
+
     if (category !== null) {
-        const cat = await Category.getCategory(category);
-        if (cat === null) return res.json({error: true, message: "Invalid Category"});
-        if (cat.owner !== owner) return res.json({error: true, message: "Invalid Category"});
+        temp = await Category.getCategory(category);
+        if (temp.owner !== owner) return res.json({error: true, message: "You do not own that category"});
+        cat = temp._id;
     }
 
-    const timeblock = await Timeblock.createTimeblock(owner, title, body, dow, time, duration, category);
+    const timeblock = await Timeblock.createTimeblock(owner, title, body, dow, time, duration, cat);
     
     return res.json({error: false, timeblock});
 });
 
-router.post('/editTimeblock', auth.verifyToken, async function(req, res) {
+router.post('/editTimeblock', async function(req, res) {
     const owner = req.authData.user;
-    const id = req.body.id;
+    const id = req.body._id;
     const title = req.body.title;
     const body = req.body.body;
     const dow = req.body.dow;
     const time = req.body.time;
     const duration = req.body.duration;
-    const category = req.body.category;
+    const category = req.body.category === "None" ? null : req.body.category;
+    //console.log(req.body);
+    //return (res.json({error: false}))
 
     const timeblock = await Timeblock.getTimeblock(id);
 
     if (timeblock.owner === owner) {
-        await timeblock.edit(title, body, dow, time, duration, category);
-        return res.json({error:false});
+        try {
+            await timeblock.edit(title, body, dow, time, duration, category);
+            return res.json({error:false});
+        } catch (message) {
+            return res.json({error: true, message})
+        }
     }
 
-    return res.json({error: true});
+    return res.json({error: true, message: "You do not own this timeblock"});
 });
 
-router.post('/deleteTimeblock', auth.verifyToken, async function(req, res) {
+router.post('/deleteTimeblock', async function(req, res) {
     const owner = req.authData.user;
-    const id = req.body.id;
+    const id = req.body._id;
     const timeblock = await Timeblock.getTimeblock(id);
 
     if (timeblock.owner === owner) {

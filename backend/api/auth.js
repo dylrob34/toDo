@@ -39,8 +39,8 @@ router.post('/login', async function(req, res) {
     }
 });
 
-router.get('/checkLogin', verifyToken, async function(req, res) {
-    res.json({loggedIn: true});
+router.get('/checkLogin', async function(req, res) {
+    return res.json({loggedIn: true});
 })
 
 
@@ -52,6 +52,9 @@ function hashPassword(pass) {
 }
 
 function verifyToken(req, res, next) {
+    if (req.url === "/api/auth/login" || req.url == "/api/user/createUser") {
+        return next();
+    }
     const bearerHeader = req.headers['authorization'];
 
     if (typeof bearerHeader !== 'undefined') {

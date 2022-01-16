@@ -140,8 +140,20 @@ export default function SignUp() {
                     onChange={handlePasswordChange}
                   />
                 </div>
+                <div className="form-element">
+                  <label htmlFor="email" className="auth-label">
+                    CONFIRM PASSWORD:
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    className="auth-input"
+                    onChange={handleCheckPassword}
+                  />
+                </div>
                 <div className="form-item">
-                  <input className="btn-lg" type="submit" value="LOGIN"></input>
+                  <input className="btn-lg" type="submit" value="Sign Up" onClick={submitSignUp}></input>
                 </div>
                 <Link className="btn-text" to="/login">
                   Already have an account?

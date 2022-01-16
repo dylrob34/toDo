@@ -5,16 +5,10 @@ import PopupEditBlock from '../Popup/PopupEditBlock';
 import { setTableData, getTableData, setDragged, unSetDragged, drag, setCount } from './TableData';
 
 
-const Cells = ({row, col, data, timeStrings, height, div, setData}) => {
+const Cells = ({row, col, data, timeStrings, height, div, addNewBlock}) => {
+    const [cellData, setCellData] = useState(data);
     const [colNum, setColNum] = useState(col);
     const [rowNum, setRowNum] = useState(row);
-    const [id, setId] = useState(data._id);
-    const [title, setTitle] = useState(data.title);
-    const [body, setBody] = useState(data.body);
-    const [dow, setDow] = useState(data.dow);
-    const [time, setTime] = useState(data.time);
-    const [duration, setDuration] = useState(data.duration);
-    const [category, setCategory] = useState(data.catagory);
     const [isEditing, setIsEditing] = useState(false);
     const [middle, setMiddle] = useState(0);
     const [right, setRight] = useState(0);
@@ -29,13 +23,7 @@ const Cells = ({row, col, data, timeStrings, height, div, setData}) => {
 
     // Gets the reference to the DOM cell object and calcs the middle height at the right side
     useEffect(() => {
-        setId(data._id);
-        setTitle(data.title);
-        setBody(data.body);
-        setDow(data.dow);
-        setTime(data.time);
-        setDuration(data.duration);
-        setCategory(data.catagory);
+        setCellData(data);
 
         if (cellRef.current !== null) {
             const rect = cellRef.current.getBoundingClientRect();
@@ -54,43 +42,50 @@ const Cells = ({row, col, data, timeStrings, height, div, setData}) => {
                 setDraggedOverState
             }})
         }
-    }, [cellRef.current, data._id, data.title, data.body, data.dow, data.time, data.duration, data.category]);
+    }, [cellRef.current, data]);
 
-    const create = () => {
+    const create = (key, value) => {
         post("/api/timeblocking/createTimeblock", {
-            title,
-            body,
-            dow,
-            time,
-            duration,
-            category
+            ...cellData,
+            [key]: value
         })
         .then((res) => {
             if (res.error === true) {
-                console.log(res.message);
+                alert(`Error Creating new Timeblock\n${res.message}`);
                 return;
             }
-            updateTimeBlockContext({...timeBlockContext, reloadTimeblocks: true})
+            setCellData({...data, _id: res.timeblock.id});
+            addNewBlock({...data, _id: res.timeblock.id, [key]: value});
         })
     }
 
-    const save = () => {
-        if (id === null) return;
+    const save = (key, value) => {
+        setCellData({...cellData, [key]: value})
+        if (cellData._id === null){
+            create(key, value);
+            return;
+        }
         post("/api/timeblocking/editTimeblock", {
-            id,
-            title,
-            body,
-            dow,
-            time,
-            duration,
-            category
+            ...cellData,
+            [key]: value
         })
         .then((res) => {
             if (res.error === true) {
-                console.log(res.message);
+                alert(`Error saving your changes.\n${res.message}`)
                 return;
             }
-            updateTimeBlockContext({...timeBlockContext, reloadTimeblocks: true})
+            //updateTimeBlockContext({...timeBlockContext, reloadTimeblocks: true})
+        })
+    }
+
+    const deleteCell = () => {
+        post("/api/timeblocking/deleteTimeblock", {_id: cellData._id})
+        .then((res) => {
+            if (res.error === true) {
+                alert(`Error deleting this TimeBlock\n${res.message}`);
+            } else {
+                updateTimeBlockContext({...timeBlockContext, reloadTimeblocks: true})
+            }
         })
     }
 
@@ -108,10 +103,9 @@ const Cells = ({row, col, data, timeStrings, height, div, setData}) => {
 
     const checkEnter = (e) => {
         if (e.keyCode === 13) {
-            if (id === null) {
+            if (cellData._id === null) {
                 create();
             } else {
-                save();
             }
         }
     }
@@ -120,38 +114,8 @@ const Cells = ({row, col, data, timeStrings, height, div, setData}) => {
         setDraggedOver(state);
     }
 
-    const handleSetTitle = (e) => {
-        setTitle(e.target.value);
-        save();
-    }
-
-    const handleSetBody = (e) => {
-        setBody(e.target.value);
-        save();
-    }
-
-    const handleSetDow = (e) => {
-        setDow(e.target.value);
-        save();
-    }
-
-    const handleSetTime = (e) => {
-        setTime(parseInt(e.target.value));
-        save();
-    }
-
-    const handleSetDuration = (e) => {
-        setDuration(parseInt(e.target.value === "" ? 0 : e.target.value));
-        save();
-    }
-
-    const handleSetCategory = (e) => {
-        setCategory(e.target.value);
-        save();
-    }
-
     const handleMouseDown = (e) => {
-        setDragged(dragCell, (count) => {setDuration(duration + count * div)});
+        setDragged(dragCell, (count) => {setCellData({...cellData, duration: cellData.duration + count * div})});
         window.addEventListener("mousemove", drag);
     }
 
@@ -186,7 +150,7 @@ const Cells = ({row, col, data, timeStrings, height, div, setData}) => {
     }
 
     return (
-        <div className={draggedOver ? "table-row-drag":"table-row"} ref={cellRef} style={{minHeight: `${(height * duration / div)-2}px`, maxHeight: `${(height * duration / div)-2}px`, backgroundColor: `${category === null ? "" : ""}`}} onClick={() => setIsEditing(true)} onMouseUp={handleMouseUp} onBlur={handleBlur} onDoubleClick={() => setPopup(true)}>
+        <div className={draggedOver ? "table-row-drag":"table-row"} ref={cellRef} style={{minHeight: `${(height * cellData.duration / div)-2}px`, maxHeight: `${(height * cellData.duration / div)-2}px`, backgroundColor: `${cellData.category === null ? "" : ""}`}} onClick={() => setIsEditing(true)} onMouseUp={handleMouseUp} onBlur={handleBlur} onDoubleClick={() => setPopup(true)}>
             {
                 isEditing ?
                     <div className='cell'>
@@ -196,20 +160,20 @@ const Cells = ({row, col, data, timeStrings, height, div, setData}) => {
                         className="editable-cell"
                         name="title" 
                         id="title"
-                        value={title}
-                        onChange={handleSetTitle}
+                        value={cellData.title}
+                        onChange={(e) => {save("title", e.target.value)}}
                         onKeyDown={checkEnter}>
                             </input>
                             {popup ? 
-                                <PopupEditBlock cell={true} s={{top: middle-150, left: right+4}} data={{title, body, dow, time, duration, handleSetTitle, handleSetBody, handleSetDow, handleSetTime, handleSetDuration, handleSetCategory}} timeStrings={timeStrings} setData={setData} setPopup={setPopup} className='popup-timeblock'/>
+                                <PopupEditBlock cell={true} s={{top: middle-150, left: right+4}} data={cellData} timeStrings={timeStrings} save={(key, value) => {setCellData({...cellData, [key]: value}); save(key, value)}} deleteCell={deleteCell} className='popup-timeblock'/>
                             :
                             null}
                         <div className={isEditing ? "draggable-div" : '' } style={{ bottom: '1px'}} onMouseDown={handleMouseDown}>-</div>
                     </div>
                 : 
-                    <div title={title} onFocus={() => setIsEditing(true)} className=' readonly-cell'>
+                    <div title={cellData.title} onFocus={() => setIsEditing(true)} className=' readonly-cell'>
                         <div className={isEditing ? "draggable-div" : '' } style={{bottom: '1px'}} onMouseDown={handleMouseDown}></div>
-                        {title}
+                        {cellData.title}
                     </div>
             }
         </div>

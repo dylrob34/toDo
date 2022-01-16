@@ -15,6 +15,7 @@ export function TimeBlockProvider({ children }) {
     const [timeblock, setTimeblock] = useState({
         reloadTimeblocks: true,
         reloadCategories: true,
+        categories: []
     })
     
     return (

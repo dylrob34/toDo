@@ -5,9 +5,9 @@ var auth = require("./auth");
 const jwt = require('jsonwebtoken');
 const User = require("../database/models/user");
 
-router.get('/getUser', auth.verifyToken, async function(req, res) {
+router.get('/getUser', async function(req, res) {
     const user = await User.getUser(req.authData.user);
-    res.json({user});
+    return res.json({user});
 });
 
 router.post('/createUser', async function(req, res) {

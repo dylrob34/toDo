@@ -13,7 +13,6 @@ const TimeTable2 = () => {
     const [height, setHeight] = useState(0);
     const [cellHeight, setCellHeight] = useState(0);
     const [data, setData] = useState([]);
-    const [catagories, setCategories] = useState({});
     const heightRef = useRef(null);
     const [timeStrings, setTimeStrings] = useState({});
     const timeblockContext = useTimeBlockContext();
@@ -49,6 +48,10 @@ const TimeTable2 = () => {
     }, [heightRef.current, divisions, timeblockContext.reloadTimeblocks]);
 
 
+    const addNewBlock = (block) => {
+        setData([...data, block]);
+    }
+
     function timeLoop() {
         var timerows = [];
         for(var i = 0; i < 1440; i+=divisions) {
@@ -64,10 +67,6 @@ const TimeTable2 = () => {
         return timerows
     }
 
-    const setTheData = (newData) => {
-        setData([...data, newData]);
-    }
-
     function fill(day, colNum) {
         let cells = [];
         for (var i = 0; i < 1440; i += divisions) {
@@ -75,21 +74,20 @@ const TimeTable2 = () => {
             for (let datum of data) {
                 if (datum.time === i && datum.dow === day) {
                     found = true;
-                    cells.push(<Cells key={datum.title} row={i} col={colNum} data={datum} timeStrings={timeStrings} height={cellHeight} div={divisions} setData={setTheData}/>)
+                    cells.push(<Cells key={datum.title} row={i} col={colNum} data={datum} timeStrings={timeStrings} height={cellHeight} div={divisions} addNewBlock={addNewBlock}/>)
                     if (datum.duration > divisions) {
                         i += datum.duration - divisions;
                     }
                 }
             }
             if (!found) {
-                cells.push(<Cells key={i} row={i} col={colNum} data={{_id: null, title: '', body: '', dow: day, time: i, duration: divisions, catagory: null }} timeStrings={timeStrings} height={cellHeight} div={divisions} setData={setTheData}/>)
+                cells.push(<Cells key={i} row={i} col={colNum} data={{_id: null, title: '', body: '', dow: day, time: i, duration: divisions, category: null }} timeStrings={timeStrings} height={cellHeight} div={divisions} addNewBlock={addNewBlock}/>)
             }
         }
         return cells;
     }
 
     const dow = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    console.log("Cell Height: " + cellHeight);
     return (
             <div className='table-blockz'>
                 <div className='table-col' name='admin'>
@@ -99,7 +97,7 @@ const TimeTable2 = () => {
                 {
                     dow.map((day, index) => {
                         return (
-                            <div className="table-col" >
+                            <div className="table-col" key={index}>
                                 <div className="table-row admin-cell">
                                     {day}
                                 </div>

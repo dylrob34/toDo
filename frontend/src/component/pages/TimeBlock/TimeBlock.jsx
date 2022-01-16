@@ -20,14 +20,13 @@ const TimeBlock = (props) => {
         if (timeblockContext.reloadCategories === true) {
             get("/api/categories/getCategories")
             .then((res) => {
-                console.log("cats")
-                console.log(res.categories)
                 if (res.categories === undefined) {
                     setUserCategories([]);
+                    updateTimeBlockContext({...timeblockContext, categories: [], reloadCategories: false})
                 } else {
                     setUserCategories(res.categories);
+                    updateTimeBlockContext({...timeblockContext, categories: res.categories, reloadCategories: false})
                 }
-                updateTimeBlockContext({...timeblockContext, reloadCategories: false});
             })
         }
     }, [timeblockContext.reloadCategories])

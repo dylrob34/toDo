@@ -14,9 +14,6 @@ const PopupCategories = (props) => {
         setCategories(props.categories);
     }, [props.categories]);
 
-    console.log("Cats")
-    console.log(props.categories);
-
     return (
         <div>
             <div className='categories-container'>
