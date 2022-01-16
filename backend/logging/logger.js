@@ -15,10 +15,11 @@ function logging(req, res, next) {
         console.log(req.body);
     }
   
+    const user = req.authData === undefined ? 'none' : req.authData.user;
     logger.info(format.json().transform({
       url: req.url,
       method: req.method,
-      user: req.authData.user,
+      user,
       body: req.body
     }));
     const oldJson = res.json;
@@ -26,7 +27,7 @@ function logging(req, res, next) {
       logger.info(format.json().transform({
         url: req.url,
         method: req.method,
-        user: req.authData.user,
+        user,
         resBody: body
       }))
       

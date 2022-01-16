@@ -44,6 +44,10 @@ const Cells = ({row, col, data, timeStrings, height, div, addNewBlock}) => {
         }
     }, [cellRef.current, data]);
 
+    const reloadCells = () => {
+        updateTimeBlockContext({...timeBlockContext, reloadTimeblocks: true})
+    }
+
     const create = (key, value) => {
         post("/api/timeblocking/createTimeblock", {
             ...cellData,
@@ -54,8 +58,10 @@ const Cells = ({row, col, data, timeStrings, height, div, addNewBlock}) => {
                 alert(`Error Creating new Timeblock\n${res.message}`);
                 return;
             }
-            setCellData({...data, _id: res.timeblock.id});
-            addNewBlock({...data, _id: res.timeblock.id, [key]: value});
+            setCellData({...data, _id: res.timeblock.id, [key]: value});
+            if ( key === 'duration' ) {
+                addNewBlock({...data, _id: res.timeblock.id, [key]: value});
+            } 
         })
     }
 
@@ -74,7 +80,9 @@ const Cells = ({row, col, data, timeStrings, height, div, addNewBlock}) => {
                 alert(`Error saving your changes.\n${res.message}`)
                 return;
             }
-            //updateTimeBlockContext({...timeBlockContext, reloadTimeblocks: true})
+            if ( key === 'duration' ) {
+                updateTimeBlockContext({...timeBlockContext, reloadTimeblocks: true})
+            } 
         })
     }
 
