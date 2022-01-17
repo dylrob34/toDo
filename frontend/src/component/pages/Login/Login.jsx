@@ -85,8 +85,8 @@ const userLogin = (details, setError, setAutoToDo) => {
     pass: details.password,
   }).then((resJson) => {
     if (resJson.error === true) {
-      console.log("The auth information didn't match...");
-      setError("The auth information didn't match...");
+      console.log("The authentication information didn't match...");
+      setError("The authentication information didn't match...");
     } else if (resJson.loggedIn === true) {
       console.log("logged in");
       login(resJson.token);
