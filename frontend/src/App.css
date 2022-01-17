@@ -14,6 +14,23 @@ html {
   margin: 0;
 }
 
+::-webkit-scrollbar {
+  width: 6px;
+  height: 8px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-track {
+  width: 6px;
+  height: 6px;
+  background: rgb(32, 32, 32);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-green);
+  border-radius: 6px;  
+}
+
 body,
 #root,
 .App {
@@ -554,6 +571,34 @@ body,
 
 /* MODAL STYLING */
 
+#modal {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  justify-content: center;
+  align-items: center;
+}
+.fa-sml{
+  font-size: 1rem;
+  text-align: center;
+}
+.m-btn-sml{
+  display: flex;
+  position: relative;
+  width: 34px;
+  height: 20px;
+  border: solid 1px var(--primary-green);
+  font-weight: 500px;
+  border-radius: 5px;
+  left: -20px;
+  justify-content: center;
+  align-items: center;
+}
+
+
 .modal-background {
   position: fixed;
   top: 0;
@@ -571,12 +616,28 @@ body,
   position: relative;
   padding: 20px 10px 20px 20px;
   width: 100%;
-  max-width: 370px;
+  max-width: 250px;
   height: 50%;
-  max-height: 460px;
+  max-height: 400px;
   background-color: var(--mid-gray);
   color: white;
   border-radius: 20px;
+  z-index: 1001;
+}
+.modal-container {
+  display: flex;
+  flex-direction: column;
+}
+.modal-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal-header {
+  display: flex;
+  font-weight: 300;
+  position: relative;
 }
 
 .nested-modal-background {
@@ -743,7 +804,7 @@ body,
   height: 500px;
 }
 .bucket-list-sizing {
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   height: 325px;
 }

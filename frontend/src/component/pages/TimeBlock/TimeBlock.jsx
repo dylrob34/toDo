@@ -4,7 +4,7 @@ import { FaPlus, FaTimes, FaFolder, FaFolderOpen } from 'react-icons/fa';
 import PopupCategories from './Popup/PopupCategories';
 import Modal from '../../layout/Modal/Modal';
 import { getLoggedIn } from "../../../context/loggedInState";
-import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../../context/TimeBlockContext';
+import { useTimeBlockContext, useUpdateTimeBlockContext } from "../../../context/TimeBlockContext";
 import { get, post } from "../../../tools/request";
 import { Redirect } from "react-router";
 
@@ -20,13 +20,14 @@ const TimeBlock = (props) => {
         if (timeblockContext.reloadCategories === true) {
             get("/api/categories/getCategories")
             .then((res) => {
+                console.log("cats")
+                console.log(res.categories)
                 if (res.categories === undefined) {
                     setUserCategories([]);
-                    updateTimeBlockContext({...timeblockContext, categories: [], reloadCategories: false})
                 } else {
                     setUserCategories(res.categories);
-                    updateTimeBlockContext({...timeblockContext, categories: res.categories, reloadCategories: false})
                 }
+                updateTimeBlockContext({...timeblockContext, reloadCategories: false});
             })
         }
     }, [timeblockContext.reloadCategories])
@@ -34,7 +35,7 @@ const TimeBlock = (props) => {
     if (getLoggedIn() === false) {
         return <Redirect to="/login" />;
     }
-    
+
     const handleAddCategory = () => {
         post("/api/categories/createCategory", {
             title: "title",
@@ -96,22 +97,24 @@ const TimeBlock = (props) => {
 
             {/* This is the Modal for the categories stuff. */}
             <Modal trigger={modal} setTrigger={setModal}>
-                <div className='modal-background'>
-                    <div className='modal'>
-                        <div className='toolbar-container' style={{border: "none"}}>
-                            <div className='toolbar-element' onClick={handleAddCategory}>
-                                <FaPlus className='toolbar-item'></FaPlus>
-                                <div className='toolbar-item'>New Category</div>
+                <div className='modal-background' onClick={() => {setModal(false)}} />
+                <div className='modal'>
+                        <div className='modal-container' style={{border: "none"}}>
+                            <div className='modal-row'>
+                                <h2 className='modal-header'>Categories</h2>
+                                <div className='m-btn-sml' onClick={handleAddCategory}>
+                                    <FaPlus className='fa-sml' onClick={handleAddCategory}></FaPlus>
+                                </div>
                             </div>
-                            <div className='flex-spacer-end'></div>
-                            <FaTimes className='toolbar-item hover' onClick={() => setModal(false)}></FaTimes>
+                            <div className='modal-row'>
+                                <PopupCategories nestedModal={nestedModal}
+                                setNestedModal={setNestedModal} 
+                                categories={userCategories} 
+                                />
+                            </div>
+                            <div className='' onClick={() => setModal(false)}>Close</div>
                         </div>
-                        <PopupCategories nestedModal={nestedModal} 
-                        setNestedModal={setNestedModal} 
-                        categories={userCategories} 
-                        />
                     </div>
-                </div>
             </Modal>
         </div>
 

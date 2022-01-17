@@ -8,7 +8,6 @@ import TimeCell from './TimeCell'; // Don't know if need a different type of cel
 
 
 const TimeTable2 = () => {
-    const [divisions, setDivisions] = useState(30);
     const [military, setMilitary] = useState(false);
     const [height, setHeight] = useState(0);
     const [cellHeight, setCellHeight] = useState(0);
@@ -17,6 +16,7 @@ const TimeTable2 = () => {
     const [timeStrings, setTimeStrings] = useState({});
     const timeblockContext = useTimeBlockContext();
     const updateTimeblockContext = useUpdateTimeBlockContext();
+    const divisions = timeblockContext.divisions;
 
     useEffect(() => {
         if (timeblockContext.reloadTimeblocks) {

@@ -5,8 +5,8 @@ import { useTimeBlockContext } from '../../../../context/TimeBlockContext';
 
 const PopupEditBlock = (props) => {
     const [categories, setCategories] = useState([]);
-
     const timeBlockContext = useTimeBlockContext();
+    const divisions = timeBlockContext.divisions;
 
     useEffect(() => {
         setCategories(timeBlockContext.categories);
@@ -32,6 +32,16 @@ const PopupEditBlock = (props) => {
         return temp;
     }
 
+    const getDurations = () => {
+        let temp = [];
+        let inc = 0;
+        for (let i = 0; i < 24; i++ ) {
+            inc = inc + divisions
+            temp.push([inc, `${parseInt(inc/60) === 0 ? '0:' : parseInt(inc/60) + ':'}${inc % 60 === 0 ? '00': inc % 60  }`])
+        }
+        return temp
+    }
+
     return (
     <div>
         <div className='popup-timeblock-container'>
@@ -52,7 +62,13 @@ const PopupEditBlock = (props) => {
                         })
                     }
                 </select>
-                <input className='popup-timeblock-text' type="text" default="Duration..." onChange={(e) => props.save("duration", e.target.value)} value={props.data.duration}/>
+                <select className='popup-timeblock-text' type="text" default="Duration..." onChange={(e) => props.save("duration", e.target.value)} value={props.data.duration}>
+                    {
+                        getDurations().map((durationArray) => {
+                            return <option value={durationArray[0]}>{durationArray[1]}</option>
+                        })
+                    }
+                </select>
                 <select className='popup-timeblock-text' onChange={(e) => props.save("category", e.target.value)} >
                     {
                         getCategories().map((category) => {

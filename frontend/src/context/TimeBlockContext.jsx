@@ -15,8 +15,11 @@ export function TimeBlockProvider({ children }) {
     const [timeblock, setTimeblock] = useState({
         reloadTimeblocks: true,
         reloadCategories: true,
-        categories: []
+        categories: [],
+        divisions: 30,
     })
+
+    
     
     return (
         <timeBlockContext.Provider value={timeblock}>
