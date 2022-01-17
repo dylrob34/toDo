@@ -465,38 +465,38 @@ body,
 @keyframes fadeInRight {
   0% {
     opacity: 0;
-    transform: translate(5%, -50%);
+    transform: translate(-45%, -50%);
   }
   100% {
     opacity: 1;
-    transform: translate(0, -50%);
+    transform: translate(-50%, -50%);
   }
 }
 
 .popup-timeblock-relative {
   position: relative;
-  left: 113%;
-  transform: translate(0, -50%);
+  left: 114%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
-  background-color: var(--mid-gray2);
+  background-color: white;
   padding: 15px;
   border-radius: 10px;
   box-shadow: var(---popup-shadow);
   margin-right: 10px;
-  animation: fadeInRight 0.5s;
+  animation: fadeInRight 4s;
 }
 
 .popup-timeblock-arrow {
   position: absolute;
   top: 45%;
-  left: -5px;
+  left: -4px;
   width: 0;
   height: 0;
-  transform: translate(-50%, -50%);
+  transform: translate(-46%, -50%);
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  border-right: 10px solid var(--mid-gray2);
+  border-right: 10px solid white;
 }
 
 .popup-timeblock-bckgrnd {
