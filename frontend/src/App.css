@@ -628,6 +628,7 @@ cursor: pointer;
   overflow-y: auto;
   overflow-x: hidden;
   max-height: 270px;
+
 }
 .modal-header {
   display: flex;
@@ -639,8 +640,9 @@ cursor: pointer;
   height: 30px;
   padding-right: 20px;
   margin: 0px 10px 15px 0px;
-  background-color: rgb(0,0,0,50%);
+  background-color: rgb(0,0,0,0.5);
   border-radius: 5px;
+  box-shadow: 0px 1px 2px rgb(0,0,0,0.5);
 }
 .modal-element {
   display: flex;
