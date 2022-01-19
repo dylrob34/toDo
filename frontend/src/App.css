@@ -496,12 +496,12 @@ body,
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
-  background-color: white;
+  background-color: var(--mid-gray2);
   padding: 15px;
   border-radius: 10px;
   box-shadow: var(---popup-shadow);
   margin-right: 10px;
-  animation: fadeInRight 4s;
+  animation: fadeInRight 0.5s;
 }
 
 .popup-timeblock-arrow {
@@ -513,7 +513,7 @@ body,
   transform: translate(-46%, -50%);
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  border-right: 10px solid white;
+  border-right: 10px solid var(--mid-gray2);
 }
 
 .popup-timeblock-bckgrnd {
