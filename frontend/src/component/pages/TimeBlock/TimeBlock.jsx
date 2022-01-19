@@ -100,19 +100,22 @@ const TimeBlock = (props) => {
                 <div className='modal-background' onClick={() => {setModal(false)}} />
                 <div className='modal'>
                         <div className='modal-container' style={{border: "none"}}>
-                            <div className='modal-row'>
+                            <div className='modal-row' style={{padding:"0px 0px 40px 0px", justifyContent:'space-between'}}>
                                 <h2 className='modal-header'>Categories</h2>
-                                <div className='m-btn-sml' onClick={handleAddCategory}>
+                                <div className='m-btn m-btn-sml' onClick={handleAddCategory} style={{left:"-20px"}}>
                                     <FaPlus className='fa-sml' onClick={handleAddCategory}></FaPlus>
                                 </div>
                             </div>
-                            <div className='modal-row'>
-                                <PopupCategories nestedModal={nestedModal}
+                            <div className='modal-row' style={{padding:"5px 0px 0px 0px"}} >
+                                <PopupCategories
+                                nestedModal={nestedModal}
                                 setNestedModal={setNestedModal} 
                                 categories={userCategories} 
                                 />
                             </div>
-                            <div className='' onClick={() => setModal(false)}>Close</div>
+                            <div className='modal-row' style={{paddingTop:"20px", justifyContent:'center'}}>
+                                <div className='m-btn m-btn-lrg' onClick={() => setModal(false)}>Close</div>
+                            </div>
                         </div>
                     </div>
             </Modal>

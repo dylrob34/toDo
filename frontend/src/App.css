@@ -542,25 +542,8 @@ body,
 .popup-timeblock-text:focus {
   outline: solid 1px var(--primary-green);
 }
-.categories-container {
-}
-.categories-list {
-  display: flex;
-  flex-direction: column;
-  z-index: 1001;
-}
-.categories-element {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-}
-.categories-item {
-  justify-content: flex-start;
-}
-.categories-item:hover {
-  color: var(--accent-green);
-}
+
+
 .picker-compact {
   position: absolute;
   right: 100%;
@@ -585,19 +568,29 @@ body,
   font-size: 1rem;
   text-align: center;
 }
-.m-btn-sml{
+
+.m-btn{
   display: flex;
   position: relative;
-  width: 34px;
-  height: 20px;
   border: solid 1px var(--primary-green);
-  font-weight: 500px;
+  font-weight: 300;
   border-radius: 5px;
-  left: -20px;
   justify-content: center;
   align-items: center;
 }
+.m-btn:hover{
+background-color: var(--primary-green);
+cursor: pointer;
+}
 
+.m-btn-sml{
+  width: 34px;
+  height: 20px;
+}
+.m-btn-lrg{
+  width: 206px;
+  height: 25px;
+}
 
 .modal-background {
   position: fixed;
@@ -631,13 +624,38 @@ body,
 .modal-row {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 270px;
 }
 .modal-header {
   display: flex;
   font-weight: 300;
   position: relative;
+}
+.modal-group {
+  width: 220px;
+  height: 30px;
+  padding-right: 20px;
+  margin: 0px 10px 15px 0px;
+  background-color: rgb(0,0,0,50%);
+  border-radius: 5px;
+}
+.modal-element {
+  display: flex;
+  flex-direction: row;
+  font-size: 18px;
+  font-weight: 300;
+  justify-content: space-around;
+  align-items: center;
+  height: inherit;
+  width: inherit;
+}
+
+.modal-item {
+display: flex;
+align-items: center;
 }
 
 .nested-modal-background {
