@@ -74,7 +74,7 @@ const TimeTable2 = () => {
             for (let datum of data) {
                 if (datum.time === i && datum.dow === day) {
                     found = true;
-                    cells.push(<Cells key={datum.title} row={i} col={colNum} data={datum} timeStrings={timeStrings} height={cellHeight} div={divisions} addNewBlock={addNewBlock}/>)
+                    cells.push(<Cells key={datum._id} row={i} col={colNum} data={datum} timeStrings={timeStrings} height={cellHeight} div={divisions} addNewBlock={addNewBlock}/>)
                     if (datum.duration > divisions) {
                         i += datum.duration - divisions;
                     }

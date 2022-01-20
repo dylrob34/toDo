@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import TimeTable2 from './Tables/TimeTable2'
-import { FaPlus, FaTimes, FaFolder, FaFolderOpen } from 'react-icons/fa';
+import { FaPlus, FaTimes, FaFolder, FaFolderOpen, FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
 import PopupCategories from './Popup/PopupCategories';
 import Modal from '../../layout/Modal/Modal';
 import { getLoggedIn } from "../../../context/loggedInState";
@@ -79,6 +79,9 @@ const TimeBlock = (props) => {
             <div className='page-config'>
                 <div className='left-sidebar-sm'></div>
                 <div className='main' name='table_metrics'>
+                    <FaAngleDoubleLeft/>
+                    <div> Date Field </div>
+                    <FaAngleDoubleRight/>
                     <section className='top'>
                         <TimeTable2 />
                     </section>
