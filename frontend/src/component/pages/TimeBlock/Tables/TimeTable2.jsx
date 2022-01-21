@@ -98,8 +98,8 @@ const TimeTable2 = () => {
                     dow.map((day, index) => {
                         return (
                             <div className="table-col" key={index}>
-                                <div className="table-row admin-cell">
-                                    {day}
+                                <div className="table-row admin-cell" style={new Date().getDay() === index ? {color: "#34b487"} : {}}>
+                                    {`${day}`}
                                 </div>
                                 {fill(day, index)}
                             </div>

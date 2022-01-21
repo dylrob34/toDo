@@ -159,6 +159,22 @@ body,
   flex-grow: 4;
   align-content: flex-start;
 }
+.flex-spacer-3 {
+  display: flex;
+  flex-grow: 3;
+  align-content: flex-start;
+}
+.flex-spacer-2 {
+  display: flex;
+  flex-grow: 2;
+  align-content: flex-start;
+}
+.flex-spacer-1 {
+  display: flex;
+  flex-grow: 1;
+  align-content: flex-start;
+}
+
 .flex-spacer-end {
   flex-grow: 4;
   justify-content: flex-end;
@@ -635,7 +651,7 @@ cursor: pointer;
   display: flex;
   font-weight: 300;
   position: relative;
-  background-color: rgb(0,0,0,0.5);
+  /* background-color: rgb(0,0,0,0.5); */
   padding: 2px 8px;
   border-radius: 5px;
 }
@@ -644,16 +660,16 @@ cursor: pointer;
   height: 30px;
   padding-right: 20px;
   margin: 0px 10px 15px 0px;
-  background-color: var(--mid-gray2);
+  /* background-color: var(--mid-gray2); */
   border-radius: 5px;
-  box-shadow: 0px 1px 2px rgb(0,0,0,0.5);
+  /* box-shadow: 0px 1px 2px rgb(0,0,0,0.5); */
 }
 .modal-element {
   display: flex;
   flex-direction: row;
   font-size: 18px;
   font-weight: 300;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   height: inherit;
   width: inherit;
@@ -662,6 +678,7 @@ cursor: pointer;
 .modal-item {
 display: flex;
 align-items: center;
+
 }
 
 .nested-modal-background {

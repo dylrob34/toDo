@@ -74,18 +74,15 @@ const Category = ({ category }) => {
         <div className='modal-group'>
             {/* <CompactPicker color={color} onChange={handleColorChange}/> */}
             <div className='modal-element'>
-                <div className='modal-item'>
-                    <FaSquare onClick={ () => { setCompactPicker(!compactPicker) }} className=''
+                    <FaSquare onClick={ () => { setCompactPicker(!compactPicker) }} className='modal-item'
                         style={{ color: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` }}>
                     </FaSquare>
-                    <div className=''>{title}</div>
-                </div>
-                <div className='modal-item'>
-                    <FaEdit onClick={ () => handleEdit(id)} className=''></FaEdit>
-                    <FaTimes onClick={ () => handleDelete(id) } className='' />
-                </div>
-                
-                
+                    <span className='flex-spacer-1'></span>
+                    <div className='modal-item'>{title}</div>
+                    <span className="flex-spacer-4"></span>
+                    <FaEdit onClick={ () => handleEdit(id)} className='modal-item'></FaEdit>
+                    <span className='flex-spacer-1'></span>
+                    <FaTimes onClick={ () => handleDelete(id) } className='modal-item' />            
                 {/* <FaEyeDropper onClick={() => props.setNestedModal(true)} className='categories-item'/> */}
             </div>
 
