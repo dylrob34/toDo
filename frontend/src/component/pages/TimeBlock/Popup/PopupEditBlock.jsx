@@ -26,7 +26,7 @@ const PopupEditBlock = (props) => {
             temp.push(cat);
         }
         temp.push({
-            none: true,
+            _id: 0,
             title: "None"
         })
         return temp;
@@ -58,24 +58,21 @@ const PopupEditBlock = (props) => {
                 <select className='popup-timeblock-text' default="Time..." onChange={(e) => props.save("time", e.target.value)} value={props.timeStrings[props.data.time]}> 
                     {
                         getTimes().map((key) => {
-                            return <option value={key}>{key}</option>
+                            return <option key={key} value={key}>{key}</option>
                         })
                     }
                 </select>
                 <select className='popup-timeblock-text' type="text" default="Duration..." onChange={(e) => props.save("duration", e.target.value)} value={props.data.duration}>
                     {
                         getDurations().map((durationArray) => {
-                            return <option value={durationArray[0]}>{durationArray[1]}</option>
+                            return <option key={durationArray[0]} value={durationArray[0]}>{durationArray[1]}</option>
                         })
                     }
                 </select>
-                <select className='popup-timeblock-text' onChange={(e) => props.save("category", e.target.value)} >
+                <select className='popup-timeblock-text' value={props.data.category || 0} onChange={(e) => props.save("category", e.target.value)} >
                     {
                         getCategories().map((category) => {
-                            if (props.category === category._id) {
-                                return <option value={category._id} selected>{category.title}</option>
-                            }
-                            return <option value={category._id}>{category.title}</option>
+                            return <option key={category._id} value={category._id}>{category.title}</option>
                         })
                     }
                 </select>

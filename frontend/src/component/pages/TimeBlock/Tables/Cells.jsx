@@ -7,12 +7,10 @@ import { setTableData, getTableData, setDragged, unSetDragged, drag, setCount } 
 
 const Cells = ({row, col, data, timeStrings, height, div, addNewBlock}) => {
     const [cellData, setCellData] = useState(data);
-    const [colNum, setColNum] = useState(col);
-    const [rowNum, setRowNum] = useState(row);
+    const [category, setCategory] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [middle, setMiddle] = useState(0);
     const [right, setRight] = useState(0);
-    const [top, setTop] = useState(0);
     const [bottom, setBottom] = useState(0);
     const [popup, setPopup] = useState(false);
     const [draggedOver, setDraggedOver] = useState(false);
@@ -24,15 +22,17 @@ const Cells = ({row, col, data, timeStrings, height, div, addNewBlock}) => {
     // Gets the reference to the DOM cell object and calcs the middle height at the right side
     useEffect(() => {
         setCellData(data);
+        for (const cat of timeBlockContext.categories) {
+            if (data.category === cat._id) {
+                setCategory(cat);
+            }
+        }
 
         if (cellRef.current !== null) {
             const rect = cellRef.current.getBoundingClientRect();
             setMiddle(Math.floor((rect.top + rect.bottom) / 2));
             setRight(rect.right)
-            setTop(rect.top);
             setBottom(rect.bottom);
-            setColNum(col);
-            setRowNum(row);
             const tableData = getTableData();
             setTableData({...tableData, [`${col}${row}`]: {
                 x: col,
@@ -80,7 +80,7 @@ const Cells = ({row, col, data, timeStrings, height, div, addNewBlock}) => {
                 alert(`Error saving your changes.\n${res.message}`)
                 return;
             }
-            if ( key === 'duration' ) {
+            if ( key === 'duration' || key === "time" || key === "category" ) {
                 updateTimeBlockContext({...timeBlockContext, reloadTimeblocks: true})
             } 
         })
@@ -156,9 +156,9 @@ const Cells = ({row, col, data, timeStrings, height, div, addNewBlock}) => {
         }
         setCount(count);
     }
-
+//rgb(" + category.color.r + ", " + category.color.g + ", " + category.color.b + ")"
     return (
-        <div className={draggedOver ? "table-row-drag":"table-row"} ref={cellRef} style={{minHeight: `${(height * cellData.duration / div)-2}px`, maxHeight: `${(height * cellData.duration / div)-2}px`, backgroundColor: `${cellData.category === null ? "" : ""}`}} onClick={() => setIsEditing(true)} onMouseUp={handleMouseUp} onBlur={handleBlur} onDoubleClick={() => setPopup(true)}>
+        <div className={draggedOver ? "table-row-drag":"table-row"} ref={cellRef} style={{minHeight: `${(height * cellData.duration / div)-2}px`, maxHeight: `${(height * cellData.duration / div)-2}px`, backgroundColor: `${category === null ? "" : "rgb(" + category.color.r + ", " + category.color.g + ", " + category.color.b + ")"}`}} onClick={() => setIsEditing(true)} onMouseUp={handleMouseUp} onBlur={handleBlur} onDoubleClick={() => setPopup(true)}>
             {
                 isEditing ?
                     <div className='cell'>
