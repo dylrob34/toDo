@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react'
 import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../../../context/TimeBlockContext';
 import { post } from '../../../../tools/request';
 import PopupEditBlock from '../Popup/PopupEditBlock';
-import { setTableData, getTableData, setDragged, unSetDragged, drag, setCount } from './TableData';
+import { setTableData, getTableData, setDragged, unSetDragged, drag, setCount, getCount } from './TableData';
 
 
 const Cells = ({row, col, data, timeStrings, height, div, addNewBlock}) => {
@@ -80,7 +80,7 @@ const Cells = ({row, col, data, timeStrings, height, div, addNewBlock}) => {
                 alert(`Error saving your changes.\n${res.message}`)
                 return;
             }
-            if ( key === 'duration' || key === "time" || key === "category" ) {
+            if ( key === 'duration' || key === "time") {
                 updateTimeBlockContext({...timeBlockContext, reloadTimeblocks: true})
             } 
         })
@@ -123,12 +123,15 @@ const Cells = ({row, col, data, timeStrings, height, div, addNewBlock}) => {
     }
 
     const handleMouseDown = (e) => {
-        setDragged(dragCell, (count) => {setCellData({...cellData, duration: cellData.duration + count * div})});
+        setDragged(dragCell);
         window.addEventListener("mousemove", drag);
+        window.addEventListener("mouseup", handleMouseUp);
     }
 
     const handleMouseUp = (e) => {
-        window.removeEventListener("mousemove", drag)
+        save("duration", getCount() * div);
+        window.removeEventListener("mousemove", drag);
+        window.removeEventListener("mouseup", handleMouseUp);
         unSetDragged();
     }
 
@@ -158,7 +161,7 @@ const Cells = ({row, col, data, timeStrings, height, div, addNewBlock}) => {
     }
 //rgb(" + category.color.r + ", " + category.color.g + ", " + category.color.b + ")"
     return (
-        <div className={draggedOver ? "table-row-drag":"table-row"} ref={cellRef} style={{minHeight: `${(height * cellData.duration / div)-2}px`, maxHeight: `${(height * cellData.duration / div)-2}px`, backgroundColor: `${category === null ? "" : "rgb(" + category.color.r + ", " + category.color.g + ", " + category.color.b + ")"}`}} onClick={() => setIsEditing(true)} onMouseUp={handleMouseUp} onBlur={handleBlur} onDoubleClick={() => setPopup(true)}>
+        <div className={draggedOver ? "table-row-drag":"table-row"} ref={cellRef} style={{minHeight: `${(height * cellData.duration / div)-2}px`, maxHeight: `${(height * cellData.duration / div)-2}px`, backgroundColor: `${category === null ? "" : "rgb(" + category.color.r + ", " + category.color.g + ", " + category.color.b + ")"}`}} onClick={() => setIsEditing(true)} onBlur={handleBlur} onDoubleClick={() => setPopup(true)}>
             {
                 isEditing ?
                     <div className='cell'>

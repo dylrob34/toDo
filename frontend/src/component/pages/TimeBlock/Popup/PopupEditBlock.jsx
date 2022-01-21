@@ -15,7 +15,7 @@ const PopupEditBlock = (props) => {
     const getTimes = () => {
         let temp = []
         for (const key of Object.keys(props.timeStrings)) {
-            temp.push(props.timeStrings[key]);
+            temp.push([key, props.timeStrings[key]]);
         }
         return temp;
     }
@@ -55,14 +55,14 @@ const PopupEditBlock = (props) => {
                 }
                 <input className='popup-timeblock-text' type="text" default="Body..." onChange={(e) => props.save("body", e.target.value)} value={props.data.body}/>
                 <input className='popup-timeblock-text' type="text" default="DOW..." onChange={(e) => props.save("dow", e.target.value)} value={props.data.dow}/>
-                <select className='popup-timeblock-text' default="Time..." onChange={(e) => props.save("time", e.target.value)} value={props.timeStrings[props.data.time]}> 
+                <select className='popup-timeblock-text' default="Time..." onChange={(e) => props.save("time", parseInt(e.target.value))} value={props.data.time}> 
                     {
-                        getTimes().map((key) => {
-                            return <option key={key} value={key}>{key}</option>
+                        getTimes().map((time) => {
+                            return <option key={time[0]} value={time[0]}>{time[1]}</option>
                         })
                     }
                 </select>
-                <select className='popup-timeblock-text' type="text" default="Duration..." onChange={(e) => props.save("duration", e.target.value)} value={props.data.duration}>
+                <select className='popup-timeblock-text' type="text" default="Duration..." onChange={(e) => props.save("duration", parseInt(e.target.value))} value={props.data.duration}>
                     {
                         getDurations().map((durationArray) => {
                             return <option key={durationArray[0]} value={durationArray[0]}>{durationArray[1]}</option>

@@ -1,6 +1,5 @@
 let tableData = {};
 let currentDraggedCellCallback = null;
-let durationCallback = null;
 let count = 0;
 
 
@@ -12,18 +11,13 @@ const getTableData = () => {
     return tableData;
 }
 
-const setDragged = (callback, dCallback) => {
+const setDragged = (callback) => {
     currentDraggedCellCallback = callback;
-    durationCallback = dCallback;
 }
 
 const unSetDragged = () => {
     currentDraggedCellCallback = null;
-    if (durationCallback !== null) {
-        durationCallback(count);
-    }
     count = 0;
-    durationCallback = null;
     for (const [key, value] of Object.entries(tableData)) {
         value.setDraggedOverState(false);
     }
@@ -38,4 +32,8 @@ const setCount = (c) => {
     count = c;
 }
 
-export { setTableData, getTableData, setDragged, unSetDragged, drag, setCount }
+const getCount = () => {
+    return count
+}
+
+export { setTableData, getTableData, setDragged, unSetDragged, drag, setCount, getCount}
