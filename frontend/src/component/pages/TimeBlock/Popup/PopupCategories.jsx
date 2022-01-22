@@ -49,8 +49,8 @@ const Category = ({ category }) => {
     }
 
 
-    const editTitle = (e) => {
-        if (e.keycode === 13 && isEditing) {
+    function editTitle(e) {
+        if (e.keycode === 13 && isEditing === true) {
             post("/api/categories/editCategory", {"id":id, "title":title})
             .then((resJson) => {
                 if (resJson.error === false) {
@@ -63,20 +63,20 @@ const Category = ({ category }) => {
         }
     }
 
-    const handleEdit = () => {
-        post("/api/categories/editCategory", {
-            id,
-            title,
-            color,
-        })
-            .then((resJson) => {
-                if (resJson.error === true) {
-                    console.log( "Error editing category." );
-                } else {
-                    updateTimeBlockContext({...timeBlockContext, reloadCategories: true})
-                }
-            })
-    }
+    // const handleEdit = () => {
+    //     post("/api/categories/editCategory", {
+    //         id,
+    //         title,
+    //         color,
+    //     })
+    //         .then((resJson) => {
+    //             if (resJson.error === true) {
+    //                 console.log( "Error editing category." );
+    //             } else {
+    //                 updateTimeBlockContext({...timeBlockContext, reloadCategories: true})
+    //             }
+    //         })
+    // }
 
     const handleDelete = () => {
         post("/api/categories/deleteCategory", { "id": id })
