@@ -599,10 +599,12 @@ body,
   border-radius: 5px;
   justify-content: center;
   align-items: center;
+  
 }
 .m-btn:hover{
 background-color: var(--primary-green);
 cursor: pointer;
+box-shadow: 0px 1px 2px rgb(0,0,0,0.5);
 }
 
 .m-btn-sml{

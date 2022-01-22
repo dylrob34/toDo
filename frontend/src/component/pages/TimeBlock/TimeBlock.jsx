@@ -8,6 +8,8 @@ import { useTimeBlockContext, useUpdateTimeBlockContext } from "../../../context
 import { get, post } from "../../../tools/request";
 import { Redirect } from "react-router";
 
+import { PlusIcon } from '@heroicons/react/solid'
+
 const TimeBlock = (props) => {
     // const [popup, setPopup] = useState(false)
     const [modal, setModal] = useState(false)
@@ -136,11 +138,11 @@ const TimeBlock = (props) => {
                 <div className='modal-background' onClick={() => {setModal(false)}} />
                 <div className='modal'>
                         <div className='modal-container' style={{border: "none"}}>
-                            <div className='modal-row' style={{padding:"0px 0px 40px 0px", justifyContent:'space-between'}}>
+                            <div className='modal-row' style={{padding:"0px 0px 30px 0px", justifyContent:'space-between'}}>
                                 <h2 className='modal-header'>Categories</h2>
                                 <div className='m-btn m-btn-sml' onClick={handleAddCategory} style={{left:"-16px"}}>
-                                    {/* <FaPlus className='fa-sml' onClick={handleAddCategory} style={{fontSize:'1rem', size:'2x'}}></FaPlus> */}
-                                    <img alt="Add" src="/Cross.svg" className="fa-sml" />
+                                    <PlusIcon className='fa-sml' onClick={handleAddCategory} style={{height:'20px', width:'20px'}}></PlusIcon>
+                                    {/* <img alt="Add" src="/Cross.svg" className="fa-sml" /> */}
                                 </div>
                             </div>
                             <div className='modal-row modal-row-content' style={{padding:"0px 0px 0px 0px"}} >
@@ -150,7 +152,7 @@ const TimeBlock = (props) => {
                                 categories={userCategories} 
                                 />
                             </div>
-                            <div className='modal-row' style={{paddingTop:"20px", justifyContent:'center'}}>
+                            <div className='modal-row' style={{paddingTop:"30px", justifyContent:'center'}}>
                                 <div className='m-btn m-btn-lrg' onClick={() => setModal(false)}>Close</div>
                             </div>
                         </div>
