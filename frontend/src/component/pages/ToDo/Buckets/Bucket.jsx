@@ -47,7 +47,6 @@ const Bucket = ({ bucket, popup }) => {
 
   function showEdit(index) {
     setIsEditing(!isEditing)
-    console.log("Show editing " + isEditing)
   }
 
 

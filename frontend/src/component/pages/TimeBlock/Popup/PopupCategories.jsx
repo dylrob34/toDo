@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FaEyeDropper, FaEdit, FaSquare, FaTimes } from 'react-icons/fa';
+import { FaSquare, FaTimes, FaPen } from 'react-icons/fa';
 import { CirclePicker, CompactPicker } from 'react-color';
 import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../../../context/TimeBlockContext';
 import { post } from '../../../../tools/request';
@@ -7,7 +7,6 @@ import { post } from '../../../../tools/request';
 
 // Ask dylan why it has to be props and not just (popup, setPopup)?
 const PopupCategories = (props) => {
-    const [compactPicker, setCompactPicker] = useState(false)
     const [categories, setCategories] = useState(props.categories);
 
     useEffect(() => {
@@ -18,7 +17,7 @@ const PopupCategories = (props) => {
         <div className=''>{
             categories.map((category) => {
                 return (
-                    <Category key={category._id} className='' category={category}/>
+                    <Category key={category._id} category={category}/>
                 )
             })
         } 
@@ -31,6 +30,7 @@ const Category = ({ category }) => {
     const [title, setTitle] = useState(category.title);    
     const [color, setColor] = useState(category.color);
     const [compactPicker, setCompactPicker] = useState(false);
+    const [isEditing, setIsEditing] = useState(false)
     const timeBlockContext = useTimeBlockContext();
     const updateTimeBlockContext = useUpdateTimeBlockContext();
 
@@ -41,7 +41,26 @@ const Category = ({ category }) => {
     }, [category._id, category.title, category.color])
 
     const handleColorChange = () => {
+        setColor({color: color.rgb})
+    }
 
+    const showEdit = () => {
+        setIsEditing(!isEditing)
+    }
+
+
+    const editTitle = (e) => {
+        if (e.keycode === 13 && isEditing) {
+            post("/api/categories/editCategory", {"id":id, "title":title})
+            .then((resJson) => {
+                if (resJson.error === false) {
+                } else {
+                  console.log("error editing category title");
+                }
+                showEdit()
+                updateTimeBlockContext({ ...timeBlockContext, reloadCategories: true });
+              })
+        }
     }
 
     const handleEdit = () => {
@@ -72,18 +91,20 @@ const Category = ({ category }) => {
 
     return (
         <div className='modal-group'>
-            {/* <CompactPicker color={color} onChange={handleColorChange}/> */}
+            <CompactPicker color={color} className={compactPicker ? "visible" : "invisible"} onChange={handleColorChange}/>
             <div className='modal-element'>
                     <FaSquare onClick={ () => { setCompactPicker(!compactPicker) }} className='modal-item'
-                        style={{ color: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` }}>
+                        style={{ color: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`, paddingRight:".75rem" }}>
                     </FaSquare>
-                    <span className='flex-spacer-1'></span>
-                    <div className='modal-item'>{title}</div>
-                    <span className="flex-spacer-4"></span>
-                    <FaEdit onClick={ () => handleEdit(id)} className='modal-item'></FaEdit>
-                    <span className='flex-spacer-1'></span>
-                    <FaTimes onClick={ () => handleDelete(id) } className='modal-item' />            
-                {/* <FaEyeDropper onClick={() => props.setNestedModal(true)} className='categories-item'/> */}
+                    <input type="text" className={isEditing ? 'visible' : "invisible"} 
+                    value={title}
+                    onChange={e => setTitle(e.target.value)}
+                    onKeyDown={editTitle}
+                    />                    
+                    <div className={isEditing ? "invisible" : "visible 'modal-item'"}>{title}</div>
+                    <span className="flex-spacer-5"></span>
+                    <FaPen onClick={showEdit} className='modal-item' style={{width:'14px', height:'14px'}}></FaPen>
+                    <img alt="Delete" src="/Delete.svg" className="modal-item" onClick={ () => handleDelete(id) }/>         
             </div>
 
         

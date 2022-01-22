@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import TimeTable2 from './Tables/TimeTable2'
-import { FaPlus, FaTimes, FaFolder, FaFolderOpen, FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
+import { FaPlus, FaTimes, FaFolder, FaFolderOpen, FaAngleDoubleLeft, FaAngleDoubleRight, FaRegPlusSquare } from 'react-icons/fa';
 import PopupCategories from './Popup/PopupCategories';
 import Modal from '../../layout/Modal/Modal';
 import { getLoggedIn } from "../../../context/loggedInState";
@@ -138,11 +138,12 @@ const TimeBlock = (props) => {
                         <div className='modal-container' style={{border: "none"}}>
                             <div className='modal-row' style={{padding:"0px 0px 40px 0px", justifyContent:'space-between'}}>
                                 <h2 className='modal-header'>Categories</h2>
-                                <div className='m-btn m-btn-sml' onClick={handleAddCategory} style={{left:"-20px"}}>
-                                    <FaPlus className='fa-sml' onClick={handleAddCategory}></FaPlus>
+                                <div className='m-btn m-btn-sml' onClick={handleAddCategory} style={{left:"-16px"}}>
+                                    {/* <FaPlus className='fa-sml' onClick={handleAddCategory} style={{fontSize:'1rem', size:'2x'}}></FaPlus> */}
+                                    <img alt="Add" src="/Cross.svg" className="fa-sml" />
                                 </div>
                             </div>
-                            <div className='modal-row' style={{padding:"5px 0px 0px 0px"}} >
+                            <div className='modal-row modal-row-content' style={{padding:"0px 0px 0px 0px"}} >
                                 <PopupCategories
                                 nestedModal={nestedModal}
                                 setNestedModal={setNestedModal} 
