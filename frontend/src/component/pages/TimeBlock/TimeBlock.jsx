@@ -61,6 +61,14 @@ const TimeBlock = (props) => {
         return new Date(currentSunday.getTime() - timeInDay * 7).getTime();
     }
 
+    const handleCurrentWeek = () => {
+        const day = new Date(timeblockContext.week).getUTCDate();
+        const month = new Date(timeblockContext.week).getUTCMonth() + 1; // Need to add 1 because Jan = 0 in JS.
+        const year = new Date(timeblockContext.week).getUTCFullYear();
+        const returnDate = month + "/" + day + "/" + year;
+        return returnDate
+    }
+
     const handleAddCategory = () => {
         post("/api/categories/createCategory", {
             title: "title",
@@ -105,7 +113,7 @@ const TimeBlock = (props) => {
                 <div className='left-sidebar-sm'></div>
                 <div className='main' name='table_metrics'>
                     <FaAngleDoubleLeft onClick={() => updateTimeBlockContext({...timeblockContext, week: getPrevWeek(), reloadTimeblocks: true})}/>
-                    <div> {"Week of the " + new Date(timeblockContext.week).getUTCDate()} </div>
+                    <div> {"Week of " + handleCurrentWeek()} </div>
                     <FaAngleDoubleRight onClick={() => updateTimeBlockContext({...timeblockContext, week: getNextWeek(), reloadTimeblocks: true})}/>
                     <section className='top'>
                         <TimeTable2 />

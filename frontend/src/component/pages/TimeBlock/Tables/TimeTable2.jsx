@@ -87,6 +87,11 @@ const TimeTable2 = () => {
         return cells;
     }
 
+    const getUTCTime = () =>  {
+        const now = new Date()
+        const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())
+        return today
+    }
     const getWeek = () => {
         const timeInDay = 86400000;
         const dow = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -110,7 +115,7 @@ const TimeTable2 = () => {
                     getWeek().map((day, index) => {
                         return (
                             <div className="table-col" key={index}>
-                                <div className="table-row admin-cell" style={new Date().getDay() === index ? {color: "#34b487"} : {}}>
+                                <div className="table-row admin-cell" style={day.date.getTime() === getUTCTime() ? {color: "#34b487"} : {}}>
                                     {`${day.day}`}
                                 </div>
                                 {fill(day, index)}
