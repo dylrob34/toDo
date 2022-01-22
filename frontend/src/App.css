@@ -594,7 +594,7 @@ body,
 .m-btn{
   display: flex;
   position: relative;
-  border: solid 1px var(--primary-green);
+  border: solid 2px var(--primary-green);
   font-weight: 300;
   border-radius: 5px;
   justify-content: center;
@@ -720,8 +720,28 @@ padding: 0px 6px 0px 0px;
 
 
 /* Custom Classes for specific items in Modal(s) */
-.compact-picker{
+.color-picker-location {
+  position: absolute;
+  left: -88%;
+  top: 13%;
 }
+.color-picker-arrow {
+  position: absolute;
+  top: 45%;
+  right: -14px;
+  width: 0;
+  height: 0;
+  transform: translate(-46%, -50%);
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid white;
+  z-index: 1010;
+}
+.compact-picker{
+background-color: white;
+border: transparent;
+}
+
 
 
 /* -------------------------- */

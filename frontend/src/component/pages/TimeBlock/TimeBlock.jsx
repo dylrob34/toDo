@@ -141,7 +141,7 @@ const TimeBlock = (props) => {
                             <div className='modal-row' style={{padding:"0px 0px 30px 0px", justifyContent:'space-between'}}>
                                 <h2 className='modal-header'>Categories</h2>
                                 <div className='m-btn m-btn-sml' onClick={handleAddCategory} style={{left:"-16px"}}>
-                                    <PlusIcon className='fa-sml' onClick={handleAddCategory} style={{height:'20px', width:'20px'}}></PlusIcon>
+                                    <PlusIcon className='fa-sml' style={{height:'20px', width:'20px'}}></PlusIcon>
                                     {/* <img alt="Add" src="/Cross.svg" className="fa-sml" /> */}
                                 </div>
                             </div>

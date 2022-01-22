@@ -93,7 +93,11 @@ const Category = ({ category }) => {
     return (
         <div className='modal-group'>
             {/* Until I figure out how to make this compact picker in the correct spot it will make the modal look funky */}
-            {/* <CompactPicker color={color} className={compactPicker ? "visible" : "invisible"} onChange={handleColorChange}/> */}
+            {/* Need to do in line positioning with reference to the position of the Category Title. */}
+            <div className='color-picker-location'> 
+                <div className={compactPicker ? "visible color-picker-arrow" : "invisible"}/>
+                <CompactPicker color={color} className={compactPicker ? "visible" : "invisible"} onChange={handleColorChange}/>
+            </div>
             <div className='modal-element'>
                     <FaSquare onClick={ () => { setCompactPicker(!compactPicker) }} className='modal-item'
                         style={{ color: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`, paddingRight:".75rem" }}
