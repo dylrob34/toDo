@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react'
 import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../../../context/TimeBlockContext';
-import { get } from "../../../../tools/request";
+import { post } from "../../../../tools/request";
 import Cells from './Cells';
 import TimeCell from './TimeCell'; // Don't know if need a different type of cell component for the Admin col, but its late and I didnt want to think.
 
@@ -12,15 +12,15 @@ const TimeTable2 = () => {
     const [height, setHeight] = useState(0);
     const [cellHeight, setCellHeight] = useState(0);
     const [data, setData] = useState([]);
-    const heightRef = useRef(null);
     const [timeStrings, setTimeStrings] = useState({});
+    const heightRef = useRef(null);
     const timeblockContext = useTimeBlockContext();
     const updateTimeblockContext = useUpdateTimeBlockContext();
     const divisions = timeblockContext.divisions;
 
     useEffect(() => {
-        if (timeblockContext.reloadTimeblocks) {
-            get("/api/timeblocking/getTimeblocks")
+        if (timeblockContext.reloadTimeblocks && timeblockContext.week !== null) {
+            post("/api/timeblocking/getTimeblocksWeek", {week: timeblockContext.week})
             .then((res) => {
                 if (res.timeblocks === undefined) {
                     setData([]);
@@ -72,7 +72,7 @@ const TimeTable2 = () => {
         for (var i = 0; i < 1440; i += divisions) {
             let found = false;
             for (let datum of data) {
-                if (datum.time === i && datum.dow === day) {
+                if (datum.time === i && new Date(datum.date).getUTCDate() === day.date.getUTCDate()) {
                     found = true;
                     cells.push(<Cells key={datum._id} row={i} col={colNum} data={datum} timeStrings={timeStrings} height={cellHeight} div={divisions} addNewBlock={addNewBlock}/>)
                     if (datum.duration > divisions) {
@@ -81,13 +81,25 @@ const TimeTable2 = () => {
                 }
             }
             if (!found) {
-                cells.push(<Cells key={i} row={i} col={colNum} data={{_id: null, title: '', body: '', dow: day, time: i, duration: divisions, category: null }} timeStrings={timeStrings} height={cellHeight} div={divisions} addNewBlock={addNewBlock}/>)
+                cells.push(<Cells key={i} row={i} col={colNum} data={{_id: null, title: '', body: '', time: i, duration: divisions, category: null, date: day.date.getTime()}} timeStrings={timeStrings} height={cellHeight} div={divisions} addNewBlock={addNewBlock}/>)
             }
         }
         return cells;
     }
 
-    const dow = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const getWeek = () => {
+        const timeInDay = 86400000;
+        const dow = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        let week = []
+        const sunday = new Date(timeblockContext.week);
+        for (let i = 0; i < dow.length; i++) {
+            week.push({
+                day: dow[i],
+                date: new Date(sunday.getTime() + timeInDay * i)
+            });
+        }
+        return week;
+    }
     return (
             <div className='table-blockz'>
                 <div className='table-col' name='admin'>
@@ -95,11 +107,11 @@ const TimeTable2 = () => {
                     {timeLoop()}
                 </div>
                 {
-                    dow.map((day, index) => {
+                    getWeek().map((day, index) => {
                         return (
                             <div className="table-col" key={index}>
                                 <div className="table-row admin-cell" style={new Date().getDay() === index ? {color: "#34b487"} : {}}>
-                                    {`${day}`}
+                                    {`${day.day}`}
                                 </div>
                                 {fill(day, index)}
                             </div>

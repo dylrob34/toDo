@@ -41,6 +41,20 @@ const PopupEditBlock = (props) => {
         }
         return temp
     }
+    
+    const getDays = () => {
+        const timeInDay = 86400000;
+        const dow = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        let week = []
+        const sunday = new Date(timeBlockContext.week);
+        for (let i = 0; i < dow.length; i++) {
+            week.push({
+                day: dow[i],
+                date: sunday.getTime() + i * timeInDay
+            });
+        }
+        return week;
+    }
 
     return (
     <div>
@@ -54,7 +68,13 @@ const PopupEditBlock = (props) => {
                     <input className='popup-timeblock-text' autoFocus type="text" default="Title..." onChange={(e) => props.save("title", e.target.value)} value={props.data.title}/>
                 }
                 <input className='popup-timeblock-text' type="text" default="Body..." onChange={(e) => props.save("body", e.target.value)} value={props.data.body}/>
-                <input className='popup-timeblock-text' type="text" default="DOW..." onChange={(e) => props.save("dow", e.target.value)} value={props.data.dow}/>
+                <select className='popup-timeblock-text' type="text" default="Date..." onChange={(e) => props.save("date", parseInt(e.target.value))} value={new Date(props.data.date).getTime()}>
+                    {
+                        getDays().map((day) => {
+                            return <option key={day.day} value={day.date}>{day.day}</option>
+                        })
+                    }
+                </select>
                 <select className='popup-timeblock-text' default="Time..." onChange={(e) => props.save("time", parseInt(e.target.value))} value={props.data.time}> 
                     {
                         getTimes().map((time) => {

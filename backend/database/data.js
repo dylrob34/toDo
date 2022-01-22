@@ -301,16 +301,16 @@ function createTask(owner, assignees, title, body, buckets, complete) {
  * 
  *********************/
 
- function createTimeblock(owner, title, body, dow, time, duration, category) {
+ function createTimeblock(owner, title, body, time, duration, category, date) {
      return new Promise((resolve, reject) => {
          client.db("toDo").collection("timeblocking").insertOne({
              owner,
              title,
              body,
-             dow,
              time,
              duration,
-             category
+             category,
+             date
          })
          .then((result) => {
              resolve(result);
@@ -336,11 +336,26 @@ function createTask(owner, assignees, title, body, buckets, complete) {
      })
  }
 
- function editTimeblock(id, title, body, dow, time, duration, category) {
+ const getTimeblocksWeek = (owner, begin, end) => {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("timeblocking").find({
+            owner,
+            date: {
+                $gte: begin,
+                $lt: end
+            }
+        }).toArray()
+        .then((timeblocks) => {
+            resolve(timeblocks);
+        })
+    })
+ }
+
+ function editTimeblock(id, title, body, time, duration, category, date) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("timeblocking").updateOne({_id: ObjectId(id)},
         {
-            "$set": {title, body, dow, time, duration, category}
+            "$set": {title, body, time, duration, category, date}
         })
         .then((timeblock) => {
             resolve(timeblock);
@@ -445,6 +460,7 @@ module.exports = {
     createTimeblock,
     getTimeblock,
     getTimeblocks,
+    getTimeblocksWeek,
     editTimeblock,
     deleteTimeblock,
     // Categories

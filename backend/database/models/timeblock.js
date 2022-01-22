@@ -1,15 +1,18 @@
 const database = require("../data");
 
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const day = 86400000;
 class Timeblock {
-    constructor(id, owner, title, body, dow, time, duration, category)  {
+    constructor(id, owner, title, body, time, duration, category, date)  {
         this.id = id;
         this.owner = owner;
         this.title = title;
         this.body = body;
-        this.dow = dow;
         this.time = time;
         this.duration = duration;
         this.category = category;
+        this.date = new Date(date);
+        this.dow = days[this.date.getUTCDay()];
     }
 
     static async getTimeblock(id) {
@@ -17,23 +20,30 @@ class Timeblock {
         .catch(() => {
             throw "Error Getting Timeblock";
         });
-        return new Timeblock(temp._id, temp.owner, temp.title, temp.body, temp.dow, temp.time, temp.duration, temp.category);
+        return new Timeblock(temp._id, temp.owner, temp.title, temp.body, temp.time, temp.duration, temp.category, temp.date);
     }
 
     static async getTimeblocks(owner) {
-        const tasks = await database.getTimeblocks(owner);
-        return tasks;
+        const timeblocks = await database.getTimeblocks(owner);
+        return timeblocks;
     }
 
-    static async createTimeblock(owner, title, body, dow, time, duration, category) {
+    static async getTimeblocksWeek(owner, week) {
+        const begin = new Date(week);
+        const end = new Date(week + day * 7);
+        const timeblocks = await database.getTimeblocksWeek(owner, begin, end);
+        return timeblocks;
+    }
+
+    static async createTimeblock(owner, title, body, time, duration, category, date) {
         const result = await database.createTimeblock(
             owner,
             title,
             body,
-            dow,
             time,
             duration,
-            category)
+            category,
+            new Date(date))
         .catch(() => {
             throw "Error Creating Timeblock";
         });
@@ -45,14 +55,15 @@ class Timeblock {
         database.deleteTimeblock(this.id);
     }
 
-    async edit(title, body, dow, time, duration, category) {
+    async edit(title, body, time, duration, category, date) {
         this.title = title;
         this.body = body;
-        this.dow = dow;
         this.time = time;
         this.duration = duration;
         this.category = category;
-        const something = await database.editTimeblock(this.id, title, body, dow, time, duration, category);
+        this.date = new Date(date);
+        this.dow = days[this.date.getUTCDay()];
+        const something = await database.editTimeblock(this.id, title, body, time, duration, category, this.date);
 
     }
 

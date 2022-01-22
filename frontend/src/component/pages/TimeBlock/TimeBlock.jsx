@@ -16,12 +16,18 @@ const TimeBlock = (props) => {
     const timeblockContext = useTimeBlockContext();
     const updateTimeBlockContext = useUpdateTimeBlockContext();
 
+    
+    const timeInDay = 86400000
+
     useEffect(() => {
+        if (timeblockContext.week === null)
+        {
+            const currentweek = getCurrentWeek();
+            updateTimeBlockContext({...timeblockContext, week: currentweek, reloadTimeblocks: true})
+        }
         if (timeblockContext.reloadCategories === true) {
             get("/api/categories/getCategories")
             .then((res) => {
-                console.log("cats")
-                console.log(res.categories)
                 if (res.categories === undefined) {
                     setUserCategories([]);
                     updateTimeBlockContext({...timeblockContext, categories: [], reloadCategories: false});
@@ -35,6 +41,24 @@ const TimeBlock = (props) => {
 
     if (getLoggedIn() === false) {
         return <Redirect to="/login" />;
+    }
+
+    
+    const getCurrentWeek = () => {
+        const now = new Date();
+        const today = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+        const sunday = new Date(today.getTime() - timeInDay * today.getUTCDay());
+        return sunday.getTime();
+    }
+
+    const getNextWeek = () => {
+        const currentSunday = new Date(timeblockContext.week);
+        return new Date(currentSunday.getTime() + timeInDay * 7).getTime();
+    }
+
+    const getPrevWeek = () => {
+        const currentSunday = new Date(timeblockContext.week);
+        return new Date(currentSunday.getTime() - timeInDay * 7).getTime();
     }
 
     const handleAddCategory = () => {
@@ -73,16 +97,16 @@ const TimeBlock = (props) => {
                     <div className='toolbar-item'>Test Item 2</div>
                 </div>
                 <div className='toolbar-element'>
-                    <div className='toolbar-item'>Test Item 3</div>
+                    <div className='toolbar-item'>Calendar View</div>
                 </div>
                 <div className='flex-spacer-end'></div>
             </div>
             <div className='page-config'>
                 <div className='left-sidebar-sm'></div>
                 <div className='main' name='table_metrics'>
-                    <FaAngleDoubleLeft/>
-                    <div> Date Field </div>
-                    <FaAngleDoubleRight/>
+                    <FaAngleDoubleLeft onClick={() => updateTimeBlockContext({...timeblockContext, week: getPrevWeek(), reloadTimeblocks: true})}/>
+                    <div> {"Week of the " + new Date(timeblockContext.week).getUTCDate()} </div>
+                    <FaAngleDoubleRight onClick={() => updateTimeBlockContext({...timeblockContext, week: getNextWeek(), reloadTimeblocks: true})}/>
                     <section className='top'>
                         <TimeTable2 />
                     </section>
