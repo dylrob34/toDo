@@ -51,7 +51,6 @@ const Category = ({ category }) => {
 
 
     function editTitle(e) {
-        console.log(e.keyCode)
         if (e.keyCode === 13 && isEditing === true) {
             post("/api/categories/editCategory", {"id":id, "title":title, "color":color})
             .then((resJson) => {
