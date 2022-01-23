@@ -718,6 +718,22 @@ padding: 0px 6px 0px 0px;
   z-index: 1004;
 }
 
+.modal-input {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 300;
+  border: 2px solid rgb(31,31,31);
+  border-radius: 5px;
+  padding: 2px 2px 2px 2px;
+  height: 20px;
+  width: 150px;
+}
+
+.modal-input:focus {
+  outline: none;
+  border: 2px solid var(--primary-green);
+  border-radius: 5px;
+}
 
 /* Custom Classes for specific items in Modal(s) */
 .color-picker-location {

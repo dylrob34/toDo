@@ -29,7 +29,7 @@ const PopupCategories = (props) => {
 const Category = ({ category }) => {
     const [id, setId] = useState(category._id);
     const [title, setTitle] = useState(category.title);    
-    const [color, setColor] = useState(category.color);
+    const [catColor, setCatColor] = useState(category.color);
     const [compactPicker, setCompactPicker] = useState(false);
     const [isEditing, setIsEditing] = useState(false)
     const timeBlockContext = useTimeBlockContext();
@@ -38,21 +38,33 @@ const Category = ({ category }) => {
     useEffect(() => {
         setId(category._id);
         setTitle(category.title);
-        setColor(category.color);
+        setCatColor(category.color);
     }, [category._id, category.title, category.color])
 
-    const handleColorChange = () => {
-        setColor({color: color.rgb})
+    const handleColorChange = (catColor, color) => {
+        setCatColor({catColor: color.rgb})
+        editColor(catColor)
     }
 
     const showEdit = () => {
         setIsEditing(!isEditing)
     }
 
+    function editColor(catColor)  {
+        console.log(catColor)
+        post("/api/categories/editCategory", {"id":id, "title":title, "color":catColor.rgb})
+        .then((resJson) => {
+            if (resJson.error === false) {
+            } else {
+              console.log("Error editing category title");
+            }
+            updateTimeBlockContext({ ...timeBlockContext, reloadCategories: true });
+          })
+    }
 
     function editTitle(e) {
         if (e.keyCode === 13 && isEditing === true) {
-            post("/api/categories/editCategory", {"id":id, "title":title, "color":color})
+            post("/api/categories/editCategory", {"id":id, "title":title, "color":catColor})
             .then((resJson) => {
                 if (resJson.error === false) {
                 } else {
@@ -89,26 +101,32 @@ const Category = ({ category }) => {
             })
     }
 
-
     return (
         <div className='modal-group'>
             {/* Until I figure out how to make this compact picker in the correct spot it will make the modal look funky */}
             {/* Need to do in line positioning with reference to the position of the Category Title. */}
             <div className='color-picker-location'> 
                 <div className={compactPicker ? "visible color-picker-arrow" : "invisible"}/>
-                <CompactPicker color={color} className={compactPicker ? "visible" : "invisible"} onChange={handleColorChange}/>
+                <CompactPicker 
+                className={compactPicker ? "visible" : "invisible"}
+                color={catColor}  
+                onChange={handleColorChange}/>
             </div>
             <div className='modal-element'>
                     <FaSquare onClick={ () => { setCompactPicker(!compactPicker) }} className='modal-item'
-                        style={{ color: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`, paddingRight:".75rem" }}
+                        style={{ color: `rgba(${catColor.r}, ${catColor.g}, ${catColor.b})`, paddingRight:".75rem" }}
                         >
                     </FaSquare>
-                    <input type="text" className={isEditing ? 'visible' : "invisible"} 
-                    value={title}
-                    onChange={e => setTitle(e.target.value)}
-                    onKeyDown={editTitle}
-                    />                    
-                    <div className={isEditing ? "invisible" : "visible 'modal-item'"}>{title}</div>
+                    {isEditing ? 
+                        <input type="text" className='modal-input'
+                        autoFocus
+                        value={title}
+                        onChange={e => setTitle(e.target.value)}
+                        onKeyDown={editTitle}
+                        />
+                    :
+                        <div className='modal-item'>{title}</div>
+                    }
                     <span className="flex-spacer-5"></span>
                     <PencilIcon onClick={showEdit} className='modal-item' style={{width:'20px', height:'20px', paddingRight:"2px"}}></PencilIcon>
                     <XIcon onClick={ () => handleDelete(id) } className='modal-item' style={{width:'20px', height:'20px'}}></XIcon>

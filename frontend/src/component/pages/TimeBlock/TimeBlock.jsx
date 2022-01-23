@@ -77,7 +77,8 @@ const TimeBlock = (props) => {
             color: {
                 r: "52",
                 g: "180",
-                b: "135"
+                b: "135",
+                a: "1"
             }
         })
         .then((res) => {
