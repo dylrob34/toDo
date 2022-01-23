@@ -40,14 +40,15 @@ const Category = ({ category }) => {
         setTitle(category.title);
         setCatColor(category.color);
     }, [category._id, category.title, category.color])
-
+    
+    
+    const showEdit = () => {
+        setIsEditing(!isEditing)
+    }
+    
     const handleColorChange = (catColor, color) => {
         setCatColor({catColor: color.rgb})
         editColor(catColor)
-    }
-
-    const showEdit = () => {
-        setIsEditing(!isEditing)
     }
 
     function editColor(catColor)  {
