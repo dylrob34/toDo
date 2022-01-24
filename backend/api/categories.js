@@ -25,7 +25,7 @@ router.post('/createCategory', async function(req, res) {
 
 router.post('/editCategory', async function(req, res) {
     const owner = req.authData.user;
-    const id = req.body.id;
+    const id = req.body._id;
     const title = req.body.title;
     const color = req.body.color;
     const category = await Category.getCategory(id);

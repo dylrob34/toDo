@@ -45,27 +45,27 @@ const Category = ({ category }) => {
     const showEdit = () => {
         setIsEditing(!isEditing)
     }
-    
-    const handleColorChange = (catColor, color) => {
-        setCatColor({catColor: color.rgb})
-        editColor(catColor)
+
+    const handleColorChange = (color) => {
+        const newColor = {r: color.rgb.r.toString(), g: color.rgb.g.toString(), b: color.rgb.b.toString()}
+        setCatColor(newColor)
+        editColor("color", newColor)
     }
 
-    function editColor(catColor)  {
-        console.log(catColor)
-        post("/api/categories/editCategory", {"id":id, "title":title, "color":catColor.rgb})
+    function editColor(key, value )  {
+        post("/api/categories/editCategory", {...category, [key]:value})
         .then((resJson) => {
             if (resJson.error === false) {
             } else {
               console.log("Error editing category title");
             }
-            updateTimeBlockContext({ ...timeBlockContext, reloadCategories: true });
+            updateTimeBlockContext({ ...timeBlockContext, reloadCategories: true, reloadTimeblocks:true });
           })
     }
 
     function editTitle(e) {
         if (e.keyCode === 13 && isEditing === true) {
-            post("/api/categories/editCategory", {"id":id, "title":title, "color":catColor})
+            post("/api/categories/editCategory", {"_id":id, "title":title, "color":catColor})
             .then((resJson) => {
                 if (resJson.error === false) {
                 } else {
@@ -101,6 +101,7 @@ const Category = ({ category }) => {
                 updateTimeBlockContext({...timeBlockContext, reloadCategories: true})
             })
     }
+
 
     return (
         <div className='modal-group'>

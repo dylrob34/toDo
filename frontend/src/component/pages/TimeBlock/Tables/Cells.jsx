@@ -80,7 +80,7 @@ const Cells = ({row, col, data, timeStrings, height, div, addNewBlock}) => {
                 alert(`Error saving your changes.\n${res.message}`)
                 return;
             }
-            if ( key === 'duration' || key === "time" || key === "date") {
+            if ( key === 'duration' || key === "time" || key === "date" || key === "category") {
                 updateTimeBlockContext({...timeBlockContext, reloadTimeblocks: true})
             } 
         })

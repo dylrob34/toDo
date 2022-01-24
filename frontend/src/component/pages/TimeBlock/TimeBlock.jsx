@@ -77,8 +77,7 @@ const TimeBlock = (props) => {
             color: {
                 r: "52",
                 g: "180",
-                b: "135",
-                a: "1"
+                b: "135"
             }
         })
         .then((res) => {
@@ -115,9 +114,12 @@ const TimeBlock = (props) => {
             <div className='page-config'>
                 <div className='left-sidebar-sm'></div>
                 <div className='main' name='table_metrics'>
-                    <FaAngleDoubleLeft onClick={() => updateTimeBlockContext({...timeblockContext, week: getPrevWeek(), reloadTimeblocks: true})}/>
-                    <div> {"Week of " + handleCurrentWeek()} </div>
-                    <FaAngleDoubleRight onClick={() => updateTimeBlockContext({...timeblockContext, week: getNextWeek(), reloadTimeblocks: true})}/>
+                    <div>
+                        <FaAngleDoubleLeft onClick={() => updateTimeBlockContext({...timeblockContext, week: getPrevWeek(), reloadTimeblocks: true})}/>
+                        <div> {"Week of " + handleCurrentWeek()} </div>
+                        <FaAngleDoubleRight onClick={() => updateTimeBlockContext({...timeblockContext, week: getNextWeek(), reloadTimeblocks: true})}/>
+                    </div>
+
                     <section className='top'>
                         <TimeTable2 />
                     </section>
