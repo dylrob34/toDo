@@ -12,7 +12,9 @@ export default function SignUp() {
   const [last, setLast] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [redirect, setRedirect] = useState(false);
-  const [checkEmail, setCheckEmail] = useState("");
+  const [validEmail, setValidEmail] = useState(true);
+
+
 
   const handleFNameChange = (e) => {
     setFirst(e.target.value);
@@ -28,7 +30,7 @@ export default function SignUp() {
     setPassword(e.target.value);
   };
 
-  const handleCheckPassword = (e) => {
+  const handleValidPassword = (e) => {
     if (e.target.value !== password) {
       setPasswordError("The passwords do not match, please try again.");
     } else {
@@ -40,10 +42,9 @@ export default function SignUp() {
 
   const validateEmail = () => {
     if (email.includes("@")) {
-      return true;
+      setValidEmail(true)
     } else {
-      setCheckEmail("invalid email");
-      return false;
+      setValidEmail(false)
     }
   };
 
@@ -52,7 +53,7 @@ export default function SignUp() {
 
     if (validateEmail() === true) {
       console.log("No email errors");
-      setCheckEmail("");
+      setValidEmail(true);
       setEmail("");
     }
     post("/api/user/createUser", {
@@ -85,11 +86,6 @@ export default function SignUp() {
               <p> Build your productive life, one block at a time.</p>
             </div>
           </div>
-          {passwordError !== "" ? (
-            <div className="error">{passwordError}</div>
-          ) : (
-            ""
-          )}
 
           <div className="auth-element">
             <form name="SignUp">
@@ -127,6 +123,7 @@ export default function SignUp() {
                     className="auth-input"
                     onChange={handleEmailChange}
                   />
+                  {validEmail ? null : <div style={{color:"rgb(214, 49, 49)", fontSize:".75rem"}}>Please enter a valid email.</div>}
                 </div>
                 <div className="form-element">
                   <label htmlFor="email" className="auth-label">
@@ -149,8 +146,9 @@ export default function SignUp() {
                     name="password"
                     id="password"
                     className="auth-input"
-                    onChange={handleCheckPassword}
+                    onChange={handleValidPassword}
                   />
+                  <div style={{color:"rgb(214, 49, 49)"}}>{passwordError}</div>
                 </div>
                 <div className="form-item">
                   <input className="btn-lg" type="submit" value="Sign Up" onClick={submitSignUp}></input>
