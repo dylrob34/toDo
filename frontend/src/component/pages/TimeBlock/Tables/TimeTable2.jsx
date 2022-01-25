@@ -3,7 +3,7 @@ import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../../../cont
 import { post } from "../../../../tools/request";
 import Cells from './Cells';
 import TimeCell from './TimeCell'; // Don't know if need a different type of cell component for the Admin col, but its late and I didnt want to think.
-
+import { Dropdown, Option } from '../../../layout/Dropdown';
 
 
 
@@ -13,6 +13,7 @@ const TimeTable2 = () => {
     const [cellHeight, setCellHeight] = useState(0);
     const [data, setData] = useState([]);
     const [timeStrings, setTimeStrings] = useState({});
+    const [incrementDropDown, setIncrementDropDown] = useState(false)
     const heightRef = useRef(null);
     const timeblockContext = useTimeBlockContext();
     const updateTimeblockContext = useUpdateTimeBlockContext();
@@ -50,6 +51,10 @@ const TimeTable2 = () => {
 
     const addNewBlock = (block) => {
         setData([...data, block]);
+    }
+
+    const handleIncrementDropDown = () => {
+        setIncrementDropDown(true)
     }
 
     function timeLoop() {
@@ -108,7 +113,21 @@ const TimeTable2 = () => {
     return (
             <div className='table-blockz'>
                 <div className='table-col' name='admin'>
-                    <div className="table-row admin-cell">Admin</div>
+                    <div className="table-row increment-cell" onClick={handleIncrementDropDown}>Increments</div>
+                    {incrementDropDown ? 
+                        <div>
+                            <Dropdown>
+                                {
+                                    // <Option
+                                    // clicked={""}
+                                    // key={""}
+                                    // value={""}
+                                    // />
+                                }
+                            </Dropdown>
+                        </div> 
+                    : 
+                    null}
                     {timeLoop()}
                 </div>
                 {

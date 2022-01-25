@@ -1348,7 +1348,18 @@ cursor: pointer;
   display: flex;
   justify-content: center;
   color: var(--text-gray1);
+  cursor: default;
 }
+.increment-cell {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  color: var(--text-gray1);
+}
+.increment-cell:hover{
+  color: var(--primary-green);
+}
+
 .cell {
   display: flex;
   flex-direction: column;
