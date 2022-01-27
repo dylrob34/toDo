@@ -13,7 +13,6 @@ const TimeTable2 = () => {
     const [cellHeight, setCellHeight] = useState(0);
     const [data, setData] = useState([]);
     const [timeStrings, setTimeStrings] = useState({});
-    const [incrementDropDown, setIncrementDropDown] = useState(false)
     const heightRef = useRef(null);
     const timeblockContext = useTimeBlockContext();
     const updateTimeblockContext = useUpdateTimeBlockContext();
@@ -53,8 +52,8 @@ const TimeTable2 = () => {
         setData([...data, block]);
     }
 
-    const handleIncrementDropDown = () => {
-        setIncrementDropDown(true)
+    const clicked = (e) => {
+        updateTimeblockContext({...timeblockContext, divisions:parseInt(e.target.innerHTML)})
     }
 
     function timeLoop() {
@@ -113,21 +112,20 @@ const TimeTable2 = () => {
     return (
             <div className='table-blockz'>
                 <div className='table-col' name='admin'>
-                    <div className="table-row increment-cell" onClick={handleIncrementDropDown}>Increments</div>
-                    {incrementDropDown ? 
                         <div>
-                            <Dropdown>
-                                {
-                                    // <Option
-                                    // clicked={""}
-                                    // key={""}
-                                    // value={""}
-                                    // />
-                                }
+                            <Dropdown first={<div className="table-row increment-cell">Increments</div>}>
+                                    <Option
+                                    clicked={clicked}
+                                    key={1}
+                                    value={15}
+                                    />
+                                    <Option
+                                    clicked={clicked}
+                                    key={2}
+                                    value={30}
+                                    />
                             </Dropdown>
-                        </div> 
-                    : 
-                    null}
+                        </div>
                     {timeLoop()}
                 </div>
                 {
