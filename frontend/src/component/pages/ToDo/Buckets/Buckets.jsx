@@ -61,13 +61,13 @@ const Buckets = () => {
                         <div className='modal-container'>
                             <div className='modal-row' style={{padding:"0px 0px 30px 0px", justifyContent:'space-between'}}>
                                 <h2 className='modal-header'>Bucket List</h2>
-                                <div className='m-btn m-btn-sml' onClick={addBucket} style={{left:"-18px"}}>
+                                <div className='m-btn m-btn-sml' onClick={addBucket} style={{left:"-24px"}}>
                                     <PlusIcon className='fa-sml' style={{height:'20px', width:'20px'}}></PlusIcon>
                                 </div>
                             </div>
                             <div className='modal-row modal-row-content' style={{padding:"0px 0px 0px 0px"}}>
                                 {addingBucket ? <AddingBucket add={addBucket} cancel={setBucketAdd}/>: null}
-                                    <ul className='modal-group'>
+                                    <ul className=''>
                                         <div className=''>
                                         {buckets.map((bucket, index) => {
                                         return <Bucket key={index} bucket={bucket} popup={true} />

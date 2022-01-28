@@ -87,19 +87,22 @@ const Bucket = ({ bucket, popup }) => {
   return (
     <div>
       {popup ? (
-        <div className='modal-element'>
-          <input type="text" className={isEditing ? "visible modal-input" : "invisible"} value={text}
-            onChange={e => setText(e.target.value)}
-            onKeyDown={editBucket}
-          />
-          <div className={isEditing ? 'invisible' : 'modal-item'}>
-            {text}
-          </div>
+        <div className="modal-group">
           <div className='modal-element'>
-            <FaEdit className='modal-item highlight' onClick={showEdit} />
-            <FaTimes className='modal-item highlight' onClick={deleteBucket} />
+            <input type="text" className={isEditing ? "visible modal-input" : "invisible"} value={text}
+              onChange={e => setText(e.target.value)}
+              onKeyDown={editBucket}
+            />
+            <div className={isEditing ? 'invisible' : 'modal-item'}>
+              {text}
+            </div>
+            <div className='modal-item'>
+              <FaEdit className='modal-item highlight' onClick={showEdit} />
+              <FaTimes className='modal-item highlight' onClick={deleteBucket} />
+            </div>
           </div>
         </div>
+
       ) : <div onClick={setCurrentBucket} className={selected ? 'bucket-item selected' : 'bucket-item'}>
         <FaDiceD6 /> {/* Placeholder until we get custom icons */}
         {text}
