@@ -15,7 +15,7 @@ html {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
   height: 8px;
   background: transparent;
 }
@@ -115,6 +115,7 @@ body,
   --bgrnd-green: #1b5c45;
   --accent-green: #74c4a8;
   --base-gray: rgb(31, 31, 31);
+  --base-gray2: rgb(25,25,25);
   --mid-gray: rgb(40, 40, 40);
   --mid-gray2: rgb(45, 45, 45);
   --top-gray: rgb(54, 54, 54);
@@ -153,11 +154,32 @@ body,
   height: 100%;
   display: flex;
 }
+.flex-spacer-5 {
+  display: flex;
+  flex-grow: 5;
+  align-content: flex-start;
+}
 .flex-spacer-4 {
   display: flex;
   flex-grow: 4;
   align-content: flex-start;
 }
+.flex-spacer-3 {
+  display: flex;
+  flex-grow: 3;
+  align-content: flex-start;
+}
+.flex-spacer-2 {
+  display: flex;
+  flex-grow: 2;
+  align-content: flex-start;
+}
+.flex-spacer-1 {
+  display: flex;
+  flex-grow: 1;
+  align-content: flex-start;
+}
+
 .flex-spacer-end {
   flex-grow: 4;
   justify-content: flex-end;
@@ -572,19 +594,21 @@ body,
 .m-btn{
   display: flex;
   position: relative;
-  border: solid 1px var(--primary-green);
+  border: solid 2px var(--primary-green);
   font-weight: 300;
   border-radius: 5px;
   justify-content: center;
   align-items: center;
+  
 }
 .m-btn:hover{
 background-color: var(--primary-green);
 cursor: pointer;
+box-shadow: 0px 1px 2px rgb(0,0,0,0.5);
 }
 
 .m-btn-sml{
-  width: 34px;
+  width: 38px;
   height: 20px;
 }
 .m-btn-lrg{
@@ -601,7 +625,7 @@ cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 1000;
 }
 
@@ -612,9 +636,9 @@ cursor: pointer;
   max-width: 250px;
   height: 50%;
   max-height: 400px;
-  background-color: var(--mid-gray);
+  background-color: var(--base-gray2);
   color: white;
-  border-radius: 20px;
+  border-radius: 10px;
   z-index: 1001;
 }
 .modal-container {
@@ -628,28 +652,34 @@ cursor: pointer;
   overflow-y: auto;
   overflow-x: hidden;
   max-height: 270px;
-
+}
+.modal-row-content {
+  min-width: 250px;
+  min-height: 265px;
+  align-items: flex-start;
 }
 .modal-header {
   display: flex;
   font-weight: 300;
   position: relative;
+  /* background-color: rgb(0,0,0,0.5); */
+  padding: 2px 12px 2px 0px ;
+  border-radius: 5px;
 }
 .modal-group {
-  width: 220px;
+  width: 240px;
   height: 30px;
-  padding-right: 20px;
   margin: 0px 10px 15px 0px;
-  background-color: rgb(0,0,0,0.5);
+  /* background-color: var(--mid-gray2); */
   border-radius: 5px;
-  box-shadow: 0px 1px 2px rgb(0,0,0,0.5);
+  /* box-shadow: 0px 1px 2px rgb(0,0,0,0.5); */
 }
 .modal-element {
   display: flex;
   flex-direction: row;
   font-size: 18px;
   font-weight: 300;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   height: inherit;
   width: inherit;
@@ -658,7 +688,9 @@ cursor: pointer;
 .modal-item {
 display: flex;
 align-items: center;
+padding: 0px 6px 0px 0px;
 }
+
 
 .nested-modal-background {
   position: fixed;
@@ -685,6 +717,48 @@ align-items: center;
   border-radius: 20px;
   z-index: 1004;
 }
+
+.modal-input {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 300;
+  border: 2px solid rgb(31,31,31);
+  border-radius: 5px;
+  padding: 2px 2px 2px 2px;
+  height: 20px;
+  width: 150px;
+}
+
+.modal-input:focus {
+  outline: none;
+  border: 2px solid var(--primary-green);
+  border-radius: 5px;
+}
+
+/* Custom Classes for specific items in Modal(s) */
+.color-picker-location {
+  position: absolute;
+  left: -88%;
+  top: 13%;
+}
+.color-picker-arrow {
+  position: absolute;
+  top: 45%;
+  right: -14px;
+  width: 0;
+  height: 0;
+  transform: translate(-46%, -50%);
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid white;
+  z-index: 1010;
+}
+.compact-picker{
+background-color: white;
+border: transparent;
+}
+
+
 
 /* -------------------------- */
 
@@ -1287,7 +1361,18 @@ cursor: pointer;
   display: flex;
   justify-content: center;
   color: var(--text-gray1);
+  cursor: default;
 }
+.increment-cell {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  color: var(--text-gray1);
+}
+.increment-cell:hover{
+  color: var(--primary-green);
+}
+
 .cell {
   display: flex;
   flex-direction: column;

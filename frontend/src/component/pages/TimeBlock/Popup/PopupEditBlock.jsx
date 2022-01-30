@@ -15,7 +15,7 @@ const PopupEditBlock = (props) => {
     const getTimes = () => {
         let temp = []
         for (const key of Object.keys(props.timeStrings)) {
-            temp.push(props.timeStrings[key]);
+            temp.push([key, props.timeStrings[key]]);
         }
         return temp;
     }
@@ -26,7 +26,7 @@ const PopupEditBlock = (props) => {
             temp.push(cat);
         }
         temp.push({
-            none: true,
+            _id: 0,
             title: "None"
         })
         return temp;
@@ -41,6 +41,20 @@ const PopupEditBlock = (props) => {
         }
         return temp
     }
+    
+    const getDays = () => {
+        const timeInDay = 86400000;
+        const dow = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        let week = []
+        const sunday = new Date(timeBlockContext.week);
+        for (let i = 0; i < dow.length; i++) {
+            week.push({
+                day: dow[i],
+                date: sunday.getTime() + i * timeInDay
+            });
+        }
+        return week;
+    }
 
     return (
     <div>
@@ -54,28 +68,31 @@ const PopupEditBlock = (props) => {
                     <input className='popup-timeblock-text' autoFocus type="text" default="Title..." onChange={(e) => props.save("title", e.target.value)} value={props.data.title}/>
                 }
                 <input className='popup-timeblock-text' type="text" default="Body..." onChange={(e) => props.save("body", e.target.value)} value={props.data.body}/>
-                <input className='popup-timeblock-text' type="text" default="DOW..." onChange={(e) => props.save("dow", e.target.value)} value={props.data.dow}/>
-                <select className='popup-timeblock-text' default="Time..." onChange={(e) => props.save("time", e.target.value)} value={props.timeStrings[props.data.time]}> 
+                <select className='popup-timeblock-text' type="text" default="Date..." onChange={(e) => props.save("date", parseInt(e.target.value))} value={new Date(props.data.date).getTime()}>
                     {
-                        getTimes().map((key) => {
-                            return <option value={key}>{key}</option>
+                        getDays().map((day) => {
+                            return <option key={day.day} value={day.date}>{day.day}</option>
                         })
                     }
                 </select>
-                <select className='popup-timeblock-text' type="text" default="Duration..." onChange={(e) => props.save("duration", e.target.value)} value={props.data.duration}>
+                <select className='popup-timeblock-text' default="Time..." onChange={(e) => props.save("time", parseInt(e.target.value))} value={props.data.time}> 
+                    {
+                        getTimes().map((time) => {
+                            return <option key={time[0]} value={time[0]}>{time[1]}</option>
+                        })
+                    }
+                </select>
+                <select className='popup-timeblock-text' type="text" default="Duration..." onChange={(e) => props.save("duration", parseInt(e.target.value))} value={props.data.duration}>
                     {
                         getDurations().map((durationArray) => {
-                            return <option value={durationArray[0]}>{durationArray[1]}</option>
+                            return <option key={durationArray[0]} value={durationArray[0]}>{durationArray[1]}</option>
                         })
                     }
                 </select>
-                <select className='popup-timeblock-text' onChange={(e) => props.save("category", e.target.value)} >
+                <select className='popup-timeblock-text' value={props.data.category || 0} onChange={(e) => props.save("category", e.target.value)} >
                     {
                         getCategories().map((category) => {
-                            if (props.category === category._id) {
-                                return <option value={category._id} selected>{category.title}</option>
-                            }
-                            return <option value={category._id}>{category.title}</option>
+                            return <option key={category._id} value={category._id}>{category.title}</option>
                         })
                     }
                 </select>

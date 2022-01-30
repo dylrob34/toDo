@@ -17,6 +17,7 @@ export function TimeBlockProvider({ children }) {
         reloadCategories: true,
         categories: [],
         divisions: 30,
+        week: null
     })
 
     
