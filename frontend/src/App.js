@@ -6,11 +6,11 @@ import { login, logout, setLoggedInCallback} from './context/loggedInState';
 import { AddTaskProvider } from './context/AddTaskContext';
 import {get} from "./tools/request";
 import Landing from './component/pages/About/Landing';
-import SignUp from './component/pages/Signup/SignUp';
+import SignUp from './component/pages/SignUp/SignUp';
 import { LoginPage } from './component/pages/Login/Login';
 import NavBar from './component/layout/NavBar';
 import ToDo from './component/pages/ToDo/ToDo';
-import TimeBlock from './component/pages/Timeblock/TimeBlock';
+import TimeBlock from './component/pages/TimeBlock/TimeBlock';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';

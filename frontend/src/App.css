@@ -1234,11 +1234,28 @@ cursor: pointer;
 /* TimeBlock section  */
 
 .table-blockz {
-  /* border: 1px solid black; */
-  display: flex;
-  z-index: 0;
-  width: 80%;
-  height: 75%;
+  table-layout: fixed;
+  width: 60rem;
+  margin-top: 1rem;
+}
+
+.table-blockz, .table-data, .table-header {
+  border: 1px solid var(--top-gray2);
+  padding: 0.5rem;
+  color: var(--text-gray1);
+  border-collapse: collapse;
+}
+
+.table-data {
+  padding: 0.5rem;
+}
+
+.table-header {
+  padding: 0.4rem 1.4rem;
+}
+
+.table-admin-col {
+  background-color: var(--mid-gray);
 }
 
 .table-col {
@@ -1250,11 +1267,7 @@ cursor: pointer;
   clear: both;
   /* border: solid 1px black; */
 }
-.table-row {
-  display: flex;
-  width: 100%;
-  border: 1px solid gray;
-}
+
 .table-row-drag {
   display: flex;
   width: 100%;

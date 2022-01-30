@@ -5,7 +5,7 @@ import PopupEditBlock from '../Popup/PopupEditBlock';
 import { setTableData, getTableData, setDragged, unSetDragged, drag, setCount } from './TableData';
 
 
-const Cells = ({row, col, data, timeStrings, height, div, addNewBlock}) => {
+const Cells = ({row, col, data, timeStrings, div, addNewBlock}) => {
     const [cellData, setCellData] = useState(data);
     const [colNum, setColNum] = useState(col);
     const [rowNum, setRowNum] = useState(row);
@@ -158,7 +158,7 @@ const Cells = ({row, col, data, timeStrings, height, div, addNewBlock}) => {
     }
 
     return (
-        <div className={draggedOver ? "table-row-drag":"table-row"} ref={cellRef} style={{minHeight: `${(height * cellData.duration / div)-2}px`, maxHeight: `${(height * cellData.duration / div)-2}px`, backgroundColor: `${cellData.category === null ? "" : ""}`}} onClick={() => setIsEditing(true)} onMouseUp={handleMouseUp} onBlur={handleBlur} onDoubleClick={() => setPopup(true)}>
+        <td rowSpan={cellData.duration / div} ref={cellRef} style={{backgroundColor: `${cellData.category === null ? "" : ""}`}} onClick={() => setIsEditing(true)} onMouseUp={handleMouseUp} onBlur={handleBlur} onDoubleClick={() => setPopup(true)}>
             {
                 isEditing ?
                     <div className='cell'>
@@ -170,8 +170,7 @@ const Cells = ({row, col, data, timeStrings, height, div, addNewBlock}) => {
                         id="title"
                         value={cellData.title}
                         onChange={(e) => {save("title", e.target.value)}}
-                        onKeyDown={checkEnter}>
-                            </input>
+                        onKeyDown={checkEnter} />
                             {popup ? 
                                 <PopupEditBlock cell={true} s={{top: middle-150, left: right+4}} data={cellData} timeStrings={timeStrings} save={(key, value) => {setCellData({...cellData, [key]: value}); save(key, value)}} deleteCell={deleteCell} className='popup-timeblock'/>
                             :
@@ -184,7 +183,7 @@ const Cells = ({row, col, data, timeStrings, height, div, addNewBlock}) => {
                         {cellData.title}
                     </div>
             }
-        </div>
+        </td>
     )
 }
 

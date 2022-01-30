@@ -1,114 +1,162 @@
-import React, {useState, useEffect, useRef} from 'react'
-import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../../../context/TimeBlockContext';
+import React, { useState, useEffect, useRef } from "react";
+import {
+  useTimeBlockContext,
+  useUpdateTimeBlockContext,
+} from "../../../../context/TimeBlockContext";
 import { get } from "../../../../tools/request";
-import Cells from './Cells';
-import TimeCell from './TimeCell'; // Don't know if need a different type of cell component for the Admin col, but its late and I didnt want to think.
-
-
-
+import Cells from "./Cells";
+import TimeCell from "./TimeCell";
 
 const TimeTable2 = () => {
-    const [military, setMilitary] = useState(false);
-    const [height, setHeight] = useState(0);
-    const [cellHeight, setCellHeight] = useState(0);
-    const [data, setData] = useState([]);
-    const heightRef = useRef(null);
-    const [timeStrings, setTimeStrings] = useState({});
-    const timeblockContext = useTimeBlockContext();
-    const updateTimeblockContext = useUpdateTimeBlockContext();
-    const divisions = timeblockContext.divisions;
+  const [military, setMilitary] = useState(false);
+  const [height, setHeight] = useState(0);
+  const [cellHeight, setCellHeight] = useState(0);
+  const [data, setData] = useState([]);
+  const heightRef = useRef(null);
+  const [timeStrings, setTimeStrings] = useState({});
+  const timeblockContext = useTimeBlockContext();
+  const updateTimeblockContext = useUpdateTimeBlockContext();
+  const divisions = timeblockContext.divisions;
 
-    useEffect(() => {
-        if (timeblockContext.reloadTimeblocks) {
-            get("/api/timeblocking/getTimeblocks")
-            .then((res) => {
-                if (res.timeblocks === undefined) {
-                    setData([]);
-                } else {
-                    setData(res.timeblocks);
-                }
-                updateTimeblockContext({...timeblockContext, reloadTimeblocks: false});
-            })
+  useEffect(() => {
+    if (timeblockContext.reloadTimeblocks) {
+      get("/api/timeblocking/getTimeblocks").then((res) => {
+        if (res.timeblocks === undefined) {
+          setData([]);
+        } else {
+          setData(res.timeblocks);
         }
-        if (heightRef.current !== null) {
-            setCellHeight(heightRef.current.getBoundingClientRect().height);
-        }
-        var strings = {};
-        for(var i = 0; i < 1440; i+=divisions) {
-            let hourMath = (i % 60 === 0) ? i:i-(i % 60)
-            let hour = hourMath/60;
-            if (!military) {
-                hour = (hour > 12) ? hour - 12: (hour === 0) ? 12 : hour;
-            }
-            let minute = i % 60;
-            minute = (minute === 0) ? "00" : minute;
-            strings[i] = `${hour}:${minute}`;
-        }
-        setTimeStrings(strings);
-    }, [heightRef.current, divisions, timeblockContext.reloadTimeblocks]);
-
-
-    const addNewBlock = (block) => {
-        setData([...data, block]);
+        updateTimeblockContext({
+          ...timeblockContext,
+          reloadTimeblocks: false,
+        });
+      });
     }
-
-    function timeLoop() {
-        var timerows = [];
-        for(var i = 0; i < 1440; i+=divisions) {
-            let hourMath = (i % 60 === 0) ? i:i-(i % 60)
-            let hour = hourMath/60;
-            if (!military) {
-                hour = (hour > 12) ? hour - 12: (hour === 0) ? 12 : hour;
-            }
-            let minute = i % 60;
-            minute = (minute === 0) ? "00" : minute;
-            timerows.push(< TimeCell key={i} time={`${hour}:${minute}`} r={heightRef}/>)
-        }
-        return timerows
+    if (heightRef.current !== null) {
+      setCellHeight(heightRef.current.getBoundingClientRect().height);
     }
-
-    function fill(day, colNum) {
-        let cells = [];
-        for (var i = 0; i < 1440; i += divisions) {
-            let found = false;
-            for (let datum of data) {
-                if (datum.time === i && datum.dow === day) {
-                    found = true;
-                    cells.push(<Cells key={datum.title} row={i} col={colNum} data={datum} timeStrings={timeStrings} height={cellHeight} div={divisions} addNewBlock={addNewBlock}/>)
-                    if (datum.duration > divisions) {
-                        i += datum.duration - divisions;
-                    }
-                }
-            }
-            if (!found) {
-                cells.push(<Cells key={i} row={i} col={colNum} data={{_id: null, title: '', body: '', dow: day, time: i, duration: divisions, category: null }} timeStrings={timeStrings} height={cellHeight} div={divisions} addNewBlock={addNewBlock}/>)
-            }
-        }
-        return cells;
+    var strings = {};
+    for (var i = 0; i < 1440; i += divisions) {
+      let hourMath = i % 60 === 0 ? i : i - (i % 60);
+      let hour = hourMath / 60;
+      if (!military) {
+        hour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
+      }
+      let minute = i % 60;
+      minute = minute === 0 ? "00" : minute;
+      strings[i] = `${hour}:${minute}`;
     }
+    setTimeStrings(strings);
+  }, [heightRef.current, divisions, timeblockContext.reloadTimeblocks]);
 
-    const dow = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    return (
-            <div className='table-blockz'>
-                <div className='table-col' name='admin'>
-                    <div className="table-row admin-cell">Admin</div>
-                    {timeLoop()}
-                </div>
-                {
-                    dow.map((day, index) => {
-                        return (
-                            <div className="table-col" key={index}>
-                                <div className="table-row admin-cell">
-                                    {day}
-                                </div>
-                                {fill(day, index)}
-                            </div>
-                        )
-                    })
-                }
-            </div>
-    )
-}
+  const addNewBlock = (block) => {
+    setData([...data, block]);
+  };
+
+  function timeLoop() {
+    var timerows = [];
+    for (var i = 0; i < 1440; i += divisions) {
+      let hourMath = i % 60 === 0 ? i : i - (i % 60);
+      let hour = hourMath / 60;
+      if (!military) {
+        hour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
+      }
+      let minute = i % 60;
+      minute = minute === 0 ? "00" : minute;
+      timerows.push(`${hour}:${minute}`);
+    }
+    return timerows;
+  }
+
+  function fill(day, colNum) {
+    let cells = [];
+    for (var i = 0; i < 1440; i += divisions) {
+      let found = false;
+      for (let datum of data) {
+        if (datum.time === i && datum.dow === day) {
+          found = true;
+          cells.push(
+            <Cells
+              key={datum.title}
+              row={i}
+              col={colNum}
+              data={datum}
+              timeStrings={timeStrings}
+              height={cellHeight}
+              div={divisions}
+              addNewBlock={addNewBlock}
+            />
+          );
+          if (datum.duration > divisions) {
+            i += datum.duration - divisions;
+          }
+        }
+      }
+      if (!found) {
+        cells.push(
+          <Cells
+            key={i}
+            row={i}
+            col={colNum}
+            data={{
+              _id: null,
+              title: "",
+              body: "",
+              dow: day,
+              time: i,
+              duration: divisions,
+              category: null,
+            }}
+            timeStrings={timeStrings}
+            height={cellHeight}
+            div={divisions}
+            addNewBlock={addNewBlock}
+          />
+        );
+      }
+    }
+    return cells;
+  }
+
+  const dow = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  return (
+    <table className="table-blockz">
+        <colgroup>
+            <col className="table-admin-col"/>
+        </colgroup>
+      <thead>
+        <tr className="table-row">
+          <th className="table-header">Admin</th>
+          {dow.map((day, i) => (
+            <th key={i} className="table-header">{day}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {timeLoop().map((time, i) => (
+          <tr className="table-row">
+            <th className="table-header">{time}</th>
+            <td className="table-data">cell</td>
+            <td className="table-data">cell</td>
+            <td className="table-data">cell</td>
+            <td className="table-data">cell</td>
+            <td className="table-data">cell</td>
+            <td className="table-data">cell</td>
+            <td className="table-data">cell</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
 
 // const Blank = ({d, t, timeStrings, height, setData}) => {
 //     const [dow, setDow] = useState(d);
@@ -140,7 +188,7 @@ const TimeTable2 = () => {
 //             }
 //         })
 //     }
-    
+
 //     const data = {
 //         title: "",
 //         body: "",
@@ -155,14 +203,13 @@ const TimeTable2 = () => {
 //             </div>
 //             {
 //                 popup ? <PopupEditBlock cell={false} s={{top: middle-48, left: right+4}} data={data} timeStrings={timeStrings} setData={setData} setPopup={setPopup} className='popup-timeblock' trigger={popup} setTrigger={setPopup}/> : null
-//             }       
+//             }
 //         </div>
-        
+
 //     )
 // }
 
-
-export default TimeTable2
+export default TimeTable2;
 
 // Need to make a cell react component that can be the output of a for loop when iterated over.
 // The for loop logic needs to ask whether this space needs to be populated by a cell or if it need to be filled with a task.
