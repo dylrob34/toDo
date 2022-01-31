@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useEffect, useRef} from "react";
 import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../../../context/TimeBlockContext';
 import { post } from "../../../../tools/request";
 import Cells from './Cells';
@@ -9,49 +9,48 @@ import { getTodayUTC, getWeekDaysUTC } from "../../../../tools/time";
 
 
 const TimeTable2 = () => {
-    const [military, setMilitary] = useState(false);
-    const [height, setHeight] = useState(0);
-    const [cellHeight, setCellHeight] = useState(0);
-    const [data, setData] = useState([]);
-    const [timeStrings, setTimeStrings] = useState({});
-    const heightRef = useRef(null);
-    const timeblockContext = useTimeBlockContext();
-    const updateTimeblockContext = useUpdateTimeBlockContext();
-    const divisions = timeblockContext.divisions;
+  const [military, setMilitary] = useState(false);
+  const [height, setHeight] = useState(0);
+  const [cellHeight, setCellHeight] = useState(0);
+  const [data, setData] = useState([]);
+  const heightRef = useRef(null);
+  const [timeStrings, setTimeStrings] = useState({});
+  const timeblockContext = useTimeBlockContext();
+  const updateTimeblockContext = useUpdateTimeBlockContext();
+  const divisions = timeblockContext.divisions;
 
-    useEffect(() => {
-        if (timeblockContext.reloadTimeblocks && timeblockContext.week !== null) {
-            post("/api/timeblocking/getTimeblocksWeek", {week: timeblockContext.week})
-            .then((res) => {
-                if (res.timeblocks === undefined) {
-                    setData([]);
-                } else {
-                    setData(res.timeblocks);
-                }
-                updateTimeblockContext({...timeblockContext, reloadTimeblocks: false});
-            })
-        }
-        if (heightRef.current !== null) {
-            setCellHeight(heightRef.current.getBoundingClientRect().height);
-        }
-        var strings = {};
-        for(var i = 0; i < 1440; i+=divisions) {
-            let hourMath = (i % 60 === 0) ? i:i-(i % 60)
-            let hour = hourMath/60;
-            if (!military) {
-                hour = (hour > 12) ? hour - 12: (hour === 0) ? 12 : hour;
+  useEffect(() => {
+    if (timeblockContext.reloadTimeblocks && timeblockContext.week !== null) {
+        post("/api/timeblocking/getTimeblocksWeek", {week: timeblockContext.week})
+        .then((res) => {
+            if (res.timeblocks === undefined) {
+                setData([]);
+            } else {
+                setData(res.timeblocks);
             }
-            let minute = i % 60;
-            minute = (minute === 0) ? "00" : minute;
-            strings[i] = `${hour}:${minute}`;
-        }
-        setTimeStrings(strings);
-    }, [heightRef.current, divisions, timeblockContext.reloadTimeblocks]);
-
-
-    const addNewBlock = (block) => {
-        setData([...data, block]);
+            updateTimeblockContext({...timeblockContext, reloadTimeblocks: false});
+        })
     }
+    if (heightRef.current !== null) {
+        setCellHeight(heightRef.current.getBoundingClientRect().height);
+    }
+    var strings = {};
+    for(var i = 0; i < 1440; i+=divisions) {
+        let hourMath = (i % 60 === 0) ? i:i-(i % 60)
+        let hour = hourMath/60;
+        if (!military) {
+            hour = (hour > 12) ? hour - 12: (hour === 0) ? 12 : hour;
+        }
+        let minute = i % 60;
+        minute = (minute === 0) ? "00" : minute;
+        strings[i] = `${hour}:${minute}`;
+    }
+    setTimeStrings(strings);
+}, [heightRef.current, divisions, timeblockContext.reloadTimeblocks]);
+
+  const addNewBlock = (block) => {
+    setData([...data, block]);
+  };
 
     const clicked = (e) => {
         updateTimeblockContext({...timeblockContext, divisions:parseInt(e.target.innerHTML)})
@@ -157,7 +156,7 @@ const TimeTable2 = () => {
 //             }
 //         })
 //     }
-    
+
 //     const data = {
 //         title: "",
 //         body: "",
@@ -172,14 +171,13 @@ const TimeTable2 = () => {
 //             </div>
 //             {
 //                 popup ? <PopupEditBlock cell={false} s={{top: middle-48, left: right+4}} data={data} timeStrings={timeStrings} setData={setData} setPopup={setPopup} className='popup-timeblock' trigger={popup} setTrigger={setPopup}/> : null
-//             }       
+//             }
 //         </div>
-        
+
 //     )
 // }
 
-
-export default TimeTable2
+export default TimeTable2;
 
 // Need to make a cell react component that can be the output of a for loop when iterated over.
 // The for loop logic needs to ask whether this space needs to be populated by a cell or if it need to be filled with a task.
