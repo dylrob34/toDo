@@ -1,5 +1,6 @@
 var express = require('express');
-var router = express.Router();
+const { toAsyncRouter } = require("../errorHandler");
+const router = toAsyncRouter(express.Router());
 var auth = require("./auth");
 const Task = require("../database/models/task");
 const Owner = require("../database/models/owner");
@@ -18,8 +19,8 @@ router.post('/createTask', async function(req, res) {
     const assignees = [];
     const title = req.body.title;
     const body = req.body.body;
-
-    const task = await Task.createTask(req.body.team || req.authData.user, assignees, title, body);
+    const duedate = req.body.duedate
+    const task = await Task.createTask(req.body.team || req.authData.user, assignees, title, body, duedate);
     
     return res.json({error: false});
 });
@@ -30,15 +31,15 @@ router.post('/editTask', async function(req, res) {
     const assignees = req.body.assignees;
     const title = req.body.title;
     const body = req.body.body;
+    const duedate = req.body.duedate
     const complete = req.body.complete;
     const task = await Task.getTask(taskId);
     const owner = await Owner.getOwner(task.owner);
     if (task.owner === user) {
-        await task.editTask(assignees, title, body, complete);
+        await task.editTask(assignees, title, body, complete, duedate);
         return res.json({error:false});
     } else if (owner.owner === user || owner.admins.includes(user) || owner.users.includes(user)) {
-        await task.editTask(assignees, title, body, complete);
-        console.log("Anything...")
+        await task.editTask(assignees, title, body, complete, duedate);
         return res.json({error: false});
     }
     return res.json({error: true});

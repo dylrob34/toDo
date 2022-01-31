@@ -1,5 +1,6 @@
 var express = require('express');
-var router = express.Router();
+const { toAsyncRouter } = require("../errorHandler");
+const router = toAsyncRouter(express.Router());
 var database = require("../database/data");
 var auth = require("./auth");
 const jwt = require('jsonwebtoken');

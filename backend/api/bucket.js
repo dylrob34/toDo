@@ -1,5 +1,6 @@
 var express = require('express');
-var router = express.Router();
+const { toAsyncRouter } = require("../errorHandler");
+const router = toAsyncRouter(express.Router());
 var auth = require("./auth");
 const User = require("../database/models/user");
 const Team = require('../database/models/teams');
@@ -52,16 +53,12 @@ router.post("/getBucketByName", async (req, res) => {
 })
 
 router.post('/editBucket', async function(req, res) {
-    try {
-        const user = await User.getUser(req.authData.user);
-        const bucket = await Bucket.getBucket(req.body._id);
-        if (bucket.user === user.email) {
-            await bucket.editBucket(req.body.name);
-        } else {
-            throw "User does not own this bucket";
-        }
-    } catch (error) {
-        return res.json({error: true, message: error});
+    const user = await User.getUser(req.authData.user);
+    const bucket = await Bucket.getBucket(req.body._id);
+    if (bucket.user === user.email) {
+        await bucket.editBucket(req.body.name);
+    } else {
+        throw "User does not own this bucket";
     }
     res.json({error: false});
 });

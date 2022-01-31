@@ -7,6 +7,7 @@ import { getLoggedIn } from "../../../context/loggedInState";
 import { useTimeBlockContext, useUpdateTimeBlockContext } from "../../../context/TimeBlockContext";
 import { get, post } from "../../../tools/request";
 import { Redirect } from "react-router";
+import { getCurrentWeekString, getCurrentWeek, getNextWeek, getPrevWeek } from '../../../tools/time';
 
 import { PlusIcon } from '@heroicons/react/solid'
 
@@ -18,8 +19,7 @@ const TimeBlock = (props) => {
     const timeblockContext = useTimeBlockContext();
     const updateTimeBlockContext = useUpdateTimeBlockContext();
 
-    
-    const timeInDay = 86400000
+
 
     useEffect(() => {
         if (timeblockContext.week === null)
@@ -43,32 +43,6 @@ const TimeBlock = (props) => {
 
     if (getLoggedIn() === false) {
         return <Redirect to="/login" />;
-    }
-
-    
-    const getCurrentWeek = () => {
-        const now = new Date();
-        const today = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
-        const sunday = new Date(today.getTime() - timeInDay * today.getUTCDay());
-        return sunday.getTime();
-    }
-
-    const getNextWeek = () => {
-        const currentSunday = new Date(timeblockContext.week);
-        return new Date(currentSunday.getTime() + timeInDay * 7).getTime();
-    }
-
-    const getPrevWeek = () => {
-        const currentSunday = new Date(timeblockContext.week);
-        return new Date(currentSunday.getTime() - timeInDay * 7).getTime();
-    }
-
-    const handleCurrentWeek = () => {
-        const day = new Date(timeblockContext.week).getUTCDate();
-        const month = new Date(timeblockContext.week).getUTCMonth() + 1; // Need to add 1 because Jan = 0 in JS.
-        const year = new Date(timeblockContext.week).getUTCFullYear();
-        const returnDate = month + "/" + day + "/" + year;
-        return returnDate
     }
 
     const handleAddCategory = () => {
@@ -115,9 +89,9 @@ const TimeBlock = (props) => {
                 <div className='left-sidebar-sm'></div>
                 <div className='main' name='table_metrics'>
                     <div>
-                        <FaAngleDoubleLeft onClick={() => updateTimeBlockContext({...timeblockContext, week: getPrevWeek(), reloadTimeblocks: true})}/>
-                        <div> {"Week of " + handleCurrentWeek()} </div>
-                        <FaAngleDoubleRight onClick={() => updateTimeBlockContext({...timeblockContext, week: getNextWeek(), reloadTimeblocks: true})}/>
+                        <FaAngleDoubleLeft onClick={() => updateTimeBlockContext({...timeblockContext, week: getPrevWeek(timeblockContext.week), reloadTimeblocks: true})}/>
+                        <div> {"Week of " + getCurrentWeekString(timeblockContext.week)} </div>
+                        <FaAngleDoubleRight onClick={() => updateTimeBlockContext({...timeblockContext, week: getNextWeek(timeblockContext.week), reloadTimeblocks: true})}/>
                     </div>
 
                     <section className='top'>

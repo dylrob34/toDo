@@ -4,6 +4,7 @@ require('dotenv').config();
 var cors = require('cors');
 const logging = require("./logging/logger");
 const { verifyToken } = require('./api/auth');
+const {errorHandler} = require("./errorHandler");
 
 corsOptions = {
   origin: "http://localhost:3000"
@@ -30,6 +31,8 @@ app.use(verifyToken);
 
 app.use(logging);
 
+
+
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/teams', teamRouter);
@@ -38,6 +41,7 @@ app.use('/api/buckets', bucketRouter);
 app.use("/api/timeblocking", timeblockingRouter);
 app.use("/api/categories", categoriesRouter);
 app.use('/', indexRouter);
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`To Do App listening at http://localhost:${port}`);

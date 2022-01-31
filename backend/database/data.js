@@ -256,11 +256,11 @@ function getTasksWithBucket(owner, bucket) {
     });
 }
 
-function editTask(id, assignees, title, body, buckets, complete) {
+function editTask(id, assignees, title, body, buckets, complete, duedate) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("tasks").updateOne({_id: ObjectId(id)},
         {
-            "$set": {assignees, title, body, buckets, complete}
+            "$set": {assignees, title, body, buckets, complete, duedate}
         })
         .then((task) => {
             resolve(task);
@@ -277,7 +277,7 @@ function deleteTask(id) {
     });
 }
 
-function createTask(owner, assignees, title, body, buckets, complete) {
+function createTask(owner, assignees, title, body, buckets, complete, duedate) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("tasks").insertOne(
             {
@@ -286,7 +286,8 @@ function createTask(owner, assignees, title, body, buckets, complete) {
                 title,
                 body,
                 buckets,
-                complete
+                complete,
+                duedate
             }
         )
         .then((result) => {

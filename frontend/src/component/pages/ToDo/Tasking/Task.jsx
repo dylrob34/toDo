@@ -6,12 +6,9 @@ import { useState, useEffect } from 'react'
 import { post } from "../../../../tools/request";
 import { useToDoContext, useUpdateToDoContext } from '../../../../context/ToDoContext';
 import AddTask from './AddTask';
+import CalendarComponent from "./CalendarComponent";
+import { getDayString } from "../../../../tools/time";
 
-const Schedule = () => {
-    return (
-        <div className='test'>test</div>
-    )
-}
 
 const Task = ({ task }) => {
     const [title, setTitle] = useState(task.title)
@@ -20,7 +17,8 @@ const Task = ({ task }) => {
     const [body, setBody] = useState(task.body)
     const [id, setId] = useState(task._id);
     const [reminder, setReminder] = useState(task.reminder)
-    const [dueDate, setDueDate] = useState(task.dueDate)
+    const [dueDate, setDueDate] = useState(task.duedate)
+    const [showDueDate, setShowDueDate] = useState(false)
     const [calendar, setCalendar] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [completeTask, setCompleteTask] = useState(false)
@@ -29,7 +27,6 @@ const Task = ({ task }) => {
     const updateToDoContext = useUpdateToDoContext();
 
     useEffect(() => {
-        console.log(task._id)
         post("/api/buckets/getTaskBuckets", {"_id": task._id})
         .then((res) => {
             setBuckets(res.buckets);
@@ -38,15 +35,17 @@ const Task = ({ task }) => {
         setTitle(task.title);
         setBody(task.body);
         setCompleteTask(task.complete);
-    }, [task._id, task.title, task.body, task.complete])
+        setDueDate(task.duedate);
+    }, [task._id, task.title, task.body, task.complete, task.duedate])
 
 
-    function editTask(t, b, complete) {
+    function editTask(t, b, complete, dd) {
         post("/api/task/editTask", {
             "id": id,
             title: t,
             body: b,
-            complete
+            complete,
+            duedate: dd
         })
             .then((resJson) => {
                 if (resJson.error === true) {
@@ -113,6 +112,7 @@ const Task = ({ task }) => {
     }
 
     function toggleCalendar(e) {
+        console.log(dueDate)
         setCalendar(!calendar);
     }
     
@@ -124,13 +124,12 @@ const Task = ({ task }) => {
         setDraggable(!draggable)
     }
 
-
     if (isEditing) {
 
         return (<AddTask t={title} b={body} cancelEdit={() => {setIsEditing(false); handleHover(false)}} edit={editTask}/>)
 
     } else {
-        
+    
     return (
         <div className="task-shell">
             <div draggable={draggable ? true : false} className='task-container'
@@ -164,15 +163,16 @@ const Task = ({ task }) => {
                             <div className='task-reminder'>
                                 <span className='task-element reminder '>Reminder</span>
                             </div>
-                            <div className='task-duedate'>
-                                <span className='task-element duedate'>Due Date</span>
+                            <div className='task-duedate' onClick={toggleCalendar}>
+                                <div className='task-element duedate'>
+                                    {dueDate !== null ? getDayString(dueDate) : "No Due Date"}
+                                </div>
                             </div>
+                            {calendar ? <div>
+                                <CalendarComponent save={(dd) => editTask(title, body, completeTask, dd)} dueDate={dueDate}/>
+                            </div> : ''}
                         </div>
                     </div>
-                    <span>   
-                        {dueDate}
-                    </span>
-                    {calendar ? <Schedule/> : null}
                 </div>
             </div>
 

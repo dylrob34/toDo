@@ -4,7 +4,7 @@ const Bucket = require("./buckets");
 const day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 class Task {
-    constructor(id, owner, assignees, title, body, buckets, complete)  {
+    constructor(id, owner, assignees, title, body, buckets, complete, duedate)  {
         this.id = id;
         this.owner = owner;
         this.assignees = assignees;
@@ -12,12 +12,13 @@ class Task {
         this.body = body;
         this.buckets = buckets;
         this.complete = complete;
+        this.duedate = duedate
     }
 
     static async getTask(id) {
         let temp = await database.getTask(id)
         .catch(() => {
-            throw "Error Getting Task";
+            throw new Error("Error Getting Task");
         });
         return new Task(temp._id, temp.owner, temp.assignees, temp.title, temp.body, temp.buckets, temp.complete);
     }
@@ -32,7 +33,7 @@ class Task {
         return buckets;
     }
 
-    static async createTask(owner, assignees, title, body) {
+    static async createTask(owner, assignees, title, body, duedate) {
         const buckets = await Task.parseBuckets(owner, body);
         const result = await database.createTask(
             owner,
@@ -40,7 +41,8 @@ class Task {
             title,
             body,
             buckets,
-            false)
+            false, 
+            new Date(duedate),)
         .catch(() => {
             throw "Error Creating Task";
         });
@@ -87,13 +89,14 @@ class Task {
         database.deleteTask(this.id);
     }
 
-    async editTask(assignees, title, body, complete) {
+    async editTask(assignees, title, body, complete, duedate) {
         this.assignees = assignees;
         this.title = title;
         this.body = body;
         this.buckets = await Task.parseBuckets(this.owner, body);
         this.complete = complete;
-        const newTask = await database.editTask(this.id, assignees, title, body, this.buckets, this.complete || false);
+        this.duedate = new Date(duedate);
+        const newTask = await database.editTask(this.id, assignees, title, body, this.buckets, this.complete || false, this.duedate);
 
     }
 

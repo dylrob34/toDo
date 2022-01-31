@@ -4,6 +4,7 @@ import { post } from "../../../../tools/request";
 import Cells from './Cells';
 import TimeCell from './TimeCell'; // Don't know if need a different type of cell component for the Admin col, but its late and I didnt want to think.
 import { Dropdown, Option } from '../../../layout/Dropdown';
+import { getTodayUTC, getWeekDaysUTC } from "../../../../tools/time";
 
 
 
@@ -91,24 +92,6 @@ const TimeTable2 = () => {
         return cells;
     }
 
-    const getUTCTime = () =>  {
-        const now = new Date()
-        const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())
-        return today
-    }
-    const getWeek = () => {
-        const timeInDay = 86400000;
-        const dow = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        let week = []
-        const sunday = new Date(timeblockContext.week);
-        for (let i = 0; i < dow.length; i++) {
-            week.push({
-                day: dow[i],
-                date: new Date(sunday.getTime() + timeInDay * i)
-            });
-        }
-        return week;
-    }
     return (
             <div className='table-blockz'>
                 <div className='table-col' name='admin'>
@@ -129,10 +112,10 @@ const TimeTable2 = () => {
                     {timeLoop()}
                 </div>
                 {
-                    getWeek().map((day, index) => {
+                    getWeekDaysUTC(timeblockContext.week).map((day, index) => {
                         return (
                             <div className="table-col" key={index}>
-                                <div className="table-row admin-cell" style={day.date.getTime() === getUTCTime() ? {color: "#34b487"} : {}}>
+                                <div className="table-row admin-cell" style={day.date.getTime() === getTodayUTC() ? {color: "#34b487"} : {}}>
                                     {`${day.day}`}
                                 </div>
                                 {fill(day, index)}

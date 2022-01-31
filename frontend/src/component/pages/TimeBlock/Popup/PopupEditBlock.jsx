@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { useTimeBlockContext } from '../../../../context/TimeBlockContext';
+import { getWeekDaysUTC } from "../../../../tools/time";
 
 
 
@@ -41,20 +42,6 @@ const PopupEditBlock = (props) => {
         }
         return temp
     }
-    
-    const getDays = () => {
-        const timeInDay = 86400000;
-        const dow = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        let week = []
-        const sunday = new Date(timeBlockContext.week);
-        for (let i = 0; i < dow.length; i++) {
-            week.push({
-                day: dow[i],
-                date: sunday.getTime() + i * timeInDay
-            });
-        }
-        return week;
-    }
 
     return (
     <div>
@@ -70,7 +57,7 @@ const PopupEditBlock = (props) => {
                 <input className='popup-timeblock-text' type="text" default="Body..." onChange={(e) => props.save("body", e.target.value)} value={props.data.body}/>
                 <select className='popup-timeblock-text' type="text" default="Date..." onChange={(e) => props.save("date", parseInt(e.target.value))} value={new Date(props.data.date).getTime()}>
                     {
-                        getDays().map((day) => {
+                        getWeekDaysUTC(timeBlockContext.week).map((day) => {
                             return <option key={day.day} value={day.date}>{day.day}</option>
                         })
                     }

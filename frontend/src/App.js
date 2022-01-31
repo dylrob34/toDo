@@ -15,6 +15,7 @@ import TimeBlock from './component/pages/TimeBlock/TimeBlock';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './Signup.css';
+import 'react-calendar/dist/Calendar.css'
 import { TimeBlockProvider } from './context/TimeBlockContext';
 
 

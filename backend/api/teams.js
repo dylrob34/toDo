@@ -1,5 +1,6 @@
 var express = require('express');
-var router = express.Router();
+const { toAsyncRouter } = require("../errorHandler");
+const router = toAsyncRouter(express.Router());
 var auth = require("./auth");
 const User = require("../database/models/user");
 const Team = require("../database/models/teams");

@@ -1,5 +1,6 @@
 const express = require('express');
-const router = express.Router();
+const { toAsyncRouter } = require("../errorHandler");
+const router = toAsyncRouter(express.Router());
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
