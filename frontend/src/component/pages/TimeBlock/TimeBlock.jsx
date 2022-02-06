@@ -10,6 +10,7 @@ import { Redirect } from "react-router";
 import { getCurrentWeekString, getCurrentWeek, getNextWeek, getPrevWeek } from '../../../tools/time';
 
 import { PlusIcon } from '@heroicons/react/solid'
+import {PieChart} from "./PieChart/PieChart";
 
 const TimeBlock = (props) => {
     // const [popup, setPopup] = useState(false)
@@ -18,6 +19,29 @@ const TimeBlock = (props) => {
     const [userCategories, setUserCategories] = useState([])
     const timeblockContext = useTimeBlockContext();
     const updateTimeBlockContext = useUpdateTimeBlockContext();
+
+    const cats = [
+        {
+            name: "Test",
+            size: 10,
+            color: [128, 128, 0]
+        },
+        {
+            name: "Game",
+            size: 30,
+            color: [0, 128, 128]
+        },
+        {
+            name: "Day Job",
+            size: 60,
+            color: [128, 0, 128]
+        },
+        {
+            name: "Blockz",
+            size: 180,
+            color: [128, 128, 128]
+        },
+    ]
 
 
 
@@ -98,9 +122,9 @@ const TimeBlock = (props) => {
                         <TimeTable2 />
                     </section>
                     <section className='bottom'>
-                        <div className='page-element' style={{backgroundColor: "red", width: "100%", height: "100%"}}>
+                        <div className='page-element' style={{width: "100%", height: "100%"}}>
                             {/* Placeholder for Metrics component 1 */}
-                            placeholder
+                            <PieChart categories={cats} width={800} height={800} font={"25px arial"}/>
                         </div>
                         <div className='page-element' style={{backgroundColor: 'green', width: "100%", height: "100%" }}>
                             {/* Placeholder for Metrics component 2 */}
