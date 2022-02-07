@@ -20,6 +20,10 @@ const getDateUTC = (date) => {
     return dateUTC
 }
 
+const getDOWFromUTC = (date) => {
+    return new Date(date).getUTCDay();
+}
+
 const getWeekDaysUTC = (theWeek) => {
     let week = []
     const sunday = new Date(theWeek);
@@ -58,4 +62,4 @@ const getPrevWeek = (theWeek) => {
     return new Date(currentSunday.getTime() - timeInDay * 7).getTime();
 }
 
-export { getTodayUTC, getDayString, getDateUTC, getWeekDaysUTC, getCurrentWeekString, getCurrentWeek, getNextWeek, getPrevWeek }
+export { getTodayUTC, getDayString, getDateUTC, getDOWFromUTC, getWeekDaysUTC, getCurrentWeekString, getCurrentWeek, getNextWeek, getPrevWeek }

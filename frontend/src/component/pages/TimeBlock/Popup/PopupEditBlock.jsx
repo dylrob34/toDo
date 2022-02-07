@@ -5,13 +5,6 @@ import { getWeekDaysUTC } from "../../../../tools/time";
 
 
 const PopupEditBlock = (props) => {
-    const [categories, setCategories] = useState([]);
-    const timeBlockContext = useTimeBlockContext();
-    const divisions = timeBlockContext.divisions;
-
-    useEffect(() => {
-        setCategories(timeBlockContext.categories);
-    }, [timeBlockContext.categories])
 
     const getTimes = () => {
         let temp = []
@@ -23,7 +16,7 @@ const PopupEditBlock = (props) => {
 
     const getCategories = () => {
         let temp = [];
-        for (const cat of categories) {
+        for (const cat of props.categories) {
             temp.push(cat);
         }
         temp.push({
@@ -37,7 +30,7 @@ const PopupEditBlock = (props) => {
         let temp = [];
         let inc = 0;
         for (let i = 0; i < 24; i++ ) {
-            inc = inc + divisions
+            inc = inc + props.divisions
             temp.push([inc, `${parseInt(inc/60) === 0 ? '0:' : parseInt(inc/60) + ':'}${inc % 60 === 0 ? '00': inc % 60  }`])
         }
         return temp
@@ -57,8 +50,8 @@ const PopupEditBlock = (props) => {
                 <input className='popup-timeblock-text' type="text" default="Body..." onChange={(e) => props.save("body", e.target.value)} value={props.data.body}/>
                 <select className='popup-timeblock-text' type="text" default="Date..." onChange={(e) => props.save("date", parseInt(e.target.value))} value={new Date(props.data.date).getTime()}>
                     {
-                        getWeekDaysUTC(timeBlockContext.week).map((day) => {
-                            return <option key={day.day} value={day.date}>{day.day}</option>
+                        getWeekDaysUTC(props.week).map((day) => {
+                            return <option key={day.day} value={day.date.getTime()}>{day.day}</option>
                         })
                     }
                 </select>

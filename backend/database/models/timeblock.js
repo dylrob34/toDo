@@ -4,19 +4,19 @@ const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", 
 const day = 86400000;
 class Timeblock {
     constructor(id, owner, title, body, time, duration, category, date)  {
-        this.id = id;
+        this._id = id;
         this.owner = owner;
         this.title = title;
         this.body = body;
         this.time = time;
         this.duration = duration;
         this.category = category;
-        this.date = new Date(date);
-        this.dow = days[this.date.getUTCDay()];
+        this.date = new Date(date).getTime();
+        this.dow = days[new Date(date).getUTCDay()];
     }
 
-    static async getTimeblock(id) {
-        let temp = await database.getTimeblock(id)
+    static async getTimeblock(_id) {
+        let temp = await database.getTimeblock(_id)
         .catch(() => {
             throw "Error Getting Timeblock";
         });
@@ -29,10 +29,18 @@ class Timeblock {
     }
 
     static async getTimeblocksWeek(owner, week) {
-        const begin = new Date(week);
-        const end = new Date(week + day * 7);
-        const timeblocks = await database.getTimeblocksWeek(owner, begin, end);
-        return timeblocks;
+        let days = {};
+        for (let i = 0; i < 7; i++) {
+            const begin = new Date(week + day * i)
+            const end = new Date(week + day * (i + 1));
+            const blocks = await database.getTimeblocksWeek(owner, begin, end);
+            let today = {};
+            blocks.forEach((block) => {
+                today = {...today, [block.time]: new Timeblock(block._id, block.owner, block.title, block.body, block.time, block.duration, block.category, block.date)}
+            })
+            days = {...days, [parseInt(i)]: today}
+        }
+        return days;
     }
 
     static async createTimeblock(owner, title, body, time, duration, category, date) {
@@ -52,7 +60,7 @@ class Timeblock {
     }
 
     async delete() {
-        database.deleteTimeblock(this.id);
+        database.deleteTimeblock(this._id);
     }
 
     async edit(title, body, time, duration, category, date) {
@@ -63,7 +71,7 @@ class Timeblock {
         this.category = category;
         this.date = new Date(date);
         this.dow = days[this.date.getUTCDay()];
-        const something = await database.editTimeblock(this.id, title, body, time, duration, category, this.date);
+        const something = await database.editTimeblock(this._id, title, body, time, duration, category, this.date);
 
     }
 

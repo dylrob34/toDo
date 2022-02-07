@@ -16,11 +16,14 @@ function NavBar({ setTeam }) {
     console.log(`am i logged in ${loggedIn}`);
     if (loggedIn) {
       get("/api/user/getUser").then((resJson) => {
-        console.log(resJson);
-        setName(resJson.user.firstName);
+        if (resJson.error !== true) {
+            setName(resJson.user.firstName);
+        }
       });
       get("/api/teams/getTeams").then((res) => {
-        setTeams(res.teams);
+        if (res.error !== true) {
+            setTeams(res.teams);
+        }
       });
     }
   }, [loggedIn, location]);

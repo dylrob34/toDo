@@ -94,9 +94,11 @@ function renderText(categories, width, height, font) {
     categories = categories.sort((a, b) => b.size - a.size);
     ;
     const canvas = document.getElementById("piecharttextcanvas");
+    if (canvas === null) {
+        return;
+    }
     const textContext = canvas.getContext("2d");
     const elementHeight = height / (categories.length + 1);
-    console.log(font);
     if (textContext !== null) {
         textContext.clearRect(0, 0, width, height);
         for (let i = 0; i < categories.length; i++) {
@@ -113,7 +115,6 @@ function renderText(categories, width, height, font) {
 }
 function pieChart(categories, resolution, defaultColor, MSAASamples, font) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("Creating Triangle");
         if (!navigator.gpu) {
             throw ("Your current browser does not support WebGPU!");
         }

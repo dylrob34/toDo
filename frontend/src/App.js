@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import cookie from 'react-cookies';
 import { ToDoProvider } from './context/ToDoContext';
-import { login, logout, setLoggedInCallback} from './context/loggedInState';
+import { getToken, login, logout, setLoggedInCallback} from './context/loggedInState';
 import { AddTaskProvider } from './context/AddTaskContext';
 import {get} from "./tools/request";
 import Landing from './component/pages/About/Landing';

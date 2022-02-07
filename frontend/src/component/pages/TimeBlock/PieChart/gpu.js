@@ -18,8 +18,6 @@ function initGPU(canvasName) {
         const context = canvas.getContext("webgpu");
         const width = canvas.width;
         const height = canvas.height;
-        console.log(width);
-        console.log(height);
         const swapChainFormat = "bgra8unorm";
         context.configure({
             device: device,

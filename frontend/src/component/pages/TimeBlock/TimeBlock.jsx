@@ -4,10 +4,9 @@ import { FaPlus, FaTimes, FaFolder, FaFolderOpen, FaAngleDoubleLeft, FaAngleDoub
 import PopupCategories from './Popup/PopupCategories';
 import Modal from '../../layout/Modal/Modal';
 import { getLoggedIn } from "../../../context/loggedInState";
-import { useTimeBlockContext, useUpdateTimeBlockContext } from "../../../context/TimeBlockContext";
 import { get, post } from "../../../tools/request";
 import { Redirect } from "react-router";
-import { getCurrentWeekString, getCurrentWeek, getNextWeek, getPrevWeek } from '../../../tools/time';
+import { getCurrentWeekString, getCurrentWeek, getNextWeek, getPrevWeek, getDOWFromUTC } from '../../../tools/time';
 
 import { PlusIcon } from '@heroicons/react/solid'
 import {PieChart} from "./PieChart/PieChart";
@@ -16,9 +15,10 @@ const TimeBlock = (props) => {
     // const [popup, setPopup] = useState(false)
     const [modal, setModal] = useState(false)
     const [nestedModal, setNestedModal] = useState(false)
-    const [userCategories, setUserCategories] = useState([])
-    const timeblockContext = useTimeBlockContext();
-    const updateTimeBlockContext = useUpdateTimeBlockContext();
+    const [categories, setCategories] = useState([])
+    const [timeblocks, setTimeblocks] = useState({});
+    const [week, setWeek] = useState(getCurrentWeek());
+    const [load, setLoad] = useState(true);
 
     const cats = [
         {
@@ -44,29 +44,60 @@ const TimeBlock = (props) => {
     ]
 
 
-
     useEffect(() => {
-        if (timeblockContext.week === null)
-        {
-            const currentweek = getCurrentWeek();
-            updateTimeBlockContext({...timeblockContext, week: currentweek, reloadTimeblocks: true})
+        if (load) {
+            const thisWeek = getCurrentWeek();
+            setTimeblocksAPI(thisWeek);
+            setCategoriesAPI();
         }
-        if (timeblockContext.reloadCategories === true) {
-            get("/api/categories/getCategories")
-            .then((res) => {
-                if (res.categories === undefined) {
-                    setUserCategories([]);
-                    updateTimeBlockContext({...timeblockContext, categories: [], reloadCategories: false});
-                } else {
-                    setUserCategories(res.categories);
-                    updateTimeBlockContext({...timeblockContext, categories: res.categories, reloadCategories: false});
-                }
-            })
-        }
-    }, [timeblockContext.reloadCategories])
+    }, [load])
 
     if (getLoggedIn() === false) {
         return <Redirect to="/login" />;
+    }
+
+    const changeWeek = (week) => {
+        setWeek(week);
+        setTimeblocksAPI(week);
+    }
+
+    const setTimeblocksAPI = (week) => {
+        post("/api/timeblocking/getTimeblocksWeek", {week})
+        .then((res) => {
+            if (res.timeblocks !== undefined) {
+                setTimeblocks(res.timeblocks)
+            }
+        })
+    }
+
+    const editBlock = (oldData, newData, key) => {
+        let temp = {...timeblocks}
+        let day = getDOWFromUTC(oldData.date);
+        delete temp[day][oldData.time]
+        let time = oldData.time;
+        if (key === "date") {
+            day = getDOWFromUTC(newData.date);
+        }
+        if (key === "time") {
+            time = newData.time;
+        }
+        temp = {...temp, [day]: {...temp[day], [time]: {...newData}}};
+        setTimeblocks(temp);
+    }
+
+    const deleteBlock = (day, time) => {
+        let temp = {...timeblocks}
+        delete temp[day][time]
+        setTimeblocks(temp);
+    }
+
+    const setCategoriesAPI = () => {
+        get("/api/categories/getCategories")
+        .then((res) => {
+            if (res.categories !== undefined) {
+                setCategories(res.categories);
+            }
+        })
     }
 
     const handleAddCategory = () => {
@@ -80,17 +111,9 @@ const TimeBlock = (props) => {
         })
         .then((res) => {
             if (res.error === false) {
-                let temp = userCategories;
-                temp.push(res.category);
-                setUserCategories(temp);
-                updateTimeBlockContext({...timeblockContext, reloadCategories: true})
+                setCategories(categories.map((cat) => cat).push(res.category));
             }
         })
-    }
-
-    const handleCloseAll = () => {
-        setNestedModal(false)
-        setModal(false)
     }
 
 
@@ -113,13 +136,13 @@ const TimeBlock = (props) => {
                 <div className='left-sidebar-sm'></div>
                 <div className='main' name='table_metrics'>
                     <div>
-                        <FaAngleDoubleLeft onClick={() => updateTimeBlockContext({...timeblockContext, week: getPrevWeek(timeblockContext.week), reloadTimeblocks: true})}/>
-                        <div> {"Week of " + getCurrentWeekString(timeblockContext.week)} </div>
-                        <FaAngleDoubleRight onClick={() => updateTimeBlockContext({...timeblockContext, week: getNextWeek(timeblockContext.week), reloadTimeblocks: true})}/>
+                        <FaAngleDoubleLeft onClick={() => changeWeek(getPrevWeek(week))}/>
+                        <div style={{color: "white"}}> {"Week of " + week === null ? getCurrentWeekString(getCurrentWeek()) : getCurrentWeekString(week)} </div>
+                        <FaAngleDoubleRight onClick={() => changeWeek(getNextWeek(week))}/>
                     </div>
 
                     <section className='top'>
-                        <TimeTable2 />
+                        <TimeTable2 timeblocks={timeblocks} setTimeBlocks={setTimeblocks} editBlock={editBlock} deleteBlock={deleteBlock} week={week} categories={categories}/>
                     </section>
                     <section className='bottom'>
                         <div className='page-element' style={{width: "100%", height: "100%"}}>
@@ -150,7 +173,7 @@ const TimeBlock = (props) => {
                                 <PopupCategories
                                 nestedModal={nestedModal}
                                 setNestedModal={setNestedModal} 
-                                categories={userCategories} 
+                                categories={categories} 
                                 />
                             </div>
                             <div className='modal-row' style={{paddingTop:"30px", justifyContent:'center'}}>
