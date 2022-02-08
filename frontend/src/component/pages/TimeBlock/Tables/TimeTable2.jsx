@@ -17,7 +17,7 @@ const TimeTable2 = (props) => {
 
     useEffect(() => {
         if (heightRef.current !== null) {
-            setCellHeight(heightRef.current.getBoundingClientRect().height);
+            //setCellHeight(heightRef.current.getBoundingClientRect().height);
         }
         var strings = {};
         for(var i = 0; i < 1440; i+=divisions) {
@@ -47,7 +47,7 @@ const TimeTable2 = (props) => {
             }
             let minute = i % 60;
             minute = (minute === 0) ? "00" : minute;
-            timerows.push(< TimeCell key={i} time={`${hour}:${minute}`} r={heightRef}/>)
+            timerows.push(< TimeCell key={i} time={`${hour}:${minute}`} row={i / divisions} setHeight={setCellHeight}/>)
         }
         return timerows
     }

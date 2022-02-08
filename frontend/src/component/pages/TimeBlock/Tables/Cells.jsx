@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react'
 import { post } from '../../../../tools/request';
 import { getDOWFromUTC } from '../../../../tools/time';
 import PopupEditBlock from '../Popup/PopupEditBlock';
-import { setTableData, getTableData, setDragged, unSetDragged, drag, setCount, getCount } from './TableData';
+import { getTableData, setInitialValues, clearInitialValues, getInitialValues, setCurrentData, getCurrentData } from './TableData';
 
 
 const Cells = (props) => {
@@ -39,13 +39,13 @@ const Cells = (props) => {
             setBottom(rect.bottom);
             setTop(rect.top);
             const tableData = getTableData();
-            setTableData({...tableData, [`${col}${row}`]: {
-                x: col,
-                y: row,
-                top: rect.top,
-                bottom: rect.bottom,
-                setDraggedOverState
-            }})
+            //setTableData({...tableData, [`${col}${row}`]: {
+            //    x: col,
+             //   y: row,
+            //    top: rect.top,
+            //    bottom: rect.bottom,
+            //    setDraggedOverState
+            //}})
         }
     }, [cellRef.current, props.data.duration, props.data.time]);
 
@@ -112,21 +112,81 @@ const Cells = (props) => {
         }
     }
 
-    const setDraggedOverState = (state) => {
-        setDraggedOver(state);
+    const saveNoUpdate = () => {
+        const currentData = getCurrentData();
+        post("/api/timeblocking/editTimeblock", {
+            ...currentData
+        })
+        .then((res) => {
+            if (res.error === true) {
+                alert(`Error saving your changes.\n${res.message}`)
+                return;
+            }
+        })}
+
+    const handleMouseDownUp = (e) => {
+        setInitialValues(data)
+        window.addEventListener("mousemove", dragUp);
+        window.addEventListener("mouseup", handleMouseUpUp);
+    }
+
+    const handleMouseUpUp = (e) => {
+        window.removeEventListener("mousemove", dragUp);
+        window.removeEventListener("mouseup", handleMouseUpUp);
+        //save("duration", (getCount() + 1) * divisions);
+        clearInitialValues();
+        saveNoUpdate();
     }
 
     const handleMouseDown = (e) => {
-        setDragged(dragCell);
-        window.addEventListener("mousemove", drag);
+        setInitialValues(data)
+        window.addEventListener("mousemove", dragDown);
         window.addEventListener("mouseup", handleMouseUp);
     }
 
     const handleMouseUp = (e) => {
-        save("duration", (getCount() + 1) * divisions);
-        window.removeEventListener("mousemove", drag);
+        window.removeEventListener("mousemove", dragDown);
         window.removeEventListener("mouseup", handleMouseUp);
-        unSetDragged();
+        //save("duration", (getCount() + 1) * divisions);
+        clearInitialValues();
+        saveNoUpdate();
+    }
+
+    const dragUp = (e) => {
+        const timeCells = getTableData();
+        const y = e.clientY;
+        let count = 0;
+        const initValues = getInitialValues();
+        let time = initValues.time;
+        let duration = initValues.duration;
+        for (const cell of timeCells) {
+            if (cell.bottom <= bottom && cell.top < y && cell.bottom > y) {
+                count = row - cell.row;
+                time = time - count * divisions;
+                console.log(time);
+                duration = duration + count * divisions;
+                break;
+            }
+        }
+        setCurrentData({...initValues, time, duration});
+        props.editBlock({...initValues, time: data.time}, {...initValues, time, duration}, "time");
+    }
+
+    const dragDown = (e) => {
+        const timeCells = getTableData();
+        const y = e.clientY;
+        let count = 0;
+        const initValues = getInitialValues();
+        let duration = initValues.duration;
+        for (const cell of timeCells) {
+            if (cell.top >= top && cell.top < y && cell.bottom > y) {
+                count = cell.row - row;
+                duration = (count + 1) * divisions;
+                break;
+            }
+        }
+        setCurrentData({...initValues, duration});
+        props.editBlock(initValues, {...initValues, duration}, "duration");
     }
 
     const dragCell = (e) => {
@@ -151,7 +211,7 @@ const Cells = (props) => {
                 currentCell.setDraggedOverState(false);
             }
         }
-        setCount(count);
+        //setCount(count);
     }
 //rgb(" + category.color.r + ", " + category.color.g + ", " + category.color.b + ")"
     return (
@@ -159,6 +219,7 @@ const Cells = (props) => {
             {
                 isEditing ?
                     <div className='cell'>
+                    <div className={"draggable-div"} style={{ bottom: '1px'}} onMouseDown={handleMouseDownUp}>-</div>
                         <input
                         autoFocus
                         type="text"
@@ -173,11 +234,10 @@ const Cells = (props) => {
                                 <PopupEditBlock {...props} cell={true} s={{top: middle-150, left: right+4}} data={data} timeStrings={timeStrings} save={save} deleteCell={deleteCell} className='popup-timeblock'/>
                             :
                             null}
-                        <div className={isEditing ? "draggable-div" : '' } style={{ bottom: '1px'}} onMouseDown={handleMouseDown}>-</div>
+                        <div className={"draggable-div"} style={{ bottom: '1px'}} onMouseDown={handleMouseDown}>-</div>
                     </div>
                 : 
                     <div title={data.title} onFocus={() => setIsEditing(true)} className=' readonly-cell'>
-                        <div className={isEditing ? "draggable-div" : '' } style={{bottom: '1px'}} onMouseDown={handleMouseDown}></div>
                         {data.title}
                     </div>
             }
