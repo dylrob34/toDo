@@ -39,7 +39,7 @@ const TimeBlock = (props) => {
                 }
             })
         }
-    }, [timeblockContext.reloadCategories])
+    }, [timeblockContext, updateTimeBlockContext])
 
     if (getLoggedIn() === false) {
         return <Redirect to="/login" />;

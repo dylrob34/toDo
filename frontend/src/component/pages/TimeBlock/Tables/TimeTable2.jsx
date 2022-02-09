@@ -7,12 +7,11 @@ import { get } from "../../../../tools/request";
 import Cells from "./Cells";
 import TimeCell from "./TimeCell";
 
+const timeInDay = 86400000;
+
 const TimeTable2 = () => {
   const [military, setMilitary] = useState(false);
-  const [height, setHeight] = useState(0);
-  const [cellHeight, setCellHeight] = useState(0);
   const [data, setData] = useState([]);
-  const heightRef = useRef(null);
   const [timeStrings, setTimeStrings] = useState({});
   const timeblockContext = useTimeBlockContext();
   const updateTimeblockContext = useUpdateTimeBlockContext();
@@ -32,9 +31,6 @@ const TimeTable2 = () => {
         });
       });
     }
-    if (heightRef.current !== null) {
-      setCellHeight(heightRef.current.getBoundingClientRect().height);
-    }
     var strings = {};
     for (var i = 0; i < 1440; i += divisions) {
       let hourMath = i % 60 === 0 ? i : i - (i % 60);
@@ -47,11 +43,8 @@ const TimeTable2 = () => {
       strings[i] = `${hour}:${minute}`;
     }
     setTimeStrings(strings);
-  }, [heightRef.current, divisions, timeblockContext.reloadTimeblocks]);
+  }, [divisions, timeblockContext.reloadTimeblocks]);
 
-  const addNewBlock = (block) => {
-    setData([...data, block]);
-  };
 
   function timeLoop() {
     var timerows = [];
@@ -63,70 +56,25 @@ const TimeTable2 = () => {
       }
       let minute = i % 60;
       minute = minute === 0 ? "00" : minute;
-      timerows.push(`${hour}:${minute}`);
+      timerows.push({
+        time: `${hour}:${minute}`,
+        minutes: i,
+      });
     }
     return timerows;
   }
-
-  function fill(day, colNum) {
-    let cells = [];
-    for (var i = 0; i < 1440; i += divisions) {
-      let found = false;
-      for (let datum of data) {
-        if (datum.time === i && datum.dow === day) {
-          found = true;
-          cells.push(
-            <Cells
-              key={datum.title}
-              row={i}
-              col={colNum}
-              data={datum}
-              timeStrings={timeStrings}
-              height={cellHeight}
-              div={divisions}
-              addNewBlock={addNewBlock}
-            />
-          );
-          if (datum.duration > divisions) {
-            i += datum.duration - divisions;
-          }
-        }
-      }
-      if (!found) {
-        cells.push(
-          <Cells
-            key={i}
-            row={i}
-            col={colNum}
-            data={{
-              _id: null,
-              title: "",
-              body: "",
-              dow: day,
-              time: i,
-              duration: divisions,
-              category: null,
-            }}
-            timeStrings={timeStrings}
-            height={cellHeight}
-            div={divisions}
-            addNewBlock={addNewBlock}
-          />
-        );
-      }
+  const getWeekDaysUTC = (theWeek) => {
+    const dow = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    let week = []
+    const sunday = new Date(theWeek);
+    for (let i = 0; i < dow.length; i++) {
+        week.push({
+            day: dow[i],
+            date: new Date(sunday.getTime() + timeInDay * i)
+        });
     }
-    return cells;
-  }
-
-  const dow = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+    return week;
+}
   return (
     <table className="table-blockz">
         <colgroup>
@@ -135,7 +83,7 @@ const TimeTable2 = () => {
       <thead>
         <tr className="table-row">
           <th className="table-header">Admin</th>
-          {dow.map((day, i) => (
+          {getWeekDaysUTC(timeblockContext.week).map(({ day }, i) => (
             <th key={i} className="table-header">{day}</th>
           ))}
         </tr>
@@ -143,14 +91,25 @@ const TimeTable2 = () => {
       <tbody>
         {timeLoop().map((time, i) => (
           <tr className="table-row">
-            <th className="table-header">{time}</th>
-            <td className="table-data">cell</td>
-            <td className="table-data">cell</td>
-            <td className="table-data">cell</td>
-            <td className="table-data">cell</td>
-            <td className="table-data">cell</td>
-            <td className="table-data">cell</td>
-            <td className="table-data">cell</td>
+            <th className="table-header">{time.time}</th>
+            
+            {getWeekDaysUTC(timeblockContext.week).map((day, i) => {
+              let timeblock = data.find((tb) => {
+                // console.log("day", day.date)
+                // console.log("tb", new Date(tb.date))
+                // check if the date and the time are the same
+                return (
+                  day.date.getDate() === new Date(tb.date).getDate() &&
+                  day.date.getMonth() === new Date(tb.date).getMonth() &&
+                  day.date.getFullYear() === new Date(tb.date).getFullYear() &&
+                  time.minutes === tb.time
+                );
+              });
+              console.log("timeblock", timeblock)
+              return (
+                <td className="table-data" key={i} rowSpan={timeblock ? timeblock.duration / divisions : 1}>{timeblock ? "timebloc" : "cell"}</td>
+              )
+            })}
           </tr>
         ))}
       </tbody>
