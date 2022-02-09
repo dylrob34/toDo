@@ -43,6 +43,14 @@ const TimeBlock = (props) => {
         },
     ]
 
+    const catsTest = [
+        {
+            name: "toDo",
+            size: 8,
+            color: [52, 180, 135]
+        }
+    ]
+
 
     useEffect(() => {
         if (load) {
@@ -116,6 +124,41 @@ const TimeBlock = (props) => {
         })
     }
 
+    const buildPieDate = () => {
+        const totalDuration = 1440 * 7;
+        let slices = [];
+        let cats = {};
+        // create json object of categories and their total time in the week
+        for (const week of Object.keys(timeblocks)) {
+            for (const timeblock of Object.keys(timeblocks[week])) {
+                let tempBlock = timeblocks[week][timeblock];
+                let tempCatId = tempBlock.category;
+                if (tempCatId !== null) {
+                    let tempCat = categories.find((e) => e._id === tempCatId);
+                    if (tempCat === undefined) continue;
+                    if (cats[tempCat.title] === undefined) {
+                        cats[tempCat.title] = {color: tempCat.color, duration: tempBlock.duration};
+                    } else {
+                        cats[tempCat.title] = {...cats[tempCat.title], duration: cats[tempCat.title].duration + tempBlock.duration};
+                    }
+                }
+            }
+        }
+
+        // create array of objects to input to the pie chart
+        for (const category of Object.keys(cats)) {
+            let duration = cats[category].duration;
+            let color = cats[category].color;
+            slices.push({
+                name: category,
+                size: Math.round(duration / (1440 * 7) * 360),
+                color: [parseInt(color["r"]), parseInt(color["g"]), parseInt(color["b"])]
+            });
+        }
+        console.log(slices);
+        return slices;
+    }
+
 
     return (
         <div>
@@ -147,7 +190,7 @@ const TimeBlock = (props) => {
                     <section className='bottom'>
                         <div className='page-element' style={{width: "100%", height: "100%"}}>
                             {/* Placeholder for Metrics component 1 */}
-                            <PieChart categories={cats} width={800} height={800} font={"25px arial"}/>
+                            <PieChart categories={buildPieDate()} width={800} height={800} font={"25px arial"}/>
                         </div>
                         <div className='page-element' style={{backgroundColor: 'green', width: "100%", height: "100%" }}>
                             {/* Placeholder for Metrics component 2 */}

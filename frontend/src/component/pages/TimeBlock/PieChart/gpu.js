@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CheckWebGPU = exports.createIntBuffer = exports.createBuffer = exports.initGPU = void 0;
+exports.CheckWebGPU = exports.createUIntBuffer = exports.createBuffer = exports.initGPU = void 0;
 function initGPU(canvasName) {
     return __awaiter(this, void 0, void 0, function* () {
         const canvas = document.getElementById(canvasName);
@@ -38,17 +38,17 @@ function createBuffer(device, data, usageFlag = 32 | 8) {
     return buffer;
 }
 exports.createBuffer = createBuffer;
-function createIntBuffer(device, data, usageFlag = 32 | 8) {
+function createUIntBuffer(device, data, usageFlag = 32 | 8) {
     const buffer = device.createBuffer({
         size: data.byteLength,
         usage: usageFlag,
         mappedAtCreation: true
     });
-    new Int32Array(buffer.getMappedRange()).set(data);
+    new Uint32Array(buffer.getMappedRange()).set(data);
     buffer.unmap();
     return buffer;
 }
-exports.createIntBuffer = createIntBuffer;
+exports.createUIntBuffer = createUIntBuffer;
 function CheckWebGPU() {
     let result = "Great, your current browser supports WebGPU!";
     if (!navigator.gpu) {

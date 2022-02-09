@@ -69,18 +69,14 @@ function createWedge(start, current, resolution) {
     return vertexs;
 }
 function getWedgeColorVertexs(start, size, resolution, color) {
-    let colors = [];
-    let vertexs = [];
     let wedge = createWedge(start, size, resolution);
-    for (var j = 0; j < wedge.length; j++) {
-        if (j % 2 == 0) {
-            colors.push(color[0]);
-            colors.push(color[1]);
-            colors.push(color[2]);
-        }
-        vertexs.push(wedge[j]);
+    let colors = new Uint8Array(wedge.length * 3 / 2);
+    for (var i = 0; i < colors.length; i += 3) {
+        colors[i] = color[0];
+        colors[i + 1] = color[1];
+        colors[i + 2] = color[2];
     }
-    return [colors, vertexs];
+    return [colors, wedge];
 }
 function rgbToHex(color) {
     let hex = "#";
@@ -109,7 +105,7 @@ function renderText(categories, width, height, font) {
             textContext.closePath();
             textContext.fillStyle = "white";
             textContext.font = font;
-            textContext.fillText(categories[i].name, width / 4 + 30, (elementHeight * (i + 1)) + 10);
+            textContext.fillText(categories[i].name + " " + categories[i].size + "%", width / 4 + 30, (elementHeight * (i + 1)) + 10);
         }
     }
 }
@@ -141,8 +137,8 @@ function pieChart(categories, resolution, defaultColor, MSAASamples, font) {
         for (var i = 0; i < categories.length; i++) {
             if (categories[i].size > 180) {
                 const categorySize = categories[i].size;
-                const min = Math.floor(categorySize / 90);
-                const remainder = categorySize % 90;
+                const min = Math.floor(categorySize / 180);
+                const remainder = categorySize % 180;
                 let wedges;
                 if (remainder === 0) {
                     wedges = min;
@@ -151,33 +147,33 @@ function pieChart(categories, resolution, defaultColor, MSAASamples, font) {
                     wedges = min + 1;
                 }
                 for (let j = 0; j < wedges; j++) {
-                    let size = 90;
+                    let size = 180;
                     if (j === wedges - 1) {
                         size = remainder;
                     }
                     const colorVerts = getWedgeColorVertexs(currentStart, size, resolution, categories[i].color);
-                    colorVerts[0].map((value) => {
-                        colors.push(value);
-                    });
-                    colorVerts[1].map((value) => {
-                        vertexs.push(value);
-                    });
+                    for (const c of colorVerts[0]) {
+                        colors.push(c);
+                    }
+                    for (const v of colorVerts[1]) {
+                        vertexs.push(v);
+                    }
                     currentStart += size;
                 }
             }
             else {
                 const colorVerts = getWedgeColorVertexs(currentStart, categories[i].size, resolution, categories[i].color);
-                colorVerts[0].map((value) => {
-                    colors.push(value);
-                });
-                colorVerts[1].map((value) => {
-                    vertexs.push(value);
-                });
+                for (const c of colorVerts[0]) {
+                    colors.push(c);
+                }
+                for (const v of colorVerts[1]) {
+                    vertexs.push(v);
+                }
             }
             currentStart += categories[i].size;
         }
         const vertexBuffer = (0, gpu_1.createBuffer)(device, Float32Array.from(vertexs));
-        const colorBuffer = (0, gpu_1.createBuffer)(device, Float32Array.from(colors));
+        const colorBuffer = (0, gpu_1.createBuffer)(device, Float32Array.from(colors).map((e) => { return e / 255; }));
         const shader = (0, shaders_1.Shaders)();
         const pipeline = device.createRenderPipeline({
             vertex: {
