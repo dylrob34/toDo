@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../../../context/TimeBlockContext';
 import { post } from "../../../../tools/request";
-import Cells from './Cells';
+import Cell from './Cell';
 import TimeCell from './TimeCell'; // Don't know if need a different type of cell component for the Admin col, but its late and I didnt want to think.
 import { Dropdown, Option } from '../../../layout/Dropdown';
 import { getTodayUTC, getWeekDaysUTC } from "../../../../tools/time";
@@ -47,12 +47,12 @@ const TimeTable2 = (props) => {
             }
             let minute = i % 60;
             minute = (minute === 0) ? "00" : minute;
-            timerows.push(< TimeCell key={i} time={`${hour}:${minute}`} row={i / divisions} setHeight={setCellHeight}/>)
+            timerows.push([< TimeCell key={i} time={`${hour}:${minute}`} row={i / divisions} setHeight={setCellHeight}/>, i])
         }
         return timerows
     }
 
-    function fill(day, colNum) {
+    function getDaysTimeblocks(day, colNum) {
         const defaultData = {
             _id: null,
             title: '',
@@ -72,50 +72,83 @@ const TimeTable2 = (props) => {
                 parsedData = ({...parsedData, [data[colNum][d].time]: data[colNum][d]})
             });
         }
-        for (let i = 0; i < 1440 / divisions - usedCellsCount; i++) {
+        let i = 0;
+        while (i < 1440 / divisions) {
+            console.log(i);
             let currentData = parsedData[i * divisions];
             if (currentData === undefined) {
-                cells.push(<Cells key={i} {...props} row={i} col={colNum} data={{...defaultData, time: i * divisions}} timeStrings={timeStrings} height={cellHeight} divisions={divisions}/>);
+                cells.push(<Cell key={colNum} {...props} row={i} col={colNum} data={{...defaultData, time: i * divisions}} timeStrings={timeStrings} height={cellHeight} divisions={divisions}/>);
+                i++;
             } else {
-                cells.push(<Cells key={i} {...props} row={i} col={colNum} data={currentData} timeStrings={timeStrings} height={cellHeight} divisions={divisions}/>)
+                cells.push(<Cell key={colNum} {...props} row={i} col={colNum} data={currentData} timeStrings={timeStrings} height={cellHeight} divisions={divisions}/>)
+                //if (parseInt(currentData.duration) > divisions) {
+                    for (let j = 1; j < parseInt(currentData.duration) / divisions; j++) {
+                        console.log("pushing null");
+                        cells.push(null);
+                        i++
+                    }
+                //}
+                i++;
             }
         }
         return cells;
     }
 
+    const fillTable = () => {
+        // get columns time cells
+        let columns = [];
+        getWeekDaysUTC(props.week).forEach((day, i) => {
+            columns.push(getDaysTimeblocks(day, i));
+        })
+        console.log(columns);
+        // fill each row with proper cells
+        let rows = [];
+        timeLoop().map((time, i) => {
+            let cells = [];
+            for (let j = 0; j < columns.length; j++) {
+                cells.push(columns[j][i])
+            }
+
+            rows.push(
+                <tr className="table-row">
+                  <th>{time[0]}</th>
+                    {
+                        cells.map((e) => {if (e !== null) return e})
+                    }
+                </tr>
+            );
+        })
+        
+        return rows;
+    }
+    
     return (
-            <div className='table-blockz'>
-                <div className='table-col' name='admin'>
-                        <div>
-                            <Dropdown first={<div className="table-row increment-cell">Increments</div>}>
-                                    <Option
-                                    clicked={clicked}
-                                    key={1}
-                                    value={15}
-                                    />
-                                    <Option
-                                    clicked={clicked}
-                                    key={2}
-                                    value={30}
-                                    />
-                            </Dropdown>
-                        </div>
-                    {timeLoop()}
-                </div>
-                {
-                    getWeekDaysUTC(props.week).map((day, index) => {
-                        return (
-                            <div className="table-col" key={index}>
-                                <div className="table-row admin-cell" style={day.date.getTime() === getTodayUTC() ? {color: "#34b487"} : {}}>
-                                    {`${day.day}`}
-                                </div>
-                                {fill(day, index)}
-                            </div>
-                        )
-                    })
-                }
-            </div>
-    )
+        <table className="table-blockz">
+            <colgroup>
+                <col className="table-admin-col"/>
+            </colgroup>
+          <thead>
+            <tr className="table-row">
+              <th className="table-header">Admin</th>
+              {getWeekDaysUTC(props.week).map((day, i) => (
+                <th key={i} className="table-header" style={day.date.getTime() === getTodayUTC() ? {color: "#34b487"} : {}}>{day.day}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {fillTable()}
+          </tbody>
+        </table>
+      );
 }
+
+/*
+timeLoop().map((time) => (
+              <tr className="table-row">
+                <th>{time[0]}</th>
+                {fillRow(time[1])}
+              </tr>
+            ))
+            */
 
 export default TimeTable2;

@@ -15,11 +15,12 @@ import TimeBlock from './component/pages/TimeBlock/TimeBlock';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './Signup.css';
-import 'react-calendar/dist/Calendar.css'
+// import 'react-calendar/dist/Calendar.css';
+import './CustomCalendar.css';
 import { TimeBlockProvider } from './context/TimeBlockContext';
 
 
-const domain = "http://localhost"
+const domain = "http://localhost:3001"
 
 function App() {
   

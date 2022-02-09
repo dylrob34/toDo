@@ -66,8 +66,6 @@ const Task = ({ task }) => {
             })
     }
 
-    // 61d7899843e9e72ee83dde79
-
     function onBucket(e) {
         setBuckets(e.target.value)
     }
@@ -168,7 +166,7 @@ const Task = ({ task }) => {
                                     {dueDate !== null ? getDayString(dueDate) : "No Due Date"}
                                 </div>
                             </div>
-                            {calendar ? <div>
+                            {calendar ? <div className='react-calendar-modal'>
                                 <CalendarComponent save={(dd) => editTask(title, body, completeTask, dd)} dueDate={dueDate}/>
                             </div> : ''}
                         </div>

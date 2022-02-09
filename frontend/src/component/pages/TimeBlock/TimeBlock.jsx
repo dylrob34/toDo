@@ -155,7 +155,6 @@ const TimeBlock = (props) => {
                 color: [parseInt(color["r"]), parseInt(color["g"]), parseInt(color["b"])]
             });
         }
-        console.log(slices);
         return slices;
     }
 

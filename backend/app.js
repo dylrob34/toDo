@@ -20,7 +20,7 @@ const timeblockingRouter = require("./api/timeblocking");
 const categoriesRouter = require("./api/categories");
 
 const app = express();
-const port = 80;
+const port = 3001;
 
 app.use(express.static(__dirname + '/build'));
 

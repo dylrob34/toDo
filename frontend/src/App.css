@@ -1305,14 +1305,38 @@ cursor: pointer;
   cursor: pointer;
 }
 
-/* TimeBlock section  */
+
+/* TimeBlock section POST Kanishq */
 
 .table-blockz {
-  /* border: 1px solid black; */
-  display: flex;
-  z-index: 0;
-  width: 80%;
-  height: 75%;
+  margin-top: 1rem;
+  table-layout: fixed;
+  width: 60rem;
+}
+
+.table-blockz, .table-data, .table-header {
+  border: 1px solid var(--top-gray2);
+  padding: 0.5rem;
+  color: var(--text-gray1);
+  border-collapse: collapse;
+}
+
+.table-data, .table-header {
+  width: calc(100% / 7);
+}
+
+.table-data {
+  padding: 0.5rem;
+}
+
+.table-header {
+  padding: 0.4rem 1rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.table-header {
+  background-color: var(--mid-gray);
 }
 
 .table-col {
@@ -1324,19 +1348,12 @@ cursor: pointer;
   clear: both;
   /* border: solid 1px black; */
 }
-.table-row {
-  display: flex;
-  width: 100%;
-  border: 1px solid gray;
-}
+
 .table-row-drag {
   display: flex;
   width: 100%;
   border: 1px solid gray;
   background-color: var(--accent-green);
-}
-.table-row:hover {
-  /* background-color: var(--accent-green); */
 }
 
 .table-fill {
@@ -1410,3 +1427,105 @@ cursor: pointer;
   cursor: n-resize;
   color: transparent;
 }
+
+/* TimeBlock section  PRE Kanishq */
+
+/* 
+.table-blockz {
+  display: flex;
+  z-index: 0;
+  width: 80%;
+  height: 75%;
+}
+
+.table-col {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  margin-top: 20px;
+  clear: both;
+}
+.table-row {
+  display: flex;
+  width: 100%;
+  border: 1px solid gray;
+}
+.table-row-drag {
+  display: flex;
+  width: 100%;
+  border: 1px solid gray;
+  background-color: var(--accent-green);
+}
+
+.table-fill {
+  color: white;
+  user-select: none;
+}
+
+.admin-cell {
+  display: flex;
+  justify-content: center;
+  color: var(--text-gray1);
+  cursor: default;
+}
+.increment-cell {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  color: var(--text-gray1);
+}
+.increment-cell:hover{
+  color: var(--primary-green);
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  color: white;
+}
+
+.cell:hover {
+  background-color: var(--primary-green);
+}
+.readonly-cell {
+  position: relative;
+  text-align: left;
+  height: 100%;
+  width: 100%;
+  color: white;
+  margin: 0;
+  padding: 1px;
+  line-height: normal;
+  vertical-align: middle;
+  font-size: 0.9rem;
+}
+
+.editable-cell {
+  all: unset;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  margin: 0;
+  padding: 1px;
+  vertical-align: middle;
+  line-height: normal;
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.draggable-div {
+  position: relative;
+  width: 100%;
+  height: 5px;
+  color: transparent;
+}
+.draggable-div:hover {
+  cursor: n-resize;
+  color: transparent;
+}
+ */

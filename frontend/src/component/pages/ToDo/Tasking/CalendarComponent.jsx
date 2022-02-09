@@ -13,7 +13,8 @@ const CalendarComponent = (props) => {
       setDate(updateDate);
     }
 
-  return <div>
+  return <div className='react-calendar-size'>
+    <div className='react-calendar-modal-arrow'></div>
       <Calendar 
         onChange={setValue}
         value={date}
