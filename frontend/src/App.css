@@ -1311,10 +1311,10 @@ cursor: pointer;
 .table-blockz {
   margin-top: 1rem;
   table-layout: fixed;
-  width: 60rem;
+  width: 68rem;
 }
 
-.table-blockz, .table-data, .table-header {
+.table-blockz, .table-data, .table-header, .time-cell {
   border: 1px solid var(--top-gray2);
   padding: 0.5rem;
   color: var(--text-gray1);
@@ -1414,6 +1414,36 @@ cursor: pointer;
   font-size: 0.9rem;
   text-align: left;
   cursor: pointer;
+}
+
+.table-navigator {
+  display: flex;
+  justify-content: center;
+  font-size: 1.3rem;
+  align-items: center;
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.table-nav-btn, .table-nav-today {
+  outline: none;
+  border: none;
+  fill: white;
+  margin: 0 0.3rem;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 0.3rem 0.5rem;
+  transition: ease-in-out 0.2s;
+  color: white;
+}
+
+.current-week {
+  color: white;
+  font-size: 1.5rem;
+}
+
+.table-nav-btn:hover, .table-nav-today:hover {
+  background-color: var(--mid-gray2);
 }
 
 .draggable-div {
