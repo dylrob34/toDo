@@ -5,21 +5,22 @@ import { ToDoProvider } from './context/ToDoContext';
 import { getToken, login, logout, setLoggedInCallback} from './context/loggedInState';
 import { AddTaskProvider } from './context/AddTaskContext';
 import {get} from "./tools/request";
-import Landing from './component/pages/About/Landing';
 import SignUp from './component/pages/SignUp/SignUp';
 import { LoginPage } from './component/pages/Login/Login';
 import NavBar from './component/layout/NavBar';
 import ToDo from './component/pages/ToDo/ToDo';
 import TimeBlock from './component/pages/TimeBlock/TimeBlock';
+import Landing from './component/pages/About/Landing.jsx';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './Signup.css';
-import 'react-calendar/dist/Calendar.css'
+// import 'react-calendar/dist/Calendar.css';
+import './CustomCalendar.css';
 import { TimeBlockProvider } from './context/TimeBlockContext';
 
 
-const domain = "http://localhost"
+const domain = "http://localhost:3001"
 
 function App() {
   

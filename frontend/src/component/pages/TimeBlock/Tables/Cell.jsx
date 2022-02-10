@@ -1,79 +1,217 @@
-import React, {useState, useEffect, useRef, Fragment} from 'react'
-import PopupEditBlock from './tools/PopupEditBlock';
- /******************************
-  * WE ARE NOT USING THIS FILE *
-  ******************************/
-const Cell = ({data, height, div, timeStrings}) => {
-    const [title, setTitle] = useState(data.title);
-    const [body, setBody] = useState(data.body);
-    const [dow, setDow] = useState(data.dow);
-    const [time, setTime] = useState(data.tiem);
-    const [duration, setDuration] = useState(data.duration);
+import React, { useState, useEffect, useRef } from 'react'
+import { post } from '../../../../tools/request';
+import { getDOWFromUTC } from '../../../../tools/time';
+import PopupEditBlock from '../Popup/PopupEditBlock';
+import { getTableData, setInitialValues, clearInitialValues, getInitialValues, setCurrentData, getCurrentData } from './TableData';
+
+
+const Cells = (props) => {
+    const [category, setCategory] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [middle, setMiddle] = useState(0);
     const [right, setRight] = useState(0);
-    const topRef = useRef(null);
+    const [bottom, setBottom] = useState(0);
+    const [top, setTop] = useState(0);
+    const [left, setLeft] = useState(0);
+    const [popup, setPopup] = useState(false);
+    const cellRef = useRef(null);
 
+    const data = props.data;
+    const categories = props.categories;
+    const divisions = props.divisions
+    const col = props.col;
+    const row = props.row;
+    const height = props.height;
+    const timeStrings = props.timeStrings;
+
+    // Gets the reference to the DOM cell object and calcs the middle height at the right side
     useEffect(() => {
-        if (topRef.current !== null) {
-            const rect = topRef.current.getBoundingClientRect();
+        for (const cat of categories) {
+            if (data.category === cat._id) {
+                setCategory(cat);
+            }
+        }
+
+        if (cellRef.current !== null) {
+            const rect = cellRef.current.getBoundingClientRect();
             setMiddle(Math.floor((rect.top + rect.bottom) / 2));
             setRight(rect.right)
+            setBottom(rect.bottom + window.scrollY);
+            setTop(rect.top + window.scrollY);
+            setLeft(rect.left);
         }
-    }, [topRef.current]);
 
-    const setData = (newData) => {
-        setTitle(newData.title);
-        setBody(newData.body);
-        setDow(newData.dow);
-        setTime(newData.time);
-        setDuration(newData.duration);
+    }, [cellRef.current, props.data]);
+
+    const create = (newData) => {
+        post("/api/timeblocking/createTimeblock", { ...newData })
+            .then((res) => {
+                if (res.error === true) {
+                    alert(`Error Creating new Timeblock\n${res.message}`);
+                    return;
+                }
+                props.editBlock(newData, { ...newData, _id: res.timeblock._id }, null);
+            })
     }
 
-    const setPopup = () => {
-        return;
+    const save = (key, value) => {
+        const updatedData = { ...data, [key]: value }
+        if (data._id === null) {
+            props.editBlock(data, { ...updatedData, _id: "temp" }, key);
+            create(updatedData);
+            return;
+        }
+        if (data._id === "temp") return;
+        props.editBlock(data, updatedData, key);
+        post("/api/timeblocking/editTimeblock", {
+            ...data,
+            [key]: value
+        })
+            .then((res) => {
+                if (res.error === true) {
+                    alert(`Error saving your changes.\n${res.message}`)
+                    return;
+                }
+            })
     }
 
+    const deleteCell = () => {
+        props.deleteBlock(getDOWFromUTC(data.date), data.time);
+        post("/api/timeblocking/deleteTimeblock", { _id: data._id })
+            .then((res) => {
+                if (res.error === true) {
+                    alert(`Error deleting this TimeBlock\n${res.message}`);
+                }
+            })
+    }
+
+    // Shows popup if you are focused on any child of the parent div (allows popup to stay active while you click around it)
     const handleBlur = e => {
         const currentTarget = e.currentTarget;
+        console.log(cellRef.current.getElementsByTagName("div"))
+        console.log(currentTarget);
 
         setTimeout(() => {
-            if (!currentTarget.contains(document.activeElement)) {
-                editBlock(false);
+            if (!cellRef.current.contains(currentTarget)) {
+                console.log("not editing")
+                setIsEditing(false);
+                setPopup(false);
             }
         })
     }
-    
-    function editBlock(edit) {
-        setIsEditing(edit);
+
+    const checkEnter = (e) => {
+        if (e.keyCode === 13) {
+            if (data._id === null) {
+                create();
+            } else {
+            }
+        }
     }
-    console.log(`Text Height: ${height * duration / div}`)
-    const cellHeight = height * duration / div;
+
+    const saveNoUpdate = () => {
+        const currentData = getCurrentData();
+        post("/api/timeblocking/editTimeblock", {
+            ...currentData
+        })
+            .then((res) => {
+                if (res.error === true) {
+                    alert(`Error saving your changes.\n${res.message}`)
+                    return;
+                }
+            })
+    }
+
+    const dragUp = (row, initValues) => {
+        console.log(row);
+        console.log(row*15);
+        console.log(initValues.duration + ((initValues.row - row) * 15))
+        props.editBlock({ ...initValues}, { ...initValues, time: row*15, duration: initValues.duration + ((initValues.row - row) * 15)}, "time");
+    }
+
+    const dragDown = (row, initValues) => {
+        props.editBlock(initValues, {...initValues, duration: (row - initValues.row) * 15 + 15})
+    }
+
+    const dragUpp = (e) => {
+        const timeCells = getTableData();
+        const y = e.clientY;
+        let count = 0;
+        const initValues = getInitialValues();
+        let time = initValues.time;
+        let duration = initValues.duration;
+        for (const cell of timeCells) {
+            if (cell.bottom <= bottom && cell.top < y && cell.bottom > y) {
+                count = row - cell.row;
+                time = time - count * divisions;
+                console.log(time);
+                duration = duration + count * divisions;
+                break;
+            }
+        }
+        setCurrentData({ ...initValues, time, duration });
+    }
+
+    const dragDownp = (e) => {
+        const timeCells = getTableData();
+        const y = e.clientY;
+        let count = 0;
+        const initValues = getInitialValues();
+        let duration = initValues.duration;
+        for (const cell of timeCells) {
+            if (cell.top >= top && cell.top < y && cell.bottom > y) {
+                count = cell.row - row;
+                duration = (count + 1) * divisions;
+                break;
+            }
+        }
+        setCurrentData({ ...initValues, duration });
+        props.editBlock(initValues, { ...initValues, duration }, "duration");
+    }
+
+    const onMouseEnter = (i) => {
+        props.setDraggedOverRow(row + i)
+    }
+
+    const getDragListeners = () => {
+        let listeners = [];
+        for (let i = 0; i < data.duration / 15; i++) {
+            listeners.push(
+                <div key={i} class="drag-listener" onMouseEnter={() => onMouseEnter(i)} style={{width: right-left, height: ((bottom-top) / (data.duration / 15)), top: top + (bottom-top) / (data.duration/15) * i}}/>
+                )
+        }
+        return listeners
+    }
+    //rgb(" + category.color.r + ", " + category.color.g + ", " + category.color.b + ")"
     return (
-        <div className="table-row" ref={topRef} style={{minHeight: `${cellHeight-2}px`}} onClick={() => editBlock(true)} onBlur={handleBlur}>
-            {
-                isEditing ?
-                    <div>
-                        <div className='draggable-div'> </div>
-                        <input
+        <td className="table-data" ref={cellRef} rowSpan={data.duration / divisions} style={{ backgroundColor: `${category === null ? "" : "rgb(" + category.color.r + ", " + category.color.g + ", " + category.color.b + ")"}` }} onClick={() => setIsEditing(true)} onBlur={handleBlur} onDoubleClick={() => setPopup(true)}>
+            { isEditing ?
+                <div className="cell">
+                    {getDragListeners()}
+                    <div className="draggable-div" onMouseDown={() => props.startDragging({...data, row}, dragUp)}></div>
+                    <input
                         autoFocus
                         type="text"
                         className="editable-cell"
-                        name="title" 
+                        name="title"
                         id="title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}>
-                            </input>
-                            <PopupEditBlock cell={true} s={{top: middle-48, left: right+4}} data={{title, body, dow, time, duration}} timeStrings={timeStrings} setData={setData} setPopup={setPopup} className='popup-timeblock'/>
-                        <div className="draggable-div"></div>
-                    </div>
-                : 
-                    <div title={title} onFocus={editBlock} className='readonly-cell'>{title}</div>
+                        value={data.title}
+                        onChange={(e) => { save("title", e.target.value) }}>
+                    </input>
+                    {popup ?
+                        <PopupEditBlock {...props} cell={true} s={{ top: middle - 150, left: right + 4 }} data={data} timeStrings={timeStrings} save={save} deleteCell={deleteCell} className='popup-timeblock' />
+                        :
+                        null}
+                    <div className="draggable-div" onMouseDown={() => props.startDragging({...data, row}, dragDown)}></div>
+                </div>
+                :
+                <div className="cell-notediting">
+                    {getDragListeners()}
+                    {data.title}
+                </div>
             }
-        </div>
+        </td>
     )
 }
 
-
-export default Cell
-
+export default Cells

@@ -35,7 +35,7 @@ body,
 #root,
 .App {
   display: flex;
-  flex: 1 0 auto;
+  flex: 1 1 auto;
 }
 
 .App {
@@ -762,6 +762,86 @@ border: transparent;
 
 /* -------------------------- */
 
+/* Landing Page Styling */
+
+.landing-page {
+  background-color: var(--midnight-layer1);
+}
+
+.landing-section{
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: center;
+}
+
+.landing-section1{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 180px 30px 30px 30px;
+}
+.landing-section2{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 120px 30px 30px 30px;
+  margin-top: 320px;
+}
+
+.landing-element{
+  color: white;
+}
+
+.landing-item{
+color: white;
+font-family: "Inter", sans-serif;
+font-weight: 300;
+font-size:  2rem;
+}
+.landing-taskpanel-header-pos{
+  position: relative;
+  transform: translateX(-200px) translateY(-150px);
+}
+.landing-item-F {
+color: var(--primary-green);
+font-family: "Inter", sans-serif;
+font-weight: 400;
+}
+.landing-item-T {
+font-family: "Inter", sans-serif;
+font-weight: 400;
+transform: translateX(150px);
+}
+.landing-item-taskpanel-text{
+  text-align: left;
+  padding: 50px 0px 0px 150px;
+  width: 350px;
+  font-weight: 300;
+  font-size: 1.75rem;
+  color: rgb(112,112,112);
+}
+.landing-logo{
+  width: 400px;
+  height: 400px;
+  cursor: pointer;
+}
+.landing-call2action{
+  font-family: "Inter", sans-serif;
+  font-size: 32px;
+  margin: 200px 0px 0px 0px;
+}
+.landing-btn-signup{
+  margin: 120px 0px 0px 0px;
+}
+.landing-tasks-image{
+  width: 500px;
+  height: 400px;
+  position: relative;
+  transform: translateX(100px) translateY(-75px);
+}
 /* Side Bar styling */
 .left-sidebar-sm {
   position: relative;
@@ -1305,10 +1385,185 @@ cursor: pointer;
   cursor: pointer;
 }
 
-/* TimeBlock section  */
+
+/* TimeBlock section POST Kanishq */
 
 .table-blockz {
-  /* border: 1px solid black; */
+  margin-top: 1rem;
+  table-layout: fixed;
+  width: 68rem;
+}
+
+.table-blockz, .table-data, .table-header, .time-cell {
+  border: 1px solid var(--top-gray2);
+  color: var(--text-gray1);
+  border-collapse: collapse;
+}
+
+.table-data, .table-header {
+  width: calc(100% / 7);
+}
+
+.table-data {
+  height: 1px;
+}
+
+.table-data input {
+  display: flex;
+}
+
+.table-header {
+  padding: 0.4rem 1rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.table-header {
+  background-color: var(--mid-gray);
+}
+
+.table-col {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  margin-top: 20px;
+  clear: both;
+  /* border: solid 1px black; */
+}
+
+.table-row-drag {
+  display: flex;
+  width: 100%;
+  border: 1px solid gray;
+  background-color: var(--accent-green);
+}
+
+.table-fill {
+  color: white;
+  user-select: none;
+}
+
+.admin-cell {
+  display: flex;
+  justify-content: center;
+  color: var(--text-gray1);
+  cursor: default;
+}
+.increment-cell {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  color: var(--text-gray1);
+}
+.increment-cell:hover{
+  color: var(--primary-green);
+}
+
+.time-cell {
+  padding: 5px 0px 5px 0px;
+}
+
+.cell {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  color: white;
+}
+
+.cell-notediting {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  color: white;
+}
+
+.cell:hover {
+  background-color: var(--primary-green);
+}
+.readonly-cell {
+  position: relative;
+  text-align: left;
+  height: 100%;
+  width: 100%;
+  color: white;
+  margin: 0;
+  padding: 1px;
+  line-height: normal;
+  vertical-align: middle;
+  font-size: 0.9rem;
+}
+
+.editable-cell {
+  all: unset;
+  outline: none;
+  flex-grow: 1;
+  width: 100%;
+  margin: 0;
+  vertical-align: middle;
+  line-height: normal;
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.table-navigator {
+  display: flex;
+  justify-content: center;
+  font-size: 1.3rem;
+  align-items: center;
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.table-nav-btn, .table-nav-today {
+  outline: none;
+  border: none;
+  fill: white;
+  margin: 0 0.3rem;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 0.3rem 0.5rem;
+  transition: ease-in-out 0.2s;
+  color: white;
+  background-color: inherit;
+  display: flex;
+  align-items: center;
+}
+
+.current-week {
+  color: white;
+  font-size: 1.5rem;
+  margin: 0.8rem 0 0;
+}
+
+.table-nav-btn:hover, .table-nav-today:hover {
+  background-color: var(--mid-gray2);
+}
+
+.draggable-div {
+  width: 100%;
+  height: 5px;
+  z-index: 1000;
+}
+.draggable-div:hover {
+  cursor: n-resize;
+  color: transparent;
+}
+
+
+.drag-listener {
+  position: absolute;
+}
+
+/* TimeBlock section  PRE Kanishq */
+
+/* 
+.table-blockz {
   display: flex;
   z-index: 0;
   width: 80%;
@@ -1322,7 +1577,6 @@ cursor: pointer;
   height: 100%;
   margin-top: 20px;
   clear: both;
-  /* border: solid 1px black; */
 }
 .table-row {
   display: flex;
@@ -1334,9 +1588,6 @@ cursor: pointer;
   width: 100%;
   border: 1px solid gray;
   background-color: var(--accent-green);
-}
-.table-row:hover {
-  /* background-color: var(--accent-green); */
 }
 
 .table-fill {
@@ -1400,7 +1651,6 @@ cursor: pointer;
 }
 
 .draggable-div {
-  /* border-bottom: solid 1px yellow; */
   position: relative;
   width: 100%;
   height: 5px;
@@ -1410,3 +1660,4 @@ cursor: pointer;
   cursor: n-resize;
   color: transparent;
 }
+ */
