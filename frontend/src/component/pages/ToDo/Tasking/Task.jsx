@@ -163,7 +163,7 @@ const Task = ({ task }) => {
                             </div>
                             <div className='task-duedate' onClick={toggleCalendar}>
                                 <div className='task-element duedate'>
-                                    {dueDate !== null ? getDayString(dueDate) : "No Due Date"}
+                                    {dueDate !== null ? getDayString(new Date(new Date(dueDate).getTime() + new Date().getTimezoneOffset() * 60000)) : "No Due Date"}
                                 </div>
                             </div>
                             {calendar ? <div className='react-calendar-modal'>

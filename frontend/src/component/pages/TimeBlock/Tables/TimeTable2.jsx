@@ -9,6 +9,9 @@ import TimeCell from "./TimeCell"; // Don't know if need a different type of cel
 import { Dropdown, Option } from "../../../layout/Dropdown";
 import { getTodayUTC, getWeekDaysUTC } from "../../../../tools/time";
 
+let initValues = null;
+let callback = null;
+
 const TimeTable2 = (props) => {
   const [divisions, setDivisions] = useState(30);
   const [military, setMilitary] = useState(false);
@@ -37,6 +40,24 @@ const TimeTable2 = (props) => {
   const clicked = (e) => {
     setDivisions(parseInt(e.target.innerHTML));
   };
+
+  const setDraggedOverRow = (row) => {
+      if (callback !== null) {
+          callback(row, initValues);
+      }
+  }
+
+  const startDragging = (init, call) => {
+      initValues = init;
+      callback = call;
+      document.addEventListener("mouseup", stopDragging);
+  }
+
+  const stopDragging = () => {
+      document.removeEventListener("mouseup", stopDragging)
+      initValues = null;
+      callback = null;
+  }
 
   function timeLoop() {
     var timerows = [];
@@ -83,19 +104,20 @@ const TimeTable2 = (props) => {
     }
     let i = 0;
     while (i < 1440 / divisions) {
-      console.log(i);
       let currentData = parsedData[i * divisions];
       if (currentData === undefined) {
         cells.push(
           <Cell
             key={colNum}
             {...props}
-            row={i}
+            row={i * divisions / 15}
             col={colNum}
             data={{ ...defaultData, time: i * divisions }}
             timeStrings={timeStrings}
             height={cellHeight}
             divisions={divisions}
+            setDraggedOverRow={setDraggedOverRow}
+            stopDragging={stopDragging}
           />
         );
         i++;
@@ -104,12 +126,15 @@ const TimeTable2 = (props) => {
           <Cell
             key={colNum}
             {...props}
-            row={i}
+            row={i * divisions / 15}
             col={colNum}
             data={currentData}
             timeStrings={timeStrings}
             height={cellHeight}
             divisions={divisions}
+            setDraggedOverRow={setDraggedOverRow}
+            startDragging={startDragging}
+            stopDragging={stopDragging}
           />
         );
         //if (parseInt(currentData.duration) > divisions) {
@@ -131,7 +156,6 @@ const TimeTable2 = (props) => {
     getWeekDaysUTC(props.week).forEach((day, i) => {
       columns.push(getDaysTimeblocks(day, i));
     });
-    console.log(columns);
     // fill each row with proper cells
     let rows = [];
     timeLoop().forEach((time, i) => {
