@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+const exports = {};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CheckWebGPU = exports.createUIntBuffer = exports.createBuffer = exports.initGPU = void 0;
 function initGPU(canvasName) {
