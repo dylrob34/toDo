@@ -196,27 +196,27 @@ const TimeBlock = (props) => {
       <div className="page-config">
         <div className="left-sidebar-sm"></div>
         <div className="main" name="table_metrics">
-          <div class="current-week">
+          <div className="current-week">
             Week of{" "}
             {week === null
               ? getCurrentWeekString(getCurrentWeek())
               : getCurrentWeekString(week)}{" "}
           </div>
-          <div class="table-navigator">
+          <div className="table-navigator">
             <button
-              class="table-nav-btn"
+              className="table-nav-btn"
               onClick={() => changeWeek(getPrevWeek(week))}
             >
               <FaAngleDoubleLeft />
             </button>
             <div
-              class="table-nav-today"
+              className="table-nav-today"
               onClick={() => changeWeek(getCurrentWeek())}
             >
               Today
             </div>
             <button
-              class="table-nav-btn"
+              className="table-nav-btn"
               onClick={() => changeWeek(getNextWeek(week))}
             >
               <FaAngleDoubleRight />

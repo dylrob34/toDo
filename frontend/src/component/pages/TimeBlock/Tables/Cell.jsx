@@ -14,9 +14,9 @@ const Cells = (props) => {
     const [top, setTop] = useState(0);
     const [left, setLeft] = useState(0);
     const [popup, setPopup] = useState(false);
+    const [data, setData] = useState(props.data);
     const cellRef = useRef(null);
 
-    const data = props.data;
     const categories = props.categories;
     const divisions = props.divisions
     const col = props.col;
@@ -26,12 +26,12 @@ const Cells = (props) => {
 
     // Gets the reference to the DOM cell object and calcs the middle height at the right side
     useEffect(() => {
+        setData(props.data);
         for (const cat of categories) {
-            if (data.category === cat._id) {
+            if (props.data.category === cat._id) {
                 setCategory(cat);
             }
         }
-
         if (cellRef.current !== null) {
             const rect = cellRef.current.getBoundingClientRect();
             setMiddle(Math.floor((rect.top + rect.bottom) / 2));
@@ -41,7 +41,7 @@ const Cells = (props) => {
             setLeft(rect.left);
         }
 
-    }, [cellRef.current, props.data]);
+    }, [cellRef.current, props.data._id, props.data.duration, props.data.time, props.data.category]);
 
     const create = (newData) => {
         post("/api/timeblocking/createTimeblock", { ...newData })
@@ -87,17 +87,12 @@ const Cells = (props) => {
 
     // Shows popup if you are focused on any child of the parent div (allows popup to stay active while you click around it)
     const handleBlur = e => {
-        const currentTarget = e.currentTarget;
-        console.log(cellRef.current.getElementsByTagName("div"))
-        console.log(currentTarget);
-
-        setTimeout(() => {
-            if (!cellRef.current.contains(currentTarget)) {
-                console.log("not editing")
-                setIsEditing(false);
-                setPopup(false);
-            }
-        })
+        console.log(cellRef.current);
+        console.log(e.target);
+        if (!cellRef.current.contains(e.target) && cellRef.current !== e.target) {
+            setIsEditing(false);
+            setPopup(false);
+        }
     }
 
     const checkEnter = (e) => {
@@ -177,14 +172,21 @@ const Cells = (props) => {
         let listeners = [];
         for (let i = 0; i < data.duration / 15; i++) {
             listeners.push(
-                <div key={i} class="drag-listener" onMouseEnter={() => onMouseEnter(i)} style={{width: right-left, height: ((bottom-top) / (data.duration / 15)), top: top + (bottom-top) / (data.duration/15) * i}}/>
+                <div key={i} className="drag-listener" onMouseEnter={() => onMouseEnter(i)} style={{width: right-left, height: ((bottom-top) / (data.duration / 15)), top: top + (bottom-top) / (data.duration/15) * i}}/>
                 )
         }
         return listeners
     }
+
+    const getBackgroundColor = () => {
+        if (category === null) return null;
+        if (isEditing === true) return null;
+        return "rgb(" + category.color.r + ", " + category.color.g + ", " + category.color.b + ")"
+    }
+
     //rgb(" + category.color.r + ", " + category.color.g + ", " + category.color.b + ")"
     return (
-        <td className="table-data" ref={cellRef} rowSpan={data.duration / divisions} style={{ backgroundColor: `${category === null ? "" : "rgb(" + category.color.r + ", " + category.color.g + ", " + category.color.b + ")"}` }} onClick={() => setIsEditing(true)} onBlur={handleBlur} onDoubleClick={() => setPopup(true)}>
+        <td className="table-data" ref={cellRef} rowSpan={data.duration / divisions} style={{ backgroundColor:  getBackgroundColor()}} onClick={() => setIsEditing(true)} onBlur={handleBlur} onDoubleClick={() => setPopup(true)}>
             { isEditing ?
                 <div className="cell">
                     {getDragListeners()}
@@ -194,8 +196,8 @@ const Cells = (props) => {
                         type="text"
                         className="editable-cell"
                         name="title"
-                        id="title"
                         value={data.title}
+                        onFocus={() => {console.log("setting"); props.setCellCallback(handleBlur, cellRef.current)}}
                         onChange={(e) => { save("title", e.target.value) }}>
                     </input>
                     {popup ?

@@ -11,18 +11,15 @@ import { getTodayUTC, getWeekDaysUTC } from "../../../../tools/time";
 
 let initValues = null;
 let callback = null;
+let currentCellCallback = null;
 
 const TimeTable2 = (props) => {
   const [divisions, setDivisions] = useState(30);
   const [military, setMilitary] = useState(false);
   const [cellHeight, setCellHeight] = useState(0);
-  const heightRef = useRef(null);
   const [timeStrings, setTimeStrings] = useState({});
 
   useEffect(() => {
-    if (heightRef.current !== null) {
-      //setCellHeight(heightRef.current.getBoundingClientRect().height);
-    }
     var strings = {};
     for (var i = 0; i < 1440; i += divisions) {
       let hourMath = i % 60 === 0 ? i : i - (i % 60);
@@ -35,7 +32,29 @@ const TimeTable2 = (props) => {
       strings[i] = `${hour}:${minute}`;
     }
     setTimeStrings(strings);
-  }, [heightRef.current, divisions]);
+  }, [divisions]);
+
+  useEffect(() => {
+    console.log("adding listener");
+    document.addEventListener("click", callCellCallback)
+    return () => {
+      console.log("removing listener")
+      document.removeEventListener("click", callCellCallback);
+    }
+  }, [])
+
+  const callCellCallback = (e) => {
+    console.log("running listener");
+    if (currentCellCallback !== null) {
+      currentCellCallback(e);
+    }
+  }
+
+  const setCellCallback = (cb, target) => {
+    callCellCallback(target)
+    console.log("setting callback");
+    currentCellCallback = cb;
+  }
 
   const clicked = (e) => {
     setDivisions(parseInt(e.target.innerHTML));
@@ -117,7 +136,9 @@ const TimeTable2 = (props) => {
             height={cellHeight}
             divisions={divisions}
             setDraggedOverRow={setDraggedOverRow}
+            startDragging={startDragging}
             stopDragging={stopDragging}
+            setCellCallback={setCellCallback}
           />
         );
         i++;
@@ -135,6 +156,7 @@ const TimeTable2 = (props) => {
             setDraggedOverRow={setDraggedOverRow}
             startDragging={startDragging}
             stopDragging={stopDragging}
+            setCellCallback={setCellCallback}
           />
         );
         //if (parseInt(currentData.duration) > divisions) {
@@ -165,7 +187,7 @@ const TimeTable2 = (props) => {
       }
 
       rows.push(
-        <tr className="table-row">
+        <tr className="table-row" key={i}>
           <th>{time[0]}</th>
           {cells.map((e) => {
             return e ?? null;
