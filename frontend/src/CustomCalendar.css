@@ -1,11 +1,11 @@
 @keyframes fadeInBottomCalendar {
   0% {
     opacity: 0;
-    transform: translate(195px, 54px);
+    transform: translate(5px, 54px);
   }
   100% {
     opacity: 1;
-    transform: translate(195px, 44px);
+    transform: translate(5px, 44px);
   }
 }
 
@@ -14,7 +14,7 @@ display: flex;
 position: absolute;
 z-index: 1000;
 background-color: var(--top-gray2);
-transform: translateX(195px) translateY(44px);
+transform: translateX(5px) translateY(44px);
 border-radius: 5px;
 animation: fadeInBottomCalendar 0.5s;
 }

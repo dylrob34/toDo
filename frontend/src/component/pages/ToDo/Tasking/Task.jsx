@@ -152,12 +152,7 @@ const Task = ({ task }) => {
                     <div className='task-body font-body'>
                         <p name='taskdetails' className={'task-element task-details'}>{parseBody()}</p>
                         <div className='task-lastrow'>
-                        <span className='spacer-buckets'>{/*Placeholder for different icon*/}</span>
-                            <div className='task-buckets'>
-                                {buckets.map((bucket, index) => (
-                                        <span className='task-bucket task-element'key={index}>#{bucket}</span>
-                                    ))}
-                            </div>
+                        
                             <div className='task-reminder'>
                                 <span className='task-element reminder '>Reminder</span>
                             </div>
@@ -169,6 +164,12 @@ const Task = ({ task }) => {
                             {calendar ? <div className='react-calendar-modal'>
                                 <CalendarComponent save={(dd) => editTask(title, body, completeTask, dd)} dueDate={dueDate}/>
                             </div> : ''}
+                            <span className='spacer-buckets'>{/*Placeholder for different icon*/}</span>
+                            <div className='task-buckets'>
+                                {buckets.map((bucket, index) => (
+                                        <span className='task-bucket task-element'key={index}>#{bucket}</span>
+                                    ))}
+                            </div>
                         </div>
                     </div>
                 </div>

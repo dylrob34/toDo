@@ -240,7 +240,7 @@ const TimeBlock = (props) => {
               style={{ width: "100%", height: "100%" }}
             >
               {/* Placeholder for Metrics component 1 */}
-              <PieChart
+              {/* <PieChart
                 categories={buildPieDate()}
                 width={800}
                 height={800}
@@ -253,7 +253,7 @@ const TimeBlock = (props) => {
                 backgroundColor: "green",
                 width: "100%",
                 height: "100%",
-              }}
+              }} */}
             >
               {/* Placeholder for Metrics component 2 */}
               placeholder

@@ -94,7 +94,25 @@ const Tasks = () => {
         return inputArrString
     }
 
-    function insertionSortTasks(inputArrString) {
+    function insertionSortTasksDueDate(inputArr) {
+        let n = inputArr.length;
+        // As long as our i is less than inputArr increment i
+        for (let i = 1; i < n; i++) {
+            let current = inputArr[i]; // Store the current item
+            console.log("This is current: ")
+            console.log(current)
+            // Create a loop to look at previous items. If they are greater we need to shift/copy them to the right.
+            let j = i-1; // Starting at the previous item before i
+            while ((j >= 0 ) && (inputArr[j].duedate < current.duedate )) {
+                inputArr[j+1] = inputArr[j]; // Shift the item to the right if both conditions are met
+                j--; // Decrement j to close the loop
+            }
+            inputArr[j+1] = current;
+        }
+        return inputArr
+    }
+
+    function insertionSortTasksAlphabetical(inputArrString) {
         let n = inputArrString.length;
         // As long as our i is less than inputArr increment i
         for (let i = 1; i < n; i++) {
@@ -129,11 +147,12 @@ const Tasks = () => {
         })
         switch (counter) {
             case 1:
+                bucketFilteredTasks = insertionSortTasksDueDate(bucketFilteredTasks)
                 break
             case 2:
                 break
             case 3:
-                bucketFilteredTasks = insertionSortTasks(bucketFilteredTasks)
+                bucketFilteredTasks = insertionSortTasksAlphabetical(bucketFilteredTasks)
                 break
         }
         return bucketFilteredTasks.map((task) => {
