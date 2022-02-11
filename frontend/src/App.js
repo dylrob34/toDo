@@ -23,7 +23,7 @@ import { TimeBlockProvider } from './context/TimeBlockContext';
 const domain = process.env.NODE_ENV === "production" ? "" : "http://localhost:3001";
 
 function App() {
-  
+  // we workign?
   // Declare component states:
   const [loggedIn, setLoggedIn] = useState(false);
   const [team, setTeam] = useState("");
