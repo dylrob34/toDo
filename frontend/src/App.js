@@ -20,7 +20,7 @@ import './CustomCalendar.css';
 import { TimeBlockProvider } from './context/TimeBlockContext';
 
 
-const domain = "http://localhost:3001"
+const domain = process.env.NODE_ENV === "production" ? "" : "http://localhost:3001";
 
 function App() {
   
