@@ -1021,6 +1021,18 @@ transform: translateX(150px);
 
 /* Main Styling */
 
+.bug-button{
+  position: fixed;
+  z-index: 10000;
+  color: white;
+  background-color: var(--mid-orange);
+  padding: 6px 6px;
+  border-radius: 5px;
+  right: 35px;
+  bottom: 45px;
+  cursor: pointer;
+}
+
 .main {
   background-color: var(--base-gray);
   float: right;

@@ -104,6 +104,9 @@ const ToDo = (props) => {
                   <div className={sortDisplay ? 'visible':'invisible'}><Sort/></div>
                 </div>
             </div>
+            <div className="bug-button">
+            Bug/Suggestion?
+            </div>
             <div className="task-textedit">
               <Tasks className="tasks" />
             </div>
