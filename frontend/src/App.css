@@ -108,6 +108,7 @@ body,
   --panel-shadow: 2px 2px 6px 3px rgba(0, 0, 0, 0.6);
   --task-shadow: 0 0 5px rgba(0, 0, 0, 0.05), 2px 2px 5px rgba(0, 0, 0, 0.1);
   --popup-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 2px 2px 5px rgba(0, 0, 0, 0.1);
+  --button-shadow: 0px 5px 5px rgb(0, 0, 0, 0.5);
   --font-gray: #8c979a;
 
   /* Color Palete Colors */
@@ -1031,6 +1032,9 @@ transform: translateX(150px);
   right: 35px;
   bottom: 45px;
   cursor: pointer;
+  box-shadow: var(--button-shadow);
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
 }
 
 .main {
