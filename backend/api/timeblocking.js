@@ -49,7 +49,7 @@ router.post('/editTimeblock', async function(req, res) {
     const body = req.body.body;
     const time = req.body.time;
     const duration = req.body.duration;
-    const category = req.body.category === "None" ? null : req.body.category;
+    const category = req.body.category === 0 ? null : req.body.category;
     const date = req.body.date
     //console.log(req.body);
     //return (res.json({error: false}))

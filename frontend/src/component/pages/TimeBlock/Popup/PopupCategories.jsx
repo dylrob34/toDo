@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { FaSquare, FaTimes, FaPen } from 'react-icons/fa';
 import { CirclePicker, CompactPicker } from 'react-color';
-import { useTimeBlockContext, useUpdateTimeBlockContext } from '../../../../context/TimeBlockContext';
 import { post } from '../../../../tools/request';
 
 import { PencilIcon, XIcon } from '@heroicons/react/solid'
@@ -18,7 +17,7 @@ const PopupCategories = (props) => {
         <div className=''>{
             categories.map((category) => {
                 return (
-                    <Category key={category._id} category={category}/>
+                    <Category key={category._id} category={category} setLoad={props.setLoad}/>
                 )
             })
         } 
@@ -26,14 +25,12 @@ const PopupCategories = (props) => {
     )
 }
 
-const Category = ({ category }) => {
+const Category = ({ category, setLoad }) => {
     const [id, setId] = useState(category._id);
     const [title, setTitle] = useState(category.title);    
     const [catColor, setCatColor] = useState(category.color);
     const [compactPicker, setCompactPicker] = useState(false);
     const [isEditing, setIsEditing] = useState(false)
-    const timeBlockContext = useTimeBlockContext();
-    const updateTimeBlockContext = useUpdateTimeBlockContext();
 
     useEffect(() => {
         setId(category._id);
@@ -59,7 +56,7 @@ const Category = ({ category }) => {
             } else {
               console.log("Error editing category title");
             }
-            updateTimeBlockContext({ ...timeBlockContext, reloadCategories: true, reloadTimeblocks:true });
+            setLoad(true);
           })
     }
 
@@ -72,7 +69,7 @@ const Category = ({ category }) => {
                   console.log("Error editing category title");
                 }
                 showEdit()
-                updateTimeBlockContext({ ...timeBlockContext, reloadCategories: true });
+                setLoad(true);
               })
         }
     }
@@ -98,7 +95,7 @@ const Category = ({ category }) => {
                 if (resJson.error === true) {
                     console.log( "Error deleting Category." );
                 }
-                updateTimeBlockContext({...timeBlockContext, reloadCategories: true})
+                setLoad(true);
             })
     }
 

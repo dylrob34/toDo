@@ -31,7 +31,7 @@ const AddTask = ({ setReload, t, b, cancelEdit, edit }) => {
     }
 
     toggleAddTask(e);
-    post("/api/task/createTask", { title, body, team}).then((resJson) => {
+    post("/api/task/createTask", { title, body, team }).then((resJson) => {
       if (resJson.error === true) {
         console.log("Error submiting new task");
       } else {
@@ -41,8 +41,8 @@ const AddTask = ({ setReload, t, b, cancelEdit, edit }) => {
         updateToDoContext({ ...toDoContext, reloadBuckets: true, reloadTasks: true });
       }
     });
-  } 
-  
+  }
+
   function cancel(e) {
     setAutoUsers(false);
     setTitle("")
@@ -59,55 +59,55 @@ const AddTask = ({ setReload, t, b, cancelEdit, edit }) => {
     let found = true;
     let sub = "";
     for (const char in body) {
-        if (body[char] === "@") {
-            setAutoUsers(true);
-            found = true;
-        }
-        if (char == " ") {
-          found = false;
-        }
-        if (found) {
-          sub += char;
-        }
+      if (body[char] === "@") {
+        setAutoUsers(true);
+        found = true;
+      }
+      if (char == " ") {
+        found = false;
+      }
+      if (found) {
+        sub += char;
+      }
     }
     setSub(sub);
     setBody(body);
-}
+  }
 
-const handleKeyPress = (key) => {
+  const handleKeyPress = (key) => {
     console.log("key Press");
     console.log(key);
-}
+  }
 
 
   return (
     <div className="task-editor-area">
       <div>
         <form className="add-task-form" onSubmit={submitTask}>
-          <div className="textarea-container1">
+          <div className="add-task-container">
             <textarea
               onChange={(e) => setTitle(e.target.value)}
               name="taskTitle"
               id="taskTitle"
               cols="85"
               rows="1"
-              className="task-area1"
+              className="add-task-title"
               placeholder="Task Title..."
               value={title}
             ></textarea>
             <textarea
               onChange={(e) => handleBody(e.target.value)}
-              onKeyPress={(e) => {handleKeyPress(e.target.value)}}
+              onKeyPress={(e) => { handleKeyPress(e.target.value) }}
               name="taskDetails"
               id=""
               cols="85"
               rows="5"
-              className="task-area2"
+              className="add-task-details"
               placeholder="Task Details..."
               value={body}
             >
             </textarea>
-              {autoUsers ? <AutoFillDropdown options={toDoContext.teamUsers} text={sub} /> : null}
+            {autoUsers ? <AutoFillDropdown options={toDoContext.teamUsers} text={sub} /> : null}
             {/* 
             USE THIS ONE once you ask Dylan why its not working on submit.
             <div
@@ -120,11 +120,11 @@ const handleKeyPress = (key) => {
               className="task-area2"
             >{body}</div> */}
           </div>
-          <div className="textarea-container-submit">
-            <button name='Submit'>{edit === undefined ? "Add" : "Edit"}</button>
+          <div className="add-task-submit">
             <button type="button" onClick={cancel}>
               Cancel
             </button>
+            <button name='Submit'>{edit === undefined ? "Add" : "Edit"}</button>
           </div>
         </form>
       </div>

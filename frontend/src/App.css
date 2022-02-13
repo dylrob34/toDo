@@ -500,6 +500,7 @@ body,
 .popup-timeblock-container {
   position: absolute;
   z-index: 100;
+  pointer-events: none;
 }
 
 @keyframes fadeInRight {
@@ -515,7 +516,7 @@ body,
 
 .popup-timeblock-relative {
   position: relative;
-  left: 114%;
+  left: 132%;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
@@ -525,6 +526,16 @@ body,
   box-shadow: var(---popup-shadow);
   margin-right: 10px;
   animation: fadeInRight 0.5s;
+  user-select: none;
+  pointer-events: auto;
+}
+
+.popup-timeblock-relative input {
+  outline: none;
+  border: none;
+  padding: 2px 5px;
+  box-sizing: border-box;
+  margin: 5px 0;
 }
 
 .popup-timeblock-arrow {
@@ -767,6 +778,10 @@ border: transparent;
 
 .landing-page {
   background-color: var(--midnight-layer1);
+  /* background: radial-gradient(var(--midnight-layer1), var(---midnight-layer1)); */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .landing-section{
@@ -790,6 +805,21 @@ justify-content: center;
   justify-content: space-evenly;
   padding: 120px 30px 30px 30px;
   margin-top: 320px;
+}
+
+.landing-section4{
+  display: flex;
+  flex-direction: column;
+  padding: 120px 0px 60px 0px;
+  justify-content: center;
+  align-items: center;
+}
+
+
+@media (max-width: 1024px) {
+  .landing-section{
+    flex-direction: column;
+  }
 }
 
 .landing-element{
@@ -842,6 +872,31 @@ transform: translateX(150px);
   height: 400px;
   position: relative;
   transform: translateX(100px) translateY(-75px);
+}
+
+.landing-roadmap-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.roadmap-item-R{
+  color: var(--primary-green);
+  font-family: "Inter", sans-serif; 
+  font-weight: 400;
+}
+.roadmap-item-M{
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+}
+.upper-roadmap-text, .lower-roadmap-text{
+  color: white;
+}
+.landing-timeline-image{
+  display: flex;
+  position: relative;
+  width: 100%;
 }
 /* Side Bar styling */
 .left-sidebar-sm {
@@ -1044,6 +1099,11 @@ transform: translateX(150px);
   width: 100%;
 }
 
+.main2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
 .top {
   display: flex;
   flex-direction: row;
@@ -1054,6 +1114,19 @@ transform: translateX(150px);
 .bottom {
   display: flex;
   flex-direction: row;
+  margin: 0.5rem 0rem 1rem 0rem;
+}
+
+.right{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0.5rem 0rem 1rem 0rem;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
   margin: 0.5rem 0rem 1rem 0rem;
 }
 .toolbar-container {
@@ -1095,19 +1168,6 @@ color: var(--button);
 cursor: pointer;
 } */
 
-.add-task-container {
-  position: relative;
-  background-color: transparent;
-  border: none;
-  color: white;
-  font-size: 14px;
-  width: 120px;
-  height: 30px;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .add-task-btn {
   position: relative;
   background-color: transparent;
@@ -1129,53 +1189,44 @@ cursor: pointer;
   margin: 20px 10px 10px 10px;
   padding: 10px 5px 5px 5px;
 }
-.textarea-container1 {
-  border: none;
-  outline: none;
-  border: solid 0.5px var(--top-gray);
-  border-radius: 5px;
-  background-color: var(--mid-gray);
-  color: white;
-  width: 800px;
-  height: 150px;
-  margin: auto;
+.add-task-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px 0px 0px 0px;
 }
-.textarea-container-submit {
-  margin-top: 5px;
-  position: relative;
+.add-task-submit {
+  border: none;
+  color: white;
+  font-size: 14px;
+  padding: 10px 2px 10px 2px;
+  text-align: center;
 }
 
-.task-area1 {
-  background: transparent;
+.add-task-container textarea {
+  border: none;
   outline: none;
   resize: none;
-  color: white;
-  border: none;
-  border-bottom: solid 0.5px var(--top-gray);
-  margin-top: 5px;
-  font-size: 16px;
-}
-.task-area2 {
-  height: 100px;
-  margin: 2px 8px 2px 10px;
-  overflow: auto;
-  resize: both;
-  -moz-appearance: textfield-multiline;
-  -webkit-appearance: textarea;
-  background: transparent;
-  outline: none;
-  resize: none;
-  color: white;
-  border: none;
-  font-size: 16px;
-  cursor: text;
-  font-family: monospace;
-  text-align: left;
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  padding: 10px 2px 10px 2px;
 }
 
-.task-area2:empty::before {
-  color: rgb(117, 117, 117);
-  content: "Task Details...";
+.add-task-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0px 0px 0px 0px;
+}
+.add-task-details {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0px 0px 0px 0px;
 }
 
 .hover:hover {
@@ -1201,11 +1252,6 @@ cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-.task-list-container {
-}
-
-.task-list-element {
 }
 
 .task-shell {
@@ -1310,8 +1356,7 @@ cursor: pointer;
   left: -2px;
   top: 9px;
   color: rgb(255, 255, 255, 0.5);
-  transition: 500ms ease-in-out;
-  transition-delay: 1s;
+  transition: 0.1s ease-in-out;
 }
 
 .task-grip:hover {
@@ -1487,6 +1532,7 @@ cursor: pointer;
   justify-content: center;
   align-items: flex-start;
   color: white;
+  cursor: white;
 }
 
 .cell-notediting {
@@ -1560,8 +1606,19 @@ cursor: pointer;
 
 .draggable-div {
   width: 100%;
-  height: 5px;
-  z-index: 1000;
+  height: 4px;
+  z-index: 400;
+  cursor: row-resize;
+}
+
+.draggable-div-dragging {
+  background-color: var(--accent-green);
+  border-radius: 5px;
+}
+
+.draggable-div:hover {
+  background-color: var(--accent-green);
+  border-radius: 5px;
 }
 
 
@@ -1569,7 +1626,12 @@ cursor: pointer;
   position: absolute;
 }
 
-/* TimeBlock section  PRE Kanishq */
+.drag-listener-not {
+  position: absolute;
+  pointer-events: none;
+}
+
+/* TimeBlock section PRE Kanishq */
 
 /* 
 .table-blockz {

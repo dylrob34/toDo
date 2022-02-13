@@ -15,6 +15,7 @@ const Cells = (props) => {
     const [left, setLeft] = useState(0);
     const [popup, setPopup] = useState(false);
     const [data, setData] = useState(props.data);
+    const [dragging, setDragging] = useState(false);
     const cellRef = useRef(null);
 
     const categories = props.categories;
@@ -41,7 +42,7 @@ const Cells = (props) => {
             setLeft(rect.left);
         }
 
-    }, [cellRef.current, props.data._id, props.data.duration, props.data.time, props.data.category]);
+    }, [cellRef.current, props.data]);
 
     const create = (newData) => {
         post("/api/timeblocking/createTimeblock", { ...newData })
@@ -87,28 +88,18 @@ const Cells = (props) => {
 
     // Shows popup if you are focused on any child of the parent div (allows popup to stay active while you click around it)
     const handleBlur = e => {
-        console.log(cellRef.current);
-        console.log(e.target);
-        if (!cellRef.current.contains(e.target) && cellRef.current !== e.target) {
+        if (cellRef.current === null) return;
+        if (!cellRef.current.contains(e.target) && cellRef.current !== e.target && !cellRef.current.contains(document.activeElement)) {
+            console.log("blurring");
             setIsEditing(false);
             setPopup(false);
         }
     }
 
-    const checkEnter = (e) => {
-        if (e.keyCode === 13) {
-            if (data._id === null) {
-                create();
-            } else {
-            }
-        }
-    }
-
-    const saveNoUpdate = () => {
-        const currentData = getCurrentData();
-        post("/api/timeblocking/editTimeblock", {
-            ...currentData
-        })
+    const saveNoUpdate = (newData) => {
+        console.log("dat")
+        console.log(newData);
+        post("/api/timeblocking/editTimeblock", newData)
             .then((res) => {
                 if (res.error === true) {
                     alert(`Error saving your changes.\n${res.message}`)
@@ -120,48 +111,23 @@ const Cells = (props) => {
     const dragUp = (row, initValues) => {
         console.log(row);
         console.log(row*15);
+        console.log(initValues);
         console.log(initValues.duration + ((initValues.row - row) * 15))
-        props.editBlock({ ...initValues}, { ...initValues, time: row*15, duration: initValues.duration + ((initValues.row - row) * 15)}, "time");
+        const newData = { ...initValues, time: row*15, duration: initValues.duration + ((initValues.row - row) * 15)};
+        props.setCache(newData)
+        props.editBlock({ ...initValues}, newData, "time");
     }
 
     const dragDown = (row, initValues) => {
-        props.editBlock(initValues, {...initValues, duration: (row - initValues.row) * 15 + 15})
+        console.log((row - initValues.row) * 15 + 15);
+        const newData = {...initValues, duration: (row - initValues.row) * 15 + 15}
+        props.setCache(newData)
+        props.editBlock(initValues, newData)
     }
 
-    const dragUpp = (e) => {
-        const timeCells = getTableData();
-        const y = e.clientY;
-        let count = 0;
-        const initValues = getInitialValues();
-        let time = initValues.time;
-        let duration = initValues.duration;
-        for (const cell of timeCells) {
-            if (cell.bottom <= bottom && cell.top < y && cell.bottom > y) {
-                count = row - cell.row;
-                time = time - count * divisions;
-                console.log(time);
-                duration = duration + count * divisions;
-                break;
-            }
-        }
-        setCurrentData({ ...initValues, time, duration });
-    }
-
-    const dragDownp = (e) => {
-        const timeCells = getTableData();
-        const y = e.clientY;
-        let count = 0;
-        const initValues = getInitialValues();
-        let duration = initValues.duration;
-        for (const cell of timeCells) {
-            if (cell.top >= top && cell.top < y && cell.bottom > y) {
-                count = cell.row - row;
-                duration = (count + 1) * divisions;
-                break;
-            }
-        }
-        setCurrentData({ ...initValues, duration });
-        props.editBlock(initValues, { ...initValues, duration }, "duration");
+    const stopDragging = (newData) => {
+        setDragging(false);
+        saveNoUpdate(newData);
     }
 
     const onMouseEnter = (i) => {
@@ -172,27 +138,31 @@ const Cells = (props) => {
         let listeners = [];
         for (let i = 0; i < data.duration / 15; i++) {
             listeners.push(
-                <div key={i} className="drag-listener" onMouseEnter={() => onMouseEnter(i)} style={{width: right-left, height: ((bottom-top) / (data.duration / 15)), top: top + (bottom-top) / (data.duration/15) * i}}/>
+                <div key={i} className={isEditing && !dragging ? "drag-listener-not" : "drag-listener"} onMouseEnter={() => onMouseEnter(i)} style={{width: right-left, height: ((bottom-top) / (data.duration / 15)), top: top + (bottom-top) / (data.duration/15) * i}}/>
                 )
         }
         return listeners
     }
 
-    const getBackgroundColor = () => {
-        if (category === null) return null;
-        if (isEditing === true) return null;
-        return "rgb(" + category.color.r + ", " + category.color.g + ", " + category.color.b + ")"
+    const getStyle = () => {
+        const style = {};
+        if (category === null || isEditing === true) {
+            style.backgroundColor = "transparent";
+            return style;
+        }
+        style.backgroundColor = "rgb(" + category.color.r + ", " + category.color.g + ", " + category.color.b + ")"
+        return style;
     }
 
-    //rgb(" + category.color.r + ", " + category.color.g + ", " + category.color.b + ")"
     return (
-        <td className="table-data" ref={cellRef} rowSpan={data.duration / divisions} style={{ backgroundColor:  getBackgroundColor()}} onClick={() => setIsEditing(true)} onBlur={handleBlur} onDoubleClick={() => setPopup(true)}>
+        <td className="table-data" ref={cellRef} rowSpan={(data.duration / 15)} style={getStyle()} onClick={() => setIsEditing(true)} onBlur={handleBlur} onDoubleClick={() => setPopup(true)}>
             { isEditing ?
                 <div className="cell">
                     {getDragListeners()}
-                    <div className="draggable-div" onMouseDown={() => props.startDragging({...data, row}, dragUp)}></div>
+                    <div className={dragging ? "draggable-div-dragging" : "draggable-div"} onMouseDown={() => {setDragging(true); props.startDragging({...data, row}, dragUp, stopDragging)}}></div>
                     <input
                         autoFocus
+                        id={`id${data.time}${row}`}
                         type="text"
                         className="editable-cell"
                         name="title"
@@ -204,7 +174,7 @@ const Cells = (props) => {
                         <PopupEditBlock {...props} cell={true} s={{ top: middle - 150, left: right + 4 }} data={data} timeStrings={timeStrings} save={save} deleteCell={deleteCell} className='popup-timeblock' />
                         :
                         null}
-                    <div className="draggable-div" onMouseDown={() => props.startDragging({...data, row}, dragDown)}></div>
+                    <div className={dragging ? "draggable-div-dragging" : "draggable-div"} onMouseDown={() => {setDragging(true); props.startDragging({...data, row}, dragDown, stopDragging)}}></div>
                 </div>
                 :
                 <div className="cell-notediting">

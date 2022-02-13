@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TimeTable2 from "./Tables/TimeTable2";
+import TimeblockMetrics from "./Metrics/TimeblockMetrics";
 import {
   FaPlus,
   FaTimes,
@@ -70,6 +71,7 @@ const TimeBlock = (props) => {
       const thisWeek = getCurrentWeek();
       setTimeblocksAPI(thisWeek);
       setCategoriesAPI();
+      setLoad(false);
     }
   }, [load]);
 
@@ -114,6 +116,7 @@ const TimeBlock = (props) => {
   const setCategoriesAPI = () => {
     get("/api/categories/getCategories").then((res) => {
       if (res.categories !== undefined) {
+        console.log(res.categories);
         setCategories(res.categories);
       }
     });
@@ -128,9 +131,7 @@ const TimeBlock = (props) => {
         b: "135",
       },
     }).then((res) => {
-      if (res.error === false) {
-        setCategories(categories.map((cat) => cat).push(res.category));
-      }
+      setLoad(true);
     });
   };
 
@@ -196,7 +197,9 @@ const TimeBlock = (props) => {
       <div className="page-config">
         <div className="left-sidebar-sm"></div>
         <div className="main" name="table_metrics">
-          <div className="current-week">
+          <div name='leftright-position' className="main2">
+            <section className="right">
+            <div className="current-week">
             Week of{" "}
             {week === null
               ? getCurrentWeekString(getCurrentWeek())
@@ -222,43 +225,21 @@ const TimeBlock = (props) => {
               <FaAngleDoubleRight />
             </button>
           </div>
-
-          <section className="top">
-            <TimeTable2
-              timeblocks={timeblocks}
-              setTimeBlocks={setTimeblocks}
-              Today
-              editBlock={editBlock}
-              deleteBlock={deleteBlock}
-              week={week}
-              categories={categories}
-            />
-          </section>
-          <section className="bottom">
-            <div
-              className="page-element"
-              style={{ width: "100%", height: "100%" }}
-            >
-              {/* Placeholder for Metrics component 1 */}
-              {/* <PieChart
-                categories={buildPieDate()}
-                width={800}
-                height={800}
-                font={"25px arial"}
+              <TimeTable2
+                timeblocks={timeblocks}
+                setTimeBlocks={setTimeblocks}
+                Today
+                editBlock={editBlock}
+                deleteBlock={deleteBlock}
+                week={week}
+                categories={categories}
               />
-            </div>
-            <div
-              className="page-element"
-              style={{
-                backgroundColor: "green",
-                width: "100%",
-                height: "100%",
-              }} */}
-            >
-              {/* Placeholder for Metrics component 2 */}
-              placeholder
-            </div>
-          </section>
+            </section>
+            <section className="left">
+              <TimeblockMetrics/>
+              {/* Placeholder for the Piechart (replace component with this comment) */}
+            </section>
+          </div>
         </div>
       </div>
 
@@ -300,6 +281,7 @@ const TimeBlock = (props) => {
                 nestedModal={nestedModal}
                 setNestedModal={setNestedModal}
                 categories={categories}
+                setLoad={setLoad}
               />
             </div>
             <div

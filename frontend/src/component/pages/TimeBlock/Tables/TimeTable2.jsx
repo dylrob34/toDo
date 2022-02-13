@@ -10,16 +10,20 @@ import { Dropdown, Option } from "../../../layout/Dropdown";
 import { getTodayUTC, getWeekDaysUTC } from "../../../../tools/time";
 
 let initValues = null;
+let cachedValues = null;
 let callback = null;
 let currentCellCallback = null;
+let stopCallback = null;
 
 const TimeTable2 = (props) => {
   const [divisions, setDivisions] = useState(30);
   const [military, setMilitary] = useState(false);
   const [cellHeight, setCellHeight] = useState(0);
   const [timeStrings, setTimeStrings] = useState({});
+  const [data, setData] = useState(props.timeblocks);
 
   useEffect(() => {
+    setData(props.timeblocks);
     var strings = {};
     for (var i = 0; i < 1440; i += divisions) {
       let hourMath = i % 60 === 0 ? i : i - (i % 60);
@@ -32,7 +36,7 @@ const TimeTable2 = (props) => {
       strings[i] = `${hour}:${minute}`;
     }
     setTimeStrings(strings);
-  }, [divisions]);
+  }, [divisions, props.timeblocks]);
 
   useEffect(() => {
     console.log("adding listener");
@@ -44,7 +48,6 @@ const TimeTable2 = (props) => {
   }, [])
 
   const callCellCallback = (e) => {
-    console.log("running listener");
     if (currentCellCallback !== null) {
       currentCellCallback(e);
     }
@@ -52,7 +55,6 @@ const TimeTable2 = (props) => {
 
   const setCellCallback = (cb, target) => {
     callCellCallback(target)
-    console.log("setting callback");
     currentCellCallback = cb;
   }
 
@@ -61,21 +63,28 @@ const TimeTable2 = (props) => {
   };
 
   const setDraggedOverRow = (row) => {
-      if (callback !== null) {
-          callback(row, initValues);
-      }
+    if (callback !== null) {
+      callback(row, initValues);
+    }
   }
 
-  const startDragging = (init, call) => {
-      initValues = init;
-      callback = call;
-      document.addEventListener("mouseup", stopDragging);
+  const setCache = (values) => {
+    cachedValues = values;
+  }
+
+  const startDragging = (init, call, stopCall) => {
+    initValues = init;
+    callback = call;
+    stopCallback = stopCall;
+    document.addEventListener("mouseup", stopDragging);
   }
 
   const stopDragging = () => {
-      document.removeEventListener("mouseup", stopDragging)
-      initValues = null;
-      callback = null;
+    document.removeEventListener("mouseup", stopDragging)
+    stopCallback(cachedValues);
+    stopCallback = null;
+    initValues = null;
+    callback = null;
   }
 
   function timeLoop() {
@@ -88,15 +97,13 @@ const TimeTable2 = (props) => {
       }
       let minute = i % 60;
       minute = minute === 0 ? "00" : minute;
-      timerows.push([
+      timerows.push(
         <TimeCell
           key={i}
           time={`${hour}:${minute}`}
           row={i / divisions}
           setHeight={setCellHeight}
-        />,
-        i,
-      ]);
+        />);
     }
     return timerows;
   }
@@ -111,27 +118,24 @@ const TimeTable2 = (props) => {
       category: null,
       date: day.date.getTime(),
     };
-    const data = props.timeblocks;
     let cells = [];
-    let usedCellsCount = 0;
     let parsedData = {};
     if (data[6] !== undefined) {
       Object.keys(data[colNum]).forEach((d) => {
-        usedCellsCount += data[colNum][d].duration / divisions - 1;
         parsedData = { ...parsedData, [data[colNum][d].time]: data[colNum][d] };
       });
     }
     let i = 0;
-    while (i < 1440 / divisions) {
-      let currentData = parsedData[i * divisions];
+    while (i < 1440 / 15) {
+      let currentData = parsedData[i * 15];
       if (currentData === undefined) {
         cells.push(
           <Cell
-            key={colNum}
+            key={`${colNum}${i * divisions / 15}`}
             {...props}
-            row={i * divisions / 15}
+            row={i}
             col={colNum}
-            data={{ ...defaultData, time: i * divisions }}
+            data={{ ...defaultData, time: i * 15 }}
             timeStrings={timeStrings}
             height={cellHeight}
             divisions={divisions}
@@ -139,15 +143,20 @@ const TimeTable2 = (props) => {
             startDragging={startDragging}
             stopDragging={stopDragging}
             setCellCallback={setCellCallback}
+            setCache={setCache}
           />
         );
+        for (let j = 1; j < divisions / 15; j++) {
+          cells.push(null);
+          i++;
+        }
         i++;
       } else {
         cells.push(
           <Cell
-            key={colNum}
+            key={`${colNum}${i * divisions / 15}`}
             {...props}
-            row={i * divisions / 15}
+            row={i}
             col={colNum}
             data={currentData}
             timeStrings={timeStrings}
@@ -157,15 +166,31 @@ const TimeTable2 = (props) => {
             startDragging={startDragging}
             stopDragging={stopDragging}
             setCellCallback={setCellCallback}
+            setCache={setCache}
           />
         );
-        //if (parseInt(currentData.duration) > divisions) {
-        for (let j = 1; j < parseInt(currentData.duration) / divisions; j++) {
-          console.log("pushing null");
+        for (let j = 1; j < parseInt(currentData.duration) / 15; j++) {
           cells.push(null);
           i++;
         }
-        //}
+        if (currentData.duration % divisions !== 0) {
+          cells.push(
+            <Cell
+              key={`${colNum}${i * divisions / 15 + currentData.duration}`}
+              {...props}
+              row={i}
+              col={colNum}
+              data={{ ...defaultData, time: i * divisions + currentData.duration, duration: 15 }}
+              timeStrings={timeStrings}
+              height={cellHeight}
+              divisions={divisions}
+              setDraggedOverRow={setDraggedOverRow}
+              startDragging={startDragging}
+              stopDragging={stopDragging}
+              setCellCallback={setCellCallback}
+              setCache={setCache}
+            />)
+        }
         i++;
       }
     }
@@ -180,21 +205,24 @@ const TimeTable2 = (props) => {
     });
     // fill each row with proper cells
     let rows = [];
-    timeLoop().forEach((time, i) => {
-      let cells = [];
-      for (let j = 0; j < columns.length; j++) {
-        cells.push(columns[j][i]);
-      }
-
-      rows.push(
-        <tr className="table-row" key={i}>
-          <th>{time[0]}</th>
-          {cells.map((e) => {
-            return e ?? null;
-          })}
-        </tr>
-      );
-    });
+    const times = timeLoop();
+    //timeLoop().forEach((time, i) => {
+    for (let i = 0; i < 1440 / 15; i++) {
+        let cells = [];
+        for (let j = 0; j < columns.length; j++) {
+          cells.push(columns[j][i]);
+        }
+        //console.log(cells);
+        rows.push(
+          <tr className="table-row" key={i * divisions / 15}>
+            {i % (divisions/15) === 0 ? <th rowSpan={divisions / 15}>{times[i/(divisions/15)]}</th> : null}
+            {cells.map((e) => {
+              return e ?? null;
+            })}
+          </tr>
+        );
+     
+    }
 
     return rows;
   };

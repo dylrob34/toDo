@@ -41,6 +41,7 @@ app.use('/api/buckets', bucketRouter);
 app.use("/api/timeblocking", timeblockingRouter);
 app.use("/api/categories", categoriesRouter);
 app.use('/', indexRouter);
+app.use((req, res) => res.sendFile(path.join(__dirname, "build", '/index.html')))
 app.use(errorHandler);
 
 app.listen(port, () => {
