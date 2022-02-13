@@ -3,7 +3,7 @@ const fetch = require('node-fetch')
 
 const message = (message) => {
     try {
-        fetch(`http://beermethatpenta.com:3435/message`, {
+        fetch(`http://localhost:3435/message`, {
           method: "POST",
           body: JSON.stringify(message),
           headers: { "Content-Type": "application/json"}
@@ -15,7 +15,7 @@ const message = (message) => {
 
 const crashReport = (err) => {
     try {
-        fetch(`http://beermethatpenta.com:3435/notifycrash`, {
+        fetch(`http://localhost:3435/notifycrash`, {
           method: "POST",
           body: JSON.stringify(err),
           headers: { "Content-Type": "application/json"}
