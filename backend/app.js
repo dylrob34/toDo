@@ -5,6 +5,7 @@ var cors = require('cors');
 const logging = require("./logging/logger");
 const { verifyToken } = require('./api/auth');
 const {errorHandler} = require("./errorHandler");
+const {message} = require("./BlockzBot")
 
 corsOptions = {
   origin: "http://localhost:3000"
@@ -46,4 +47,5 @@ app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`To Do App listening at http://localhost:${port}`);
+  message(`Blockz listening on port ${port}`);
 })

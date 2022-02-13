@@ -1,6 +1,8 @@
+const {crashReport} = require("./BlockzBot");
 
 const errorHandler = (err, req, res, next) => {
     console.log(err)
+    crashReport(err);
     res.status(500)
     res.json({error: true, message: err.message})
 }
