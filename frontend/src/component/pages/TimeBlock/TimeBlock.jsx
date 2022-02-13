@@ -93,6 +93,7 @@ const TimeBlock = (props) => {
   };
 
   const editBlock = (oldData, newData, key) => {
+    if (key !== "date" && key !== "duration" && key !== "time" && key!== "category") return;
     let temp = { ...timeblocks };
     let day = getDOWFromUTC(oldData.date);
     delete temp[day][oldData.time];

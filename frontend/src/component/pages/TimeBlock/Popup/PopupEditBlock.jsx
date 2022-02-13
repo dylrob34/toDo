@@ -50,7 +50,6 @@ const PopupEditBlock = (props) => {
             inc = i * 15
             temp.push([inc, `${parseInt(inc/60) === 0 ? '0.' : parseInt(inc/60) + '.'}${inc % 60 === 0 ? 0 : (inc % 60) / 60 * 100}`])
         }
-        console.log(temp);
         return temp
     }
 

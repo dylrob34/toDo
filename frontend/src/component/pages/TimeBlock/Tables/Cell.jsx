@@ -16,18 +16,19 @@ const Cells = (props) => {
     const [popup, setPopup] = useState(false);
     const [data, setData] = useState(props.data);
     const [dragging, setDragging] = useState(false);
+    const [row, setRow] = useState(props.row);
+    const [categories, setCategories] = useState(props.categories);
+    const [divisions, setDivisions] = useState(props.divisions);
     const cellRef = useRef(null);
 
-    const categories = props.categories;
-    const divisions = props.divisions
-    const col = props.col;
-    const row = props.row;
-    const height = props.height;
     const timeStrings = props.timeStrings;
 
     // Gets the reference to the DOM cell object and calcs the middle height at the right side
     useEffect(() => {
         setData(props.data);
+        setRow(props.row);
+        setCategories(props.categories);
+        setDivisions(props.divisions);
         for (const cat of categories) {
             if (props.data.category === cat._id) {
                 setCategory(cat);
@@ -42,7 +43,7 @@ const Cells = (props) => {
             setLeft(rect.left);
         }
 
-    }, [cellRef.current, props.data]);
+    }, [cellRef.current, props.data, props.row, props.categories, props.divisions]);
 
     const create = (newData) => {
         post("/api/timeblocking/createTimeblock", { ...newData })
@@ -57,6 +58,7 @@ const Cells = (props) => {
 
     const save = (key, value) => {
         const updatedData = { ...data, [key]: value }
+        setData(updatedData);
         if (data._id === null) {
             props.editBlock(data, { ...updatedData, _id: "temp" }, key);
             create(updatedData);
