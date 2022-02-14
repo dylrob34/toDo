@@ -1677,6 +1677,55 @@ cursor: pointer;
   pointer-events: none;
 }
 
+.metrics-table-container{
+  background-color: var(--mid-gray);
+  width: 32rem;
+  height: 20rem;
+  box-shadow: 3px 3px 6px rgb(0, 0, 0, 0.5);
+  border-radius: 10px;
+  margin-top: 5.2rem;
+}
+.metrics-header{
+  font-weight: 300;
+  color: white;
+  font-size: 1.25rem;
+  padding: 10px;
+}
+.metrics-totals{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  font-size: .8rem;
+  color: white;
+}
+.metrics-totals-border{
+  border: solid 2px var(--text-gray1);
+  border-radius: 5px;
+  padding: 3px 5px;
+  display: flex;
+  flex-direction: row;
+}
+
+.metrics-column-titles-container {
+  border: solid 2px var(--text-gray1);
+  border-radius: 5px;
+  width: 94%;
+  margin-right: auto;
+  margin-left: auto;
+  display: flex;
+  color: white;
+  align-items: center;
+}
+.metrics-title{
+  margin: 5px 5px;
+}
+.color-title-metrics{
+  border: solid 2px var(--text-gray1);
+  width: 4rem;
+  height: 1rem;
+  border-radius: 5px;
+}
+
 /* TimeBlock section PRE Kanishq */
 
 /* 
