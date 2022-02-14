@@ -1680,7 +1680,7 @@ cursor: pointer;
 .metrics-table-container{
   background-color: var(--mid-gray);
   width: 32rem;
-  height: 20rem;
+  height: 20.5rem;
   box-shadow: 3px 3px 6px rgb(0, 0, 0, 0.5);
   border-radius: 10px;
   margin-top: 5.2rem;
@@ -1726,6 +1726,28 @@ cursor: pointer;
   border-radius: 5px;
 }
 
+.metrics-data-table-pos{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+}
+.metrics-data-table{
+  border: solid 2px var(--text-gray1);
+  border-radius: 10px;
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+  overflow: auto;
+}
+.metrics-data-tr{
+}
+.metrics-data-td{
+  padding: .3rem .5rem;
+  height: 2rem;
+}
 /* TimeBlock section PRE Kanishq */
 
 /* 
