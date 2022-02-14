@@ -287,7 +287,7 @@ function createTask(owner, assignees, title, body, buckets, complete, duedate) {
                 body,
                 buckets,
                 complete,
-                duedate
+                duedate: null,
             }
         )
         .then((result) => {
