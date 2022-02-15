@@ -23,7 +23,14 @@ import {
   getDOWFromUTC,
 } from "../../../tools/time";
 
-import { PlusIcon } from "@heroicons/react/solid";
+import { 
+  PlusIcon,
+  FolderOpenIcon,
+  PhotographIcon,
+  ChartPieIcon,
+  CogIcon,
+
+} from "@heroicons/react/outline";
 import { PieChart } from "./PieChart/PieChart";
 
 const TimeBlock = (props) => {
@@ -34,6 +41,12 @@ const TimeBlock = (props) => {
   const [timeblocks, setTimeblocks] = useState({});
   const [week, setWeek] = useState(getCurrentWeek());
   const [load, setLoad] = useState(true);
+  const [toolbarCategories, setToolbarCategories] = useState(false)
+  const [toolbarViews, setToolbarViews] = useState(false)
+  const [toolbarInsights, setToolbarInsights] = useState(false)
+  const [toolbarSettings, setToolbarSettings] = useState(false)
+  const [delayHandler, setDelayHandler] = useState(null)
+
 
   const cats = [
     {
@@ -180,24 +193,36 @@ const TimeBlock = (props) => {
     return slices;
   };
 
+
+  const handleMouseEnter = (e) => {
+    setDelayHandler(setTimeout(() => {
+      setToolbarCategories(true)
+    }, 1500))
+  }
+  const handleMouseLeave = () => {
+    clearTimeout(setToolbarCategories(false))
+  }
+
   return (
     <div>
-      <div className="toolbar-container">
-
-        <div className="toolbar-element">
-          <div className="toolbar-item">Test Item 2</div>
-        </div>
-        <div className="toolbar-element">
-          <div className="toolbar-item">Calendar View</div>
-        </div>
-        <div className="flex-spacer-end"></div>
-      </div>
       <div className="page-config">
         <div className="left-sidebar-sm">
-          <div className="toolbar-element" onClick={() => setModal(true)}>
-            <FaFolderOpen className="toolbar-item"/>
-            {/* <div className="toolbar-item"> Categories</div> */}
-          </div>
+            <div className="toolbar-element" onClick={() => setModal(true)} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+              <FolderOpenIcon className="toolbar-item"/>
+              {toolbarCategories ? <div className="toolbar-item-title">Categories</div> : ''}
+            </div>
+            <div className="toolbar-element" onMouseEnter={() => setToolbarViews(true)} onMouseLeave={() => setToolbarViews(false)}>
+              <PhotographIcon className="toolbar-item"/>
+              {toolbarViews ? <div className="toolbar-item-title">Views</div> : ""}
+            </div>
+            <div className="toolbar-element" onMouseEnter={() => setToolbarInsights(true)} onMouseLeave={() => setToolbarInsights(false)} >
+              <ChartPieIcon className="toolbar-item"/>
+              {toolbarInsights ? <div className="toolbar-item-title">Insights</div> : ""}
+            </div>
+            <div className="toolbar-element" onMouseEnter={() => setToolbarSettings(true)} onMouseLeave={() => setToolbarSettings(false)}>
+              <CogIcon className="toolbar-item"/>
+              {toolbarSettings ? <div className="toolbar-item-title">Settings</div> : ""}
+            </div>
         </div>
         <div className="main" name="table_metrics">
           <div name='leftright-position' className="main2">

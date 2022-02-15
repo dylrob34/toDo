@@ -52,7 +52,7 @@ const TimeblockMetrics = () => {
   // End of Test data
 
   return (
-    <div>TimeblockMetrics
+    <div>
 
       <div className='metrics-table-container'>
         

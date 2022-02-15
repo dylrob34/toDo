@@ -1100,6 +1100,7 @@ body,
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  margin-right: 18rem;
 }
 .top {
   display: flex;
@@ -1141,17 +1142,29 @@ body,
   align-items: center;
   justify-content: center;
   color: white;
-  padding: 5px 10px 5px 10px;
+  margin: 60px auto;
+  padding: 2.5px 0px 2.5px 0px;
 }
+
 .toolbar-element:hover {
-  background-color: var(--base-gray);
-  border-radius: 8px;
-  color: var(--button);
+  /* background-color: var(--base-gray);
+  color: var(--button); */
   cursor: pointer;
   user-select: none;
+  border-right: solid .25rem var(--primary-green);
 }
+
 .toolbar-item {
-  padding: 10px 3px 10px 3px;
+  width: 1.75rem;
+  height: 1.75rem;
+}
+.toolbar-item-title{
+  position: absolute;
+  left: 6rem;
+  font-size: 1rem;
+  font-weight: 300;
+  transition: color 1s ease-in-out;
+
 }
 
 .toolbar-sort {
@@ -1679,12 +1692,14 @@ cursor: pointer;
 }
 
 .metrics-table-container{
+  position: fixed;
   background-color: var(--mid-gray);
   width: 32rem;
   height: 20.5rem;
   box-shadow: 3px 3px 6px rgb(0, 0, 0, 0.5);
   border-radius: 10px;
-  margin-top: 5.2rem;
+  margin-top: 6.5rem;
+  right: 2rem;
 }
 .metrics-header{
   font-weight: 300;
