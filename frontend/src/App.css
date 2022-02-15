@@ -1158,13 +1158,13 @@ body,
   width: 1.75rem;
   height: 1.75rem;
 }
+
 .toolbar-item-title{
   position: absolute;
   left: 6rem;
   font-size: 1rem;
   font-weight: 300;
-  transition: color 1s ease-in-out;
-
+  transition:  400ms ease-in-out;
 }
 
 .toolbar-sort {
