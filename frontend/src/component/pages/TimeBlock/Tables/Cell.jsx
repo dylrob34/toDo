@@ -29,6 +29,7 @@ const Cells = (props) => {
         setRow(props.row);
         setCategories(props.categories);
         setDivisions(props.divisions);
+        if (props.data.category === null) setCategory(null);
         for (const cat of categories) {
             if (props.data.category === cat._id) {
                 setCategory(cat);
@@ -43,7 +44,7 @@ const Cells = (props) => {
             setLeft(rect.left);
         }
 
-    }, [cellRef.current, props.data, props.row, props.categories, props.divisions]);
+    }, [cellRef.current, props.data, props.row, props.categories, props.divisions, props.category]);
 
     const create = (newData) => {
         post("/api/timeblocking/createTimeblock", { ...newData })
