@@ -1517,6 +1517,7 @@ cursor: pointer;
   border: 1px solid var(--top-gray2);
   color: var(--text-gray1);
   border-collapse: collapse;
+  user-select: none;
 }
 
 .table-data,
