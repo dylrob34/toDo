@@ -19,6 +19,7 @@ const ToDo = (props) => {
   const toggleAddTask = useAddTaskUpdate();
   const [reset, setReset] = useState(false)
   const [sortDisplay, setSortDisplay] = useState(false)
+  // const [currentBuckets, setCurrentBuckets] = useState(toDoContext.currentBucket)
 
   useEffect( () => {
     if(counter > 3) {
@@ -53,11 +54,17 @@ const ToDo = (props) => {
   // Function to show Bucket Name(s) selected by user in the toolbar section to ToDo page
   function selectedBucketName() {
     var currentBuckets = toDoContext.currentBucket;
+    console.log("This is currentBuckets: ")
+    console.log(currentBuckets)
         return currentBuckets.map((bucket, i) => {
-          if (i === 0) {
-            return (bucket.name)
+          if (currentBuckets.length === 0){
+            return "None"
           } else {
-            return (`, ${bucket.name}`)
+            if (i === 0) {
+              return (bucket.name)
+            } else {
+              return (` ${bucket.name}`)
+            }
           }
     })
 }
@@ -87,20 +94,20 @@ const ToDo = (props) => {
             </div>
           </div>
           <div className="main" id="main">
-            <div className='toolbar-container'>
-              <div className='toolbar-element'>{selectedBucketName()}</div>
+            <div className='top-toolbar-container'>
+              <div className='top-toolbar-element'>{`Showing: ${selectedBucketName()}`}</div>
               <AddTaskProvider>
-                <div className='toolbar-element' onClick={toggleAddTask}>
-                    <FaPlus className='toolbar-item'/>
-                    <div className='toolbar-item'>New Task</div>
+                <div className='top-toolbar-element' onClick={toggleAddTask}>
+                    <FaPlus className='top-toolbar-item'/>
+                    <div className='top-toolbar-item'>New Task</div>
                 </div>
               </AddTaskProvider>
               <div className='flex-spacer-end'></div>
-                <div className='toolbar-element toolbar-sort' onClick={counterAdd}
+                <div className='top-toolbar-element top-toolbar-sort' onClick={counterAdd}
                 onMouseOver={toggleSort}
                 onMouseOut={toggleSort}>
-                  <FaSort className='toolbar-item'/>
-                  <div className='toolbar-item'>Sort</div>
+                  <FaSort className='top-toolbar-item'/>
+                  <div className='top-toolbar-item'>Sort</div>
                   <div className={sortDisplay ? 'visible':'invisible'}><Sort/></div>
                 </div>
             </div>
