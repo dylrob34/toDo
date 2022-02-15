@@ -92,7 +92,7 @@ const TimeBlock = (props) => {
     });
   };
 
-  const editBlock = (oldData, newData, key) => {
+  const editBlock = (oldData, newData, key, value) => {
     if (key !== "date" && key !== "duration" && key !== "time" && key!== "category") return;
     let temp = { ...timeblocks };
     let day = getDOWFromUTC(oldData.date);
@@ -183,10 +183,7 @@ const TimeBlock = (props) => {
   return (
     <div>
       <div className="toolbar-container">
-        <div className="toolbar-element" onClick={() => setModal(true)}>
-          <FaFolderOpen />
-          <div className="toolbar-item"> Categories</div>
-        </div>
+
         <div className="toolbar-element">
           <div className="toolbar-item">Test Item 2</div>
         </div>
@@ -196,7 +193,12 @@ const TimeBlock = (props) => {
         <div className="flex-spacer-end"></div>
       </div>
       <div className="page-config">
-        <div className="left-sidebar-sm"></div>
+        <div className="left-sidebar-sm">
+          <div className="toolbar-element" onClick={() => setModal(true)}>
+            <FaFolderOpen className="toolbar-item"/>
+            {/* <div className="toolbar-item"> Categories</div> */}
+          </div>
+        </div>
         <div className="main" name="table_metrics">
           <div name='leftright-position' className="main2">
             <section className="right">

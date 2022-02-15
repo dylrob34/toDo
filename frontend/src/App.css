@@ -1139,6 +1139,7 @@ body,
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   color: white;
   padding: 5px 10px 5px 10px;
 }
@@ -1150,7 +1151,7 @@ body,
   user-select: none;
 }
 .toolbar-item {
-  padding: 0px 3px 0px 3px;
+  padding: 10px 3px 10px 3px;
 }
 
 .toolbar-sort {
