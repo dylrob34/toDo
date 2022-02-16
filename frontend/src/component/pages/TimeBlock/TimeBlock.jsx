@@ -262,12 +262,12 @@ const TimeBlock = (props) => {
                 week={week}
                 categories={categories}
               />
-              <PieChart
+              {/* <PieChart
                   categories={buildPieDate()}
                   width={800}
                   height={800}
                   font={"25px arial"}
-              />
+              /> */}
             </section>
             <section className="left">
               <TimeblockMetrics/>
