@@ -27,7 +27,6 @@ const ToDo = (props) => {
   const counterUpdate = useCounterUpdate();
   const toggleAddTask = useAddTaskUpdate();
   const [reset, setReset] = useState(false);
-  const [sortDisplay, setSortDisplay] = useState(false);
 
   useEffect(() => {
     if (counter > 3) {
@@ -35,7 +34,7 @@ const ToDo = (props) => {
     } else {
       console.log("Sort Counter is: " + counter);
     }
-  }, [counter]);
+  }, [counter, counterUpdate]);
 
   useEffect(() => {
     var teamName = props.location.pathname.substring(
@@ -58,9 +57,6 @@ const ToDo = (props) => {
   }
 
   // Function for displaying the sort options
-  function toggleSort() {
-    setSortDisplay(!sortDisplay);
-  }
 
   // Function for incrementing the counter by +1, to change display of Sort Feature
   function counterAdd() {
@@ -68,19 +64,19 @@ const ToDo = (props) => {
   }
 
   // Function to show Bucket Name(s) selected by user in the toolbar section to ToDo page
-    function selectedBucketName() {
-        var currentBuckets = toDoContext.currentBucket;
-        if (currentBuckets.length === 0){
-          return "No Buckets Selected"
-        }
-        return currentBuckets.map((bucket, i) => {
-            if (i === 0) {
-              return (bucket.name)
-            } else {
-              return (` ${bucket.name}`)
-            }
-        })
+  function selectedBucketName() {
+    var currentBuckets = toDoContext.currentBucket;
+    if (currentBuckets.length === 0) {
+      return "No Buckets Selected";
     }
+    return currentBuckets.map((bucket, i) => {
+      if (i === 0) {
+        return bucket.name;
+      } else {
+        return ` ${bucket.name}`;
+      }
+    });
+  }
 
   return (
     <div className="page-config">
@@ -108,24 +104,18 @@ const ToDo = (props) => {
       <div className="main" id="main">
         <div className="toolbar-container">
           <div className="toolbar-element">{selectedBucketName()}</div>
-          <AddTaskProvider>
-            <div className="toolbar-element" onClick={toggleAddTask}>
-              <FaPlus className="toolbar-item" />
-              <div className="toolbar-item">New Task</div>
-            </div>
-          </AddTaskProvider>
-          <div className="flex-spacer-end"></div>
-          <div
-            className="toolbar-element toolbar-sort"
-            onClick={counterAdd}
-            onMouseOver={toggleSort}
-            onMouseOut={toggleSort}
-          >
-            <FaSort className="toolbar-item" />
-            <div className="toolbar-item">Sort</div>
-            <div className={sortDisplay ? "visible" : "invisible"}>
+          <div class="toolbar-right">
+            <div className="toolbar-element toolbar-sort" onClick={counterAdd}>
+              <FaSort className="toolbar-item" />
+              <div className="toolbar-item">Sort</div>
               <Sort />
             </div>
+            <AddTaskProvider>
+              <div className="toolbar-element new-task-button" onClick={toggleAddTask}>
+                <FaPlus className="toolbar-item" />
+                <div className="toolbar-item">New Task</div>
+              </div>
+            </AddTaskProvider>
           </div>
         </div>
         <div className="bug-button">Bug/Suggestion?</div>
