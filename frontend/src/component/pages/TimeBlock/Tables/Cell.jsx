@@ -140,11 +140,10 @@ const Cells = (props) => {
 
     const stopDragging = (newData) => {
         setDragging(false);
-        //saveNoUpdate(newData);
+        saveNoUpdate(newData);
     }
 
     const onMouseEnter = (i) => {
-        console.log(row+i);
         props.setDraggedOverRow(row + i)
     }
 
@@ -160,7 +159,7 @@ const Cells = (props) => {
 
     const getStyle = () => {
         const style = {};
-        if (category === null || isEditing === true) {
+        if (category === null) {
             style.backgroundColor = "transparent";
             return style;
         }
@@ -179,6 +178,7 @@ const Cells = (props) => {
                         id={`id${data.time}${row}`}
                         type="text"
                         className="editable-cell"
+                        style={getStyle()}
                         name="title"
                         value={data.title}
                         onFocus={() => {props.setCellCallback(handleBlur, cellRef.current)}}

@@ -52,7 +52,7 @@
 
 /* New Styling for Sign-up page */
 input[type="text"], input[type="email"], input[type="password"] {
-  background-color: var(--base-gray) !important;
+  background-color: var(--base-gray);
   color: white;
 }
 

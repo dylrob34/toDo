@@ -209,19 +209,19 @@ const TimeBlock = (props) => {
         <div className="left-sidebar-sm">
             <div className="toolbar-element" onClick={() => setModal(true)} onMouseEnter={() => setToolbarCategories(true)} onMouseLeave={() => setToolbarCategories(false)}>
               <FolderOpenIcon className="toolbar-item" style={toolbarCategories ? {transform:'translateX(.125rem)'} : {}}/>
-              <div className={"toolbar-item-title"} style={toolbarCategories ? {} : {color:"transparent", left:"7rem"}}>Categories</div>
+              <div className={"toolbar-item-title"} style={toolbarCategories ? {} : {color:"transparent", left:"5rem"}}>Categories</div>
             </div>
             <div className="toolbar-element" onMouseEnter={() => setToolbarViews(true)} onMouseLeave={() => setToolbarViews(false)}>
               <PhotographIcon className="toolbar-item" style={toolbarViews ? {transform:'translateX(.125rem)'} : {}}/>
-              <div className="toolbar-item-title" style={toolbarViews ? {} : {color:"transparent", left:"7rem"}} >Views</div>
+              <div className="toolbar-item-title" style={toolbarViews ? {} : {color:"transparent", left:"5rem"}} >Views</div>
             </div>
             <div className="toolbar-element" onMouseEnter={() => setToolbarInsights(true)} onMouseLeave={() => setToolbarInsights(false)} >
               <ChartPieIcon className="toolbar-item" style={toolbarInsights ? {transform:'translateX(.125rem)'} : {}}/>
-              <div className="toolbar-item-title" style={toolbarInsights ? {} : {color:"transparent", left:"7rem"}}>Insights</div>
+              <div className="toolbar-item-title" style={toolbarInsights ? {} : {color:"transparent", left:"5rem"}}>Insights</div>
             </div>
             <div className="toolbar-element" onMouseEnter={() => setToolbarSettings(true)} onMouseLeave={() => setToolbarSettings(false)}>
               <CogIcon className="toolbar-item" style={toolbarSettings ? {transform:'translateX(.125rem)'} : {}}/>
-              <div className="toolbar-item-title" style={toolbarSettings ? {} : {color:"transparent", left:"7rem"}}>Settings</div>
+              <div className="toolbar-item-title" style={toolbarSettings ? {} : {color:"transparent", left:"5rem"}}>Settings</div>
             </div>
         </div>
         <div className="main" name="table_metrics">
