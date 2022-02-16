@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 from pprint import pprint
 
-client = MongoClient("mongodb+srv://dylan:Alibwloc34@todo.5yfiz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+client = MongoClient()
 
 db = client.toDo
 
@@ -23,12 +23,15 @@ def deleteUserTeam():
     print("Done")
 
 def deleteDoc():
+    count = 0
     for doc in docs:
-        db.buckets.delete_one({"_id": doc.get("_id")})
+        if doc.get("title") == "New Block":
+            count += 1
+            db.timeblocking.delete_one({"_id": doc.get("_id")})
 
 def backupTable():
     for doc in docs:
         db.backupTimeblocking.insert_one(doc)
 
 if __name__=="__main__":
-    backupTable()
+    deleteDoc()

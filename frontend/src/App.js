@@ -11,12 +11,14 @@ import NavBar from './component/layout/NavBar';
 import ToDo from './component/pages/ToDo/ToDo';
 import TimeBlock from './component/pages/TimeBlock/TimeBlock';
 import Landing from './component/pages/About/Landing.jsx';
+import Account from './component/pages/Account/Account.jsx';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './Signup.css';
 // import 'react-calendar/dist/Calendar.css';
 import './CustomCalendar.css';
+import './AccountSetting.css';
 import { TimeBlockProvider } from './context/TimeBlockContext';
 
 
@@ -52,6 +54,7 @@ function App() {
           <Route exact path='/' component={ Landing } />
           <Route exact path='/login' component={ LoginPage } />
           <Route exact path='/signup' component={ SignUp }></Route>
+          <Route exact path='/account' component={ Account }></Route>
           <Route path='/todo' render={ routeProps => (
             <ToDoProvider>
               <AddTaskProvider>

@@ -4,8 +4,11 @@ import { getDOWFromUTC } from '../../../../tools/time';
 import PopupEditBlock from '../Popup/PopupEditBlock';
 import { getTableData, setInitialValues, clearInitialValues, getInitialValues, setCurrentData, getCurrentData } from './TableData';
 
+let usedTempIds = {};
+let tempIdValue;
 
 const Cells = (props) => {
+    const [_id, setId] = useState(props.data._id);
     const [category, setCategory] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [middle, setMiddle] = useState(0);
@@ -29,6 +32,8 @@ const Cells = (props) => {
         setRow(props.row);
         setCategories(props.categories);
         setDivisions(props.divisions);
+        setId(props.data._id);
+        if (props.data.category === null) setCategory(null);
         for (const cat of categories) {
             if (props.data.category === cat._id) {
                 setCategory(cat);
@@ -43,7 +48,7 @@ const Cells = (props) => {
             setLeft(rect.left);
         }
 
-    }, [cellRef.current, props.data, props.row, props.categories, props.divisions]);
+    }, [cellRef.current, props.data, props.row, props.categories, props.divisions, props.category]);
 
     const create = (newData) => {
         post("/api/timeblocking/createTimeblock", { ...newData })
@@ -52,23 +57,32 @@ const Cells = (props) => {
                     alert(`Error Creating new Timeblock\n${res.message}`);
                     return;
                 }
-                props.editBlock(newData, { ...newData, _id: res.timeblock._id }, null);
+                setId(res.timeblock._id);
+                delete usedTempIds[newData._id];
             })
     }
 
     const save = (key, value) => {
-        const updatedData = { ...data, [key]: value }
+        const updatedData = { ...data, [key]: value, _id }
         setData(updatedData);
-        if (data._id === null) {
-            props.editBlock(data, { ...updatedData, _id: "temp" }, key);
+
+        if (_id === null) {
+            let tempId = "temp" + Math.floor(Math.random() * 1000);
+            while (usedTempIds[tempId] !== undefined) {
+                tempId = "temp" + Math.floor(Math.random() * 1000);
+            }
+            usedTempIds = {...usedTempIds, tempId};
+            setId(tempId)
+            props.editBlock(data, { ...updatedData, _id: tempId }, key);
             create(updatedData);
             return;
         }
-        if (data._id === "temp") return;
         props.editBlock(data, updatedData, key);
+        if (_id.substring(0, 4) === "temp") return;
         post("/api/timeblocking/editTimeblock", {
             ...data,
-            [key]: value
+            [key]: value,
+            _id
         })
             .then((res) => {
                 if (res.error === true) {
@@ -92,15 +106,12 @@ const Cells = (props) => {
     const handleBlur = e => {
         if (cellRef.current === null) return;
         if (!cellRef.current.contains(e.target) && cellRef.current !== e.target && !cellRef.current.contains(document.activeElement)) {
-            console.log("blurring");
             setIsEditing(false);
             setPopup(false);
         }
     }
 
     const saveNoUpdate = (newData) => {
-        console.log("dat")
-        console.log(newData);
         post("/api/timeblocking/editTimeblock", newData)
             .then((res) => {
                 if (res.error === true) {
@@ -121,10 +132,10 @@ const Cells = (props) => {
     }
 
     const dragDown = (row, initValues) => {
-        console.log((row - initValues.row) * 15 + 15);
+        //console.log((row - initValues.row));
         const newData = {...initValues, duration: (row - initValues.row) * 15 + 15}
         props.setCache(newData)
-        props.editBlock(initValues, newData)
+        props.editBlock(initValues, newData, "duration")
     }
 
     const stopDragging = (newData) => {
@@ -148,7 +159,7 @@ const Cells = (props) => {
 
     const getStyle = () => {
         const style = {};
-        if (category === null || isEditing === true) {
+        if (category === null) {
             style.backgroundColor = "transparent";
             return style;
         }
@@ -167,9 +178,10 @@ const Cells = (props) => {
                         id={`id${data.time}${row}`}
                         type="text"
                         className="editable-cell"
+                        style={getStyle()}
                         name="title"
                         value={data.title}
-                        onFocus={() => {console.log("setting"); props.setCellCallback(handleBlur, cellRef.current)}}
+                        onFocus={() => {props.setCellCallback(handleBlur, cellRef.current)}}
                         onChange={(e) => { save("title", e.target.value) }}>
                     </input>
                     {popup ?

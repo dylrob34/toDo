@@ -1,5 +1,4 @@
 "use strict";
-const exports = {};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Shaders = void 0;
 const Shaders = () => {

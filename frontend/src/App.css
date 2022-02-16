@@ -375,6 +375,7 @@ body,
   width: 3rem;
   height: 3rem;
   cursor: pointer;
+  margin-right: 1rem;
 }
 
 .navbar-start {
@@ -389,7 +390,7 @@ body,
   box-shadow: 0px 0.5px 0.5px rgba(0, 0, 0, 0.5);
   z-index: 3;
   transition: all 0.7s ease-in;
-  padding: 10px 30px;
+  padding: 10px 10px;
 }
 .scrolled {
   position: fixed;
@@ -900,7 +901,7 @@ body,
 /* Side Bar styling */
 .left-sidebar-sm {
   position: relative;
-  width: 5%;
+  width: 4rem;
   min-height: 100vh;
   left: 0px;
   background-color: var(--mid-gray);
@@ -1104,6 +1105,7 @@ body,
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  margin-right: 18rem;
 }
 .top {
   display: flex;
@@ -1130,7 +1132,52 @@ body,
   flex-direction: column;
   margin: 0.5rem 0rem 1rem 0rem;
 }
-.toolbar-container {
+.editable-cell-container {
+  display: flex;
+  flex-direction: row;
+  background-color: var(--mid-gray);
+  border-top: solid 2px var(--top-gray);
+  padding: .2rem;
+  align-items: center;
+}
+
+.toolbar-element {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin: 4rem 0rem;
+}
+
+.toolbar-element:hover {
+  /* background-color: var(--base-gray);
+  color: var(--button); */
+  cursor: pointer;
+  user-select: none;
+  border-right: solid .25rem var(--primary-green);
+}
+
+.toolbar-item {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.toolbar-item-title{
+  position: absolute;
+  left: 4rem;
+  font-size: 1rem;
+  font-weight: 300;
+  transition:  400ms ease-in-out;
+}
+
+.toolbar-sort {
+  display: flex;
+  margin-right: 1%;
+}
+
+/* Top Toolbar styling */
+.top-toolbar-container {
   display: flex;
   flex-direction: row;
   background-color: var(--mid-gray);
@@ -1139,25 +1186,25 @@ body,
   align-items: center;
 }
 
-.toolbar-element {
+.top-toolbar-element {
   display: flex;
   flex-direction: row;
   align-items: center;
   color: white;
   padding: 5px 10px 5px 10px;
 }
-.toolbar-element:hover {
+.top-toolbar-element:hover {
   background-color: var(--base-gray);
   border-radius: 8px;
   color: var(--button);
   cursor: pointer;
   user-select: none;
 }
-.toolbar-item {
+.top-toolbar-item {
   padding: 0px 3px 0px 3px;
 }
 
-.toolbar-sort {
+.top-toolbar-sort {
   display: flex;
   margin-right: 1%;
 }
@@ -1515,6 +1562,7 @@ cursor: pointer;
   border: 1px solid var(--top-gray2);
   color: var(--text-gray1);
   border-collapse: collapse;
+  user-select: none;
 }
 
 .table-data,
@@ -1630,7 +1678,7 @@ cursor: pointer;
 .table-navigator {
   display: flex;
   justify-content: center;
-  font-size: 1.3rem;
+  font-size: 1rem;
   align-items: center;
   margin-top: 0.4rem;
   margin-bottom: 0.4rem;
@@ -1654,7 +1702,7 @@ cursor: pointer;
 
 .current-week {
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   margin: 0.8rem 0 0;
 }
 
@@ -1689,13 +1737,21 @@ cursor: pointer;
   pointer-events: none;
 }
 
+@media all and (max-width: 1700px) {
+  .metrics-table-shrink{
+    display: none; 
+  }
+}
+
 .metrics-table-container{
+  position: fixed;
   background-color: var(--mid-gray);
   width: 32rem;
-  height: 20rem;
+  height: 20.5rem;
   box-shadow: 3px 3px 6px rgb(0, 0, 0, 0.5);
   border-radius: 10px;
-  margin-top: 5.2rem;
+  margin-top: 6.5rem;
+  right: 2rem;
 }
 .metrics-header{
   font-weight: 300;
@@ -1738,6 +1794,28 @@ cursor: pointer;
   border-radius: 5px;
 }
 
+.metrics-data-table-pos{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+}
+.metrics-data-table{
+  border: solid 2px var(--text-gray1);
+  border-radius: 10px;
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+  overflow: auto;
+}
+.metrics-data-tr{
+}
+.metrics-data-td{
+  padding: .3rem .5rem;
+  height: 2rem;
+}
 /* TimeBlock section PRE Kanishq */
 
 /* 

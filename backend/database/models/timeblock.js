@@ -20,6 +20,9 @@ class Timeblock {
         .catch(() => {
             throw "Error Getting Timeblock";
         });
+        if (temp === null) {
+            throw new Error("Error: Timeblock does not exist");
+        }
         return new Timeblock(temp._id, temp.owner, temp.title, temp.body, temp.time, temp.duration, temp.category, temp.date);
     }
 
