@@ -1,21 +1,27 @@
 import React from 'react'
 
-import "../../../AccountSetting.css"
 
 const Account = () => {
   return (
-    <div className='wrapper account-page'>
-
-        <div className='account-settings-nav'>
-            Account Settings
+    <div className='account-page'>
+        <div className='account-grid-wrapper'>
+            <div className='account-grid-left'>
+                <div className='account-nav-container'>
+                    <h3 className='account-nav-header'>Account Settings</h3>
+                    <div className='account-nav-element'> Profile Information </div>
+                    <div className='account-nav-element'> General </div>
+                    <div className='account-nav-element'> Display </div>
+                    <div className='account-nav-element'> Data Privacy </div>
+                </div>
+            </div>
+            <div className='account-grid-right'>
+                <div className='account-information-container'>
+                    Profile Information
+                </div>
+            </div>
         </div>
-
-        <div className='account-setting-information'>
-            Profile Information
-        </div>
-
-
     </div>
+
   )
 }
 

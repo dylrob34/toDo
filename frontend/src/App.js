@@ -18,6 +18,7 @@ import './App.css';
 import './Signup.css';
 // import 'react-calendar/dist/Calendar.css';
 import './CustomCalendar.css';
+import './AccountSetting.css';
 import { TimeBlockProvider } from './context/TimeBlockContext';
 
 
@@ -53,7 +54,7 @@ function App() {
           <Route exact path='/' component={ Landing } />
           <Route exact path='/login' component={ LoginPage } />
           <Route exact path='/signup' component={ SignUp }></Route>
-          <Route exact path='/account' component={ Account }> </Route>
+          <Route exact path='/account' component={ Account }></Route>
           <Route path='/todo' render={ routeProps => (
             <ToDoProvider>
               <AddTaskProvider>
