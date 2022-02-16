@@ -91,6 +91,7 @@ body,
   --light-orange: #fb8b00;
   --mid-orange: #fa7711;
   --dark-orange: #f34508;
+  --danger: #cc0000;
 
   --highlight_color: #61dafb;
   --accent1: #2e8b57;
@@ -123,6 +124,7 @@ body,
   --top-gray: rgb(54, 54, 54);
   --top-gray2: #3b3b3b; /*(59,59,59)*/
   --text-gray1: rgb(128, 134, 139);
+  --text-gray2: rgb(180, 188, 194);
 
   /* General Properties */
   --timeblock-pop-h: 175px;
@@ -908,7 +910,6 @@ body,
 }
 
 .left-sidebar {
-  position: relative;
   width: 15%;
   min-height: 100vh;
   min-width: 210px;
@@ -917,15 +918,18 @@ body,
   float: left;
   box-shadow: 0.5px 0px 1px rgba(0, 0, 0, 0.2);
   z-index: 2;
+  padding: 0.4rem 1rem;
 }
-.left-sb-logo {
-  font-size: 24px;
-  padding: 5px 10px 10px 5px;
-  background-color: var(--primary-green);
+.left-header {
+  text-align: start;
   color: white;
-  box-shadow: 0.5px 0px 5px rgba(0, 0, 0, 0.6);
-  /* border-bottom: solid var(--accent3) 0.5px; */
-  margin-bottom: 25px;
+  margin-bottom: 0.4rem;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+.left-header h3 {
+  font-weight: 600;
 }
 .left-sb-navigation {
   display: flex;
@@ -938,48 +942,37 @@ body,
 .left-sb-element {
   display: flex;
   position: relative;
-  align-items: flex-start;
+  align-items: center;
   font-size: 18px;
   margin: 0px;
-  color: white;
-  /* margin: 5px 10px 25px 10px; */
-  padding: 10px;
+  color: var(--text-gray2);
+  padding: 6px 0;
   cursor: pointer;
 }
 
-.left-sb-element::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -1;
-  background-color: var(--accent1);
-  transition: border-radius 1ms ease;
-  transition: transform 300ms ease-in-out;
-  transform: scaleX(0);
-  transform-origin: left;
+.left-sb-element div {
+  margin-left: 0.2rem;
 }
 
-.left-sb-element:hover::before,
-.left-sb-element:focus::before {
-  transform: scaleX(1);
+.left-sb-element:hover {
+  color: var(--accent1);
+}
+
+.sb-icon {
+  margin-right: 0.5rem;
+  font-size: 1rem;
 }
 
 /* Buckets Styling */
-.bucket-container {
-  margin-top: 3rem;
-}
 .bucket-list {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 100%;
 }
-.buckets {
-  position: relative;
+.bucket-list div {
+  width: 100%;
 }
-
 .buckets-title {
   display: flex;
   background-color: var(--bgrnd-green);
@@ -988,10 +981,7 @@ body,
 .buckets-header {
   display: flex;
   justify-content: flex-start;
-  padding: 0rem 0rem 0rem 0.5rem;
-  font-size: 22px;
   color: white;
-  cursor: default;
 }
 
 .bucket-item-edit {
@@ -1004,12 +994,27 @@ body,
   flex-grow: 4;
 }
 
+.loading {
+  width: 40px;
+  height: 40px;
+  margin: auto;
+}
+
 .bucket-item {
-  color: white;
+  color: var(--text-gray2);
   cursor: pointer;
   white-space: nowrap;
+  margin: 0.1rem 0;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
-.bucket-item:hover {
+.bucket-item span {
+  margin: 0.3rem;
+  color: var(--text-gray2);
+}
+.bucket-item:hover, .bucket-item:hover span {
   color: var(--accent1);
 }
 .buckets-add {
@@ -1092,7 +1097,6 @@ body,
 .main {
   background-color: var(--base-gray);
   float: right;
-  min-height: 100vh;
   width: 100%;
 }
 
@@ -1179,6 +1183,7 @@ cursor: pointer;
   justify-content: center;
 }
 
+
 .add-task-buttons button {
   border-radius: 3px;
   color: white;
@@ -1195,7 +1200,7 @@ cursor: pointer;
 }
 
 .add-task-buttons .cancel {
-  border: 1px solid var(--dark-orange);
+  border: 1px solid var(--danger);
   background-color: var(--mid-gray);
 }
 
@@ -1204,7 +1209,7 @@ cursor: pointer;
 }
 
 .add-task-buttons .cancel:hover {
-  background-color: var(--dark-orange);
+  background-color: var(--danger);
   color: white;
 }
 
@@ -1218,7 +1223,7 @@ cursor: pointer;
   justify-content: center;
   align-items: center;
   padding: 0px 0px 0px 0px;
-  margin-top: 1rem;
+  margin: 1rem auto 0;
   text-align: start;
 }
 .add-task-container h3 {
@@ -1239,7 +1244,7 @@ cursor: pointer;
   outline: none;
   resize: none;
   width: 60%;
-  height: 100%;
+  height: 20%;
   font-size: 14px;
   padding: 20px 10px;
   margin: 5px 0;
@@ -1383,6 +1388,13 @@ cursor: pointer;
   border: solid 1px var(--mid-gray);
   background-color: var(--top-gray2);
   color: rgb(255, 255, 255, 0.8);
+}
+
+.sidebar-divider {
+  margin: 0.5rem 0.2rem;
+  color: var(--text-gray1);
+  outline-color: var(--text-gray1);
+  border-color: var(--text-gray1);
 }
 
 .task-grip-invisible {

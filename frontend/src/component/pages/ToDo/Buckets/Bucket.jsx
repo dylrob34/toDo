@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { FaPlus, FaTimes, FaEdit, FaBars, FaDiceD6 } from 'react-icons/fa';
+import { FaTimes, FaEdit } from 'react-icons/fa';
+import { FiBox } from 'react-icons/fi'
 import { get, post } from "../../../../tools/request";
 import {
   useToDoContext,
@@ -91,7 +92,7 @@ const Bucket = ({ bucket, popup }) => {
           <input type="text" className={isEditing ? "visible modal-input" : "invisible"} value={text}
             onChange={e => setText(e.target.value)}
             onKeyDown={editBucket}
-          />
+          /> padding: '0rem 0rem 0rem 0.5rem';
           <div className={isEditing ? 'invisible' : 'modal-item'}>
             {text}
           </div>
@@ -101,8 +102,8 @@ const Bucket = ({ bucket, popup }) => {
           </div>
         </div>
       ) : <div onClick={setCurrentBucket} className={selected ? 'bucket-item selected' : 'bucket-item'}>
-        <FaDiceD6 /> {/* Placeholder until we get custom icons */}
-        {text}
+        <FiBox /> {/* Placeholder until we get custom icons */}
+        <span>{text}</span>
       </div>}
     </div>
   );
