@@ -55,7 +55,7 @@ const ToDo = (props) => {
     function selectedBucketName() {
         var currentBuckets = toDoContext.currentBucket;
         if (currentBuckets.length === 0){
-          return "None"
+          return "No Buckets Selected"
         }
         return currentBuckets.map((bucket, i) => {
             if (i === 0) {
@@ -92,7 +92,7 @@ const ToDo = (props) => {
           </div>
           <div className="main" id="main">
             <div className='top-toolbar-container'>
-              <div className='top-toolbar-element'>{`Showing: ${selectedBucketName()}`}</div>
+              <div className='top-toolbar-element'>{`${selectedBucketName()}`}</div>
               <AddTaskProvider>
                 <div className='top-toolbar-element' onClick={toggleAddTask}>
                     <FaPlus className='top-toolbar-item'/>

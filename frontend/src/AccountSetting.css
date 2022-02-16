@@ -1,0 +1,22 @@
+:root {
+    --midnight-layer1: rgb(13, 15, 28);
+    --midnight-layer2: rgb(28, 30, 41);
+    --midnight-layer3: rgb(82, 85, 92);
+}
+
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+  }
+
+  .account-settings-nav{
+    grid-column: 3;
+    grid-row: 3;
+  }
+
+  .account-setting-information{
+    grid-column: 3;
+    grid-row: 3;
+  }

@@ -11,6 +11,7 @@ import NavBar from './component/layout/NavBar';
 import ToDo from './component/pages/ToDo/ToDo';
 import TimeBlock from './component/pages/TimeBlock/TimeBlock';
 import Landing from './component/pages/About/Landing.jsx';
+import Account from './component/pages/Account/Account.jsx';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -52,6 +53,7 @@ function App() {
           <Route exact path='/' component={ Landing } />
           <Route exact path='/login' component={ LoginPage } />
           <Route exact path='/signup' component={ SignUp }></Route>
+          <Route exact path='/account' component={ Account }> </Route>
           <Route path='/todo' render={ routeProps => (
             <ToDoProvider>
               <AddTaskProvider>
