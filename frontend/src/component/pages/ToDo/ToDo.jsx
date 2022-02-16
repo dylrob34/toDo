@@ -52,22 +52,19 @@ const ToDo = (props) => {
   }
 
   // Function to show Bucket Name(s) selected by user in the toolbar section to ToDo page
-  function selectedBucketName() {
-    var currentBuckets = toDoContext.currentBucket;
-    console.log("This is currentBuckets: ")
-    console.log(currentBuckets)
+    function selectedBucketName() {
+        var currentBuckets = toDoContext.currentBucket;
+        if (currentBuckets.length === 0){
+          return "None"
+        }
         return currentBuckets.map((bucket, i) => {
-          if (currentBuckets.length === 0){
-            return "None"
-          } else {
             if (i === 0) {
               return (bucket.name)
             } else {
               return (` ${bucket.name}`)
             }
-          }
-    })
-}
+        })
+    }
 
   return (
       <div className="page-config">

@@ -1132,7 +1132,7 @@ body,
   flex-direction: row;
   background-color: var(--mid-gray);
   border-top: solid 2px var(--top-gray);
-  padding: 5px;
+  padding: .2rem;
   align-items: center;
 }
 
@@ -1142,8 +1142,7 @@ body,
   align-items: center;
   justify-content: center;
   color: white;
-  margin: 60px auto;
-  padding: 2.5px 0px 2.5px 0px;
+  margin: 4rem 0rem;
 }
 
 .toolbar-element:hover {
