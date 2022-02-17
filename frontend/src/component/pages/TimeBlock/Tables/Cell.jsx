@@ -184,7 +184,7 @@ const Cells = (props) => {
                         onFocus={() => {props.setCellCallback(handleBlur, cellRef.current)}}
                         onChange={(e) => { save("title", e.target.value) }}>
                     </input>
-                    {popup ?
+                    {popup && !dragging ?
                         <PopupEditBlock {...props} cell={true} s={{ top: middle - 150, left: right + 4 }} data={data} timeStrings={timeStrings} save={save} deleteCell={deleteCell} className='popup-timeblock' />
                         :
                         null}

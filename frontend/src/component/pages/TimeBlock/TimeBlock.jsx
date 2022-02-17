@@ -194,14 +194,6 @@ const TimeBlock = (props) => {
   };
 
 
-  // const handleMouseEnter = (e) => {
-  //   setDelayHandler(setTimeout(() => {
-  //     setToolbarCategories(true)
-  //   }, 1500))
-  // }
-  // const handleMouseLeave = () => {
-  //   clearTimeout(setToolbarCategories(false))
-  // }
 
   return (
     <div>
