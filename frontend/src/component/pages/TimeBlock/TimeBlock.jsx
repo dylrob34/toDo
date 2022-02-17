@@ -31,7 +31,7 @@ import {
   CogIcon,
 
 } from "@heroicons/react/outline";
-import { PieChart } from "./PieChart/PieChart";
+// import { PieChart } from "./PieChart/PieChart";
 
 const TimeBlock = (props) => {
   // const [popup, setPopup] = useState(false)
