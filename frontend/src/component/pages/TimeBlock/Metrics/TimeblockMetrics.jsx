@@ -1,7 +1,6 @@
-import React from 'react'
+import React, {useState} from 'react'
 
-const TimeblockMetrics = () => {
-  
+const TimeblockMetrics = (props) => {
   // Test Data to mirror structure for backend - To be Used by Dylan
   
     let TestCategory1 = {
@@ -48,18 +47,31 @@ const TimeblockMetrics = () => {
     };
 
   let TestCategoryArray = [ TestCategory1, TestCategory2, TestCategory3, TestCategory3];
-
+    
   // End of Test data
 
+    const handleDuration = () => {
+      for(const i of Object.keys(props.allUserCategories)){
+        let tempTitle = props.allUserCategories[i].title
+        for(const i of Object.keys(props.categoryDurations)){
+          let tempName = props.categoryDurations[i].name
+          if(tempTitle === tempName){
+            let tempCategoryDuration = props.categoryDurations[i].duration
+            console.log(tempCategoryDuration)
+          }
+        }
+      }
+
+    }
+    console.log(props.allUserCategories)
+    console.log(props.categoryDurations)
   return (
     <div>
-
-      <div className='metrics-table-container metrics-table-shrink'>
+      <div className='metrics-table-container metrics-table-shrin'>
         
         <h2 name='Title' className='metrics-header'>
           Timeblock Weekly Metrics
         </h2>
-
         <div name='Total-Metrics' className='metrics-totals'>
           
           <div name='Total Hours Border' className='metrics-totals-border'>
@@ -100,14 +112,14 @@ const TimeblockMetrics = () => {
               <td className='metrics-data-td'> % of Total Time</td>
             </tr>
             {
-              TestCategoryArray.map((category) => {
+              props.allUserCategories.map((category) => {
                   return (
                       <tr style={{fontSize:'.8rem'}}>
                         <td className='metrics-data-td'>
                         <div style={{backgroundColor:`rgb(${category.color.r},${category.color.g},${category.color.b}`, border:'none'}} className='color-title-metrics metrics-title'></div>
                         </td>
                         <td className='metrics-data-td'>{category.title}</td>
-                        <td className='metrics-data-td'>{category.weekHourData.Week1}</td>
+                        <td className='metrics-data-td'>{handleDuration()}</td>
                         <td className='metrics-data-td'>00 %</td>
                       </tr>
                   )

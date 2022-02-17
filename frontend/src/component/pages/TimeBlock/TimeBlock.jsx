@@ -175,7 +175,6 @@ const TimeBlock = (props) => {
         }
       }
     }
-
     // create array of objects to input to the pie chart
     for (const category of Object.keys(cats)) {
       let duration = cats[category].duration;
@@ -193,8 +192,92 @@ const TimeBlock = (props) => {
     return slices;
   };
 
+  /*
+  const countCategoryHours = () => {
+    let metricsCategories = [];
+    let metricsCategoriesDurations = {}; // object to store all the category durations
+    let cat = [];
+    for(const key of Object.keys(categories)) {
+      cat = (categories[key]._id)
+      let categoryWeeklyDuration = 0; // initialize the variable to store individual category's total weekly duration
+      // loop through days of timeblocks data object
+        for(const day of Object.keys(timeblocks)){
+          // loop through all the times of given day
+          for(const timeblock of Object.keys(timeblocks[day])){
+            let tempBlock = timeblocks[day][timeblock]; // pull out specific blocks that have data
+            let tempCategory = tempBlock.category; // identify the category from blocks with data
+            if (tempCategory == cat){
+              categoryWeeklyDuration = categoryWeeklyDuration + tempBlock.duration // add each blocks duration to overall category's weekly duration
+            } else {
+              continue
+            } // write the total weekly duration to the object with category_id:data pair
+            // metricsCategoriesDurations[cat] = {
+            //   ...metricsCategoriesDurattions[cat],
+            //   duration: categoryWeeklyDuration
+            // };
+          }
+        }
+        console.log(categoryWeeklyDuration)
+    }
+    return metricsCategories
+    // Original Loop Xian needed to understand what Dyland was doing in piechart thing:
+    // let key = [];
+    // for(key in categories) {
+    //   let temp = categories[key];
+    //   console.log(temp);
+    //   let k = []
+    //   for(k in timeblocks){
+    //     console.log(k)
+    //   }
+    // }
+  }
+  */
 
+  const countCategoryHours = () => {
+    let categoriesWeeklyDurations = [];
+    let cats = {};
+    // create json object of categories and their total time in the week
+    for (const day of Object.keys(timeblocks)) {
+      for (const timeblock of Object.keys(timeblocks[day])) {
+        let tempBlock = timeblocks[day][timeblock]; // pull out specific blocks that have data
+        let tempCatId = tempBlock.category; // identify the category from those blocks with data
+        if (tempCatId !== null) {
+          let tempCat = categories.find((e) => e._id === tempCatId); // creating an objects based on present
+          if (tempCat === undefined) continue;
+          // creating an object based on the categories that are present on the week and their corresponding total duration
+          if (cats[tempCat.title] === undefined) {
+            cats[tempCat.title] = {
+              color: tempCat.color,
+              duration: tempBlock.duration,
+            };
+          } else {
+            cats[tempCat.title] = {
+              ...cats[tempCat.title],
+              duration: cats[tempCat.title].duration + tempBlock.duration,
+            };
+          }
+        }
+      }
+    }
 
+    // Builds the array of categories and there corresponding parameters to be used in metrics table.
+    for (const category of Object.keys(cats)) {
+      let duration = cats[category].duration;
+      let color = cats[category].color;
+      categoriesWeeklyDurations.push({
+        name: category,
+        duration: Math.round((duration / (1440 * 7)) * 360),
+        color: [
+          parseInt(color["r"]),
+          parseInt(color["g"]),
+          parseInt(color["b"]),
+        ],
+      });
+    }
+    return categoriesWeeklyDurations;
+  };
+
+  console.log(countCategoryHours())
   return (
     <div>
       <div className="page-config">
@@ -254,16 +337,19 @@ const TimeBlock = (props) => {
                 week={week}
                 categories={categories}
               />
+            </section>
+            <section className="left">
+              <TimeblockMetrics
+              allUserCategories={categories}
+              categoryDurations={countCategoryHours()}
+
+              />
               {/* <PieChart
                   categories={buildPieDate()}
                   width={800}
                   height={800}
                   font={"25px arial"}
               /> */}
-            </section>
-            <section className="left">
-              <TimeblockMetrics/>
-              {/* Placeholder for the Piechart (replace component with this comment) */}
             </section>
           </div>
         </div>
