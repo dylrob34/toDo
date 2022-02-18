@@ -55,10 +55,10 @@ const TimeblockMetrics = (props) => {
       const metricsCategoryArray = [];
       let tempTitle = ''
       let tempColor = {}
-      let tempDuration = 0
       for(const i of Object.keys(props.allUserCategories)){
         tempTitle = props.allUserCategories[i].title
         tempColor = props.allUserCategories[i].color
+        let tempDuration = 0
         for(const c of Object.keys(props.categoryDurations)){
           let compareName = props.categoryDurations[c].name
           if(compareName === tempTitle){
@@ -141,7 +141,7 @@ const TimeblockMetrics = (props) => {
                         <div style={{backgroundColor:`rgb(${category.color.r},${category.color.g},${category.color.b}`, border:'none'}} className='color-title-metrics metrics-title'></div>
                         </td>
                         <td className='metrics-data-td'>{category.name}</td>
-                        <td className='metrics-data-td'>{category.totalDuration}</td>
+                        <td className='metrics-data-td'>{category.totalDuration/2}</td>
                         <td className='metrics-data-td'>00 %</td>
                       </tr>
                   )
