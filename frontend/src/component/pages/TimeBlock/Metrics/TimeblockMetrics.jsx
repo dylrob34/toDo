@@ -2,7 +2,8 @@ import React, {useState} from 'react'
 
 const TimeblockMetrics = (props) => {
   // Test Data to mirror structure for backend - To be Used by Dylan
-  
+  const [metricsDataArray, setMetricsDataArray] = useState([])
+
     let TestCategory1 = {
       id: '1234',
       title: 'Test Title 1',
@@ -50,21 +51,42 @@ const TimeblockMetrics = (props) => {
     
   // End of Test data
 
-    const handleDuration = () => {
+    const populateMetricsData = () => {
+      const metricsCategoryArray = [];
+      let tempTitle = ''
+      let tempColor = {}
+      let tempDuration = 0
       for(const i of Object.keys(props.allUserCategories)){
-        let tempTitle = props.allUserCategories[i].title
-        for(const i of Object.keys(props.categoryDurations)){
-          let tempName = props.categoryDurations[i].name
-          if(tempTitle === tempName){
-            let tempCategoryDuration = props.categoryDurations[i].duration
-            console.log(tempCategoryDuration)
+        tempTitle = props.allUserCategories[i].title
+        tempColor = props.allUserCategories[i].color
+        for(const c of Object.keys(props.categoryDurations)){
+          let compareName = props.categoryDurations[c].name
+          if(compareName === tempTitle){
+            tempDuration = props.categoryDurations[c].duration
+          } else {
+            continue
           }
         }
+        metricsCategoryArray.push({
+          name: tempTitle,
+          color: tempColor,
+          totalDuration: tempDuration
+        })
       }
-
+      console.log(metricsCategoryArray)
+      return metricsCategoryArray
     }
-    console.log(props.allUserCategories)
-    console.log(props.categoryDurations)
+
+
+    // for(const i of Object.keys(props.categoryDurations)){
+    //   let tempName = props.categoryDurations[i].name
+    //   console.log(tempName)
+    //   if(tempTitle === tempName){
+    //     let tempCategoryDuration = props.categoryDurations[i].duration
+    //   }
+    // }
+    // console.log(props.allUserCategories)
+    // console.log(props.categoryDurations)
   return (
     <div>
       <div className='metrics-table-container metrics-table-shrin'>
@@ -112,14 +134,14 @@ const TimeblockMetrics = (props) => {
               <td className='metrics-data-td'> % of Total Time</td>
             </tr>
             {
-              props.allUserCategories.map((category) => {
+              populateMetricsData().map((category) => {
                   return (
                       <tr style={{fontSize:'.8rem'}}>
                         <td className='metrics-data-td'>
                         <div style={{backgroundColor:`rgb(${category.color.r},${category.color.g},${category.color.b}`, border:'none'}} className='color-title-metrics metrics-title'></div>
                         </td>
-                        <td className='metrics-data-td'>{category.title}</td>
-                        <td className='metrics-data-td'>{handleDuration()}</td>
+                        <td className='metrics-data-td'>{category.name}</td>
+                        <td className='metrics-data-td'>{category.totalDuration}</td>
                         <td className='metrics-data-td'>00 %</td>
                       </tr>
                   )

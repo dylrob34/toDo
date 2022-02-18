@@ -277,7 +277,6 @@ const TimeBlock = (props) => {
     return categoriesWeeklyDurations;
   };
 
-  console.log(countCategoryHours())
   return (
     <div>
       <div className="page-config">
