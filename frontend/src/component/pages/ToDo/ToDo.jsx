@@ -19,6 +19,7 @@ import {
   useAddTask,
   useAddTaskUpdate,
 } from "../../../context/AddTaskContext";
+import Modal from "../../layout/Modal/Modal";
 
 const ToDo = (props) => {
   const toDoContext = useToDoContext();
@@ -26,7 +27,13 @@ const ToDo = (props) => {
   const counter = useCounter();
   const counterUpdate = useCounterUpdate();
   const toggleAddTask = useAddTaskUpdate();
+  const [popup, setPopup] = useState(false)
   const [reset, setReset] = useState(false);
+
+  // States for the bug handler:
+  const [type, setType] = useState('');
+  const [page, setPage] = useState('');
+  const [description, setDescription] = useState('');
 
   useEffect(() => {
     if (counter > 3) {
@@ -56,8 +63,6 @@ const ToDo = (props) => {
     return <Redirect to="/login" />;
   }
 
-  // Function for displaying the sort options
-
   // Function for incrementing the counter by +1, to change display of Sort Feature
   function counterAdd() {
     counterUpdate(counter + 1);
@@ -73,10 +78,22 @@ const ToDo = (props) => {
       if (i === 0) {
         return bucket.name;
       } else {
-        return ` ${bucket.name}`;
+        return `, ${bucket.name}`;
       }
     });
   }
+
+  // Function to handle bug submission:
+  function handleBugSubmit() {
+    let dataBody = {
+      type: type,
+      page: page,
+      desc: description 
+    }
+
+    console.log(dataBody)
+  }
+
 
   return (
     <div className="page-config">
@@ -84,27 +101,27 @@ const ToDo = (props) => {
         <div>
           <div name="viewContainer">
             <h3 className="left-header">Views</h3>
-            <div class="left-sb-element">
-              <FiSquare class="sb-icon" />
+            <div className="left-sb-element">
+              <FiSquare className="sb-icon" />
               <div name="dayView">Day</div>
             </div>
-            <div class="left-sb-element">
-              <FiGrid class="sb-icon" />
+            <div className="left-sb-element">
+              <FiGrid className="sb-icon" />
               <div name="weekView">Look Ahead</div>
             </div>
-            <div class="left-sb-element">
-              <FiCalendar class="sb-icon" />
+            <div className="left-sb-element">
+              <FiCalendar className="sb-icon" />
               <div name="timeblockView">All Tasks</div>
             </div>
           </div>
         </div>
-        <hr class="sidebar-divider" />
+        <hr className="sidebar-divider" />
         <Buckets />
       </div>
       <div className="main" id="main">
         <div className="toolbar-container">
           <div className="toolbar-element">{selectedBucketName()}</div>
-          <div class="toolbar-right">
+          <div className="toolbar-right">
             <div className="toolbar-element toolbar-sort" onClick={counterAdd}>
               <FaSort className="toolbar-item" />
               <div className="toolbar-item">Sort</div>
@@ -118,11 +135,52 @@ const ToDo = (props) => {
             </AddTaskProvider>
           </div>
         </div>
-        <div className="bug-button">Bug/Suggestion?</div>
+        <div className="bug-button" onClick={() => setPopup(!popup)}>Bug/Suggestion?  
+        </div>
         <div className="task-textedit">
           <Tasks className="tasks" />
         </div>
       </div>
+    
+    {/* Bug Modal */}
+      <Modal trigger={popup} setTrigger={setPopup}>
+        <div className="modal-background">
+          <div className="modal">
+            <div className="modal-container">
+              <div className="modal-row">
+                <h2 className="modal-header">Bugs/Suggestions</h2>
+              </div>
+                <div className="modal-row" style={{flexDirection:"column"}}>
+                  <form action={handleBugSubmit()}>
+                    <select name="type" id="type" value={type} onChange={(e) => setType(e.target.value)}>
+                      <option value=""></option>
+                      <option value='bug'>Bug</option>
+                      <option value='suggestion'>Suggestion</option>
+                    </select>
+                    <select name="location" id="location" value={page} onChange={(e) => setPage(e.target.value)}>
+                      <option value=""></option>
+                      <option value="About">About</option>
+                      <option value="Login/Signup">Login/Signup</option>
+                      <option value="Accout">Account</option>
+                      <option value="todo">ToDo</option>
+                      <option value="timeblock">Timeblock</option>
+                    </select>
+                    <textarea name="description" id="description" cols="30" rows="10" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+                    <input className="m-btn m-btn-lrg" style={{fontFamily:'Inter, san-serif', backgroundColor:'transparent', color:"white", fontSize:"1rem"}}type="submit" />
+                  </form>
+                </div>
+              <div
+                className="modal-row modal-row-content"
+                style={{ padding: "0px 0px 0px 0px" }}>
+                <div className="m-btn m-btn-lrg" onClick={() => setPopup(false)}>
+                  Close
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+    
     </div>
   );
 };

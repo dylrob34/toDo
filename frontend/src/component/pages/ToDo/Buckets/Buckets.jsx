@@ -63,8 +63,8 @@ const Buckets = () => {
           x="0px"
           y="0px"
           viewBox="0 0 100 100"
-          enable-background="new 0 0 0 0"
-          class="loading"
+          enableBackground="new 0 0 0 0"
+          className="loading"
         >
           <path
             fill="#fff"

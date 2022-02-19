@@ -1,9 +1,6 @@
 import React, {useState} from 'react'
 
 const TimeblockMetrics = (props) => {
-  // Test Data to mirror structure for backend - To be Used by Dylan
-  const [metricsDataArray, setMetricsDataArray] = useState([])
-
     let TestCategory1 = {
       id: '1234',
       title: 'Test Title 1',
@@ -18,36 +15,7 @@ const TimeblockMetrics = (props) => {
         Week3: 23,
       }
     };
-    let TestCategory2 = {
-      id: '1235',
-      title: 'Test Title 2',
-      color: {
-        r: '174',
-        g: '161',
-        b: '255',
-      },
-      weekHourData: {
-        Week1: 14,
-        Week2: 12,
-        Week3: 23,
-      }
-    };
-    let TestCategory3 = {
-      id: '1236',
-      title: 'Test Title 3',
-      color: {
-        r: '226',
-        g: '115',
-        b: '0',
-      },
-      weekHourData: {
-        Week1: 8,
-        Week2: 12,
-        Week3: 23,
-      }
-    };
 
-  let TestCategoryArray = [ TestCategory1, TestCategory2, TestCategory3, TestCategory3];
     
   // End of Test data
 
@@ -67,26 +35,20 @@ const TimeblockMetrics = (props) => {
             continue
           }
         }
+        // combines information from allUserCategories JSON array and categoryDurations JSON array
+        // in order to properly display data on the table.
         metricsCategoryArray.push({
           name: tempTitle,
           color: tempColor,
           totalDuration: tempDuration
         })
       }
+      // Returns an array of EVERY category the user has with name, color AND total durations from the output of "countCategoryHours" function in timeblock.jsx
+      // If a category does not have a duration value from the "countCategoryHours" totalDuration remains 0 for that specific category.
       console.log(metricsCategoryArray)
       return metricsCategoryArray
     }
 
-
-    // for(const i of Object.keys(props.categoryDurations)){
-    //   let tempName = props.categoryDurations[i].name
-    //   console.log(tempName)
-    //   if(tempTitle === tempName){
-    //     let tempCategoryDuration = props.categoryDurations[i].duration
-    //   }
-    // }
-    // console.log(props.allUserCategories)
-    // console.log(props.categoryDurations)
   return (
     <div>
       <div className='metrics-table-container metrics-table-shrin'>
@@ -101,7 +63,7 @@ const TimeblockMetrics = (props) => {
               Total Hours: 
               </div>
               <div name='Total Hour numerical'>
-              000 {/* Replace this with dynamic numebrs*/ }
+              {168} {/* Replace this with dynamic numebrs*/ }
               </div>
           </div>
 
@@ -142,28 +104,14 @@ const TimeblockMetrics = (props) => {
                         </td>
                         <td className='metrics-data-td'>{category.name}</td>
                         <td className='metrics-data-td'>{category.totalDuration/2}</td>
-                        <td className='metrics-data-td'>00 %</td>
+                        <td className='metrics-data-td'>{`${Math.round(category.totalDuration/(168)*100)}%`}</td>
                       </tr>
                   )
               })
             }
           </table>
         </div>
-
-
-        {/* <div name='Table Column Titles' className='metrics-column-titles-container'>
-          <div style={{backgroundColor:''}} className='color-title-metrics metrics-title'>
-            
-          </div>
-          <div className='metrics-title'> Category Name </div>
-          <div className='metrics-title'> Hours Spent </div>
-          <div className='metrics-title'> % of Total Hours </div>
-        </div>
-        <div name='Populated Categories'>
-
-        </div> */}
       </div>
-
     </div>
     
   )

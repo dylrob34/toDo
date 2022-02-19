@@ -35,7 +35,7 @@ const Task = ({ task }) => {
         setTitle(task.title);
         setBody(task.body);
         setCompleteTask(task.complete);
-        setDueDate(task.duedate);
+        // setDueDate(task.duedate);
     }, [task._id, task.title, task.body, task.complete, task.duedate])
 
 
@@ -110,7 +110,6 @@ const Task = ({ task }) => {
     }
 
     function toggleCalendar(e) {
-        console.log(dueDate)
         setCalendar(!calendar);
     }
     

@@ -192,47 +192,6 @@ const TimeBlock = (props) => {
     return slices;
   };
 
-  /*
-  const countCategoryHours = () => {
-    let metricsCategories = [];
-    let metricsCategoriesDurations = {}; // object to store all the category durations
-    let cat = [];
-    for(const key of Object.keys(categories)) {
-      cat = (categories[key]._id)
-      let categoryWeeklyDuration = 0; // initialize the variable to store individual category's total weekly duration
-      // loop through days of timeblocks data object
-        for(const day of Object.keys(timeblocks)){
-          // loop through all the times of given day
-          for(const timeblock of Object.keys(timeblocks[day])){
-            let tempBlock = timeblocks[day][timeblock]; // pull out specific blocks that have data
-            let tempCategory = tempBlock.category; // identify the category from blocks with data
-            if (tempCategory == cat){
-              categoryWeeklyDuration = categoryWeeklyDuration + tempBlock.duration // add each blocks duration to overall category's weekly duration
-            } else {
-              continue
-            } // write the total weekly duration to the object with category_id:data pair
-            // metricsCategoriesDurations[cat] = {
-            //   ...metricsCategoriesDurattions[cat],
-            //   duration: categoryWeeklyDuration
-            // };
-          }
-        }
-        console.log(categoryWeeklyDuration)
-    }
-    return metricsCategories
-    // Original Loop Xian needed to understand what Dyland was doing in piechart thing:
-    // let key = [];
-    // for(key in categories) {
-    //   let temp = categories[key];
-    //   console.log(temp);
-    //   let k = []
-    //   for(k in timeblocks){
-    //     console.log(k)
-    //   }
-    // }
-  }
-  */
-
   const countCategoryHours = () => {
     let categoriesWeeklyDurations = [];
     let cats = {};
@@ -242,7 +201,7 @@ const TimeBlock = (props) => {
         let tempBlock = timeblocks[day][timeblock]; // pull out specific blocks that have data
         let tempCatId = tempBlock.category; // identify the category from those blocks with data
         if (tempCatId !== null) {
-          let tempCat = categories.find((e) => e._id === tempCatId); // creating an objects based on present
+          let tempCat = categories.find((e) => e._id === tempCatId); //assigns the tempCat if the id is not null
           if (tempCat === undefined) continue;
           // creating an object based on the categories that are present on the week and their corresponding total duration
           if (cats[tempCat.title] === undefined) {
@@ -274,6 +233,8 @@ const TimeBlock = (props) => {
         ],
       });
     }
+    // Returns an array of JSONs that contain the name, total duration and color of all the categories present on a given
+    // weeks timeblock table.
     return categoriesWeeklyDurations;
   };
 
