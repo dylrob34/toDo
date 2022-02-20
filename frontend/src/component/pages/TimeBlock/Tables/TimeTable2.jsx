@@ -179,7 +179,7 @@ const TimeTable2 = (props) => {
             <Cell
               key={`${colNum}${i * divisions / 15 + currentData.duration}`}
               {...props}
-              row={i}
+              row={i+1}
               col={colNum}
               data={{ ...defaultData, time: i * divisions + currentData.duration, duration: 15 }}
               timeStrings={timeStrings}
