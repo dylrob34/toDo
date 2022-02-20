@@ -1640,9 +1640,9 @@ cursor: pointer;
 }
 
 .editable-cell {
-  all: unset;
-  outline: none;
-  /* flex-grow: 1; */
+  /* all: unset; */
+  outline: unset;
+  flex-grow: 1;
   width: 100%;
   margin: 0;
   vertical-align: middle;
@@ -1650,7 +1650,9 @@ cursor: pointer;
   font-size: 0.9rem;
   text-align: left;
   cursor: pointer;
+  border: none;
 }
+.editable-cell { outline: none;}
 
 .table-navigator {
   display: flex;
