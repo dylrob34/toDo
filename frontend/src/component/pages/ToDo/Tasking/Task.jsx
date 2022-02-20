@@ -35,9 +35,12 @@ const Task = ({ task }) => {
         setTitle(task.title);
         setBody(task.body);
         setCompleteTask(task.complete);
-        // setDueDate(task.duedate);
-    }, [task._id, task.title, task.body, task.complete, task.duedate])
+        
+    }, [task._id, task.title, task.body, task.complete])
 
+    useEffect(() => {
+        setDueDate(task.duedate);
+    }, [task.duedate])
 
     function editTask(t, b, complete, dd) {
         post("/api/task/editTask", {
@@ -83,7 +86,7 @@ const Task = ({ task }) => {
 
     const onComplete = async (state) => {
         setCompleteTask(state);
-        editTask(title, body, state);
+        editTask(title, body, state, dueDate);
     }
 
     function moveTomorrow() {

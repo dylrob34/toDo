@@ -1132,14 +1132,14 @@ body,
   flex-direction: column;
   margin: 0.5rem 0rem 1rem 0rem;
 }
-.editable-cell-container {
+/* .editable-cell-container {
   display: flex;
   flex-direction: row;
   background-color: var(--mid-gray);
   border-top: solid 2px var(--top-gray);
   padding: .2rem;
   align-items: center;
-}
+} */
 
 .toolbar-right {
   display: flex;
@@ -1642,7 +1642,7 @@ cursor: pointer;
 .editable-cell {
   all: unset;
   outline: none;
-  flex-grow: 1;
+  /* flex-grow: 1; */
   width: 100%;
   margin: 0;
   vertical-align: middle;
