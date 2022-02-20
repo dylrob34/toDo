@@ -23,10 +23,8 @@ def deleteUserTeam():
     print("Done")
 
 def deleteDoc():
-    count = 0
     for doc in docs:
         if doc.get("title") == "New Block":
-            count += 1
             db.timeblocking.delete_one({"_id": doc.get("_id")})
 
 def backupTable():

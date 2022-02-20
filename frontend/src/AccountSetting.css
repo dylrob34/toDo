@@ -75,3 +75,13 @@
   .account-nav-element:hover {
     border-left: solid 3px var(--primary-green);
   }
+
+
+  /* Account information styling */
+
+  .account-info-header{
+    font-size: 2rem;
+    font-weight: 400;
+    padding: .2rem .5rem .2rem .5rem;
+    border-bottom: 1px solid gray ;
+  }

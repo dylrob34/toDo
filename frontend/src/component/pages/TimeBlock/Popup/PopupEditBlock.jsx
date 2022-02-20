@@ -46,7 +46,7 @@ const PopupEditBlock = (props) => {
     const getDurations = () => {
         let temp = [];
         let inc = 0;
-        for (let i = 0; i < 24 * 60 / 15; i++ ) {
+        for (let i = 1; i <= 24 * 60 / 15; i++ ) {
             inc = i * 15
             temp.push([inc, `${parseInt(inc/60) === 0 ? '0.' : parseInt(inc/60) + '.'}${inc % 60 === 0 ? 0 : (inc % 60) / 60 * 100}`])
         }

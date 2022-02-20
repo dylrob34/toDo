@@ -34,7 +34,7 @@ const Cells = (props) => {
         setDivisions(props.divisions);
         setId(props.data._id);
         if (props.data.category === null) setCategory(null);
-        for (const cat of categories) {
+        for (const cat of props.categories) {
             if (props.data.category === cat._id) {
                 setCategory(cat);
             }
@@ -50,6 +50,10 @@ const Cells = (props) => {
 
     }, [cellRef.current, props.data, props.row, props.categories, props.divisions, props.category]);
 
+    useEffect(() => {
+        if (_id !== null && _id.substring(0, 4) !== "temp") save("_id", _id);
+    }, [_id]);
+
     const create = (newData) => {
         post("/api/timeblocking/createTimeblock", { ...newData })
             .then((res) => {
@@ -64,7 +68,16 @@ const Cells = (props) => {
 
     const save = (key, value) => {
         const updatedData = { ...data, [key]: value, _id }
+        if (!props.checkTime(updatedData)) return;
         setData(updatedData);
+        
+        if (key === "category") {
+            for (const cat of categories) {
+                if (value === cat._id) {
+                    setCategory(cat);
+                }
+            }
+        }
 
         if (_id === null) {
             let tempId = "temp" + Math.floor(Math.random() * 1000);
@@ -73,7 +86,7 @@ const Cells = (props) => {
             }
             usedTempIds = {...usedTempIds, tempId};
             setId(tempId)
-            props.editBlock(data, { ...updatedData, _id: tempId }, key);
+            props.editBlock(data, { ...updatedData, _id: tempId}, key);
             create(updatedData);
             return;
         }

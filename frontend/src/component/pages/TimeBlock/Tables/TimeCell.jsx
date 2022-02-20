@@ -13,7 +13,7 @@ const TimeCell = ({time, row, setHeight}) => {
     }, [cellRef.current])
 
     return (
-        <div className={`table-row admin-cell time-cell ${time.endsWith("30") ? "table-half-hour" : ""}`} ref={cellRef}>{time}</div>
+        <div ref={cellRef}>{time}</div>
     )
 }
 

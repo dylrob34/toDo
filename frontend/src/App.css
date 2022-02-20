@@ -1536,6 +1536,7 @@ cursor: pointer;
   color: var(--text-gray1);
   border-collapse: collapse;
   user-select: none;
+  height: 100%;
 }
 
 .table-data,
@@ -1544,7 +1545,7 @@ cursor: pointer;
 }
 
 .table-data {
-  height: 1px;
+  font-size: .8rem;
 }
 
 .table-data input {
@@ -1571,6 +1572,10 @@ cursor: pointer;
   /* border: solid 1px black; */
 }
 
+.table-row {
+  height: 15px;
+}
+
 .table-row-drag {
   display: flex;
   width: 100%;
@@ -1584,7 +1589,6 @@ cursor: pointer;
 }
 
 .admin-cell {
-  display: flex;
   justify-content: center;
   color: var(--text-gray1);
   cursor: default;

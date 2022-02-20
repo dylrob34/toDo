@@ -7,7 +7,7 @@ import {
 } from "../../../../context/ToDoContext";
 import AutoFillDropdown from "../../../layout/AutoFillDropdown";
 
-const AddTask = ({ setReload, t, b, cancelEdit, edit }) => {
+const AddTask = ({ setReload, t, b, complete, dd, cancelEdit, edit }) => {
   const [title, setTitle] = useState(t);
   const [body, setBody] = useState(b);
   const [autoUsers, setAutoUsers] = useState(false);
@@ -26,7 +26,7 @@ const AddTask = ({ setReload, t, b, cancelEdit, edit }) => {
     }
     if (edit !== undefined) {
       cancelEdit();
-      edit(title, body);
+      edit(title, body, complete, dd);
       return;
     }
 

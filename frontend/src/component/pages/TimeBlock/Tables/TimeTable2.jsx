@@ -167,6 +167,7 @@ const TimeTable2 = (props) => {
             stopDragging={stopDragging}
             setCellCallback={setCellCallback}
             setCache={setCache}
+            checkTime={props.checkTime}
           />
         );
         for (let j = 1; j < parseInt(currentData.duration) / 15; j++) {
@@ -189,6 +190,7 @@ const TimeTable2 = (props) => {
               stopDragging={stopDragging}
               setCellCallback={setCellCallback}
               setCache={setCache}
+              checkTime={props.checkTime}
             />)
         }
         i++;
@@ -215,7 +217,7 @@ const TimeTable2 = (props) => {
         //console.log(cells);
         rows.push(
           <tr className="table-row" key={i * divisions / 15}>
-            {i % (divisions/15) === 0 ? <th rowSpan={divisions / 15}>{times[i/(divisions/15)]}</th> : null}
+            {i % (divisions/15) === 0 ? <th className={"admin-cell time-cell"} rowSpan={divisions / 15}>{times[i/(divisions/15)]}</th> : null}
             {cells.map((e) => {
               return e ?? null;
             })}

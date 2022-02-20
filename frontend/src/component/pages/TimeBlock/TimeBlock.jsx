@@ -31,7 +31,7 @@ import {
   CogIcon,
 
 } from "@heroicons/react/outline";
-// import { PieChart } from "./PieChart/PieChart";
+ import { PieChart } from "./PieChart/PieChart";
 
 const TimeBlock = (props) => {
   // const [popup, setPopup] = useState(false)
@@ -105,12 +105,36 @@ const TimeBlock = (props) => {
     });
   };
 
-  const editBlock = (oldData, newData, key, value) => {
-    if (key !== "date" && key !== "duration" && key !== "time" && key!== "category") return;
+  const checkTime = (newData) => {
+    // check if new time/duration conflicts with exists timeblock
+    const start = newData.time;
+    const end = newData.time + newData.duration;
+    for (const tbKey of Object.keys(timeblocks[getDOWFromUTC(newData.date)])) {
+      const tb = timeblocks[getDOWFromUTC(newData.date)][tbKey];
+      if (newData._id === tb._id) continue;
+      const s = tb.time;
+      const e = tb.time + tb.duration;
+      if (start < s && s < end) alert("case 1");
+      if (start < e && e < end) alert("case 2");
+      if (s < start && start < e) alert("case 3");
+      if (s < end && end < e) alert("case 4");
+      if ((start < s && s < end) || (start < e && e < end) || (s < start && start < e) || (s < end && end < e)) {
+        alert("Error: That time is already being used")
+        return false;
+      }
+    }
+    return true;
+  }
+
+  const editBlock = (oldData, newData, key) => {
     let temp = { ...timeblocks };
-    let day = getDOWFromUTC(oldData.date);
-    delete temp[day][oldData.time];
     let time = oldData.time;
+    let day = getDOWFromUTC(oldData.date);
+    if (key !== "date" && key !== "duration" && key !== "time") {
+      timeblocks[day] = {...timeblocks[day], [time]: {...newData}}
+      return;
+    }
+    delete temp[day][time];
     if (key === "date") {
       day = getDOWFromUTC(newData.date);
     }
@@ -218,23 +242,17 @@ const TimeBlock = (props) => {
         }
       }
     }
-
-    // Builds the array of categories and there corresponding parameters to be used in metrics table.
-    for (const category of Object.keys(cats)) {
-      let duration = cats[category].duration;
-      let color = cats[category].color;
+  
+    for (const category of categories) {
+      const temp = cats[category.title];
+      let duration = temp === undefined ? 0 : temp.duration;
+      let color = category.color;
       categoriesWeeklyDurations.push({
-        name: category,
-        duration: Math.round((duration / (1440 * 7)) * 360),
-        color: [
-          parseInt(color["r"]),
-          parseInt(color["g"]),
-          parseInt(color["b"]),
-        ],
+        name: category.title,
+        duration: Math.round((duration)),
+        color
       });
     }
-    // Returns an array of JSONs that contain the name, total duration and color of all the categories present on a given
-    // weeks timeblock table.
     return categoriesWeeklyDurations;
   };
 
@@ -296,20 +314,21 @@ const TimeBlock = (props) => {
                 deleteBlock={deleteBlock}
                 week={week}
                 categories={categories}
+                checkTime={checkTime}
               />
             </section>
             <section className="left">
               <TimeblockMetrics
-              allUserCategories={categories}
+              // allUserCategories={categories}
               categoryDurations={countCategoryHours()}
 
               />
-              {/* <PieChart
+            {<PieChart
                   categories={buildPieDate()}
                   width={800}
                   height={800}
                   font={"25px arial"}
-              /> */}
+              />}
             </section>
           </div>
         </div>

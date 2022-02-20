@@ -123,7 +123,7 @@ const Task = ({ task }) => {
 
     if (isEditing) {
 
-        return (<AddTask t={title} b={body} cancelEdit={() => {setIsEditing(false); handleHover(false)}} edit={editTask}/>)
+        return (<AddTask t={title} b={body} complete={completeTask} dd={dueDate} cancelEdit={() => {setIsEditing(false); handleHover(false)}} edit={editTask}/>)
 
     } else {
     
