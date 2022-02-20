@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,8 +7,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CheckWebGPU = exports.createUIntBuffer = exports.createBuffer = exports.initGPU = void 0;
 function initGPU(canvasName) {
     return __awaiter(this, void 0, void 0, function* () {
         const canvas = document.getElementById(canvasName);
@@ -26,7 +23,6 @@ function initGPU(canvasName) {
         return { canvas, width, height, device, context, swapChainFormat };
     });
 }
-exports.initGPU = initGPU;
 function createBuffer(device, data, usageFlag = 32 | 8) {
     const buffer = device.createBuffer({
         size: data.byteLength,
@@ -37,7 +33,6 @@ function createBuffer(device, data, usageFlag = 32 | 8) {
     buffer.unmap();
     return buffer;
 }
-exports.createBuffer = createBuffer;
 function createUIntBuffer(device, data, usageFlag = 32 | 8) {
     const buffer = device.createBuffer({
         size: data.byteLength,
@@ -48,7 +43,6 @@ function createUIntBuffer(device, data, usageFlag = 32 | 8) {
     buffer.unmap();
     return buffer;
 }
-exports.createUIntBuffer = createUIntBuffer;
 function CheckWebGPU() {
     let result = "Great, your current browser supports WebGPU!";
     if (!navigator.gpu) {
@@ -56,4 +50,4 @@ function CheckWebGPU() {
     }
     return result;
 }
-exports.CheckWebGPU = CheckWebGPU;
+export { initGPU, createBuffer, createUIntBuffer, CheckWebGPU };

@@ -56,6 +56,8 @@
     border-radius: .8rem;
     box-shadow: 0 3px 5px rgb(0 0 0 / .8);
     color: white;
+    display: flex;
+    align-items: flex-start;
 
   }
 
@@ -80,8 +82,19 @@
   /* Account information styling */
 
   .account-info-header{
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: 400;
     padding: .2rem .5rem .2rem .5rem;
     border-bottom: 1px solid gray ;
+    margin: 1rem 2rem 0rem 2rem;
+  }
+
+  .account-info-content-row{
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem ;
+  }
+  .account-info-content-item{
+    display: flex;
+    align-items: flex-start
   }

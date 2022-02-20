@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Shaders = void 0;
-const Shaders = () => {
+export const Shaders = () => {
     const vertex = `
         struct Inputs {
             @location(0) pos : vec4<f32>;
@@ -31,4 +28,3 @@ const Shaders = () => {
     `;
     return { vertex, fragment };
 };
-exports.Shaders = Shaders;

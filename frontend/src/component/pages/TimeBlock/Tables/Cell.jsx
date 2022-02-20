@@ -113,12 +113,14 @@ const Cells = (props) => {
                     alert(`Error deleting this TimeBlock\n${res.message}`);
                 }
             })
+        setPopup(false)
     }
 
     // Shows popup if you are focused on any child of the parent div (allows popup to stay active while you click around it)
     const handleBlur = e => {
         if (cellRef.current === null) return;
         if (!cellRef.current.contains(e.target) && cellRef.current !== e.target && !cellRef.current.contains(document.activeElement)) {
+            if (data.title === "" && _id !== null) setData({...data, title: "New Block"});
             setIsEditing(false);
             setPopup(false);
         }

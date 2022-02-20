@@ -24,7 +24,7 @@ def deleteUserTeam():
 
 def deleteDoc():
     for doc in docs:
-        if doc.get("title") == "New Block":
+        if doc.get("title") == "":
             db.timeblocking.delete_one({"_id": doc.get("_id")})
 
 def backupTable():

@@ -28,24 +28,25 @@ const Account = (props) => {
             </div>
             <div className='account-grid-right'>
                 <div className='account-information-container'>
-                    { page==="profile" ? <div>
+                    { page==="profile" ? <div style={{display:"flex", flexDirection:"column", alignItems:"flex-start"}}>
                         <h3 className='account-info-header'>Profile Information</h3>
-                        <div>
-                            <div>Name:</div>
+                        <div className='account-info-content-row'>
+                            <div className='account-info-content-item'>Name:</div>
                             <input type="text" />
                         </div>
-                        <div>
-                            <div>Gender:</div>
+                        <div className='account-info-content-row'>
+                            <div className='account-info-content-item'>Gender:</div>
                             <select name="gender" id="gender">
+                                <option value="">Select</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                                 <option value="pnts">Prefer not to say</option>
                                 <option value="other">Other</option>
                             </select>
                         </div>
-                        <div>
-                            <div>Date of Birth:</div>
-                            <div name="cols">
+                        <div className='account-info-content-row'>
+                            <div className='account-info-content-item'>Date of Birth:</div>
+                            <div name="cols" className='account-info-content-row'>
                                 <input type="text" name='day' />
                                 <input type="text" name='month' />
                                 <input type="text" name='year' />

@@ -1,5 +1,6 @@
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+
+import { Shaders } from "./shaders";
+import { initGPU, createBuffer } from "./gpu";var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -8,10 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.pieChart = void 0;
-const shaders_1 = require("./shaders");
-const gpu_1 = require("./gpu");
 const RADIUS = 1;
 function toRadians(angle) {
     return angle * (Math.PI / 180);
@@ -105,11 +102,11 @@ function renderText(categories, width, height, font) {
             textContext.closePath();
             textContext.fillStyle = "white";
             textContext.font = font;
-            textContext.fillText(categories[i].name + " " + Math.floor(categories[i].size / 360 * 100) + "%", width / 4 + 30, (elementHeight * (i + 1)) + 10);
+            textContext.fillText(categories[i].name + " " + Math.round(categories[i].size / 360 * 100) + "%", width / 4 + 30, (elementHeight * (i + 1)) + 10);
         }
     }
 }
-function pieChart(categories, resolution, defaultColor, MSAASamples, font) {
+export function pieChart(categories, resolution, defaultColor, MSAASamples, font) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!navigator.gpu) {
             throw ("Your current browser does not support WebGPU!");
@@ -127,7 +124,7 @@ function pieChart(categories, resolution, defaultColor, MSAASamples, font) {
                 color: defaultColor
             });
         }
-        const gpu = yield (0, gpu_1.initGPU)("piechartcanvas");
+        const gpu = yield initGPU("piechartcanvas");
         const device = gpu.device;
         const context = gpu.context;
         const swapChainFormat = gpu.swapChainFormat;
@@ -172,9 +169,9 @@ function pieChart(categories, resolution, defaultColor, MSAASamples, font) {
             }
             currentStart += categories[i].size;
         }
-        const vertexBuffer = (0, gpu_1.createBuffer)(device, Float32Array.from(vertexs));
-        const colorBuffer = (0, gpu_1.createBuffer)(device, Float32Array.from(colors).map((e) => { return e / 255; }));
-        const shader = (0, shaders_1.Shaders)();
+        const vertexBuffer = createBuffer(device, Float32Array.from(vertexs));
+        const colorBuffer = createBuffer(device, Float32Array.from(colors).map((e) => { return e / 255; }));
+        const shader = Shaders();
         const pipeline = device.createRenderPipeline({
             vertex: {
                 module: device.createShaderModule({
@@ -250,7 +247,6 @@ function pieChart(categories, resolution, defaultColor, MSAASamples, font) {
         renderText(categories, gpu.width / 4, gpu.height, font);
     });
 }
-exports.pieChart = pieChart;
 /*
     let pieButton = document.getElementById("pie");
     if (pieButton != null) {

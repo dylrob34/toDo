@@ -1573,7 +1573,7 @@ cursor: pointer;
 }
 
 .table-row {
-  height: 15px;
+  height: .8rem;
 }
 
 .table-row-drag {
