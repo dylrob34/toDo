@@ -231,7 +231,7 @@ const Cells = (props) => {
                         onKeyDown={checkEnter}>
                             </input>
                             {popup ? 
-                                <PopupEditBlock {...props} cell={true} s={{top: middle-150, left: right+4}} data={data} timeStrings={timeStrings} save={save} deleteCell={deleteCell} className='popup-timeblock'/>
+                                <PopupEditBlock {...props} cell={true} s={{top: middle, left: right+4}} data={data} timeStrings={timeStrings} save={save} deleteCell={deleteCell} className='popup-timeblock'/>
                             :
                             null}
                         <div className={"draggable-div"} style={{ bottom: '1px'}} onMouseDown={handleMouseDown}>-</div>

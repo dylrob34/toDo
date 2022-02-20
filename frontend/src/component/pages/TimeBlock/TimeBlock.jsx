@@ -259,22 +259,22 @@ const TimeBlock = (props) => {
   return (
     <div>
       <div className="page-config">
-        <div className="left-sidebar-sm">
-            <div className="toolbar-element" onClick={() => setModal(true)} onMouseEnter={() => setToolbarCategories(true)} onMouseLeave={() => setToolbarCategories(false)}>
-              <FolderOpenIcon className="toolbar-item" style={toolbarCategories ? {transform:'translateX(.125rem)'} : {}}/>
-              <div className={"toolbar-item-title"} style={toolbarCategories ? {} : {color:"transparent", left:"5rem"}}>Categories</div>
+        <div className="left-sidebar-sm-tb">
+            <div className="toolbar-element-tb" onClick={() => setModal(true)} onMouseEnter={() => setToolbarCategories(true)} onMouseLeave={() => setToolbarCategories(false)}>
+              <FolderOpenIcon className="toolbar-item-tb" style={toolbarCategories ? {transform:'translateX(.125rem)'} : {}}/>
+              <div className={"toolbar-item-title-tb"} style={toolbarCategories ? {} : {color:"transparent", left:"5.1rem"}}>Categories</div>
             </div>
-            <div className="toolbar-element" onMouseEnter={() => setToolbarViews(true)} onMouseLeave={() => setToolbarViews(false)}>
-              <PhotographIcon className="toolbar-item" style={toolbarViews ? {transform:'translateX(.125rem)'} : {}}/>
-              <div className="toolbar-item-title" style={toolbarViews ? {} : {color:"transparent", left:"5rem"}} >Views</div>
+            <div className="toolbar-element-tb" onMouseEnter={() => setToolbarViews(true)} onMouseLeave={() => setToolbarViews(false)}>
+              <PhotographIcon className="toolbar-item-tb" style={toolbarViews ? {transform:'translateX(.125rem)'} : {}}/>
+              <div className="toolbar-item-title-tb" style={toolbarViews ? {} : {color:"transparent", left:"5.1rem"}} >Views</div>
             </div>
-            <div className="toolbar-element" onMouseEnter={() => setToolbarInsights(true)} onMouseLeave={() => setToolbarInsights(false)} >
-              <ChartPieIcon className="toolbar-item" style={toolbarInsights ? {transform:'translateX(.125rem)'} : {}}/>
-              <div className="toolbar-item-title" style={toolbarInsights ? {} : {color:"transparent", left:"5rem"}}>Insights</div>
+            <div className="toolbar-element-tb" onMouseEnter={() => setToolbarInsights(true)} onMouseLeave={() => setToolbarInsights(false)} >
+              <ChartPieIcon className="toolbar-item-tb" style={toolbarInsights ? {transform:'translateX(.125rem)'} : {}}/>
+              <div className="toolbar-item-title-tb" style={toolbarInsights ? {} : {color:"transparent", left:"5.1rem"}}>Insights</div>
             </div>
-            <div className="toolbar-element" onMouseEnter={() => setToolbarSettings(true)} onMouseLeave={() => setToolbarSettings(false)}>
-              <CogIcon className="toolbar-item" style={toolbarSettings ? {transform:'translateX(.125rem)'} : {}}/>
-              <div className="toolbar-item-title" style={toolbarSettings ? {} : {color:"transparent", left:"5rem"}}>Settings</div>
+            <div className="toolbar-element-tb" onMouseEnter={() => setToolbarSettings(true)} onMouseLeave={() => setToolbarSettings(false)}>
+              <CogIcon className="toolbar-item-tb" style={toolbarSettings ? {transform:'translateX(.125rem)'} : {}}/>
+              <div className="toolbar-item-title-tb" style={toolbarSettings ? {} : {color:"transparent", left:"5.1rem"}}>Settings</div>
             </div>
         </div>
         <div className="main" name="table_metrics">
@@ -317,7 +317,6 @@ const TimeBlock = (props) => {
                 checkTime={checkTime}
               />
             </section>
-            <section className="left">
               <TimeblockMetrics
               // allUserCategories={categories}
               categoryDurations={countCategoryHours()}
@@ -329,7 +328,6 @@ const TimeBlock = (props) => {
                   height={800}
                   font={"25px arial"}
               />}
-            </section>
           </div>
         </div>
       </div>

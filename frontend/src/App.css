@@ -1124,7 +1124,7 @@ body,
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0.5rem 0rem 1rem 0rem;
+  margin: 0.5rem 0rem 1rem 6rem;
 }
 
 .left {
@@ -1777,16 +1777,18 @@ cursor: pointer;
   align-items: center;
   margin-top: 1rem;
   margin-bottom: 1rem;
-
+  max-height: 15rem;
+  overflow-y: scroll;
 }
 .metrics-data-table{
-  border: solid 2px var(--text-gray1);
+  /* border: solid 2px var(--text-gray1); */
   border-radius: 10px;
   color: white;
   font-family: "Inter", sans-serif;
   font-weight: 300;
-  overflow: auto;
+  padding-bottom: 1rem;
 }
+
 .metrics-data-tr{
 }
 .metrics-data-td{

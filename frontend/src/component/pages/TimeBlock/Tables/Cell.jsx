@@ -200,7 +200,7 @@ const Cells = (props) => {
                         onChange={(e) => { save("title", e.target.value) }}>
                     </input>
                     {popup && !dragging ?
-                        <PopupEditBlock {...props} cell={true} s={{ top: middle - 150, left: right + 4 }} data={data} timeStrings={timeStrings} save={save} deleteCell={deleteCell} className='popup-timeblock' />
+                        <PopupEditBlock {...props} cell={true} s={{ top: middle -150, left: right + 4 }} data={data} timeStrings={timeStrings} save={save} deleteCell={deleteCell} className='popup-timeblock' />
                         :
                         null}
                     <div className={dragging ? "draggable-div-dragging" : "draggable-div"} onMouseDown={() => {setDragging(true); props.startDragging({...data, row}, dragDown, stopDragging)}}></div>

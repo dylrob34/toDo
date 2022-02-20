@@ -1,0 +1,46 @@
+
+.left-sidebar-sm-tb {
+    position: relative;
+    width: 4rem;
+    min-height: 100vh;
+    left: 0px;
+    background-color: var(--mid-gray);
+    float: left;
+    box-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+  }
+
+.toolbar-element-tb {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin: 4rem 0rem;
+  }
+  
+  .toolbar-element-tb:hover {
+    /* background-color: var(--base-gray);
+    color: var(--button); */
+    cursor: pointer;
+    user-select: none;
+    border-right: solid .25rem var(--primary-green);
+  }
+  
+  .toolbar-item-tb {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  
+  .toolbar-item-title-tb{
+    position: absolute;
+    left: 4rem;
+    font-size: 1rem;
+    font-weight: 300;
+    transition:  400ms ease-in-out;
+  }
+  
+  .toolbar-sort-tb {
+    display: flex;
+    margin-right: 1%;
+  }
