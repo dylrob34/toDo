@@ -1524,6 +1524,7 @@ cursor: pointer;
 
 .table-blockz {
   margin-top: 1rem;
+  margin-bottom: 20rem;
   table-layout: fixed;
   width: 68rem;
   box-shadow: 0px 3px 6px rgb(0, 0, 0, 0.8);

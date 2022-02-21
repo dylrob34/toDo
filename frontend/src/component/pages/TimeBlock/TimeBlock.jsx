@@ -258,7 +258,7 @@ const TimeBlock = (props) => {
 
   return (
     <div>
-      <div className="page-config">
+      <div className="page-config" style={ modal ? {overflowY:'hidden'} : {}}>
         <div className="left-sidebar-sm-tb">
             <div className="toolbar-element-tb" onClick={() => setModal(true)} onMouseEnter={() => setToolbarCategories(true)} onMouseLeave={() => setToolbarCategories(false)}>
               <FolderOpenIcon className="toolbar-item-tb" style={toolbarCategories ? {transform:'translateX(.125rem)'} : {}}/>

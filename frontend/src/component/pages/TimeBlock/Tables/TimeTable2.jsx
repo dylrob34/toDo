@@ -234,9 +234,9 @@ const TimeTable2 = (props) => {
       <colgroup>
         <col className="table-admin-col" />
       </colgroup>
-      <thead>
+      <thead style={{boxShadow: "0px 3px 2px rgb(0, 0, 0, 0.3)"}}>
         <tr className="table-row">
-          <th className="table-header">Admin</th>
+          <th className="table-header">Time</th>
           {getWeekDaysUTC(props.week).map((day, i) => (
             <th
               key={i}
