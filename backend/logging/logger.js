@@ -1,5 +1,7 @@
 const winston = require("winston");
 const { format } = require("logform");
+const express = require("express");
+const router = express.Router();
 
 const logger = winston.createLogger({
     legel: 'info',
@@ -42,4 +44,10 @@ function logging(req, res, next) {
   
   }
 
-module.exports = logging;
+router.get("/docker", (req, res) => {
+   return res.json({logger: "EYYYYYYY"});
+})
+
+
+
+module.exports = {logging, router};

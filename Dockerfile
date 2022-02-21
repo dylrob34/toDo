@@ -4,7 +4,7 @@ FROM node:16.1.0
 
 ENV NODE_ENV=production
 
-EXPOSE 3001
+EXPOSE 80
 
 WORKDIR /
 

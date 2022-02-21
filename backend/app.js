@@ -19,9 +19,10 @@ const taskRouter = require('./api/task');
 const bucketRouter = require("./api/bucket");
 const timeblockingRouter = require("./api/timeblocking");
 const categoriesRouter = require("./api/categories");
+const logRouter = logging.router;
 
 const app = express();
-const port = 3001;
+const port = process.env.NODE_ENV === "production" ? 80 : 3001;
 
 app.use(express.static(__dirname + '/build'));
 
@@ -30,7 +31,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.use(verifyToken);
 
-app.use(logging);
+app.use(logging.logging);
 
 
 
@@ -41,6 +42,7 @@ app.use('/api/task', taskRouter);
 app.use('/api/buckets', bucketRouter);
 app.use("/api/timeblocking", timeblockingRouter);
 app.use("/api/categories", categoriesRouter);
+app.use("/api/logs", logRouter);
 app.use('/', indexRouter);
 app.use((req, res) => res.sendFile(path.join(__dirname, "build", '/index.html')))
 app.use(errorHandler);
