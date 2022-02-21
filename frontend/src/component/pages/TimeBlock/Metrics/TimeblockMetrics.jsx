@@ -65,7 +65,7 @@ const TimeblockMetrics = (props) => {
         </div>
 
         <div className='metrics-data-table-pos'>
-          <table className='metrics-data-table' style={{}}>
+          <table className='metrics-data-table'>
             <tr style={{fontSize:'.9rem'}}>
               <td className='metrics-data-td'> Color </td>
               <td className='metrics-data-td'> Category Name</td>

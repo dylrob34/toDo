@@ -317,17 +317,22 @@ const TimeBlock = (props) => {
                 checkTime={checkTime}
               />
             </section>
+            <section>
               <TimeblockMetrics
-              // allUserCategories={categories}
-              categoryDurations={countCategoryHours()}
+                // allUserCategories={categories}
+                categoryDurations={countCategoryHours()}
 
-              />
-            {<PieChart
-                  categories={buildPieDate()}
-                  width={800}
-                  height={800}
-                  font={"25px arial"}
-              />}
+                />
+                <div className="piechart-container">
+                  {<PieChart
+                      categories={buildPieDate()}
+                      width={800}
+                      height={800}
+                      font={"25px arial"}
+                  />}
+                </div>
+            </section>
+
           </div>
         </div>
       </div>
