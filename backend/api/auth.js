@@ -53,7 +53,7 @@ function hashPassword(pass) {
 }
 
 function verifyToken(req, res, next) {
-    if (req.url === "/api/auth/login" || req.url == "/api/user/createUser") {
+    if (req.url === "/api/auth/login" || req.url == "/api/user/createUser" || req.url.substring(0, 4) !== "/api") {
         return next();
     }
     const bearerHeader = req.headers['authorization'];

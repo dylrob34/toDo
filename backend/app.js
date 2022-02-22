@@ -24,7 +24,7 @@ const logRouter = logging.router;
 const app = express();
 const port = process.env.NODE_ENV === "production" ? 80 : 3001;
 
-app.use(express.static(__dirname + '/build'));
+app.use(express.static(__dirname + "/build"));
 
 app.use(cookieParser());
 app.use(express.json());
@@ -32,8 +32,6 @@ app.use(cors(corsOptions));
 app.use(verifyToken);
 
 app.use(logging.logging);
-
-
 
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
@@ -43,9 +41,9 @@ app.use('/api/buckets', bucketRouter);
 app.use("/api/timeblocking", timeblockingRouter);
 app.use("/api/categories", categoriesRouter);
 app.use("/api/logs", logRouter);
-app.use('/', indexRouter);
-app.use((req, res) => res.sendFile(path.join(__dirname, "build", '/index.html')))
+app.use('*', indexRouter);
 app.use(errorHandler);
+
 
 app.listen(port, () => {
   console.log(`To Do App listening at http://localhost:${port}`);
