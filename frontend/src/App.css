@@ -1718,6 +1718,26 @@ cursor: pointer;
   pointer-events: none;
 }
 
+.set-military-time{
+position: absolute;
+transform: translateY(-97.75rem) translateX(.6rem);
+background-color: var(--mid-gray2);
+padding: .2rem .4rem;
+border-radius: 5px;
+}
+.set-military-time-arrow{
+  position: absolute;
+  top: -6px;
+  right: 40%;
+  width: 0;
+  height: 0;
+  transform: translate(-5%, 260%);
+  border-top: 12px solid var(--mid-gray2);
+  border-right: 12px solid transparent;
+  border-left: 12px solid transparent;
+  z-index: 1010;
+}
+
 @media all and (max-width: 1700px) {
   .metrics-table-shrink{
     display: none; 

@@ -21,6 +21,7 @@ const TimeTable2 = (props) => {
   const [cellHeight, setCellHeight] = useState(0);
   const [timeStrings, setTimeStrings] = useState({});
   const [data, setData] = useState(props.timeblocks);
+  const [militaryInfo, setMilitaryInfo] = useState(false)
 
   useEffect(() => {
     setData(props.timeblocks);
@@ -230,28 +231,35 @@ const TimeTable2 = (props) => {
   };
 
   return (
-    <table className="table-blockz">
-      <colgroup>
-        <col className="table-admin-col" />
-      </colgroup>
-      <thead style={{boxShadow: "0px 3px 2px rgb(0, 0, 0, 0.3)"}}>
-        <tr className="table-row">
-          <th className="table-header">Time</th>
-          {getWeekDaysUTC(props.week).map((day, i) => (
-            <th
-              key={i}
-              className="table-header"
-              style={
-                day.date.getTime() === getTodayUTC() ? { color: "#34b487" } : {}
-              }
-            >
-              {day.day}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>{fillTable()}</tbody>
-    </table>
+      <table className="table-blockz">
+       
+        <colgroup>
+          <col className="table-admin-col" />
+        </colgroup>
+        <thead style={{boxShadow: "0px 3px 2px rgb(0, 0, 0, 0.3)"}}>
+          <tr className="table-row">
+            <th className="table-header" onClick={() => {setMilitary(!military)}} 
+            onMouseEnter={() => {setMilitaryInfo(true)}} 
+            onMouseLeave={() => {setMilitaryInfo(false)}}>Time</th>
+            {getWeekDaysUTC(props.week).map((day, i) => (
+              <th
+                key={i}
+                className="table-header"
+                style={
+                  day.date.getTime() === getTodayUTC() ? { color: "#34b487" } : {}
+                }
+              >
+                {day.day}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>{fillTable()}</tbody>
+        <div className={militaryInfo ? 'set-military-time' : 'invisible'}>Set to Military
+          <div className={militaryInfo ? 'set-military-time-arrow' : 'invisible'}></div>
+        </div>
+        
+      </table>
   );
 };
 

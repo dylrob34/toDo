@@ -163,7 +163,7 @@ const Task = ({ task }) => {
                                     {dueDate !== null ? getDayString(new Date(new Date(dueDate).getTime() + new Date().getTimezoneOffset() * 60000)) : "No Due Date"}
                                 </div>
                             </div>
-                            {calendar ? <div className='react-calendar-modal'>
+                            {calendar ? <div className='react-calendar-modal' onMouseLeave={() => {setCalendar(false)}}>
                                 <CalendarComponent save={(dd) => editTask(title, body, completeTask, dd)} dueDate={dueDate}/>
                             </div> : ''}
                             <span className='spacer-buckets'>{/*Placeholder for different icon*/}</span>

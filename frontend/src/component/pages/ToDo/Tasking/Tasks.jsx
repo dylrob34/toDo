@@ -170,7 +170,7 @@ const Tasks = () => {
                 <AddTask t={''} b={''} cancelEdit={null} />
             </div>
             <div name='taskList' className='task-list'>
-                <div name="CurrentDay" className='task-list-container'>
+                {/* <div name="CurrentDay" className='task-list-container'>
                 Current DOW Here
                 </div>
                 <div name="ThisWeek" className='task-list-container'>
@@ -178,7 +178,7 @@ const Tasks = () => {
                 </div>
                 <div name="CompletedTasks" className='task-list-container'>
                 Archive Here
-                </div>
+                </div> */}
                 {
                     filterTasks()
                 }
