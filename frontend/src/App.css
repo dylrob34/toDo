@@ -1720,18 +1720,24 @@ cursor: pointer;
 
 .set-military-time{
 position: absolute;
-transform: translateY(-97.75rem) translateX(.6rem);
+transform: translateY(-97.75rem) translateX(.15rem);
 background-color: var(--mid-gray2);
-padding: .2rem .4rem;
+padding: .2rem .8rem;
 border-radius: 5px;
 }
+
+.set-military-time-size {
+  width: 6.5rem;
+  height: 1.25rem;
+}
+
 .set-military-time-arrow{
   position: absolute;
   top: -6px;
   right: 40%;
   width: 0;
   height: 0;
-  transform: translate(-5%, 260%);
+  transform: translate(-3%, 260%);
   border-top: 12px solid var(--mid-gray2);
   border-right: 12px solid transparent;
   border-left: 12px solid transparent;

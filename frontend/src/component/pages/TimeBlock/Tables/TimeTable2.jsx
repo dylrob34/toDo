@@ -255,10 +255,12 @@ const TimeTable2 = (props) => {
           </tr>
         </thead>
         <tbody>{fillTable()}</tbody>
-        <div className={militaryInfo ? 'set-military-time' : 'invisible'}>Set to Military
+        <div className={militaryInfo ? 'set-military-time' : 'invisible'}>
+          <div className="set-military-time-size">
+            {military ? 'Set Military' : 'Set Standard'}
+          </div>
           <div className={militaryInfo ? 'set-military-time-arrow' : 'invisible'}></div>
-        </div>
-        
+        </div>        
       </table>
   );
 };
