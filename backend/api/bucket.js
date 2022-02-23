@@ -18,6 +18,17 @@ router.post('/createBucket', async function(req, res) {
     return res.json({error: false});
 });
 
+router.post('/manualCreateBucket', async function(req, res){
+    const owner = req.authData.user;
+    const name = req.name;
+
+    const bucket = await Bucket.manualCreateBucket(owner, name);
+
+    return res.json({error: false, bucket});
+})
+
+
+
 router.post("/getBucket", async (req, res) => {
     const bucket = await Bucket.getBucket(req.body._id);
     return res.json({bucket});

@@ -119,14 +119,14 @@ const Buckets = () => {
                   ></PlusIcon>
                 </div>
               </div>
-              {createNewBucket ? <AddingBucket add={addBucket} cancel={setBucketAdd} /> : null}
+              {createNewBucket ? <AddingBucket add={addBucket} cancel={setCreateNewBucket} /> : null}
               <div
                 className="modal-row modal-row-content"
                 style={{ padding: "0px 0px 0px 0px" }}
               >
-                {addingBucket ? (
+                {/* {addingBucket ? (
                   <AddingBucket add={addBucket} cancel={setBucketAdd} />
-                ) : null}
+                ) : null} */}
                 <ul className="modal-group">
                   <div className="">
                     {buckets.map((bucket, index) => {
