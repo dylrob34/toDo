@@ -55,7 +55,7 @@ router.post("/getBucketByName", async (req, res) => {
 router.post('/editBucket', async function(req, res) {
     const user = await User.getUser(req.authData.user);
     const bucket = await Bucket.getBucket(req.body._id);
-    if (bucket.user === user.email) {
+    if (bucket.owner === user.email) {
         await bucket.editBucket(req.body.name);
     } else {
         throw "User does not own this bucket";
@@ -71,6 +71,10 @@ router.post('/deleteBucket', async function(req, res) {
     } catch (error) {
         console.log(error);
         return res.json({error: true, message: "Bucket Does Not Exist"})
+    }
+    
+    if (bucket.owner !== user.email) {
+        throw "User does not own this bucket";
     }
     
     const tasks = await Task.getTasksWithBuckets(bucket.owner, bucket._id);

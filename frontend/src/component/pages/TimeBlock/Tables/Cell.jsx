@@ -6,6 +6,7 @@ import { getTableData, setInitialValues, clearInitialValues, getInitialValues, s
 
 let usedTempIds = {};
 let tempIdValue;
+let currentTimeDuration = null;
 
 const Cells = (props) => {
     const [_id, setId] = useState(props.data._id);
@@ -22,6 +23,7 @@ const Cells = (props) => {
     const [row, setRow] = useState(props.row);
     const [categories, setCategories] = useState(props.categories);
     const [divisions, setDivisions] = useState(props.divisions);
+    const [height, setHeight] = useState(props.height);
     const cellRef = useRef(null);
 
     const timeStrings = props.timeStrings;
@@ -33,6 +35,7 @@ const Cells = (props) => {
         setCategories(props.categories);
         setDivisions(props.divisions);
         setId(props.data._id);
+        setHeight(props.height);
         if (props.data.category === null) setCategory(null);
         for (const cat of props.categories) {
             if (props.data.category === cat._id) {
@@ -48,7 +51,7 @@ const Cells = (props) => {
             setLeft(rect.left);
         }
 
-    }, [cellRef.current, props.data, props.row, props.categories, props.divisions, props.category]);
+    }, [cellRef.current, props.data, props.row, props.categories, props.divisions, props.category, props.height]);
 
     useEffect(() => {
         if (_id !== null && _id.substring(0, 4) !== "temp") save("_id", _id);
@@ -137,23 +140,37 @@ const Cells = (props) => {
     }
 
     const dragUp = (row, initValues) => {
+        
         console.log(row);
         console.log(row*15);
         console.log(initValues);
         console.log(initValues.duration + ((initValues.row - row) * 15))
         const newData = { ...initValues, time: row*15, duration: initValues.duration + ((initValues.row - row) * 15)};
+        if (currentTimeDuration !== null) {
+            if (newData.time === currentTimeDuration.time && newData.duration === currentTimeDuration.duration) {
+                return;
+            }
+        }
+        currentTimeDuration = {time: newData.time, duration: newData.duration};
         props.setCache(newData)
         props.editBlock({ ...initValues}, newData, "time");
     }
 
     const dragDown = (row, initValues) => {
-        //console.log((row - initValues.row));
+        console.log((row - initValues.row));
         const newData = {...initValues, duration: (row - initValues.row) * 15 + 15}
+        if (currentTimeDuration !== null) {
+            if (newData.duration === currentTimeDuration.duration) {
+                return;
+            }
+        }
+        currentTimeDuration = {duration: newData.duration};
         props.setCache(newData)
         props.editBlock(initValues, newData, "duration")
     }
 
     const stopDragging = (newData) => {
+        currentTimeDuration = null;
         setDragging(false);
         saveNoUpdate(newData);
     }
@@ -166,7 +183,7 @@ const Cells = (props) => {
         let listeners = [];
         for (let i = 0; i < data.duration / 15; i++) {
             listeners.push(
-                <div key={i} className={isEditing && !dragging ? "drag-listener-not" : "drag-listener"} onMouseEnter={() => onMouseEnter(i)} style={{width: right-left, height: ((bottom-top) / (data.duration / 15)), top: top + (bottom-top) / (data.duration/15) * i}}/>
+                <div key={i} className={isEditing && !dragging ? "drag-listener-not" : "drag-listener"} onMouseEnter={() => onMouseEnter(i)} style={{width: right-left, height, top: top + height * i}}/>
                 )
         }
         return listeners
@@ -200,7 +217,7 @@ const Cells = (props) => {
                         onChange={(e) => { save("title", e.target.value) }}>
                     </input>
                     {popup && !dragging ?
-                        <PopupEditBlock {...props} cell={true} s={{ top: middle -150, left: right + 4 }} data={data} timeStrings={timeStrings} save={save} deleteCell={deleteCell} className='popup-timeblock' />
+                        <PopupEditBlock {...props} cell={true} s={{ top: middle -150, left: right + 4 }} data={data} timeStrings={timeStrings} save={save} deleteCell={deleteCell} className='popup-timeblock' military={props.military}/>
                         :
                         null}
                     <div className={dragging ? "draggable-div-dragging" : "draggable-div"} onMouseDown={() => {setDragging(true); props.startDragging({...data, row}, dragDown, stopDragging)}}></div>

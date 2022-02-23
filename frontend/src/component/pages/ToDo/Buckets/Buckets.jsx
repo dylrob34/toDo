@@ -15,6 +15,7 @@ const Buckets = () => {
   const [popup, setPopup] = useState(false);
   const [addingBucket, setBucketAdd] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [createNewBucket, setCreateNewBucket] = useState(false)
   const toDoContext = useToDoContext();
   const setToDoContext = useUpdateToDoContext();
 
@@ -101,7 +102,7 @@ const Buckets = () => {
               <div
                 className="modal-row"
                 style={{
-                  padding: "0px 0px 30px 0px",
+                  padding: "0rem 0rem 1rem 0rem",
                   justifyContent: "space-between",
                 }}
               >
@@ -112,11 +113,13 @@ const Buckets = () => {
                   style={{ left: "-18px" }}
                 >
                   <PlusIcon
+                    onClick={() => {setCreateNewBucket(true)}}
                     className="fa-sml"
                     style={{ height: "20px", width: "20px" }}
                   ></PlusIcon>
                 </div>
               </div>
+              {createNewBucket ? <AddingBucket add={addBucket} cancel={setBucketAdd} /> : null}
               <div
                 className="modal-row modal-row-content"
                 style={{ padding: "0px 0px 0px 0px" }}
@@ -136,7 +139,7 @@ const Buckets = () => {
               </div>
               <div
                 className="modal-row"
-                style={{ paddingTop: "30px", justifyContent: "center" }}
+                style={{ paddingTop: "3rem", justifyContent: "center" }}
               >
                 <div
                   className="m-btn m-btn-lrg"

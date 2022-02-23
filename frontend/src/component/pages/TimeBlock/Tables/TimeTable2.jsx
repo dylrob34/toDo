@@ -18,10 +18,11 @@ let stopCallback = null;
 const TimeTable2 = (props) => {
   const [divisions, setDivisions] = useState(30);
   const [military, setMilitary] = useState(false);
-  const [cellHeight, setCellHeight] = useState(0);
   const [timeStrings, setTimeStrings] = useState({});
   const [data, setData] = useState(props.timeblocks);
-  const [militaryInfo, setMilitaryInfo] = useState(false)
+  const [militaryInfo, setMilitaryInfo] = useState(false);
+  const [rowHeight, setRowHeight] = useState(0);
+  const rowRef = useRef(null);
 
   useEffect(() => {
     setData(props.timeblocks);
@@ -47,6 +48,13 @@ const TimeTable2 = (props) => {
       document.removeEventListener("click", callCellCallback);
     }
   }, [])
+
+  useEffect(() => {
+    if (rowRef.current !== null) {
+      const rect = rowRef.current.getBoundingClientRect()
+      setRowHeight(rect.bottom - rect.top);
+    }
+  }, [rowRef.current])
 
   const callCellCallback = (e) => {
     if (currentCellCallback !== null) {
@@ -103,7 +111,6 @@ const TimeTable2 = (props) => {
           key={i}
           time={`${hour}:${minute}`}
           row={i / divisions}
-          setHeight={setCellHeight}
         />);
     }
     return timerows;
@@ -130,23 +137,30 @@ const TimeTable2 = (props) => {
     while (i < 1440 / 15) {
       let currentData = parsedData[i * 15];
       if (currentData === undefined) {
+          let currentDuration = (i % 2 === 0) ? 30 : 15;
+          if (parsedData[(i+1) * 15] !== undefined) currentDuration = 15;
         cells.push(
           <Cell
             key={`${colNum}${i * divisions / 15}`}
             {...props}
             row={i}
             col={colNum}
-            data={{ ...defaultData, time: i * 15 }}
+            height={rowHeight}
+            data={{ ...defaultData, time: i * 15, duration: currentDuration }}
             timeStrings={timeStrings}
-            height={cellHeight}
             divisions={divisions}
             setDraggedOverRow={setDraggedOverRow}
             startDragging={startDragging}
             stopDragging={stopDragging}
             setCellCallback={setCellCallback}
             setCache={setCache}
+            military={military}
           />
         );
+        if (currentDuration === 15) {
+          i++;
+          continue;
+        }
         for (let j = 1; j < divisions / 15; j++) {
           cells.push(null);
           i++;
@@ -159,9 +173,9 @@ const TimeTable2 = (props) => {
             {...props}
             row={i}
             col={colNum}
+            height={rowHeight}
             data={currentData}
             timeStrings={timeStrings}
-            height={cellHeight}
             divisions={divisions}
             setDraggedOverRow={setDraggedOverRow}
             startDragging={startDragging}
@@ -169,30 +183,12 @@ const TimeTable2 = (props) => {
             setCellCallback={setCellCallback}
             setCache={setCache}
             checkTime={props.checkTime}
+            military={military}
           />
         );
         for (let j = 1; j < parseInt(currentData.duration) / 15; j++) {
           cells.push(null);
           i++;
-        }
-        if (currentData.duration % divisions !== 0) {
-          cells.push(
-            <Cell
-              key={`${colNum}${i * divisions / 15 + currentData.duration}`}
-              {...props}
-              row={i+1}
-              col={colNum}
-              data={{ ...defaultData, time: i * divisions + currentData.duration, duration: 15 }}
-              timeStrings={timeStrings}
-              height={cellHeight}
-              divisions={divisions}
-              setDraggedOverRow={setDraggedOverRow}
-              startDragging={startDragging}
-              stopDragging={stopDragging}
-              setCellCallback={setCellCallback}
-              setCache={setCache}
-              checkTime={props.checkTime}
-            />)
         }
         i++;
       }
@@ -217,7 +213,7 @@ const TimeTable2 = (props) => {
         }
         //console.log(cells);
         rows.push(
-          <tr className="table-row" key={i * divisions / 15}>
+          <tr className="table-row" key={i * divisions / 15} ref={rowRef}>
             {i % (divisions/15) === 0 ? <th className={"admin-cell time-cell"} rowSpan={divisions / 15}>{times[i/(divisions/15)]}</th> : null}
             {cells.map((e) => {
               return e ?? null;

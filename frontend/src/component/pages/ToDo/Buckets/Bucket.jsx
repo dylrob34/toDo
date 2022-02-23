@@ -80,7 +80,7 @@ const Bucket = ({ bucket, popup }) => {
           }
           showEdit()
           updateToDoContext({ ...toDoContext, reloadBuckets: true });
-        })
+      })
     }
   }
 
@@ -92,8 +92,8 @@ const Bucket = ({ bucket, popup }) => {
           <input type="text" className={isEditing ? "visible modal-input" : "invisible"} value={text}
             onChange={e => setText(e.target.value)}
             onKeyDown={editBucket}
-          /> padding: '0rem 0rem 0rem 0.5rem';
-          <div className={isEditing ? 'invisible' : 'modal-item'}>
+          />
+          <div className={isEditing ? 'invisible' : 'modal-item'} style={{padding: '.5rem 0.4rem .5rem 0.4rem'}}>
             {text}
           </div>
           <div className='modal-element'>

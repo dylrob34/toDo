@@ -25,9 +25,17 @@ const PopupEditBlock = (props) => {
 
     const getTimes = () => {
         let temp = []
-        for (const key of Object.keys(props.timeStrings)) {
-            temp.push([key, props.timeStrings[key]]);
+        for (var i = 0; i <= 1440; i += 15) {
+          let hourMath = i % 60 === 0 ? i : i - (i % 60);
+          let hour = hourMath / 60;
+          if (!props.military) {
+            hour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
+          }
+          let minute = i % 60;
+          minute = minute === 0 ? "00" : minute;
+          temp.push([i, `${hour}:${minute}`]);
         }
+        console.log(temp);
         return temp;
     }
 
