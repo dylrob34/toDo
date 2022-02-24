@@ -7,7 +7,16 @@ import {
 } from "../../../../context/ToDoContext";
 import AutoFillDropdown from "../../../layout/AutoFillDropdown";
 
-const AddTask = ({ setReload, t, b, complete, dd, cancelEdit, edit }) => {
+const AddTask = ({
+  setReload,
+  t,
+  b,
+  complete,
+  dd,
+  cancelEdit,
+  edit,
+  editing = false,
+}) => {
   const [title, setTitle] = useState(t);
   const [body, setBody] = useState(b);
   const [autoUsers, setAutoUsers] = useState(false);
@@ -83,9 +92,10 @@ const AddTask = ({ setReload, t, b, complete, dd, cancelEdit, edit }) => {
   };
 
   return (
-    <div className="task-editor-area">
+    <div className={`task-editor-area ${editing ? "is-editing" : ""}`}>
       <form className="add-task-form" onSubmit={submitTask}>
         <div className="add-task-container">
+          {editing && <h2>Editing Task</h2>}
           <h3>Title</h3>
           <textarea
             onChange={(e) => setTitle(e.target.value)}
@@ -130,7 +140,9 @@ const AddTask = ({ setReload, t, b, complete, dd, cancelEdit, edit }) => {
           <button type="button" className="cancel" onClick={cancel}>
             Cancel
           </button>
-          <button name="Submit">{edit === undefined ? "Add" : "Edit"}</button>
+          <button class="submit" name="Submit">
+            {edit === undefined ? "Add" : "Edit"}
+          </button>
         </div>
       </form>
     </div>

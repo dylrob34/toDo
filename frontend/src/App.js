@@ -16,6 +16,7 @@ import Account from './component/pages/Account/Account.jsx';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './Signup.css';
+import './Tasks.css';
 // import 'react-calendar/dist/Calendar.css';
 import './CustomCalendar.css';
 import './AccountSetting.css';
