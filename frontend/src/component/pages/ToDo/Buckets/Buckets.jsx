@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaRegMap } from "react-icons/fa";
 import Bucket from "./Bucket";
 import { get, post } from "../../../../tools/request";
 import {
@@ -15,7 +15,7 @@ const Buckets = () => {
   const [popup, setPopup] = useState(false);
   const [addingBucket, setBucketAdd] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [createNewBucket, setCreateNewBucket] = useState(false)
+  const [createNewBucket, setCreateNewBucket] = useState(false);
   const toDoContext = useToDoContext();
   const setToDoContext = useUpdateToDoContext();
 
@@ -58,6 +58,13 @@ const Buckets = () => {
       </div>
       {loading ? (
         <img className="loading" src="/loading.svg" alt="loading" />
+      ) : buckets.length < 1 ? (
+        <div className="empty-state">
+          <div className="empty-icon-wrapper">
+            <FaRegMap className="empty-icon" />
+          </div>
+          <p>No Buckets</p>
+        </div>
       ) : (
         <ul className="bucket-list">
           {buckets.map((bucket, index) => (
@@ -89,13 +96,17 @@ const Buckets = () => {
                   style={{ left: "-18px" }}
                 >
                   <PlusIcon
-                    onClick={() => {setCreateNewBucket(true)}}
+                    onClick={() => {
+                      setCreateNewBucket(true);
+                    }}
                     className="fa-sml"
                     style={{ height: "20px", width: "20px" }}
                   ></PlusIcon>
                 </div>
               </div>
-              {createNewBucket ? <AddingBucket add={addBucket} cancel={setCreateNewBucket} /> : null}
+              {createNewBucket ? (
+                <AddingBucket add={addBucket} cancel={setCreateNewBucket} />
+              ) : null}
               <div
                 className="modal-row modal-row-content"
                 style={{ padding: "0px 0px 0px 0px" }}

@@ -199,6 +199,10 @@ body,
   color: var(--accent1);
 }
 
+p {
+  color: white;
+}
+
 .btn-text {
   background: none;
   padding: 4px 8px 0px 8px;
@@ -999,6 +1003,34 @@ body,
   width: 40px;
   height: 40px;
   margin: 2rem auto;
+}
+
+.empty-state {
+  display: flex;
+  color: var(--text-gray1);
+  flex-direction: column;
+  justify-content: center;
+}
+
+.empty-state p {
+  color: var(--text-gray1);
+}
+
+.empty-state .empty-icon-wrapper {
+  background-color: rgba(128, 134, 139, 0.2);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.3rem auto;
+}
+
+.empty-state .empty-icon {
+  margin: 0.2rem auto;
+  width: 32px;
+  height: 32px;
 }
 
 .bucket-item {
