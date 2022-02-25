@@ -164,15 +164,15 @@ const Task = ({ task }) => {
           onMouseOut={() => handleHover(false)}
         >
           <div className="task-item">
-            <div className="task-header">
-              <FaGripVertical
+            <div className="task-left">
+              {/* <FaGripVertical
                 onClick={handleDragStart}
                 className={`'task-grip-invisible' ${
                   hover ? "task-grip draggable" : "task-grip-invisible"
                 }`}
                 onMouseOver={() => handleHover(true)}
                 onMouseOut={() => handleHover(false)}
-              />
+              /> */}
               <FaRegSquare
                 onClick={() => {
                   onComplete(true);
@@ -185,29 +185,39 @@ const Task = ({ task }) => {
                 }}
                 className={completeTask ? "visible task-complete" : "invisible"}
               />
-              <div className="task-element task-title font-header">{title}</div>
-              <div
-                className={`'task-icons' ${
-                  hover ? "task-icons-hover" : " invisible-icons"
-                }`}
-              >
-                <FaSun className="task-icon" onClick={moveTomorrow} />
-                {/* Placeholder for "Move to tomorrow" icon */}
-                <FaCalendar
-                  className="task-delete task-icon"
-                  onClick={toggleCalendar}
-                />
-                <FaEdit
-                  className="task-edit task-icon"
-                  onClick={() => setIsEditing(true)}
-                />
-                <FaTimes
-                  className="task-delete task-icon"
-                  onClick={deleteTask}
-                />
-              </div>
             </div>
-            <div className="task-body font-body">
+            <div className="task-right">
+              <div className="header">
+                <h3 className="task-title font-header">{title}</h3>
+                <div
+                  className={`task-icons ${
+                    hover ? "task-icons-hover" : " invisible-icons"
+                  }`}
+                >
+                  <button>
+                    <FaSun className="task-icon" onClick={moveTomorrow} />
+                  </button>
+                  <button>
+                    <FaCalendar
+                      className="task-delete task-icon"
+                      onClick={toggleCalendar}
+                    />
+                  </button>
+                  <button>
+                    <FaEdit
+                      className="task-edit task-icon"
+                      onClick={() => setIsEditing(true)}
+                    />
+                  </button>
+                  <button>
+                    <FaTimes
+                      className="task-delete task-icon"
+                      onClick={deleteTask}
+                    />
+                  </button>
+                </div>
+              </div>
+              <div className="task-body font-body">
               <p name="taskdetails" className={"task-element task-details"}>
                 {parseBody()}
               </p>
@@ -242,9 +252,6 @@ const Task = ({ task }) => {
                 ) : (
                   ""
                 )}
-                <span className="spacer-buckets">
-                  {/*Placeholder for different icon*/}
-                </span>
                 <div className="task-buckets">
                   {buckets.map((bucket, index) => (
                     <span className="task-bucket task-element" key={index}>
@@ -253,6 +260,7 @@ const Task = ({ task }) => {
                   ))}
                 </div>
               </div>
+            </div>
             </div>
           </div>
         </div>
