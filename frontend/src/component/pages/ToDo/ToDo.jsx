@@ -20,6 +20,7 @@ import {
   useAddTaskUpdate,
 } from "../../../context/AddTaskContext";
 import Modal from "../../layout/Modal/Modal";
+import { post } from "../../../tools/request";
 
 const ToDo = (props) => {
   const toDoContext = useToDoContext();
@@ -91,7 +92,15 @@ const ToDo = (props) => {
       desc: description 
     }
 
-    console.log(dataBody)
+    post('/api/bug/submitBug', dataBody).then((resJson) => {
+        if (resJson.error === true) {
+          console.log("Error submiting bug/suggestion");
+        } else {
+          alert("Thanks for submitting a bug or suggestion!")
+        }
+      }
+    )
+    setPopup(false)
   }
 
 
@@ -151,7 +160,7 @@ const ToDo = (props) => {
                 <h2 className="modal-header">Bugs/Suggestions</h2>
               </div>
                 <div className="modal-row" style={{flexDirection:"column"}}>
-                  <form action={handleBugSubmit()}>
+                  <div>
                     <select name="type" id="type" value={type} onChange={(e) => setType(e.target.value)}>
                       <option value=""></option>
                       <option value='bug'>Bug</option>
@@ -159,6 +168,7 @@ const ToDo = (props) => {
                     </select>
                     <select name="location" id="location" value={page} onChange={(e) => setPage(e.target.value)}>
                       <option value=""></option>
+                      <option value="AllPages">All Pages</option>
                       <option value="About">About</option>
                       <option value="Login/Signup">Login/Signup</option>
                       <option value="Accout">Account</option>
@@ -166,8 +176,8 @@ const ToDo = (props) => {
                       <option value="timeblock">Timeblock</option>
                     </select>
                     <textarea name="description" id="description" cols="30" rows="10" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
-                    <input className="m-btn m-btn-lrg" style={{fontFamily:'Inter, san-serif', backgroundColor:'transparent', color:"white", fontSize:"1rem"}}type="submit" />
-                  </form>
+                    <div className="m-btn m-btn-lrg" onClick={handleBugSubmit} style={{fontFamily:'Inter, san-serif', backgroundColor:'transparent', color:"white", fontSize:"1rem"}}>Submit</div>
+                  </div>
                 </div>
               <div
                 className="modal-row modal-row-content"

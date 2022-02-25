@@ -14,6 +14,24 @@ client.connect((err, client) => {
   }
 });
 
+/*******************
+ * 
+ *******Bugs*******
+ * 
+ *******************/
+
+ function submitBugSuggestion(type, page, desc) {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("bugs").insertOne({
+            type,
+            page,
+            desc
+        })
+        .then((result) => {
+            resolve(result);
+        })
+    })
+}
 
 /*******************
  * 
@@ -432,6 +450,8 @@ function deleteCategory(id) {
 }
 
 module.exports = {
+    // bugs
+    submitBugSuggestion,
     // users
     getUser,
     createUser,
