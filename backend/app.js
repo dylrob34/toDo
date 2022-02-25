@@ -13,6 +13,7 @@ corsOptions = {
 
 const indexRouter = require('./index');
 const authRouter = require('./api/auth').router;
+const bugRouter = require('./api/bug');
 const userRouter = require('./api/user');
 const teamRouter = require('./api/teams');
 const taskRouter = require('./api/task');
@@ -34,6 +35,7 @@ app.use(verifyToken);
 app.use(logging.logging);
 
 app.use('/api/auth', authRouter);
+app.use('/api/bug', bugRouter );
 app.use('/api/user', userRouter);
 app.use('/api/teams', teamRouter);
 app.use('/api/task', taskRouter);

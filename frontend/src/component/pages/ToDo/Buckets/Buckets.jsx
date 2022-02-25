@@ -40,14 +40,18 @@ const Buckets = () => {
   }, [toDoContext, loading, setToDoContext]);
 
   function addBucket(text) {
-    post("/api/bucket/addBucket", { name: text, team: toDoContext.team }).then(
+    post("/api/bucket/addBucket", { name: text, team: toDoContext.currentTeam }).then(
       (resJson) => {
         if (resJson.error === true) {
-          console.log("Add Buckets");
+          console.log("Error Adding Buckets");
         }
         setToDoContext({ ...toDoContext, reloadBuckets: true });
       }
     );
+  }
+
+  function manualCreateBucket(text) {
+
   }
 
   return (
@@ -111,9 +115,6 @@ const Buckets = () => {
                 className="modal-row modal-row-content"
                 style={{ padding: "0px 0px 0px 0px" }}
               >
-                {/* {addingBucket ? (
-                  <AddingBucket add={addBucket} cancel={setBucketAdd} />
-                ) : null} */}
                 <ul className="modal-group">
                   <div className="">
                     {buckets.map((bucket, index) => {
