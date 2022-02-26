@@ -1361,10 +1361,9 @@ cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   color: white;
   box-shadow: inset 0px 0px 3px rgb(0, 0, 0, 0.5);
-  text-align: center;
 }
 
 .readonly-cell {
