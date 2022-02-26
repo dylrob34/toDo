@@ -19,7 +19,7 @@ import {
 } from "../../../../context/ToDoContext";
 import AddTask from "./AddTask";
 import CalendarComponent from "./CalendarComponent";
-import { getDayString } from "../../../../tools/time";
+import { getDateUTC, getDayString } from "../../../../tools/time";
 
 const Task = ({ task }) => {
   const [title, setTitle] = useState(task.title);
@@ -105,7 +105,11 @@ const Task = ({ task }) => {
   };
 
   function moveTomorrow() {
-    setDueDate(dueDate + 1);
+    let date = new Date();
+    let utcDate = new Date(getDateUTC(date));
+    let timeTomorrow = new Date(utcDate.getTime() + utcDate.getTimezoneOffset() * 60000);
+    timeTomorrow = new Date(timeTomorrow.getTime() + 86400000);
+    setDueDate(timeTomorrow);
   }
 
   function parseBody() {

@@ -27,6 +27,11 @@ const Landing = () => {
                   Build Your Productive Life. One Block at a Time.
                 </div>
                 <button className="btn-lg landing-btn-signup" onClick={handleRedirect}>Sign Up Here</button>
+                <div>
+                  <h3>Blockz is for
+                    <span dataWait='3000' dataWords></span>
+                  </h3>
+                </div>
               </div>
             </div>
             <div className="landing-section2 landing-section" id="tasking-panel">
