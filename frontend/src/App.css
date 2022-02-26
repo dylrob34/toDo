@@ -1010,6 +1010,7 @@ p {
   color: var(--text-gray1);
   flex-direction: column;
   justify-content: center;
+  margin: 2rem;
 }
 
 .empty-state p {
@@ -1019,8 +1020,8 @@ p {
 .empty-state .empty-icon-wrapper {
   background-color: rgba(128, 134, 139, 0.2);
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1028,7 +1029,6 @@ p {
 }
 
 .empty-state .empty-icon {
-  margin: 0.2rem auto;
   width: 32px;
   height: 32px;
 }

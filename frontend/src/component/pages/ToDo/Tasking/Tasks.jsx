@@ -8,12 +8,13 @@ import {
   useAddTask,
   useAddTaskUpdate,
 } from "../../../../context/AddTaskContext";
-import { FaAngleRight, FaAngleDoubleRight } from "react-icons/fa";
+import { FaRegCalendarCheck } from "react-icons/fa";
 import {
   useToDoContext,
   useUpdateToDoContext,
 } from "../../../../context/ToDoContext";
 import { useCounter, useCounterUpdate } from "../../../../context/ToDoContext";
+import EmptyState from "../../../layout/EmptyState";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState(null);
@@ -152,6 +153,8 @@ const Tasks = () => {
   function filterTasks() {
     if (!tasks)
       return <img className="loading" src="/loading.svg" alt="loading" />;
+    if (tasks.length < 1)
+      return <EmptyState message="No Tasks" Icon={FaRegCalendarCheck} />
     let bucketFilteredTasks = map(tasks, (task) => {
       if (
         toDoContext.currentBucket.length === 0 ||

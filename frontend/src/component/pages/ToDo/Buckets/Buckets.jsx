@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaBars, FaRegMap } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import Bucket from "./Bucket";
 import { get, post } from "../../../../tools/request";
 import {
@@ -9,6 +9,7 @@ import {
 import Popup from "../../../layout/Popup";
 import Modal from "../../../layout/Modal/Modal";
 import { PlusIcon } from "@heroicons/react/solid";
+import EmptyState from '../../../layout/EmptyState';
 
 const Buckets = () => {
   const [buckets, setBuckets] = useState([]);
@@ -63,12 +64,7 @@ const Buckets = () => {
       {loading ? (
         <img className="loading" src="/loading.svg" alt="loading" />
       ) : buckets.length < 1 ? (
-        <div className="empty-state">
-          <div className="empty-icon-wrapper">
-            <FaRegMap className="empty-icon" />
-          </div>
-          <p>No Buckets</p>
-        </div>
+        <EmptyState message="No Buckets" />
       ) : (
         <ul className="bucket-list">
           {buckets.map((bucket, index) => (
