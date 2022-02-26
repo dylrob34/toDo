@@ -323,7 +323,7 @@ const TimeBlock = (props) => {
                 categoryDurations={countCategoryHours()}
 
                 />
-                <div className="piechart-container">
+                <div className="piechart-container metrics-table-shrink">
                   {<PieChart
                       categories={buildPieDate()}
                       width={800}

@@ -28,7 +28,7 @@ const TimeblockMetrics = (props) => {
 
   return (
     <div>
-      <div className='metrics-table-container metrics-table-shrin'>
+      <div className='metrics-table-container metrics-table-shrink'>
         
         <h2 name='Title' className='metrics-header'>
           Timeblock Weekly Metrics

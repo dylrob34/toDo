@@ -13,6 +13,7 @@
 }
 .options-textarea{
     width: 15.5rem;
+    height: 13rem;
     resize: none;
     outline: none;
     border-radius: 5px;

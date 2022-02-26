@@ -194,12 +194,16 @@ const ToDo = (props) => {
                       >
                       </textarea>
                     </div>
-                    <div className="m-btn m-btn-lrg" onClick={handleBugSubmit} style={{fontFamily:'Inter, san-serif', backgroundColor:'transparent', color:"white", fontSize:"1rem"}}>Submit</div>
+                    <div className="m-btn m-btn-lrg" 
+                    onClick={handleBugSubmit} 
+                    style={{fontFamily:'Inter, san-serif', backgroundColor:'transparent', color:"white", fontSize:"1rem", marginTop:'0.8rem'}}>
+                      Submit
+                    </div>
                   </div>
                 </div>
               <div
                 className="options-container"
-                style={{ overflowY:"none", padding: "0px 0px 0px 0px" }}>
+                style={{ overflowY:"none", padding: "0.5rem" }}>
                 <div className="m-btn m-btn-lrg" onClick={() => setPopup(false)}>
                   Close
                 </div>
