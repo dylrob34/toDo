@@ -13,6 +13,7 @@ html {
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 ::-webkit-scrollbar {
@@ -1054,7 +1055,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding-right: 0.5rem;
+  margin-right: 0.5rem;
   margin-top: auto;
   margin-bottom: auto;
   color: white;

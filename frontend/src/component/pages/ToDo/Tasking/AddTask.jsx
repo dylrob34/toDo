@@ -97,16 +97,14 @@ const AddTask = ({
         <div className="add-task-container">
           {editing && <h2>Editing Task</h2>}
           <h3>Title</h3>
-          <textarea
+          <input
             onChange={(e) => setTitle(e.target.value)}
             name="taskTitle"
             id="taskTitle"
-            cols="85"
-            rows="1"
             className="add-task-title"
             placeholder="Get groceries"
             value={title}
-          ></textarea>
+          />
           <h3>Description</h3>
           <textarea
             onChange={(e) => handleBody(e.target.value)}
@@ -115,8 +113,6 @@ const AddTask = ({
             }}
             name="taskDetails"
             id=""
-            cols="85"
-            rows="5"
             className="add-task-details"
             placeholder="Buy milk, eggs, bread, etc."
             value={body}
