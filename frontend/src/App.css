@@ -653,9 +653,9 @@ p {
   position: relative;
   padding: 20px 10px 20px 20px;
   width: 100%;
-  max-width: 250px;
-  height: 50%;
-  max-height: 400px;
+  max-width: 17.6rem;
+  height: 100%;
+  max-height: 30rem;
   background-color: var(--base-gray2);
   color: white;
   border-radius: 10px;
@@ -671,12 +671,13 @@ p {
   align-items: center;
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: 270px;
 }
 .modal-row-content {
-  min-width: 250px;
-  min-height: 265px;
+  min-width: 12rem;
+  min-height: 20rem;
+  max-height: 20rem;
   align-items: flex-start;
+  overflow-y: scroll;
 }
 .modal-header {
   display: flex;
@@ -1110,6 +1111,7 @@ p {
 .selected {
   color: var(--accent1);
 }
+
 
 /* Main Styling */
 

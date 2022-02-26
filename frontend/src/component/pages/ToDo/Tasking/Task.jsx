@@ -23,12 +23,12 @@ import { getDateUTC, getDayString } from "../../../../tools/time";
 
 const Task = ({ task }) => {
   const [title, setTitle] = useState(task.title);
+  const [body, setBody] = useState(task.body);
+  const [dueDate, setDueDate] = useState(task.duedate);
   const [hover, setHover] = useState(false);
   const [buckets, setBuckets] = useState([]);
-  const [body, setBody] = useState(task.body);
   const [id, setId] = useState(task._id);
   const [reminder, setReminder] = useState(task.reminder);
-  const [dueDate, setDueDate] = useState(task.duedate);
   const [showDueDate, setShowDueDate] = useState(false);
   const [calendar, setCalendar] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -110,6 +110,8 @@ const Task = ({ task }) => {
     let timeTomorrow = new Date(utcDate.getTime() + utcDate.getTimezoneOffset() * 60000);
     timeTomorrow = new Date(timeTomorrow.getTime() + 86400000);
     setDueDate(timeTomorrow);
+    console.log(timeTomorrow)
+    editTask(title, body, completeTask, dueDate);
   }
 
   function parseBody() {

@@ -156,32 +156,50 @@ const ToDo = (props) => {
         <div className="modal-background">
           <div className="modal">
             <div className="modal-container">
-              <div className="modal-row">
+              <div className="modal-row" style={{overflow:'none'}}>
                 <h2 className="modal-header">Bugs/Suggestions</h2>
               </div>
-                <div className="modal-row" style={{flexDirection:"column"}}>
-                  <div>
-                    <select name="type" id="type" value={type} onChange={(e) => setType(e.target.value)}>
-                      <option value=""></option>
-                      <option value='bug'>Bug</option>
-                      <option value='suggestion'>Suggestion</option>
-                    </select>
-                    <select name="location" id="location" value={page} onChange={(e) => setPage(e.target.value)}>
-                      <option value=""></option>
-                      <option value="AllPages">All Pages</option>
-                      <option value="About">About</option>
-                      <option value="Login/Signup">Login/Signup</option>
-                      <option value="Accout">Account</option>
-                      <option value="todo">ToDo</option>
-                      <option value="timeblock">Timeblock</option>
-                    </select>
-                    <textarea name="description" id="description" cols="30" rows="10" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+                <div className="modal-row" style={{flexDirection:"column", overflow:'none'}}>
+                  <div className="options-container">
+                    <div className="selector-container">
+                      <div style={{display:'flex', flexDirection:'column'}}>
+                        <span style={{alignSelf:'flex-start', margin:'0rem 0.5rem'}}>Type:</span>
+                        <select name="type" id="type" value={type} onChange={(e) => setType(e.target.value)} className="options-selector">
+                          <option value=""></option>
+                          <option value='bug'>Bug</option>
+                          <option value='suggestion'>Suggestion</option>
+                        </select>
+                      </div>
+                      <div style={{display:'flex', flexDirection:'column'}}>
+                        <span style={{alignSelf:'flex-start', margin:'0rem 0.5rem'}}>Page:</span>
+                        <select name="location" id="location" value={page} onChange={(e) => setPage(e.target.value)} className="options-selector">
+                          <option value=""></option>
+                          <option value="AllPages">All Pages</option>
+                          <option value="About">About</option>
+                          <option value="Login/Signup">Login/Signup</option>
+                          <option value="Accout">Account</option>
+                          <option value="ToDo">ToDo</option>
+                          <option value="Timeblock">Timeblock</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="description-container">
+                      <span style={{alignSelf:'flex-start'}}>Description:</span>
+                      <textarea name="description" 
+                      id="description" 
+                      cols="30" rows="10" 
+                      value={description} 
+                      onChange={(e) => setDescription(e.target.value)}
+                      className="options-textarea"
+                      >
+                      </textarea>
+                    </div>
                     <div className="m-btn m-btn-lrg" onClick={handleBugSubmit} style={{fontFamily:'Inter, san-serif', backgroundColor:'transparent', color:"white", fontSize:"1rem"}}>Submit</div>
                   </div>
                 </div>
               <div
-                className="modal-row modal-row-content"
-                style={{ padding: "0px 0px 0px 0px" }}>
+                className="options-container"
+                style={{ overflowY:"none", padding: "0px 0px 0px 0px" }}>
                 <div className="m-btn m-btn-lrg" onClick={() => setPopup(false)}>
                   Close
                 </div>

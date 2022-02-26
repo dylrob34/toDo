@@ -112,7 +112,7 @@ const Buckets = () => {
                 style={{ padding: "0px 0px 0px 0px" }}
               >
                 <ul className="modal-group">
-                  <div className="">
+                  <div className="modal-bucket-list">
                     {buckets.map((bucket, index) => {
                       return (
                         <Bucket key={index} bucket={bucket} popup={true} />
@@ -123,7 +123,7 @@ const Buckets = () => {
               </div>
               <div
                 className="modal-row"
-                style={{ paddingTop: "3rem", justifyContent: "center" }}
+                style={{ paddingTop: "2rem", justifyContent: "center" }}
               >
                 <div
                   className="m-btn m-btn-lrg"

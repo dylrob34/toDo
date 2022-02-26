@@ -1,0 +1,42 @@
+/* Bug/Suggestion modal styling */
+
+.options-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.options-selector{
+    width: 6.5rem;
+    outline: none;
+    margin: 0.5rem 0.5rem;
+}
+.options-textarea{
+    width: 15.5rem;
+    resize: none;
+    outline: none;
+    border-radius: 5px;
+    background-color: var(--mid-gray2);
+    border: none;
+    margin: 0.5em 0rem 1rem 0rem;
+    padding: 0.3rem;
+    color: white;
+    font-family: "Inter", sans-serif;
+    box-shadow: 0px 3px 6px rgb(0,0,0, 0.5);
+}
+
+.selector-container{
+    display: flex;
+    flex-direction: row;
+    background-color: var(--mid-gray2);
+    border-radius: 5px;
+    margin: 1rem 0.1rem 0.5rem 0.1rem;
+    box-shadow: 0px 3px 6px rgb(0,0,0, 0.5);
+
+}
+
+.description-container{
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem 0rem;
+}
