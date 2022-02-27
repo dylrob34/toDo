@@ -99,13 +99,13 @@
   .landing-item {
     color: white;
     font-family: "Inter", sans-serif;
-
   }
+
+
   .landing-taskpanel-header-pos {
     position: relative;
     transform: translateX(-8rem) translateY(-14rem);
   }
-
 
   .landing-item-taskpanel-text {
     text-align: center;
