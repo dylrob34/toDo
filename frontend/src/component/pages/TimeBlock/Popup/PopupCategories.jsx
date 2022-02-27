@@ -14,7 +14,7 @@ const PopupCategories = (props) => {
     }, [props.categories]);
 
     return (
-        <div className=''>{
+        <div className='modal-row-content-cats'>{
             categories.map((category) => {
                 return (
                     <Category key={category._id} category={category} setLoad={props.setLoad}/>
@@ -75,21 +75,6 @@ const Category = ({ category, setLoad }) => {
         }
     }
 
-    // const handleEdit = () => {
-    //     post("/api/categories/editCategory", {
-    //         id,
-    //         title,
-    //         color,
-    //     })
-    //         .then((resJson) => {
-    //             if (resJson.error === true) {
-    //                 console.log( "Error editing category." );
-    //             } else {
-    //                 updateTimeBlockContext({...timeBlockContext, reloadCategories: true})
-    //             }
-    //         })
-    // }
-
     const handleDelete = () => {
         post("/api/categories/deleteCategory", { "id": id })
             .then((resJson) => {
@@ -102,32 +87,30 @@ const Category = ({ category, setLoad }) => {
 
 
     return (
-        <div className='modal-group'>
-            {/* Until I figure out how to make this compact picker in the correct spot it will make the modal look funky */}
-            {/* Need to do in line positioning with reference to the position of the Category Title. */}
-            <div className='modal-element-categories'>
+        <div className='modal-group-cats'>
+            <div className='modal-element-cats'>
                 <div className={compactPicker ? "color-picker-location" : 'invisible'}>
-                    <div className={"color-picker-arrow"}></div>
+                    {/* <div className={"color-picker-arrow"}></div> */}
                     <CompactPicker  
                     color={catColor}  
                     onChange={handleColorChange}/>
                 </div>
-                <div onClick={ () => { setCompactPicker(!compactPicker) }} className='modal-item modal-icon modal-square'
+                <div onClick={ () => { setCompactPicker(!compactPicker) }} className='modal-item-cats modal-icon-cats modal-square-cats'
                 style={{ backgroundColor: `rgba(${catColor.r}, ${catColor.g}, ${catColor.b})`}}>                  
                 </div>
                 {isEditing ? 
-                    <input type="text" className='modal-input'
+                    <input type="text" className='modal-input-cats'
                     autoFocus
                     value={title}
                     onChange={e => setTitle(e.target.value)}
                     onKeyDown={editTitle}
                     />
                 :
-                    <div className='modal-item'>{title}</div>
+                    <div className='modal-item-cats'>{title}</div>
                 }
                 <span className="flex-spacer-5"></span>
-                <PencilIcon onClick={showEdit} className='modal-item' style={{width:'20px', height:'20px', paddingRight:"2px"}}></PencilIcon>
-                <XIcon onClick={ () => handleDelete(id) } className='modal-item' style={{width:'20px', height:'20px'}}></XIcon>
+                <PencilIcon onClick={showEdit} className='modal-item-cats' style={{width:'20px', height:'20px', paddingRight:"2px"}}></PencilIcon>
+                <XIcon onClick={ () => handleDelete(id) } className='modal-item-cats' style={{width:'20px', height:'20px'}}></XIcon>
             </div>
 
         

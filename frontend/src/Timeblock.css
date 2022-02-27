@@ -44,3 +44,134 @@
     display: flex;
     margin-right: 1%;
   }
+
+
+
+  /* Categories Modal */
+
+  .modal-background-cats {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .8);
+    z-index: 10;
+  }
+  
+  .modal-cats {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 17.5rem;
+    height: 100%;
+    max-height: 30rem;
+    background-color: var(--base-gray2);
+    color: white;
+    border-radius: 10px;
+    z-index: 1000;
+  }
+
+  .modal-container-cats {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 17rem;
+  }
+
+  .modal-row-cats {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+  }
+  .modal-row-content-cats {
+    min-height: 20rem;
+    max-height: 20rem;
+    align-items: flex-start;
+    overflow-y: scroll;
+  }
+  .modal-header-cats {
+    display: flex;
+    font-weight: 300;
+    padding: 2px 12px 2px 0px;
+    border-radius: 5px;
+  }
+
+  .modal-group-cats {
+    width: 240px;
+    height: 30px;
+    margin: 0px 10px 15px 0px;
+    border-radius: 5px;
+  }
+  .modal-element-cats {
+    display: flex;
+    flex-direction: row;
+    font-size: 1rem;
+    font-weight: 300;
+    justify-content: space-between;
+    align-items: center;
+    height: inherit;
+    width: inherit;
+  }
+  .color-picker-location {
+    position: absolute;
+    left: 50.25rem;
+    top: 10rem;
+    z-index: 1010;
+  }
+  .color-picker-arrow {
+    top: 45%;
+    right: -14px;
+    width: 0;
+    height: 0;
+    transform: translate(-46%, -50%);
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid white;
+    z-index: 1010;
+    position: absolute; 
+  }
+  .compact-picker {
+    background-color: white;
+    border: transparent;
+  }
+  .modal-item-cats {
+    display: flex;
+    align-items: center;
+    padding: 0px 6px 0px 0px;
+  }
+  .modal-icon-cats {
+    font-size: 1.75rem;
+  }
+  .modal-square-cats{
+    margin-right: 0.5rem;
+    padding-right: 0.75rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: .1rem;
+  }
+  
+  .modal-input-cats {
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 300;
+    border: 2px solid rgb(31, 31, 31);
+    border-radius: 5px;
+    padding: 2px 2px 2px 2px;
+    height: 20px;
+    width: 150px;
+  }
+  
+  .modal-input-cats:focus {
+    outline: none;
+    border: 2px solid var(--primary-green);
+    border-radius: 5px;
+  }
+  
+  /* Custom Classes for specific items in Modal(s) */
+
+  

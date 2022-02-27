@@ -651,7 +651,6 @@ p {
 
 .modal {
   display: flex;
-  position: relative;
   justify-content: center;
   width: 100%;
   max-width: 17.6rem;
@@ -676,17 +675,16 @@ p {
   overflow-x: hidden;
 }
 .modal-row-content {
-  min-width: 12rem;
   min-height: 20rem;
   max-height: 20rem;
   align-items: flex-start;
   overflow-y: scroll;
+  overflow-x: visible;
 }
 .modal-header {
   display: flex;
   font-weight: 300;
   position: relative;
-  /* background-color: rgb(0,0,0,0.5); */
   padding: 2px 12px 2px 0px;
   border-radius: 5px;
 }
@@ -694,9 +692,8 @@ p {
   width: 240px;
   height: 30px;
   margin: 0px 10px 15px 0px;
-  /* background-color: var(--mid-gray2); */
   border-radius: 5px;
-  /* box-shadow: 0px 1px 2px rgb(0,0,0,0.5); */
+  overflow-x: visible;
 }
 .modal-element {
   display: flex;
@@ -711,7 +708,7 @@ p {
 .modal-element-categories {
   display: flex;
   flex-direction: row;
-  position: absolute;
+  position: relative;
   font-size: 1rem;
   font-weight: 300;
   justify-content: space-between;
@@ -779,11 +776,11 @@ p {
 }
 
 /* Custom Classes for specific items in Modal(s) */
-.color-picker-location {
+/* .color-picker-location {
   position: absolute;
   left: -16.2rem;
   top: -1.6rem;
-  z-index: -10000;
+  z-index: 10000;
 }
 .color-picker-arrow {
   position: absolute;
@@ -800,7 +797,7 @@ p {
 .compact-picker {
   background-color: white;
   border: transparent;
-}
+} */
 
 /* Side Bar styling */
 .left-sidebar-sm {

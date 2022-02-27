@@ -340,52 +340,47 @@ const TimeBlock = (props) => {
       {/* This is the Modal for the categories stuff. */}
       <Modal trigger={modal} setTrigger={setModal}>
         <div
-          className="modal-background"
+          className="modal-background-cats"
           onClick={() => {
             setModal(false);
           }}
         />
-        <div className="modal">
-          <div className="modal-container" style={{ border: "none" }}>
+        <div className="modal-cats">
+          <div className="modal-container-cats">
             <div
-              className="modal-row"
-              style={{
-                padding: "0px 0px 30px 0px",
-                justifyContent: "space-between",
-              }}
-            >
-              <h2 className="modal-header">Categories</h2>
-              <div
-                className="m-btn m-btn-sml"
-                onClick={handleAddCategory}
-                style={{ left: "-16px" }}
+                className="modal-row-cats"
+                style={{
+                  padding: "0px 0px 30px 0px",
+                  justifyContent: "space-between",
+                }}
               >
-                <PlusIcon
-                  className="fa-sml"
-                  style={{ height: "20px", width: "20px" }}
-                ></PlusIcon>
-                {/* <img alt="Add" src="/Cross.svg" className="fa-sml" /> */}
+                <h2 className="modal-header-cats">Categories</h2>
+                <div
+                  className="m-btn m-btn-sml"
+                  onClick={handleAddCategory}
+                  style={{ left: "-16px" }}
+                >
+                  <PlusIcon
+                    className="fa-sml"
+                    style={{ height: "20px", width: "20px" }}
+                  ></PlusIcon>
+                  {/* <img alt="Add" src="/Cross.svg" className="fa-sml" /> */}
+                </div>
               </div>
-            </div>
-            <div
-              className="modal-row-content"
-              style={{ padding: "0px 0px 0px 0px" }}
-            >
-              <PopupCategories
-                nestedModal={nestedModal}
-                setNestedModal={setNestedModal}
-                categories={categories}
-                setLoad={setLoad}
-              />
-            </div>
-            <div
-              className="modal-row"
-              style={{ paddingTop: "30px", justifyContent: "center" }}
-            >
-              <div className="m-btn m-btn-lrg" onClick={() => setModal(false)}>
-                Close
+                <PopupCategories
+                  nestedModal={nestedModal}
+                  setNestedModal={setNestedModal}
+                  categories={categories}
+                  setLoad={setLoad}
+                />
+              <div
+                className="modal-row-cats"
+                style={{ paddingTop: "30px", justifyContent: "center" }}
+              >
+                <div className="m-btn m-btn-lrg" onClick={() => setModal(false)}>
+                  Close
+                </div>
               </div>
-            </div>
           </div>
         </div>
       </Modal>
