@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import {
   useTimeBlockContext,
   useUpdateTimeBlockContext,
@@ -228,7 +228,6 @@ const TimeTable2 = (props) => {
 
   return (
       <table className="table-blockz">
-       
         <colgroup>
           <col className="table-admin-col" />
         </colgroup>

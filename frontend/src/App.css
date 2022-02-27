@@ -1165,7 +1165,7 @@ cursor: pointer;
 .table-data,
 .table-header,
 .time-cell {
-  border: 1px solid var(--top-gray2);
+  border: 2px solid var(--top-gray2);
   color: var(--text-gray1);
   border-collapse: collapse;
   user-select: none;
@@ -1258,7 +1258,7 @@ cursor: pointer;
   justify-content: center;
   align-items: center;
   color: white;
-  box-shadow: inset 0px 0px 3px rgb(0, 0, 0, 0.5);
+  /* box-shadow: inset 0px 0px 3px rgb(0, 0, 0, 0.5); */
 }
 
 .readonly-cell {

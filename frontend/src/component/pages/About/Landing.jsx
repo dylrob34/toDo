@@ -17,8 +17,8 @@ const Landing = () => {
 
   return (
       <div className="welcome">
-        <div className="landing-page">
-            <div className="landing-section1 landing-section" id="hero-panel">
+        <div className="landing-page scroll-container">
+            <div className="landing-section1 landing-section scroll-child" id="hero-panel">
               <img alt="Blocks Logo" src="/blocks.svg" className="landing-logo landing-element" />
               <div className="landing-element" > 
                 <div className="landing-call2action font-call2action">
@@ -35,44 +35,57 @@ const Landing = () => {
             </div>
 
             {/* Mission Section */}
-            <div className="landing-section-mission landing-section" id='mission-panel'>
+              <div className="landing-section-mission landing-section scroll-child" id='mission-panel'>
+                  <div className="landing-element">
+                    <div className="landing-item font-header">
+                      <span>OUR </span>
+                      <span className="font-item-green">MISSION</span>
+                    </div>
+                    <div className="landing-item font-item" style={{margin:'2rem 14rem 12rem 14rem'}}>
+                    BLOCKZ was created with a goal of helping individuals build patterns to improve productivity across all aspects of life. 
+                    Our focus is on increasing personal awareness about how we use our most valuable resource, time.
+                    </div>
+                  </div>
+                  <div className="landing-element mission-toolbar">
+                    <div className="landing-item font-call2action mission-toolbar-item">
+                      Time Blocking Tool 
+                    </div>
+                    <div className="landing-item font-call2action mission-toolbar-item">
+                      To Do Lists 
+                    </div>
+                    <div className="landing-item font-call2action mission-toolbar-item">
+                      Capture your Ideas 
+                    </div>
+                  </div>
+              </div>
+
+
+            {/* Timeblock Section */}
+            <div className="landing-section2 landing-section scroll-child" id="tasking-panel">
                 <div className="landing-element">
-                  <div className="landing-item font-header">
-                    <span>OUR </span>
-                    <span className="font-item-green">MISSION</span>
-                  </div>
-                  <div className="landing-item font-item" style={{margin:'2rem 14rem 12rem 14rem'}}>
-                  BLOCKZ was created with a goal of helping individuals build patterns to improve productivity across all aspects of life. 
-                  Our focus is on increasing personal awareness about how we use our most valuable resource, time.
-                  </div>
+                  <img src="/Timeblock_Render.svg" alt="Placeholder for Tasking SVG" className="landing-timeblock-image" />
                 </div>
-                <div className="landing-element mission-toolbar">
-                  <div className="landing-item font-call2action mission-toolbar-item">
-                    Time Blocking Tool 
+                <div className="landing-element landing-taskpanel-header-pos">
+                  <div className="landing-item">
+                    <h1 className="font-item-green font-header">FLEXIBLE</h1>
+                    <h1 className="font-item-translate1 font-header" >TIMEBLOCKING</h1>
                   </div>
-                  <div className="landing-item font-call2action mission-toolbar-item">
-                    To Do Lists 
-                  </div>
-                  <div className="landing-item font-call2action mission-toolbar-item">
-                    Capture your Ideas 
-                  </div>
+                  <div className="landing-item landing-item-taskpanel-text">BLOCKZ offers...Use our buckets feature to filter tasks exactly as you want to see them. If that still not enough sort by any number of parameters or change the view of the whole page to best fit your style.</div>
                 </div>
             </div>
 
             {/* To Do List Section */}
-            <div className="landing-section2 landing-section" id="tasking-panel">
-              <div className="landing-element landing-taskpanel-header-pos">
-                <div className="landing-item">
-                  <h1 className="font-item-green font-header">FOCUSED</h1>
-                  <h1 className="font-item-translate font-header">TASKING</h1>
+            <div className="landing-section2 landing-section scroll-child" id="tasking-panel">
+                <div className="landing-element landing-taskpanel-header-pos">
+                  <div className="landing-item">
+                    <h1 className="font-item-green font-header">FOCUSED</h1>
+                    <h1 className="font-item-translate2 font-header">TASKING</h1>
+                  </div>
+                  <div className="landing-item landing-item-taskpanel-text">BLOCKZ offers...Use our buckets feature to filter tasks exactly as you want to see them. If that still not enough sort by any number of parameters or change the view of the whole page to best fit your style.</div>
                 </div>
-                <div className="landing-item landing-item-taskpanel-text">BLOCKZ offers...Use our buckets feature to filter tasks exactly as you want to see them. If that still not enough sort by any number of parameters or change the view of the whole page to best fit your style.</div>
-              </div>
-              <div className="landing-element">
-                <img src="/Landing-Tasks.svg" alt="Placeholder for Tasking SVG" className="landing-tasks-image" />
-              </div>
-            </div>
-            <div className="landing-section" id="timeblock-panel">
+                <div className="landing-element">
+                  <img src="/Landing-Tasks.svg" alt="Placeholder for Tasking SVG" className="landing-tasks-image" />
+                </div>
             </div>
 
             {/* <div className="landing-section4 landing-section" id='timeline-panel'>
