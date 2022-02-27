@@ -340,7 +340,7 @@ const TimeBlock = (props) => {
       {/* This is the Modal for the categories stuff. */}
       <Modal trigger={modal} setTrigger={setModal}>
         <div
-          className="modal-background-cats"
+          className="modal-background"
           onClick={() => {
             setModal(false);
           }}

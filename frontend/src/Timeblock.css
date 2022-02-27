@@ -49,19 +49,6 @@
 
   /* Categories Modal */
 
-  .modal-background-cats {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, .8);
-    z-index: 10;
-  }
-  
   .modal-cats {
     display: flex;
     justify-content: center;
