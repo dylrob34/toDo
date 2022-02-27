@@ -1,3 +1,4 @@
+const { ExceptionHandler } = require("winston");
 const database = require("../data");
 
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -66,15 +67,49 @@ class Timeblock {
         database.deleteTimeblock(this._id);
     }
 
+    getDOWFromUTC(date) {
+        return new Date(date).getUTCDay();
+    }
+
+    static async verify(timeblock) {
+
+        if (timeblock.duration < 15) return false;
+        if (timeblock.time < 0 || timeblock.time > 1425) return false;
+        if (timeblock.time + timeblock.duration > 1440) return false;
+
+        const dayUTC = new Date(Date.UTC(timeblock.date.getUTCFullYear(), timeblock.date.getUTCMonth(), timeblock.date.getUTCDate()));
+        const week = new Date(dayUTC.getTime() - 86400000 * dayUTC.getUTCDay());
+        const weeksBlocks = await Timeblock.getTimeblocksWeek(timeblock.owner, week.getTime());
+        const start = timeblock.time;
+        const end = timeblock.time + timeblock.duration;
+        for (const tbKey of Object.keys(weeksBlocks[timeblock.getDOWFromUTC(timeblock.date)])) {
+          const tb = weeksBlocks[timeblock.getDOWFromUTC(timeblock.date)][tbKey];
+          if (tb._id === timeblock._id) continue;
+          const s = tb.time;
+          const e = tb.time + tb.duration;
+          if ((start < s && s < end) || (start < e && e < end) || (s < start && start < e) || (s < end && end < e)) {
+            return false;
+          }
+        }
+
+        return true;
+    }
+
     async edit(title, body, time, duration, category, date) {
-        this.title = title;
+        this.title = title === "" ? "New Block" : title;
         this.body = body;
         this.time = time;
         this.duration = duration;
         this.category = category;
         this.date = new Date(date);
         this.dow = days[this.date.getUTCDay()];
-        const something = await database.editTimeblock(this._id, title, body, time, duration, category, this.date);
+
+        const verify = await Timeblock.verify(this);
+        if (!verify) {
+            throw new Error("Invalid time or duration");
+        }
+
+        const something = await database.editTimeblock(this._id, this.title, body, time, duration, category, this.date);
 
     }
 

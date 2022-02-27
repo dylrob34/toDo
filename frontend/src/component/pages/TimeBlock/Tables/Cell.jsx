@@ -5,7 +5,7 @@ import PopupEditBlock from '../Popup/PopupEditBlock';
 import { getTableData, setInitialValues, clearInitialValues, getInitialValues, setCurrentData, getCurrentData } from './TableData';
 
 let usedTempIds = {};
-let tempIdValue;
+let tempIdUsed = false;
 let currentTimeDuration = null;
 
 const Cells = (props) => {
@@ -25,6 +25,7 @@ const Cells = (props) => {
     const [divisions, setDivisions] = useState(props.divisions);
     const [height, setHeight] = useState(props.height);
     const cellRef = useRef(null);
+    let titleRef = useRef(props.data.title);
 
     const timeStrings = props.timeStrings;
 
@@ -54,7 +55,10 @@ const Cells = (props) => {
     }, [cellRef.current, props.data, props.row, props.categories, props.divisions, props.category, props.height]);
 
     useEffect(() => {
-        if (_id !== null && _id.substring(0, 4) !== "temp") save("_id", _id);
+        if (_id !== null && _id.substring(0, 4) !== "temp" && tempIdUsed) {
+            tempIdUsed = false;
+            save("_id", _id);
+        }
     }, [_id]);
 
     const create = (newData) => {
@@ -73,6 +77,7 @@ const Cells = (props) => {
         const updatedData = { ...data, [key]: value, _id }
         if (!props.checkTime(updatedData)) return;
         setData(updatedData);
+        titleRef = updatedData.title;
         
         if (key === "category") {
             for (const cat of categories) {
@@ -88,6 +93,7 @@ const Cells = (props) => {
                 tempId = "temp" + Math.floor(Math.random() * 1000);
             }
             usedTempIds = {...usedTempIds, tempId};
+            tempIdUsed = true;
             setId(tempId)
             props.editBlock(data, { ...updatedData, _id: tempId}, key);
             create(updatedData);
@@ -123,7 +129,12 @@ const Cells = (props) => {
     const handleBlur = e => {
         if (cellRef.current === null) return;
         if (!cellRef.current.contains(e.target) && cellRef.current !== e.target && !cellRef.current.contains(document.activeElement)) {
-            if (data.title === "" && _id !== null) setData({...data, title: "New Block"});
+            console.log("newblock")
+            console.log(titleRef);
+            console.log(_id);
+            if (titleRef === "" && _id !== null) {
+                save("title", "New Block")
+            }
             setIsEditing(false);
             setPopup(false);
         }
@@ -140,12 +151,11 @@ const Cells = (props) => {
     }
 
     const dragUp = (row, initValues) => {
-        
+        if ((initValues.row + initValues.duration / 15) - row < 1) return;
+        console.log((initValues.row + initValues.duration / 15));
         console.log(row);
-        console.log(row*15);
-        console.log(initValues);
-        console.log(initValues.duration + ((initValues.row - row) * 15))
         const newData = { ...initValues, time: row*15, duration: initValues.duration + ((initValues.row - row) * 15)};
+        if (!props.checkTime(newData)) return;
         if (currentTimeDuration !== null) {
             if (newData.time === currentTimeDuration.time && newData.duration === currentTimeDuration.duration) {
                 return;
@@ -157,8 +167,9 @@ const Cells = (props) => {
     }
 
     const dragDown = (row, initValues) => {
-        console.log((row - initValues.row));
+        if (row - initValues.row < 0) return;
         const newData = {...initValues, duration: (row - initValues.row) * 15 + 15}
+        if (!props.checkTime(newData)) return;
         if (currentTimeDuration !== null) {
             if (newData.duration === currentTimeDuration.duration) {
                 return;

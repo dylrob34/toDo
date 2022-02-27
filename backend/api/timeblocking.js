@@ -51,18 +51,12 @@ router.post('/editTimeblock', async function(req, res) {
     const duration = req.body.duration;
     const category = req.body.category === 0 ? null : req.body.category;
     const date = req.body.date
-    //console.log(req.body);
-    //return (res.json({error: false}))
 
     const timeblock = await Timeblock.getTimeblock(id);
 
     if (timeblock.owner === owner) {
-        //try {
-            await timeblock.edit(title, body, time, duration, category, date);
-            return res.json({error:false});
-        //} catch (message) {
-            return res.json({error: true, message})
-        //}
+        await timeblock.edit(title, body, time, duration, category, date);
+        return res.json({error:false});
     }
 
     return res.json({error: true, message: "You do not own this timeblock"});

@@ -41,7 +41,7 @@ const Buckets = () => {
   }, [toDoContext, loading, setToDoContext]);
 
   function addBucket(text) {
-    post("/api/bucket/addBucket", { name: text, team: toDoContext.currentTeam }).then(
+    post("/api/buckets/createBucket", { name: text, team: toDoContext.currentTeam }).then(
       (resJson) => {
         if (resJson.error === true) {
           console.log("Error Adding Buckets");
@@ -51,9 +51,6 @@ const Buckets = () => {
     );
   }
 
-  function manualCreateBucket(text) {
-
-  }
 
   return (
     <div className="buckets">
@@ -92,13 +89,9 @@ const Buckets = () => {
                 <h2 className="modal-header">Bucket List</h2>
                 <div
                   className="m-btn m-btn-sml"
-                  onClick={addBucket}
-                  style={{ left: "-18px" }}
-                >
+                  onClick={(e) => setCreateNewBucket(true)}
+                  style={{ left: "-18px" }}>
                   <PlusIcon
-                    onClick={() => {
-                      setCreateNewBucket(true);
-                    }}
                     className="fa-sml"
                     style={{ height: "20px", width: "20px" }}
                   ></PlusIcon>
@@ -147,8 +140,9 @@ const AddingBucket = ({ add, cancel }) => {
   };
 
   function editBucket(e) {
-    if (e.keycode === 13) {
+    if (e.keyCode === 13) {
       add(text);
+      cancel(false);
     }
   }
 

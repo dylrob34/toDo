@@ -11,7 +11,13 @@ async function get(url) {
                   authorization: "bearer " + token,
                 }
             })
-    return await res.json()
+    const response = await res.json();
+    if (response.error === true) {
+      if (!response.loggedIn) {
+        window.location.href = "/login";
+      }
+    }
+    return response;
 }
 
 async function post(url, data) {
@@ -25,7 +31,14 @@ async function post(url, data) {
                 },
                 body: JSON.stringify(data)
             })
-    return await res.json()
+    const response = await res.json();
+    if (response.error === true) {
+      if (!response.loggedIn) {
+        console.log("not logged in")
+        window.location.href = "/login";
+      }
+    }
+    return response;
 }
 
 export { get, post }

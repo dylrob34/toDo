@@ -47,6 +47,7 @@ const Category = ({ category, setLoad }) => {
         const newColor = {r: color.rgb.r.toString(), g: color.rgb.g.toString(), b: color.rgb.b.toString()}
         setCatColor(newColor)
         editColor("color", newColor)
+        setCompactPicker(false)
     }
 
     function editColor(key, value )  {
@@ -104,31 +105,29 @@ const Category = ({ category, setLoad }) => {
         <div className='modal-group'>
             {/* Until I figure out how to make this compact picker in the correct spot it will make the modal look funky */}
             {/* Need to do in line positioning with reference to the position of the Category Title. */}
-            <div className='color-picker-location'> 
-                <div className={compactPicker ? "visible color-picker-arrow" : "invisible"}/>
-                <CompactPicker 
-                className={compactPicker ? "visible" : "invisible"}
-                color={catColor}  
-                onChange={handleColorChange}/>
-            </div>
-            <div className='modal-element'>
-                    <FaSquare onClick={ () => { setCompactPicker(!compactPicker) }} className='modal-item'
-                        style={{ color: `rgba(${catColor.r}, ${catColor.g}, ${catColor.b})`, paddingRight:".75rem" }}
-                        >
-                    </FaSquare>
-                    {isEditing ? 
-                        <input type="text" className='modal-input'
-                        autoFocus
-                        value={title}
-                        onChange={e => setTitle(e.target.value)}
-                        onKeyDown={editTitle}
-                        />
-                    :
-                        <div className='modal-item'>{title}</div>
-                    }
-                    <span className="flex-spacer-5"></span>
-                    <PencilIcon onClick={showEdit} className='modal-item' style={{width:'20px', height:'20px', paddingRight:"2px"}}></PencilIcon>
-                    <XIcon onClick={ () => handleDelete(id) } className='modal-item' style={{width:'20px', height:'20px'}}></XIcon>
+            <div className='modal-element-categories'>
+                <div className={compactPicker ? "color-picker-location" : 'invisible'}>
+                    <div className={"color-picker-arrow"}></div>
+                    <CompactPicker  
+                    color={catColor}  
+                    onChange={handleColorChange}/>
+                </div>
+                <div onClick={ () => { setCompactPicker(!compactPicker) }} className='modal-item modal-icon modal-square'
+                style={{ backgroundColor: `rgba(${catColor.r}, ${catColor.g}, ${catColor.b})`}}>                  
+                </div>
+                {isEditing ? 
+                    <input type="text" className='modal-input'
+                    autoFocus
+                    value={title}
+                    onChange={e => setTitle(e.target.value)}
+                    onKeyDown={editTitle}
+                    />
+                :
+                    <div className='modal-item'>{title}</div>
+                }
+                <span className="flex-spacer-5"></span>
+                <PencilIcon onClick={showEdit} className='modal-item' style={{width:'20px', height:'20px', paddingRight:"2px"}}></PencilIcon>
+                <XIcon onClick={ () => handleDelete(id) } className='modal-item' style={{width:'20px', height:'20px'}}></XIcon>
             </div>
 
         

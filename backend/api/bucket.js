@@ -9,8 +9,9 @@ const Task = require("../database/models/task");
 const Owner = require("../database/models/owner");
 
 router.post('/createBucket', async function(req, res) {
+    const owner = (req.body.team === "" || req.body.team === undefined) ? req.authData.user : req.body.team;
     try {
-        const bucket = await Bucket.createBucket(req.body.team || req.authData.user, req.body.name);
+        const bucket = await Bucket.createBucket(owner, req.body.name);
         return res.json(bucket);
     } catch (error) {
       return res.json({error: true, message: error});
@@ -18,14 +19,15 @@ router.post('/createBucket', async function(req, res) {
     return res.json({error: false});
 });
 
-router.post('/manualCreateBucket', async function(req, res){
-    const owner = req.authData.user;
-    const name = req.name;
+// // Manually add bucket function
+// router.post('/addBucket', async function(req, res){
+//     const owner = req.authData.user;
+//     const name = req.name;
 
-    const bucket = await Bucket.manualCreateBucket(owner, name);
+//     const bucket = await Bucket.createBucket(owner, name);
 
-    return res.json({error: false, bucket});
-})
+//     return res.json({error: false, bucket});
+// })
 
 
 

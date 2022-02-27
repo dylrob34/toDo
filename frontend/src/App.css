@@ -252,8 +252,8 @@ p {
   font-size: 14px;
 }
 
-.font-header {
-  font-size: 16px;
+.font-header-task {
+  font-size: 1rem;
   font-style: normal;
   font-weight: 500;
 }
@@ -646,12 +646,13 @@ p {
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1000;
+  z-index: 10;
 }
 
 .modal {
+  display: flex;
   position: relative;
-  padding: 20px 10px 20px 20px;
+  justify-content: center;
   width: 100%;
   max-width: 17.6rem;
   height: 100%;
@@ -659,11 +660,13 @@ p {
   background-color: var(--base-gray2);
   color: white;
   border-radius: 10px;
-  z-index: 1001;
+  z-index: 1000;
 }
 .modal-container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  max-width: 17rem;
 }
 .modal-row {
   display: flex;
@@ -698,20 +701,40 @@ p {
 .modal-element {
   display: flex;
   flex-direction: row;
-  font-size: 18px;
+  font-size: 1rem;
   font-weight: 300;
   justify-content: space-between;
   align-items: center;
   height: inherit;
   width: inherit;
 }
-
+.modal-element-categories {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  font-size: 1rem;
+  font-weight: 300;
+  justify-content: space-between;
+  align-items: center;
+  height: inherit;
+  width: inherit;
+}
 .modal-item {
   display: flex;
   align-items: center;
   padding: 0px 6px 0px 0px;
 }
+.modal-icon {
+  font-size: 1.75rem;
+}
+.modal-square{
+  margin-right: 0.5rem;
+  padding-right: 0.75rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: .1rem;
 
+}
 .nested-modal-background {
   position: fixed;
   top: 0;
@@ -758,8 +781,9 @@ p {
 /* Custom Classes for specific items in Modal(s) */
 .color-picker-location {
   position: absolute;
-  left: -88%;
-  top: 13%;
+  left: -16.2rem;
+  top: -1.6rem;
+  z-index: -10000;
 }
 .color-picker-arrow {
   position: absolute;

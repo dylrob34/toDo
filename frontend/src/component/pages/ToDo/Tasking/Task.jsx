@@ -194,7 +194,7 @@ const Task = ({ task }) => {
             </div>
             <div className="task-right">
               <div className="header">
-                <h3 className="task-title font-header">{title}</h3>
+                <h3 className="task-title font-header-task">{title}</h3>
                 <div
                   className={`task-icons ${
                     hover ? "task-icons-hover" : " invisible-icons"

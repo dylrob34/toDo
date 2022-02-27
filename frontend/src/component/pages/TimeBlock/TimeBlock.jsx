@@ -114,12 +114,12 @@ const TimeBlock = (props) => {
       if (newData._id === tb._id) continue;
       const s = tb.time;
       const e = tb.time + tb.duration;
-      if (start < s && s < end) alert("case 1");
-      if (start < e && e < end) alert("case 2");
-      if (s < start && start < e) alert("case 3");
-      if (s < end && end < e) alert("case 4");
+      // if (start < s && s < end) alert("case 1");
+      // if (start < e && e < end) alert("case 2");
+      // if (s < start && start < e) alert("case 3");
+      // if (s < end && end < e) alert("case 4");
       if ((start < s && s < end) || (start < e && e < end) || (s < start && start < e) || (s < end && end < e)) {
-        alert("Error: That time is already being used")
+        //alert("Error: That time is already being used")
         return false;
       }
     }
@@ -368,7 +368,7 @@ const TimeBlock = (props) => {
               </div>
             </div>
             <div
-              className="modal-row modal-row-content"
+              className="modal-row-content"
               style={{ padding: "0px 0px 0px 0px" }}
             >
               <PopupCategories
