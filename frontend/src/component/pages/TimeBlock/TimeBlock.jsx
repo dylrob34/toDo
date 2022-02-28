@@ -10,7 +10,13 @@ import {
   FaAngleDoubleRight,
   FaRegPlusSquare,
 } from "react-icons/fa";
-import { FiPlus } from "react-icons/fi";
+import {
+  FiPlus,
+  FiFolder,
+  FiCamera,
+  FiSettings,
+  FiPieChart,
+} from "react-icons/fi";
 import PopupCategories from "./Popup/PopupCategories";
 import Modal from "../../layout/Modal/Modal";
 import { getLoggedIn } from "../../../context/loggedInState";
@@ -24,15 +30,7 @@ import {
   getDOWFromUTC,
 } from "../../../tools/time";
 
-import { 
-  PlusIcon,
-  FolderOpenIcon,
-  PhotographIcon,
-  ChartPieIcon,
-  CogIcon,
-
-} from "@heroicons/react/outline";
- import { PieChart } from "./PieChart/PieChart";
+import { PieChart } from "./PieChart/PieChart";
 
 const TimeBlock = (props) => {
   // const [popup, setPopup] = useState(false)
@@ -42,10 +40,10 @@ const TimeBlock = (props) => {
   const [timeblocks, setTimeblocks] = useState({});
   const [week, setWeek] = useState(getCurrentWeek());
   const [load, setLoad] = useState(true);
-  const [toolbarCategories, setToolbarCategories] = useState(false)
-  const [toolbarViews, setToolbarViews] = useState(false)
-  const [toolbarInsights, setToolbarInsights] = useState(false)
-  const [toolbarSettings, setToolbarSettings] = useState(false)
+  const [toolbarCategories, setToolbarCategories] = useState(false);
+  const [toolbarViews, setToolbarViews] = useState(false);
+  const [toolbarInsights, setToolbarInsights] = useState(false);
+  const [toolbarSettings, setToolbarSettings] = useState(false);
   const [delayHandler, setDelayHandler] = useState(null);
 
   useEffect(() => {
@@ -78,7 +76,7 @@ const TimeBlock = (props) => {
     if (newData.duration < 15) return false;
     if (newData.time < 0 || newData.time > 1425) return false;
     if (newData.time + newData.duration > 1440) return false;
-    
+
     // check if new time/duration conflicts with exists timeblock
     const start = newData.time;
     const end = newData.time + newData.duration;
@@ -87,19 +85,29 @@ const TimeBlock = (props) => {
       if (newData._id === tb._id) continue;
       const s = tb.time;
       const e = tb.time + tb.duration;
-      if ((start < s && s < end) || (start < e && e < end) || (s < start && start < e) || (s < end && end < e)) {
+      if (
+        (start < s && s < end) ||
+        (start < e && e < end) ||
+        (s < start && start < e) ||
+        (s < end && end < e)
+      ) {
         return false;
       }
     }
     return true;
-  }
+  };
 
   const editBlock = (oldData, newData, key) => {
     let temp = { ...timeblocks };
     let time = oldData.time;
     let day = getDOWFromUTC(oldData.date);
-    if (key !== "date" && key !== "duration" && key !== "time" && key !== "category") {
-      timeblocks[day] = {...timeblocks[day], [time]: {...newData}}
+    if (
+      key !== "date" &&
+      key !== "duration" &&
+      key !== "time" &&
+      key !== "category"
+    ) {
+      timeblocks[day] = { ...timeblocks[day], [time]: { ...newData } };
       return;
     }
     delete temp[day][time];
@@ -210,15 +218,15 @@ const TimeBlock = (props) => {
         }
       }
     }
-  
+
     for (const category of categories) {
       const temp = cats[category.title];
       let duration = temp === undefined ? 0 : temp.duration;
       let color = category.color;
       categoriesWeeklyDurations.push({
         name: category.title,
-        duration: Math.round((duration)),
-        color
+        duration: Math.round(duration),
+        color,
       });
     }
     return categoriesWeeklyDurations;
@@ -226,54 +234,119 @@ const TimeBlock = (props) => {
 
   return (
     <div>
-      <div className="page-config" style={ modal ? {overflowY:'hidden'} : {}}>
+      <div className="page-config" style={modal ? { overflowY: "hidden" } : {}}>
         <div className="left-sidebar-sm-tb">
-            <div className="toolbar-element-tb" onClick={() => setModal(true)} onMouseEnter={() => setToolbarCategories(true)} onMouseLeave={() => setToolbarCategories(false)}>
-              <FolderOpenIcon className="toolbar-item-tb" style={toolbarCategories ? {transform:'translateX(.125rem)'} : {}}/>
-              <div className={"toolbar-item-title-tb"} style={toolbarCategories ? {} : {color:"transparent", left:"5.1rem"}}>Categories</div>
+          <div
+            className="toolbar-element-tb"
+            onClick={() => setModal(true)}
+            onMouseEnter={() => setToolbarCategories(true)}
+            onMouseLeave={() => setToolbarCategories(false)}
+          >
+            <FiFolder
+              className="toolbar-item-tb"
+              style={
+                toolbarCategories ? { transform: "translateX(.125rem)" } : {}
+              }
+            />
+            <div
+              className={"toolbar-item-title-tb"}
+              style={
+                toolbarCategories
+                  ? {}
+                  : { color: "transparent", left: "5.1rem" }
+              }
+            >
+              Categories
             </div>
-            <div className="toolbar-element-tb" onMouseEnter={() => setToolbarViews(true)} onMouseLeave={() => setToolbarViews(false)}>
-              <PhotographIcon className="toolbar-item-tb" style={toolbarViews ? {transform:'translateX(.125rem)'} : {}}/>
-              <div className="toolbar-item-title-tb" style={toolbarViews ? {} : {color:"transparent", left:"5.1rem"}} >Views</div>
+          </div>
+          <div
+            className="toolbar-element-tb"
+            onMouseEnter={() => setToolbarViews(true)}
+            onMouseLeave={() => setToolbarViews(false)}
+          >
+            <FiCamera
+              className="toolbar-item-tb"
+              style={toolbarViews ? { transform: "translateX(.125rem)" } : {}}
+            />
+            <div
+              className="toolbar-item-title-tb"
+              style={
+                toolbarViews ? {} : { color: "transparent", left: "5.1rem" }
+              }
+            >
+              Views
             </div>
-            <div className="toolbar-element-tb" onMouseEnter={() => setToolbarInsights(true)} onMouseLeave={() => setToolbarInsights(false)} >
-              <ChartPieIcon className="toolbar-item-tb" style={toolbarInsights ? {transform:'translateX(.125rem)'} : {}}/>
-              <div className="toolbar-item-title-tb" style={toolbarInsights ? {} : {color:"transparent", left:"5.1rem"}}>Insights</div>
+          </div>
+          <div
+            className="toolbar-element-tb"
+            onMouseEnter={() => setToolbarInsights(true)}
+            onMouseLeave={() => setToolbarInsights(false)}
+          >
+            <FiPieChart
+              className="toolbar-item-tb"
+              style={
+                toolbarInsights ? { transform: "translateX(.125rem)" } : {}
+              }
+            />
+            <div
+              className="toolbar-item-title-tb"
+              style={
+                toolbarInsights ? {} : { color: "transparent", left: "5.1rem" }
+              }
+            >
+              Insights
             </div>
-            <div className="toolbar-element-tb" onMouseEnter={() => setToolbarSettings(true)} onMouseLeave={() => setToolbarSettings(false)}>
-              <CogIcon className="toolbar-item-tb" style={toolbarSettings ? {transform:'translateX(.125rem)'} : {}}/>
-              <div className="toolbar-item-title-tb" style={toolbarSettings ? {} : {color:"transparent", left:"5.1rem"}}>Settings</div>
+          </div>
+          <div
+            className="toolbar-element-tb"
+            onMouseEnter={() => setToolbarSettings(true)}
+            onMouseLeave={() => setToolbarSettings(false)}
+          >
+            <FiSettings
+              className="toolbar-item-tb"
+              style={
+                toolbarSettings ? { transform: "translateX(.125rem)" } : {}
+              }
+            />
+            <div
+              className="toolbar-item-title-tb"
+              style={
+                toolbarSettings ? {} : { color: "transparent", left: "5.1rem" }
+              }
+            >
+              Settings
             </div>
+          </div>
         </div>
         <div className="main" name="table_metrics">
-          <div name='leftright-position' className="main2">
+          <div name="leftright-position" className="main2">
             <section className="right">
-            <div className="current-week">
-            Week of{" "}
-            {week === null
-              ? getCurrentWeekString(getCurrentWeek())
-              : getCurrentWeekString(week)}{" "}
-          </div>
-          <div className="table-navigator">
-            <button
-              className="table-nav-btn"
-              onClick={() => changeWeek(getPrevWeek(week))}
-            >
-              <FaAngleDoubleLeft />
-            </button>
-            <div
-              className="table-nav-today"
-              onClick={() => changeWeek(getCurrentWeek())}
-            >
-              Today
-            </div>
-            <button
-              className="table-nav-btn"
-              onClick={() => changeWeek(getNextWeek(week))}
-            >
-              <FaAngleDoubleRight />
-            </button>
-          </div>
+              <div className="current-week">
+                Week of{" "}
+                {week === null
+                  ? getCurrentWeekString(getCurrentWeek())
+                  : getCurrentWeekString(week)}{" "}
+              </div>
+              <div className="table-navigator">
+                <button
+                  className="table-nav-btn"
+                  onClick={() => changeWeek(getPrevWeek(week))}
+                >
+                  <FaAngleDoubleLeft />
+                </button>
+                <div
+                  className="table-nav-today"
+                  onClick={() => changeWeek(getCurrentWeek())}
+                >
+                  Today
+                </div>
+                <button
+                  className="table-nav-btn"
+                  onClick={() => changeWeek(getNextWeek(week))}
+                >
+                  <FaAngleDoubleRight />
+                </button>
+              </div>
               <TimeTable2
                 timeblocks={timeblocks}
                 setTimeBlocks={setTimeblocks}
@@ -289,18 +362,18 @@ const TimeBlock = (props) => {
               <TimeblockMetrics
                 // allUserCategories={categories}
                 categoryDurations={countCategoryHours()}
-
-                />
-                <div className="piechart-container metrics-table-shrink">
-                  {<PieChart
-                      categories={buildPieDate()}
-                      width={800}
-                      height={800}
-                      font={"25px arial"}
-                  />}
-                </div>
+              />
+              <div className="piechart-container metrics-table-shrink">
+                {
+                  <PieChart
+                    categories={buildPieDate()}
+                    width={800}
+                    height={800}
+                    font={"25px arial"}
+                  />
+                }
+              </div>
             </section>
-
           </div>
         </div>
       </div>
@@ -316,39 +389,44 @@ const TimeBlock = (props) => {
         <div className="modal-cats">
           <div className="modal-container-cats">
             <div
-                className="modal-row-cats"
+              className="modal-row-cats"
+              style={{
+                padding: "0rem 0rem 1rem 0rem",
+                justifyContent: "space-between",
+              }}
+            >
+              <h2 className="modal-header-cats">Categories</h2>
+              <div
+                className="m-btn m-btn-sml"
+                onClick={handleAddCategory}
                 style={{
-                  padding: "0rem 0rem 1rem 0rem",
-                  justifyContent: "space-between",
+                  left: "-0.8rem",
+                  top: "0.05rem",
+                  height: "1.6rem",
+                  width: "2.4rem",
                 }}
               >
-                <h2 className="modal-header-cats">Categories</h2>
-                <div
-                  className="m-btn m-btn-sml"
-                  onClick={handleAddCategory}
-                  style={{ left: "-0.8rem", top:"0.05rem", height:'1.6rem', width:'2.4rem'}}
-                >
-                  <FiPlus
-                    className="fa-sml"
-                    style={{ height: "1.4rem", width: "1.4rem" }}
-                  ></FiPlus>
-                  {/* <img alt="Add" src="/Cross.svg" className="fa-sml" /> */}
-                </div>
+                <FiPlus
+                  className="fa-sml"
+                  style={{ height: "1.4rem", width: "1.4rem" }}
+                ></FiPlus>
+                {/* <img alt="Add" src="/Cross.svg" className="fa-sml" /> */}
               </div>
-                <PopupCategories
-                  nestedModal={nestedModal}
-                  setNestedModal={setNestedModal}
-                  categories={categories}
-                  setLoad={setLoad}
-                />
-              <div
-                className="modal-row-cats"
-                style={{ paddingTop: "30px", justifyContent: "center" }}
-              >
-                <div className="m-btn m-btn-lrg" onClick={() => setModal(false)}>
-                  Close
-                </div>
+            </div>
+            <PopupCategories
+              nestedModal={nestedModal}
+              setNestedModal={setNestedModal}
+              categories={categories}
+              setLoad={setLoad}
+            />
+            <div
+              className="modal-row-cats"
+              style={{ paddingTop: "30px", justifyContent: "center" }}
+            >
+              <div className="m-btn m-btn-lrg" onClick={() => setModal(false)}>
+                Close
               </div>
+            </div>
           </div>
         </div>
       </Modal>
