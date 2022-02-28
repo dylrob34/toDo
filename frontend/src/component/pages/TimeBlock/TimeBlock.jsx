@@ -10,6 +10,7 @@ import {
   FaAngleDoubleRight,
   FaRegPlusSquare,
 } from "react-icons/fa";
+import { FiPlus } from "react-icons/fi";
 import PopupCategories from "./Popup/PopupCategories";
 import Modal from "../../layout/Modal/Modal";
 import { getLoggedIn } from "../../../context/loggedInState";
@@ -45,39 +46,7 @@ const TimeBlock = (props) => {
   const [toolbarViews, setToolbarViews] = useState(false)
   const [toolbarInsights, setToolbarInsights] = useState(false)
   const [toolbarSettings, setToolbarSettings] = useState(false)
-  const [delayHandler, setDelayHandler] = useState(null)
-
-
-  const cats = [
-    {
-      name: "Test",
-      size: 10,
-      color: [128, 128, 0],
-    },
-    {
-      name: "Game",
-      size: 30,
-      color: [0, 128, 128],
-    },
-    {
-      name: "Day Job",
-      size: 60,
-      color: [128, 0, 128],
-    },
-    {
-      name: "Blockz",
-      size: 180,
-      color: [128, 128, 128],
-    },
-  ];
-
-  const catsTest = [
-    {
-      name: "toDo",
-      size: 8,
-      color: [52, 180, 135],
-    },
-  ];
+  const [delayHandler, setDelayHandler] = useState(null);
 
   useEffect(() => {
     if (load) {
@@ -106,6 +75,10 @@ const TimeBlock = (props) => {
   };
 
   const checkTime = (newData) => {
+    if (newData.duration < 15) return false;
+    if (newData.time < 0 || newData.time > 1425) return false;
+    if (newData.time + newData.duration > 1440) return false;
+    
     // check if new time/duration conflicts with exists timeblock
     const start = newData.time;
     const end = newData.time + newData.duration;
@@ -114,12 +87,7 @@ const TimeBlock = (props) => {
       if (newData._id === tb._id) continue;
       const s = tb.time;
       const e = tb.time + tb.duration;
-      // if (start < s && s < end) alert("case 1");
-      // if (start < e && e < end) alert("case 2");
-      // if (s < start && start < e) alert("case 3");
-      // if (s < end && end < e) alert("case 4");
       if ((start < s && s < end) || (start < e && e < end) || (s < start && start < e) || (s < end && end < e)) {
-        //alert("Error: That time is already being used")
         return false;
       }
     }
@@ -130,7 +98,7 @@ const TimeBlock = (props) => {
     let temp = { ...timeblocks };
     let time = oldData.time;
     let day = getDOWFromUTC(oldData.date);
-    if (key !== "date" && key !== "duration" && key !== "time") {
+    if (key !== "date" && key !== "duration" && key !== "time" && key !== "category") {
       timeblocks[day] = {...timeblocks[day], [time]: {...newData}}
       return;
     }
@@ -350,7 +318,7 @@ const TimeBlock = (props) => {
             <div
                 className="modal-row-cats"
                 style={{
-                  padding: "0px 0px 30px 0px",
+                  padding: "0rem 0rem 1rem 0rem",
                   justifyContent: "space-between",
                 }}
               >
@@ -358,12 +326,12 @@ const TimeBlock = (props) => {
                 <div
                   className="m-btn m-btn-sml"
                   onClick={handleAddCategory}
-                  style={{ left: "-16px" }}
+                  style={{ left: "-0.8rem", top:"0.05rem", height:'1.6rem', width:'2.4rem'}}
                 >
-                  <PlusIcon
+                  <FiPlus
                     className="fa-sml"
-                    style={{ height: "20px", width: "20px" }}
-                  ></PlusIcon>
+                    style={{ height: "1.4rem", width: "1.4rem" }}
+                  ></FiPlus>
                   {/* <img alt="Add" src="/Cross.svg" className="fa-sml" /> */}
                 </div>
               </div>

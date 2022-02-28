@@ -8,6 +8,7 @@ import Cell from "./Cell";
 import TimeCell from "./TimeCell"; // Don't know if need a different type of cell component for the Admin col, but its late and I didnt want to think.
 import { Dropdown, Option } from "../../../layout/Dropdown";
 import { getTodayUTC, getWeekDaysUTC } from "../../../../tools/time";
+import { useSettingsContext, useUpdateSettingsContext } from "../../../../context/SettingsContext";
 
 let initValues = null;
 let cachedValues = null;
@@ -16,15 +17,19 @@ let currentCellCallback = null;
 let stopCallback = null;
 
 const TimeTable2 = (props) => {
+  const settings = useSettingsContext();
+  const updateSettings = useUpdateSettingsContext();
   const [divisions, setDivisions] = useState(30);
-  const [military, setMilitary] = useState(false);
+  const [military, setMilitary] = useState(settings.timeSetting);
   const [timeStrings, setTimeStrings] = useState({});
   const [data, setData] = useState(props.timeblocks);
   const [militaryInfo, setMilitaryInfo] = useState(false);
   const [rowHeight, setRowHeight] = useState(0);
   const rowRef = useRef(null);
 
+
   useEffect(() => {
+    setMilitary(settings.timeSetting)
     setData(props.timeblocks);
     var strings = {};
     for (var i = 0; i < 1440; i += divisions) {
@@ -55,6 +60,10 @@ const TimeTable2 = (props) => {
       setRowHeight(rect.bottom - rect.top);
     }
   }, [rowRef.current])
+
+  useEffect(() => {
+      setMilitary(settings.timeSetting);
+  }, [settings.timeSetting]);
 
   const callCellCallback = (e) => {
     if (currentCellCallback !== null) {
@@ -233,7 +242,7 @@ const TimeTable2 = (props) => {
         </colgroup>
         <thead style={{boxShadow: "0px 3px 2px rgb(0, 0, 0, 0.3)"}}>
           <tr className="table-row">
-            <th className="table-header" onClick={() => {setMilitary(!military)}} 
+            <th className="table-header" onClick={() => {setMilitary(!military); updateSettings({...settings, timeSetting: !military});}} 
             onMouseEnter={() => {setMilitaryInfo(true)}} 
             onMouseLeave={() => {setMilitaryInfo(false)}}>Time</th>
             {getWeekDaysUTC(props.week).map((day, i) => (

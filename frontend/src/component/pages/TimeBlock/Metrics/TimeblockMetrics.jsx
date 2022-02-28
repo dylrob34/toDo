@@ -2,10 +2,10 @@ import React, {useEffect, useState} from 'react'
 
 const TimeblockMetrics = (props) => {
   const [categories, setCategories] = useState(props.categoryDurations);
-
+  let dynamicTime = MetricsDynamicTime()
   useEffect(() => {
     setCategories(props.categoryDurations);
-  }, [props.categoryDurations]);
+  }, [props.categoryDurations, dynamicTime]);
 
   
     let TestCategory1 = {
@@ -25,6 +25,16 @@ const TimeblockMetrics = (props) => {
 
     
   // End of Test data
+    function MetricsDynamicTime() {
+      let dataArray = props.categoryDurations;
+      let category;
+      let totalUsedTime = 0
+      for(category of dataArray){
+        totalUsedTime = totalUsedTime + category.duration
+      }
+      totalUsedTime = totalUsedTime/60
+      return totalUsedTime
+    }
 
   return (
     <div>
@@ -49,7 +59,7 @@ const TimeblockMetrics = (props) => {
               Free Hours: 
               </div>
               <div name='Free Hour numerical'>
-              000 {/* Replace this with dynamic numebrs*/ }
+              {168 - MetricsDynamicTime()} {/* Replace this with dynamic numebrs*/ }
               </div>
           </div>
 
@@ -58,7 +68,7 @@ const TimeblockMetrics = (props) => {
               Used Hours: 
               </div>
               <div name='Used Hour numerical'>
-              000 {/* Replace this with dynamic numebrs*/ }
+              {MetricsDynamicTime()} {/* Replace this with dynamic numebrs*/ }
               </div>
           </div>
           
@@ -73,7 +83,7 @@ const TimeblockMetrics = (props) => {
               <td className='metrics-data-td'> % of Total Time</td>
             </tr>
             {
-              categories.map((category) => {
+              categories.sort((a, b) => b.duration-a.duration).map((category) => {
                   return (
                       <tr style={{fontSize:'.8rem'}}>
                         <td className='metrics-data-td'>

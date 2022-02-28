@@ -4,7 +4,7 @@ import Tasks from "./Tasking/Tasks";
 import Buckets from "./Buckets/Buckets";
 import Sort from "../../layout/Sort";
 import { FaPlus, FaSort } from "react-icons/fa";
-import { FiGrid, FiCalendar, FiSquare } from "react-icons/fi";
+import { FiGrid, FiCalendar, FiSquare, FiCheckSquare } from "react-icons/fi";
 
 // Importing custom hooks from our context components for use in this function comp.
 import {
@@ -22,12 +22,18 @@ import {
 import Modal from "../../layout/Modal/Modal";
 import { post } from "../../../tools/request";
 
+import { useSettingsContext, useUpdateSettingsContext } from "../../../context/SettingsContext";
+
 const ToDo = (props) => {
   const toDoContext = useToDoContext();
   const setToDoContext = useUpdateToDoContext();
   const counter = useCounter();
   const counterUpdate = useCounterUpdate();
   const toggleAddTask = useAddTaskUpdate();
+
+  const settings = useSettingsContext();
+  const updateSettings = useUpdateSettingsContext();
+
   const [popup, setPopup] = useState(false)
   const [reset, setReset] = useState(false);
 
@@ -132,9 +138,13 @@ const ToDo = (props) => {
           <div className="toolbar-element">{selectedBucketName()}</div>
           <div className="toolbar-right">
             <div className="toolbar-element toolbar-sort" onClick={counterAdd}>
-              <FaSort className="toolbar-item" />
+              <FaSort className="toolbar-item" style={counter > 0 ? {color:'#34b487'} : {}} />
               <div className="toolbar-item">Sort</div>
               <Sort />
+            </div>
+            <div className="toolbar-element toolbar-sort" onClick={() => {updateSettings({...settings, showCompleted: !settings.showCompleted})}}>
+              <FiCheckSquare className="toolbar-item" style={settings.showCompleted ? {} : {color:'#34b487'}}/>
+              <div className="toolbar-item">Show Completed</div>
             </div>
             <AddTaskProvider>
               <div className="toolbar-element new-task-button" onClick={toggleAddTask}>

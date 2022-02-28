@@ -1179,7 +1179,7 @@ cursor: pointer;
 }
 
 .table-data {
-  font-size: .8rem;
+  font-size: 1rem;
 }
 
 .table-data input {
@@ -1282,7 +1282,8 @@ cursor: pointer;
   margin: 0;
   vertical-align: middle;
   line-height: normal;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  font-family: "Inter", sans-serif;
   text-align: left;
   cursor: pointer;
   border: none;

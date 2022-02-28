@@ -109,8 +109,8 @@ const Category = ({ category, setLoad }) => {
                     <div className='modal-item-cats'>{title}</div>
                 }
                 <span className="flex-spacer-5"></span>
-                <PencilIcon onClick={showEdit} className='modal-item-cats' style={{width:'20px', height:'20px', paddingRight:"2px"}}></PencilIcon>
-                <XIcon onClick={ () => handleDelete(id) } className='modal-item-cats' style={{width:'20px', height:'20px'}}></XIcon>
+                <PencilIcon onClick={showEdit} className='modal-item-cats' style={{width:'1.5rem', height:'1.5rem'}}></PencilIcon>
+                <XIcon onClick={ () => handleDelete(id) } className='modal-item-cats' style={{width:'1.5rem', height:'1.5rem',marginRight:'0.15rem'}}></XIcon>
             </div>
 
         
