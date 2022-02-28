@@ -36,7 +36,7 @@ function App() {
     const [team, setTeam] = useState("");
     setLoggedInCallback(() => {
         setLoggedIn();
-        window.location.href = "/login";
+        // window.location.href = "/login";
     });
 
     // Cookie stores data on the persons computer
