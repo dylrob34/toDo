@@ -34,8 +34,8 @@ function App() {
     // Declare component states:
     const [loggedIn, setLoggedIn] = useState(false);
     const [team, setTeam] = useState("");
-    setLoggedInCallback(() => {
-        setLoggedIn();
+    setLoggedInCallback((e) => {
+        setLoggedIn(e);
         // window.location.href = "/login";
     });
 
