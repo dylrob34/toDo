@@ -156,14 +156,14 @@ const ToDo = (props) => {
         <div className="modal-background">
           <div className="modal">
             <div className="modal-container">
-              <div className="modal-row" style={{overflow:'none'}}>
-                <h2 className="modal-header">Bugs/Suggestions</h2>
+              <div className="modal-row" style={{overflow:'none', justifyContent:"center"}}>
+                <h2 className="modal-header" style={{display:"flex"}}>Bugs/Suggestions</h2>
               </div>
                 <div className="modal-row" style={{flexDirection:"column", overflow:'none'}}>
                   <div className="options-container">
                     <div className="selector-container">
                       <div style={{display:'flex', flexDirection:'column'}}>
-                        <span style={{alignSelf:'flex-start', margin:'0rem 0.5rem'}}>Type:</span>
+                        <span style={{alignSelf:'center', margin:'0rem 0.5rem'}}>Type</span>
                         <select name="type" id="type" value={type} onChange={(e) => setType(e.target.value)} className="options-selector">
                           <option value=""></option>
                           <option value='bug'>Bug</option>
@@ -171,7 +171,7 @@ const ToDo = (props) => {
                         </select>
                       </div>
                       <div style={{display:'flex', flexDirection:'column'}}>
-                        <span style={{alignSelf:'flex-start', margin:'0rem 0.5rem'}}>Page:</span>
+                        <span style={{alignSelf:'center', margin:'0rem 0.5rem'}}>Page</span>
                         <select name="location" id="location" value={page} onChange={(e) => setPage(e.target.value)} className="options-selector">
                           <option value=""></option>
                           <option value="AllPages">All Pages</option>
