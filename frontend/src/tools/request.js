@@ -13,7 +13,7 @@ async function get(url) {
             })
     const response = await res.json();
     if (response.error === true) {
-      if (!response.loggedIn) {
+      if (!response.loggedIn && response.loggedIn !== undefined) {
         window.location.href = "/login";
       }
     }
@@ -33,8 +33,7 @@ async function post(url, data) {
             })
     const response = await res.json();
     if (response.error === true) {
-      if (!response.loggedIn) {
-        console.log("not logged in")
+      if (!response.loggedIn && response.loggedIn !== undefined) {
         window.location.href = "/login";
       }
     }

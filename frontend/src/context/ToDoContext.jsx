@@ -33,6 +33,7 @@ export function ToDoProvider({ children }) {
         })
 
     const [counter, setCounter] = useState(0)
+    const [showCompleted, setShowCompleted] = useState(false)
 
     
 

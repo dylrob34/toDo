@@ -8,6 +8,7 @@ const User = require("../database/models/user");
 
 router.get('/getUser', async function(req, res) {
     const user = await User.getUser(req.authData.user);
+    delete user.password;
     return res.json({user});
 });
 
@@ -35,6 +36,25 @@ router.post('/createUser', async function(req, res) {
         });
     });
 });
+
+router.post("/updateUser", async (req, res) => {
+    const user = req.authData.user;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const gender = req.body.gender;
+    const day = req.body.day;
+    const month = req.body.month;
+    const year = req.body.year;
+    const timeSetting = req.body.timeSetting;
+    const showCompleted = req.body.showCompleted;
+
+    const u = await User.getUser(user);
+
+    const updatedUser = u.edit(firstName, lastName, gender, day, month, year, timeSetting, showCompleted);
+
+    return res.json(updatedUser);
+
+})
 
 
 module.exports = router;

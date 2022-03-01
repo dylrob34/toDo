@@ -25,7 +25,7 @@ const Cells = (props) => {
     const [divisions, setDivisions] = useState(props.divisions);
     const [height, setHeight] = useState(props.height);
     const cellRef = useRef(null);
-    let titleRef = useRef(props.data.title);
+    const titleRef = useRef(data.title);
 
     const timeStrings = props.timeStrings;
 
@@ -75,10 +75,12 @@ const Cells = (props) => {
 
     const save = (key, value) => {
         const updatedData = { ...data, [key]: value, _id }
-        if (!props.checkTime(updatedData)) return;
+        if (!props.checkTime(updatedData)) {
+            alert("Error: Invalid Time or Duration");
+            return;
+        }
         setData(updatedData);
-        titleRef = updatedData.title;
-        
+        titleRef.current = updatedData.title;
         if (key === "category") {
             for (const cat of categories) {
                 if (value === cat._id) {
@@ -129,10 +131,7 @@ const Cells = (props) => {
     const handleBlur = e => {
         if (cellRef.current === null) return;
         if (!cellRef.current.contains(e.target) && cellRef.current !== e.target && !cellRef.current.contains(document.activeElement)) {
-            console.log("newblock")
-            console.log(titleRef);
-            console.log(_id);
-            if (titleRef === "" && _id !== null) {
+            if (titleRef.current === "" && _id !== null) {
                 save("title", "New Block")
             }
             setIsEditing(false);

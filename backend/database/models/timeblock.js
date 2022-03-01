@@ -84,9 +84,10 @@ class Timeblock {
         const end = timeblock.time + timeblock.duration;
         for (const tbKey of Object.keys(weeksBlocks[timeblock.getDOWFromUTC(timeblock.date)])) {
           const tb = weeksBlocks[timeblock.getDOWFromUTC(timeblock.date)][tbKey];
-          if (tb._id === timeblock._id) continue;
+          if (tb._id.equals(timeblock._id)) continue;
           const s = tb.time;
           const e = tb.time + tb.duration;
+          if (start === s && end === e) return;
           if ((start < s && s < end) || (start < e && e < end) || (s < start && start < e) || (s < end && end < e)) {
             return false;
           }

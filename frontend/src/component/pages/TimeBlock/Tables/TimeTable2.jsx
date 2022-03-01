@@ -8,6 +8,10 @@ import Cell from "./Cell";
 import TimeCell from "./TimeCell"; // Don't know if need a different type of cell component for the Admin col, but its late and I didnt want to think.
 import { Dropdown, Option } from "../../../layout/Dropdown";
 import { getTodayUTC, getWeekDaysUTC } from "../../../../tools/time";
+import {
+  useSettingsContext,
+  useUpdateSettingsContext,
+} from "../../../../context/SettingsContext";
 
 let initValues = null;
 let cachedValues = null;
@@ -16,8 +20,10 @@ let currentCellCallback = null;
 let stopCallback = null;
 
 const TimeTable2 = (props) => {
+  const settings = useSettingsContext();
+  const updateSettings = useUpdateSettingsContext();
   const [divisions, setDivisions] = useState(30);
-  const [military, setMilitary] = useState(false);
+  const [military, setMilitary] = useState(settings.timeSetting);
   const [timeStrings, setTimeStrings] = useState({});
   const [data, setData] = useState(props.timeblocks);
   const [militaryInfo, setMilitaryInfo] = useState(false);
@@ -25,6 +31,7 @@ const TimeTable2 = (props) => {
   const rowRef = useRef(null);
 
   useEffect(() => {
+    setMilitary(settings.timeSetting);
     setData(props.timeblocks);
     var strings = {};
     for (var i = 0; i < 1440; i += divisions) {
@@ -42,30 +49,34 @@ const TimeTable2 = (props) => {
 
   useEffect(() => {
     console.log("adding listener");
-    document.addEventListener("click", callCellCallback)
+    document.addEventListener("click", callCellCallback);
     return () => {
-      console.log("removing listener")
+      console.log("removing listener");
       document.removeEventListener("click", callCellCallback);
-    }
-  }, [])
+    };
+  }, []);
 
   useEffect(() => {
     if (rowRef.current !== null) {
-      const rect = rowRef.current.getBoundingClientRect()
+      const rect = rowRef.current.getBoundingClientRect();
       setRowHeight(rect.bottom - rect.top);
     }
-  }, [rowRef.current])
+  }, [rowRef.current]);
+
+  useEffect(() => {
+    setMilitary(settings.timeSetting);
+  }, [settings.timeSetting]);
 
   const callCellCallback = (e) => {
     if (currentCellCallback !== null) {
       currentCellCallback(e);
     }
-  }
+  };
 
   const setCellCallback = (cb, target) => {
-    callCellCallback(target)
+    callCellCallback(target);
     currentCellCallback = cb;
-  }
+  };
 
   const clicked = (e) => {
     setDivisions(parseInt(e.target.innerHTML));
@@ -75,26 +86,26 @@ const TimeTable2 = (props) => {
     if (callback !== null) {
       callback(row, initValues);
     }
-  }
+  };
 
   const setCache = (values) => {
     cachedValues = values;
-  }
+  };
 
   const startDragging = (init, call, stopCall) => {
     initValues = init;
     callback = call;
     stopCallback = stopCall;
     document.addEventListener("mouseup", stopDragging);
-  }
+  };
 
   const stopDragging = () => {
-    document.removeEventListener("mouseup", stopDragging)
+    document.removeEventListener("mouseup", stopDragging);
     stopCallback(cachedValues);
     stopCallback = null;
     initValues = null;
     callback = null;
-  }
+  };
 
   function timeLoop() {
     var timerows = [];
@@ -107,11 +118,8 @@ const TimeTable2 = (props) => {
       let minute = i % 60;
       minute = minute === 0 ? "00" : minute;
       timerows.push(
-        <TimeCell
-          key={i}
-          time={`${hour}:${minute}`}
-          row={i / divisions}
-        />);
+        <TimeCell key={i} time={`${hour}:${minute}`} row={i / divisions} />
+      );
     }
     return timerows;
   }
@@ -137,11 +145,11 @@ const TimeTable2 = (props) => {
     while (i < 1440 / 15) {
       let currentData = parsedData[i * 15];
       if (currentData === undefined) {
-          let currentDuration = (i % 2 === 0) ? 30 : 15;
-          if (parsedData[(i+1) * 15] !== undefined) currentDuration = 15;
+        let currentDuration = i % 2 === 0 ? 30 : 15;
+        if (parsedData[(i + 1) * 15] !== undefined) currentDuration = 15;
         cells.push(
           <Cell
-            key={`${colNum}${i * divisions / 15}`}
+            key={`${colNum}${(i * divisions) / 15}`}
             {...props}
             row={i}
             col={colNum}
@@ -169,7 +177,7 @@ const TimeTable2 = (props) => {
       } else {
         cells.push(
           <Cell
-            key={`${colNum}${i * divisions / 15}`}
+            key={`${colNum}${(i * divisions) / 15}`}
             {...props}
             row={i}
             col={colNum}
@@ -207,56 +215,73 @@ const TimeTable2 = (props) => {
     const times = timeLoop();
     //timeLoop().forEach((time, i) => {
     for (let i = 0; i < 1440 / 15; i++) {
-        let cells = [];
-        for (let j = 0; j < columns.length; j++) {
-          cells.push(columns[j][i]);
-        }
-        //console.log(cells);
-        rows.push(
-          <tr className="table-row" key={i * divisions / 15} ref={rowRef}>
-            {i % (divisions/15) === 0 ? <th className={"admin-cell time-cell"} rowSpan={divisions / 15}>{times[i/(divisions/15)]}</th> : null}
-            {cells.map((e) => {
-              return e ?? null;
-            })}
-          </tr>
-        );
-     
+      let cells = [];
+      for (let j = 0; j < columns.length; j++) {
+        cells.push(columns[j][i]);
+      }
+      //console.log(cells);
+      rows.push(
+        <tr className="table-row" key={(i * divisions) / 15} ref={rowRef}>
+          {i % (divisions / 15) === 0 ? (
+            <th className={"admin-cell time-cell"} rowSpan={divisions / 15}>
+              {times[i / (divisions / 15)]}
+            </th>
+          ) : null}
+          {cells.map((e) => {
+            return e ?? null;
+          })}
+        </tr>
+      );
     }
 
     return rows;
   };
 
   return (
-      <table className="table-blockz">
-        <colgroup>
-          <col className="table-admin-col" />
-        </colgroup>
-        <thead style={{boxShadow: "0px 3px 2px rgb(0, 0, 0, 0.3)"}}>
-          <tr className="table-row">
-            <th className="table-header" onClick={() => {setMilitary(!military)}} 
-            onMouseEnter={() => {setMilitaryInfo(true)}} 
-            onMouseLeave={() => {setMilitaryInfo(false)}}>Time</th>
-            {getWeekDaysUTC(props.week).map((day, i) => (
-              <th
-                key={i}
-                className="table-header"
-                style={
-                  day.date.getTime() === getTodayUTC() ? { color: "#34b487" } : {}
-                }
-              >
-                {day.day}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>{fillTable()}</tbody>
-        <div className={militaryInfo ? 'set-military-time' : 'invisible'}>
-          <div className="set-military-time-size">
-            {military ? 'Set Military' : 'Set Standard'}
-          </div>
-          <div className={militaryInfo ? 'set-military-time-arrow' : 'invisible'}></div>
-        </div>        
-      </table>
+    <table className="table-blockz">
+      <colgroup>
+        <col className="table-admin-col" />
+      </colgroup>
+      <thead style={{ boxShadow: "0px 3px 2px rgb(0, 0, 0, 0.3)" }}>
+        <tr className="table-row">
+          <th
+            className="table-header time-header"
+            onClick={() => {
+              setMilitary(!military);
+              updateSettings({ ...settings, timeSetting: !military });
+            }}
+            onMouseEnter={() => {
+              setMilitaryInfo(true);
+            }}
+            onMouseLeave={() => {
+              setMilitaryInfo(false);
+            }}
+          >
+            Time
+          </th>
+          {getWeekDaysUTC(props.week).map((day, i) => (
+            <th
+              key={i}
+              className="table-header"
+              style={
+                day.date.getTime() === getTodayUTC() ? { color: "#34b487" } : {}
+              }
+            >
+              {day.day}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>{fillTable()}</tbody>
+      <div className={militaryInfo ? "set-military-time" : "invisible"}>
+        <div className="set-military-time-size">
+          {military ? "Set Military" : "Set Standard"}
+        </div>
+        <div
+          className={militaryInfo ? "set-military-time-arrow" : "invisible"}
+        ></div>
+      </div>
+    </table>
   );
 };
 

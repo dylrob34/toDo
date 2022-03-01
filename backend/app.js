@@ -49,5 +49,5 @@ app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`To Do App listening at http://localhost:${port}`);
-  message(`Blockz listening on port ${port}`);
+  message(`Blockz${process.env.NODE_ENV === "piproduction" ? " dev" : ""} listening on port ${port}`);
 })

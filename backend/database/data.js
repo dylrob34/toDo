@@ -50,7 +50,7 @@ function getUser(email) {
     
 }
 
-function createUser(email, password, firstName, lastName, buckets) {
+function createUser(email, password, firstName, lastName, buckets, gender, day, month, year, timeSetting, showCompleted) {
     return new Promise((resolve, reject) => {
         client.db("toDo").collection("users").insertOne(
             {
@@ -58,12 +58,30 @@ function createUser(email, password, firstName, lastName, buckets) {
                 password,
                 firstName,
                 lastName,
-                buckets
+                buckets,
+                gender,
+                day,
+                month,
+                year,
+                timeSetting,
+                showCompleted
             }
         )
         .then((result) => {
             resolve(result);
         })
+    });
+}
+
+const updateUser = (email, firstName, lastName, gender, day, month, year, timeSetting, showCompleted) => {
+    return new Promise((resolve, reject) => {
+        client.db("toDo").collection("users").updateOne({email},
+        {
+            "$set": {firstName, lastName, gender, day, month, year, timeSetting, showCompleted}
+        })
+        .then((user) => {
+            resolve(user);
+        });
     });
 }
 
@@ -455,6 +473,7 @@ module.exports = {
     // users
     getUser,
     createUser,
+    updateUser,
     // teams
     createTeam,
     getTeam,

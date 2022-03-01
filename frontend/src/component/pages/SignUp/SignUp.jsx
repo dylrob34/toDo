@@ -73,7 +73,7 @@ export default function SignUp() {
   };
 
   if (redirect === true) {
-    return <Redirect to="/" />;
+    return <Redirect to="/timeblock" />;
   }
 
   return (

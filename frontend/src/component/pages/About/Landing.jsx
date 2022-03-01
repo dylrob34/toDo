@@ -70,7 +70,7 @@ const Landing = () => {
                     <h1 className="font-item-green font-header">FLEXIBLE</h1>
                     <h1 className="font-item-translate1 font-header" >TIMEBLOCKING</h1>
                   </div>
-                  <div className="landing-item landing-item-taskpanel-text">BLOCKZ offers...Use our buckets feature to filter tasks exactly as you want to see them. If that still not enough sort by any number of parameters or change the view of the whole page to best fit your style.</div>
+                  <div className="landing-item landing-item-taskpanel-text">{`{Place Holder Text}`}</div>
                 </div>
             </div>
 
@@ -81,7 +81,7 @@ const Landing = () => {
                     <h1 className="font-item-green font-header">FOCUSED</h1>
                     <h1 className="font-item-translate2 font-header">TASKING</h1>
                   </div>
-                  <div className="landing-item-task landing-item-taskpanel-text">BLOCKZ offers...Use our buckets feature to filter tasks exactly as you want to see them. If that still not enough sort by any number of parameters or change the view of the whole page to best fit your style.</div>
+                  <div className="landing-item-task landing-item-taskpanel-text">{`{Place Holder Text}`}</div>
                 </div>
                 <div className="landing-element">
                   <img src="/Landing-Tasks.svg" alt="Placeholder for Tasking SVG" className="landing-tasks-image" />

@@ -5,7 +5,7 @@ client = MongoClient()
 
 db = client.toDo
 
-docs = db.timeblocking.find()
+docs = db.users.find()
 
 def ownerTask():
     for doc in docs:
@@ -31,5 +31,19 @@ def backupTable():
     for doc in docs:
         db.backupTimeblocking.insert_one(doc)
 
+def migrateUser():
+    for user in docs:
+        db.users.update_one({"_id": user.get("_id")},
+        {
+            "$set": {
+                "gender" : "Male",
+                "day": 0,
+                "month": 0,
+                "year": 0,
+                "showCompleted": False,
+                "timeSetting": False
+            }
+        })
+
 if __name__=="__main__":
-    deleteDoc()
+    migrateUser()

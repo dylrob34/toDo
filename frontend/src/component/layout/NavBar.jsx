@@ -4,20 +4,23 @@ import { logout, getLoggedIn } from "../../context/loggedInState";
 import { get } from "../../tools/request";
 import { FaUser } from "react-icons/fa";
 import { Dropdown, Option } from "./Dropdown";
+import { useUpdateSettingsContext } from "../../context/SettingsContext";
 
 function NavBar({ setTeam }) {
   const loggedIn = getLoggedIn();
 
   const [name, setName] = useState("");
   const [teams, setTeams] = useState([]);
+  const setUserContext = useUpdateSettingsContext();
   const location = useLocation();
 
   useEffect(() => {
     console.log(`am i logged in ${loggedIn}`);
     if (loggedIn) {
-      get("/api/user/getUser").then((resJson) => {
-        if (resJson.error !== true) {
-            setName(resJson.user.firstName);
+      get("/api/user/getUser").then((res) => {
+        if (res.error !== true) {
+            setName(res.user.firstName);
+            setUserContext(res.user)
         }
       });
       get("/api/teams/getTeams").then((res) => {
@@ -50,7 +53,7 @@ function NavBar({ setTeam }) {
           </Link>
         ) : (
           <>
-            <Dropdown
+            {/* <Dropdown           TEAMS FUNCTIONALITY
               first={
                 <Link to="/todo" className="navbar-page">
                   ToDo
@@ -68,13 +71,16 @@ function NavBar({ setTeam }) {
                   }
                 />
               ))}
-            </Dropdown>
-            <Link to="/capture" className="navbar-page">
-              Capture
-            </Link>
+            </Dropdown> */}
             <Link to="/timeblock" className="navbar-page">
               TimeBlock
             </Link>
+            <Link to="/todo" className="navbar-page">
+              Tasks
+            </Link>
+            {/* <Link to="/capture" className="navbar-page">
+              Capture
+            </Link> */}
             <div className="flex-spacer-4"></div>
             <Link to="/account">
               <FaUser className="navbar-user-icon"></FaUser>

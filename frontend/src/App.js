@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import cookie from 'react-cookies';
 import { ToDoProvider } from './context/ToDoContext';
-import { getToken, login, logout, setLoggedInCallback} from './context/loggedInState';
+import { getToken, login, logout, setLoggedInCallback } from './context/loggedInState';
 import { AddTaskProvider } from './context/AddTaskContext';
-import {get} from "./tools/request";
+import { get } from "./tools/request";
 import SignUp from './component/pages/SignUp/SignUp';
 import { LoginPage } from './component/pages/Login/Login';
 import NavBar from './component/layout/NavBar';
@@ -24,59 +24,65 @@ import './Timeblock.css';
 import './ToDo.css';
 import './Landing.css';
 import { TimeBlockProvider } from './context/TimeBlockContext';
+import { SettingsProvider } from "./context/SettingsContext";
 
 
 const domain = process.env.NODE_ENV === "production" ? "" : "http://localhost:3001";
 
 function App() {
-  // we workign?
-  // Declare component states:
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [team, setTeam] = useState("");
-  setLoggedInCallback(setLoggedIn);
+    // we workign?
+    // Declare component states:
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [team, setTeam] = useState("");
+    setLoggedInCallback((e) => {
+        setLoggedIn(e);
+        // window.location.href = "/login";
+    });
 
-  // Cookie stores data on the persons computer
-  var jwt = cookie.load("jwt")
-  if (typeof jwt !== "undefined") {
-    if (jwt !== "" && loggedIn === false) {
-      login(jwt);
-      get("/api/auth/checkLogin")
-      .then((res) => {
-          if (res.loggedIn === false) {
-            logout(jwt);
-            console.log("jwt is invalid");
-          }
-      })
+    // Cookie stores data on the persons computer
+    var jwt = cookie.load("jwt")
+    if (typeof jwt !== "undefined") {
+        if (jwt !== "" && loggedIn === false) {
+            login(jwt);
+            get("/api/auth/checkLogin")
+                .then((res) => {
+                    if (res.loggedIn === false) {
+                        logout(jwt);
+                        console.log("jwt is invalid");
+                    }
+                })
+        }
     }
-  }
 
-  return (
-    <Router>
-      <div className="App">
-        <NavBar setTeam={setTeam} />
-        <Switch>
-          <Route exact path='/' component={ Landing } />
-          <Route exact path='/login' component={ LoginPage } />
-          <Route exact path='/signup' component={ SignUp }></Route>
-          <Route exact path='/account' component={ Account }></Route>
-          <Route path='/todo' render={ routeProps => (
-            <ToDoProvider>
-              <AddTaskProvider>
-                <ToDo {...routeProps}/>
-              </AddTaskProvider>
-            </ToDoProvider>
-            )}></Route>
-          <Route exact path='/capture'> </Route>
-          <Route exact path='/timeblock' render={ routeProps => (
-            <TimeBlockProvider>
-              <TimeBlock {...routeProps} />
-            </TimeBlockProvider>
-           )}></Route>
-        </Switch>
-      </div>
-    </Router>
+    return (
+        <Router>
+            <div className="App">
+                <SettingsProvider>
+                    <NavBar setTeam={setTeam} />
+                    <Switch>
+                        <Route exact path='/' component={Landing} />
+                        <Route exact path='/login' component={LoginPage} />
+                        <Route exact path='/signup' component={SignUp}></Route>
+                        <Route exact path='/account' component={Account}></Route>
+                        <Route path='/todo' render={routeProps => (
+                            <ToDoProvider>
+                                <AddTaskProvider>
+                                    <ToDo {...routeProps} />
+                                </AddTaskProvider>
+                            </ToDoProvider>
+                        )}></Route>
+                        <Route exact path='/capture'> </Route>
+                        <Route exact path='/timeblock' render={routeProps => (
+                            <TimeBlockProvider>
+                                <TimeBlock {...routeProps} />
+                            </TimeBlockProvider>
+                        )}></Route>
+                    </Switch>
+                </SettingsProvider>
+            </div>
+        </Router>
 
-  );
+    );
 
 }
 

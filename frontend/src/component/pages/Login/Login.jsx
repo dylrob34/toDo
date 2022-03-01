@@ -15,7 +15,7 @@ function LoginPage() {
   };
 
   if (autoToDo === true) {
-    return <Redirect to="/todo" />;
+    return <Redirect to="/timeblock" />;
   }
 
   //<img src="CUBE-NUMBER3-BOTTOMUP.gif" alt="Loading..." width="100%" height="50px"/>
