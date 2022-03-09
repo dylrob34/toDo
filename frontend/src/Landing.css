@@ -1,3 +1,24 @@
+/* New CSS */
+
+.landing-logo {
+  width: 27rem;
+  height: 27rem;
+  cursor: pointer;
+}
+
+.btn{
+
+}
+.btn-hero{
+
+}
+.btn-link{
+  
+}
+
+
+/* ------------------------------------ */
+
 .scroll-container{
   scroll-snap-type: y mandatory;
 }
@@ -116,11 +137,7 @@
     color: rgb(112, 112, 112);
     transform: translateX(5rem);
   }
-  .landing-logo {
-    width: 400px;
-    height: 400px;
-    cursor: pointer;
-  }
+
   .landing-call2action {
     margin: 12rem 0rem 0rem 0rem;
   }
