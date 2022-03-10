@@ -1,22 +1,109 @@
 /* New CSS */
 
+
+.body{
+  background-color: var(--midnight-layer1);
+}
+
 .landing-logo {
   width: 27rem;
   height: 27rem;
+  margin: auto;
+}
+
+.btn-container{
+  display: grid;
+  grid-gap: 1rem;
+  justify-content: center;
+}
+.btn{
+  background-color: var(--button);
+  border-radius: 0.625rem;
+  color: white;
+  outline: none;
+  border: none;
   cursor: pointer;
 }
-
-.btn{
-
-}
 .btn-hero{
-
+  font-size: 1.5rem;
+  padding: 1rem 4rem;
+  width: 17.5rem;
+  height: 4.5rem;
 }
+
 .btn-link{
-  
+  background-color: transparent;
+  text-decoration: underline;
+  color: var(--primary-green);
+  font-size: 1.5rem;
+  padding: 1rem 4rem;
+  width: 17.5rem;
+  height: 4.5rem;
+}
+.font-header {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 4.5rem;
+  text-transform: uppercase;
+}
+.font-hero{
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 2.6rem;
+  min-width: 36.5rem; /* Might need to remove this for phones.*/
+}
+.font-content{
+  font-size: 2rem;
+}
+.font-mission{
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 2.6rem;
+  margin: 2.5rem 0rem;
 }
 
+.wrapper{
+  display: grid;
+  grid-gap: 16rem;
+  margin: 6rem 6rem;
+  color: white;
+}
 
+.landing-hero-container{
+  display: grid;
+  grid-gap: 3rem;
+}
+.landing-mission-container{
+  display: grid;
+  grid-gap: 3rem;
+}
+
+.mission-toolbar-container{
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-areas: 
+    'timeblock-tool task-tool capture-tool'
+  ;
+  align-items: center;
+}
+.mission-img{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 4rem;
+  min-height: 21.75rem;
+}
+
+@media(max-width: 1280px) {
+  .mission-toolbar-container{
+    grid-template-areas: 
+    'timeblock-tool' 
+    'task-tool' 
+    'capture-tool'
+  ;
+  }
+}
 /* ------------------------------------ */
 
 .scroll-container{
@@ -33,11 +120,6 @@
 }
 
 /* Landing Page Styling */
-.font-header{
-    font-family: "Inter", sans-serif;
-    font-weight: 400;
-    font-size: 3rem;
-}
 .font-item{
     font-family: "Inter", sans-serif;
     font-weight: 300;

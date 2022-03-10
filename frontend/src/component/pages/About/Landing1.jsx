@@ -5,53 +5,70 @@ import { FiUser } from "react-icons/fi";
 
 
 const Landing1 = () => {
-    const [redirect, setRedirect] = useState(false)
+    const [redirectS, setRedirectS] = useState(false)
+    const [redirectL, setRedirectL] = useState(false)
 
-    const handleRedirect = () => {
-        setRedirect(true)
+
+    const handleRedirectS = () => {
+        setRedirectS(true)
+    }
+    const handleRedirectL = () => {
+        setRedirectL(true)
     }
 
-    if (redirect === true) {
+
+    if (redirectS === true) {
         return <Redirect to="/signup" />;
     }
-    
+    if (redirectL === true) {
+        return <Redirect to="/login" />
+    }
+
+
   return (
-    <body>
+    <body className="body">
         <div className="wrapper">
 
             {/* Hero Section */}
             <section className="landing-hero-container">
                 <img alt="Blocks Logo" src="/blocks.svg" className="landing-logo landing-element"></img>
-                <div>
+                <div className="font-hero">
                     Build Your Productive Life. One Block at a Time.
                 </div>
-                <button className="btn btn-hero"></button>
-                <button className="btn btn-link"></button>
+                <div className="btn-container">
+                    <>
+                        <button className="btn btn-hero" onClick={handleRedirectS}> Sign Up</button>
+                    </>
+                    <>
+                        <button className="btn btn-link" onClick={handleRedirectL}>Login</button>
+                    </>
+                </div>
             </section>
 
             {/* Mission Section */}
             <section className="landing-mission-container">
-                <div>
-                    Our Mission
+                <div className="font-header">
+                   <span>Our</span> <span style={{color:"#34B487"}}>Mission</span> 
                 </div>
-                <div>
+                <div className="font-content">
                     Blockz was created with a goal of helping individuals build patterns to improve
                     productivity across all aspects of life. Our focus is on increasing personal
-                    awareness abou how we use our most valuable resource: Time
+                    awareness about how we use our most valuable resource: Time
                 </div>
-                <div>
-                    <span>Time Blocking Tool</span>
-                    <img src="" alt="Timeblocking Tool" />
+                <div className="mission-toolbar-container">
+                    <div className="timeblock-tool mission-img">
+                        <span className="font-mission">Time Blocking Tool</span>
+                        <img src="/Landing-Timeblock-small.svg" alt="Timeblocking Tool" />
+                    </div>
+                    <div className="task-tool mission-img">
+                        <span className="font-mission">Task Lists</span>
+                        <img src="/Landing-Tasks-small.svg" alt="Task Lists" />
+                    </div>
+                    <div className="capture-tool mission-img">
+                        <span className="font-mission">Capture Ideas</span>
+                        <img src="/Landing-Capture-small.svg" alt="Capture Ideas" />
+                    </div>
                 </div>
-                <div>
-                    <span>Task Lists</span>
-                    <img src="" alt="Task Lists" />
-                </div>
-                <div>
-                    <span>Capture Ideas</span>
-                    <img src="" alt="Capture Ideas" />
-                </div>
-
             </section>
 
             {/* Timeblocking Section */}
