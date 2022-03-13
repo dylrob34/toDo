@@ -96,13 +96,13 @@ function renderText(categories, width, height, font) {
         textContext.clearRect(0, 0, canvas.width, canvas.height);
         for (let i = 0; i < categories.length; i++) {
             textContext.beginPath();
-            textContext.rect(width / 4, (elementHeight * (i + 1)) - 10, 20, 20);
+            textContext.rect(width / 8, (elementHeight * (i + 1)) - 2, 14, 14);
             textContext.fillStyle = rgbToHex(categories[i].color);
             textContext.fill();
             textContext.closePath();
             textContext.fillStyle = "white";
             textContext.font = font;
-            textContext.fillText(categories[i].name + " " + Math.round(categories[i].size / 360 * 100) + "%", width / 4 + 30, (elementHeight * (i + 1)) + 10);
+            textContext.fillText(categories[i].name + " " + Math.round(categories[i].size / 360 * 100) + "%", width / 8 + 25, (elementHeight * (i + 1)) + 10);
         }
     }
 }
@@ -145,7 +145,7 @@ export function pieChart(categories, resolution, defaultColor, MSAASamples, font
                 }
                 for (let j = 0; j < wedges; j++) {
                     let size = 180;
-                    if (j === wedges - 1) {
+                    if (j === wedges - 1 && remainder !== 0) {
                         size = remainder;
                     }
                     const colorVerts = getWedgeColorVertexs(currentStart, size, resolution, categories[i].color);
@@ -225,7 +225,7 @@ export function pieChart(categories, resolution, defaultColor, MSAASamples, font
         if (MSAASamples === 1) {
             colorAttachments.push({
                 view: textureView,
-                loadValue: [0, 0, 0, 0],
+                loadOp: "load",
                 storeOp: "store"
             });
         }
@@ -233,7 +233,7 @@ export function pieChart(categories, resolution, defaultColor, MSAASamples, font
             colorAttachments.push({
                 view: attachment,
                 resolveTarget: textureView,
-                loadValue: [0, 0, 0, 0],
+                loadOp: "load",
                 storeOp: "store"
             });
         }
@@ -242,9 +242,9 @@ export function pieChart(categories, resolution, defaultColor, MSAASamples, font
         renderPass.setVertexBuffer(0, vertexBuffer);
         renderPass.setVertexBuffer(1, colorBuffer);
         renderPass.draw(vertexs.length / 2);
-        renderPass.endPass();
+        renderPass.end();
         device.queue.submit([commandEncoder.finish()]);
-        renderText(categories, gpu.width / 4, gpu.height, font);
+        renderText(categories, gpu.width / .6 * .4, gpu.height, font);
     });
 }
 /*

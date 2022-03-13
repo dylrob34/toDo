@@ -367,9 +367,7 @@ const TimeBlock = (props) => {
                 {
                   <PieChart
                     categories={buildPieDate()}
-                    width={800}
-                    height={800}
-                    font={"25px arial"}
+                    font={"1rem arial"}
                   />
                 }
               </div>
