@@ -32,6 +32,6 @@ const crashReport = (err) => {
     .catch((error) => {
         console.log("Error communicating with Blockz bot")
     })
-}//test
+}
 
 module.exports = {message, crashReport}
