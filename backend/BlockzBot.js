@@ -7,8 +7,8 @@ if (process.env.NODE_ENV === "production") {
     url = "http://beermethatpenta.com:3435";
     crashurl = "http://beermethatpenta.com:3435/prodcrash";
 } else if (process.env.NODE_ENV === "piproduction") {
-    url = "http://localhost:3435";
-    crashurl = "http://beermethatpenta.com:3435/devcrash";
+    url = "http://host.docker.internal:3435";
+    crashurl = "http://host.docker.internal:3435.com:3435/devcrash";
 }
 
 const message = (message) => {
