@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const message = (message) => {
-    fetch(`${url}/message`, {
+    fetch(`${url}/cicd`, {
       method: "POST",
       body: JSON.stringify({message}),
       headers: { "Content-Type": "application/json"}
