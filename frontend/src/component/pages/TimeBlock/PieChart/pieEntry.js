@@ -1,6 +1,7 @@
 
-import { Shaders } from "./shaders";
-import { initGPU, createBuffer } from "./gpu";var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+import { Shaders, ShadersGL } from "./shaders";
+import { initGPU, createBuffer } from "./gpu";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -106,11 +107,129 @@ function renderText(categories, width, height, font) {
         }
     }
 }
+function renderGL(vertices, colors, MSAASamples) {
+    const canvas = document.getElementById("piechartcanvas");
+    const context = canvas.getContext("webgl2");
+    const vertexBuffer = context.createBuffer();
+    const colorBuffer = context.createBuffer();
+    context.bindBuffer(context.ARRAY_BUFFER, vertexBuffer);
+    context.bufferData(context.ARRAY_BUFFER, Float32Array.from(vertices), context.STATIC_DRAW);
+    context.bindBuffer(context.ARRAY_BUFFER, null);
+    context.bindBuffer(context.ARRAY_BUFFER, colorBuffer);
+    context.bufferData(context.ARRAY_BUFFER, Float32Array.from(colors).map((e) => { return e / 255; }), context.STATIC_DRAW);
+    context.bindBuffer(context.ARRAY_BUFFER, null);
+    const shader = ShadersGL();
+    const vertexShader = context.createShader(context.VERTEX_SHADER);
+    context.shaderSource(vertexShader, shader.vertex);
+    context.compileShader(vertexShader);
+    const fragmentShader = context.createShader(context.FRAGMENT_SHADER);
+    context.shaderSource(fragmentShader, shader.fragment);
+    context.compileShader(fragmentShader);
+    const program = context.createProgram();
+    context.attachShader(program, vertexShader);
+    context.attachShader(program, fragmentShader);
+    context.linkProgram(program);
+    context.useProgram(program);
+    context.bindBuffer(context.ARRAY_BUFFER, vertexBuffer);
+    const ptr = context.getAttribLocation(program, "coordinates");
+    context.vertexAttribPointer(ptr, 2, context.FLOAT, false, 0, 0);
+    context.enableVertexAttribArray(ptr);
+    context.bindBuffer(context.ARRAY_BUFFER, null);
+    context.bindBuffer(context.ARRAY_BUFFER, colorBuffer);
+    const cptr = context.getAttribLocation(program, "colors");
+    context.vertexAttribPointer(cptr, 3, context.FLOAT, false, 0, 0);
+    context.enableVertexAttribArray(cptr);
+    context.clearColor(0, 0, 0, 0);
+    context.enable(context.DEPTH_TEST);
+    context.clear(context.COLOR_BUFFER_BIT);
+    context.viewport(0, 0, canvas.width, canvas.height);
+    context.drawArrays(context.TRIANGLES, 0, vertices.length / 2);
+    return [canvas.width, canvas.height];
+}
+const render = (vertexs, colors, MSAASamples) => __awaiter(void 0, void 0, void 0, function* () {
+    const gpu = yield initGPU("piechartcanvas");
+    const device = gpu.device;
+    const context = gpu.context;
+    const swapChainFormat = gpu.swapChainFormat;
+    const vertexBuffer = createBuffer(device, Float32Array.from(vertexs));
+    const colorBuffer = createBuffer(device, Float32Array.from(colors).map((e) => { return e / 255; }));
+    const shader = Shaders();
+    const pipeline = device.createRenderPipeline({
+        vertex: {
+            module: device.createShaderModule({
+                code: shader.vertex
+            }),
+            buffers: [{
+                    arrayStride: 8,
+                    attributes: [{
+                            format: "float32x2",
+                            offset: 0,
+                            shaderLocation: 0
+                        }]
+                }, {
+                    arrayStride: 12,
+                    attributes: [{
+                            format: "float32x3",
+                            offset: 0,
+                            shaderLocation: 1
+                        }]
+                }],
+            entryPoint: "main"
+        },
+        multisample: {
+            count: MSAASamples,
+            alphaToCoverageEnabled: false
+        },
+        fragment: {
+            module: device.createShaderModule({
+                code: shader.fragment
+            }),
+            entryPoint: "main",
+            targets: [{
+                    format: swapChainFormat
+                }]
+        },
+        primitive: { topology: "triangle-list" },
+    });
+    const commandEncoder = device.createCommandEncoder();
+    const myTexture = device.createTexture({
+        size: {
+            width: gpu.width,
+            height: gpu.height
+        },
+        sampleCount: MSAASamples,
+        format: swapChainFormat,
+        usage: 16 // GPUTextureUsage.RENDER_ATTACHMENT // 16
+    });
+    const attachment = myTexture.createView();
+    const textureView = context.getCurrentTexture().createView();
+    let colorAttachments = [];
+    if (MSAASamples === 1) {
+        colorAttachments.push({
+            view: textureView,
+            loadOp: "load",
+            storeOp: "store"
+        });
+    }
+    else {
+        colorAttachments.push({
+            view: attachment,
+            resolveTarget: textureView,
+            loadOp: "load",
+            storeOp: "store"
+        });
+    }
+    const renderPass = commandEncoder.beginRenderPass({ colorAttachments });
+    renderPass.setPipeline(pipeline);
+    renderPass.setVertexBuffer(0, vertexBuffer);
+    renderPass.setVertexBuffer(1, colorBuffer);
+    renderPass.draw(vertexs.length / 2);
+    renderPass.end();
+    device.queue.submit([commandEncoder.finish()]);
+    return [gpu.width, gpu.height];
+});
 export function pieChart(categories, resolution, defaultColor, MSAASamples, font) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (!navigator.gpu) {
-            throw ("Your current browser does not support WebGPU!");
-        }
         categories = categories.sort((a, b) => a.size - b.size);
         let total = 0;
         for (let i = 0; i < categories.length; i++) {
@@ -124,10 +243,6 @@ export function pieChart(categories, resolution, defaultColor, MSAASamples, font
                 color: defaultColor
             });
         }
-        const gpu = yield initGPU("piechartcanvas");
-        const device = gpu.device;
-        const context = gpu.context;
-        const swapChainFormat = gpu.swapChainFormat;
         let currentStart = 0;
         let vertexs = [];
         let colors = [];
@@ -169,82 +284,22 @@ export function pieChart(categories, resolution, defaultColor, MSAASamples, font
             }
             currentStart += categories[i].size;
         }
-        const vertexBuffer = createBuffer(device, Float32Array.from(vertexs));
-        const colorBuffer = createBuffer(device, Float32Array.from(colors).map((e) => { return e / 255; }));
-        const shader = Shaders();
-        const pipeline = device.createRenderPipeline({
-            vertex: {
-                module: device.createShaderModule({
-                    code: shader.vertex
-                }),
-                buffers: [{
-                        arrayStride: 8,
-                        attributes: [{
-                                format: "float32x2",
-                                offset: 0,
-                                shaderLocation: 0
-                            }]
-                    }, {
-                        arrayStride: 12,
-                        attributes: [{
-                                format: "float32x3",
-                                offset: 0,
-                                shaderLocation: 1
-                            }]
-                    }],
-                entryPoint: "main"
-            },
-            multisample: {
-                count: MSAASamples,
-                alphaToCoverageEnabled: false
-            },
-            fragment: {
-                module: device.createShaderModule({
-                    code: shader.fragment
-                }),
-                entryPoint: "main",
-                targets: [{
-                        format: swapChainFormat
-                    }]
-            },
-            primitive: { topology: "triangle-list" },
-        });
-        const commandEncoder = device.createCommandEncoder();
-        const myTexture = device.createTexture({
-            size: {
-                width: gpu.width,
-                height: gpu.height
-            },
-            sampleCount: MSAASamples,
-            format: swapChainFormat,
-            usage: 16 // GPUTextureUsage.RENDER_ATTACHMENT // 16
-        });
-        const attachment = myTexture.createView();
-        const textureView = context.getCurrentTexture().createView();
-        let colorAttachments = [];
-        if (MSAASamples === 1) {
-            colorAttachments.push({
-                view: textureView,
-                loadOp: "load",
-                storeOp: "store"
-            });
+        let gpu;
+        if (navigator.gpu) {
+            try {
+                console.log("Using WebGPU");
+                gpu = yield render(vertexs, colors, MSAASamples);
+            }
+            catch (_a) {
+                console.log("Falling back to WebGL");
+                gpu = renderGL(vertexs, colors, MSAASamples);
+            }
         }
         else {
-            colorAttachments.push({
-                view: attachment,
-                resolveTarget: textureView,
-                loadOp: "load",
-                storeOp: "store"
-            });
+            console.log("Using WebGL");
+            gpu = renderGL(vertexs, colors, MSAASamples);
         }
-        const renderPass = commandEncoder.beginRenderPass({ colorAttachments });
-        renderPass.setPipeline(pipeline);
-        renderPass.setVertexBuffer(0, vertexBuffer);
-        renderPass.setVertexBuffer(1, colorBuffer);
-        renderPass.draw(vertexs.length / 2);
-        renderPass.end();
-        device.queue.submit([commandEncoder.finish()]);
-        renderText(categories, gpu.width / .6 * .4, gpu.height, font);
+        renderText(categories, gpu[0] / .6 * .4, gpu[1], font);
     });
 }
 /*

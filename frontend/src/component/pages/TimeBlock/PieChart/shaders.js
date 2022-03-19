@@ -28,3 +28,23 @@ export const Shaders = () => {
     `;
     return { vertex, fragment };
 };
+export const ShadersGL = () => {
+    const vertex = `#version 300 es
+        in vec2 coordinates;
+        in vec3 colors;
+        out vec4 color;
+        void main(void) {
+            gl_Position = vec4(coordinates, 0.0, 1.0);
+            color = vec4(colors, 1.0);
+        }
+    `;
+    const fragment = `#version 300 es
+        precision highp float;
+        in vec4 color;
+        out vec4 outColor;
+        void main(void) {
+            outColor = color;
+        }
+    `;
+    return { vertex, fragment };
+};
