@@ -10,7 +10,7 @@ export const PieChart = (props) => {
             setHeight(rect.bottom - rect.top);
             setWidth(rect.right - rect.left);
         }
-        pieChart(props.categories, props.resolution || 1, props.defaultColor || [134, 200, 178], props.MSAASamples || 4, props.font || "25px Arial");
+        pieChart(props.categories, props.resolution || 1, props.defaultColor || [0, 0, 0], props.MSAASamples || 4, props.font || "25px Arial");
     }, [props.categories, props.resolution, props.defaultColor, props.MSAASamples, props.width, props.height, props.font]);
     return (React.createElement("div", { ref: parent, style: { height: "100%" } }, React.createElement("div", { style: { display: "flex", height: "100%" } },
         React.createElement("canvas", { id: "piecharttextcanvas", width: width * .4, height: height, style: { "minWidth": 0 } }),

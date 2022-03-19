@@ -1,4 +1,3 @@
-
 import { Shaders, ShadersGL } from "./shaders";
 import { initGPU, createBuffer } from "./gpu";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
