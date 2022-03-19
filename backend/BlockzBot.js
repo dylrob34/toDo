@@ -1,13 +1,14 @@
 const fetch = require('node-fetch')
 
 let url;
+let crashurl;
 
 if (process.env.NODE_ENV === "production") {
     url = "http://beermethatpenta.com:3435";
+    crashurl = "http://beermethatpenta.com:3435/prodcrash";
 } else if (process.env.NODE_ENV === "piproduction") {
-    url = "http://localhost:3435";
-} else {
-    url = "http://192.168/127.134:3435";
+    url = "http://host.docker.internal:3435";
+    crashurl = "http://host.docker.internal:3435.com:3435/devcrash";
 }
 
 const message = (message) => {
@@ -23,7 +24,7 @@ const message = (message) => {
 
 const crashReport = (err) => {
     
-    fetch(`${url}/notifycrash`, {
+    fetch(`${crashurl}`, {
       method: "POST",
       body: JSON.stringify({message: err}),
       headers: { "Content-Type": "application/json"}
