@@ -27,7 +27,7 @@ import { TimeBlockProvider } from './context/TimeBlockContext';
 import { SettingsProvider } from "./context/SettingsContext";
 
 
-const domain = process.env.NODE_ENV === "production" ? "" : "http://localhost:3001";
+const domain = process.env.NODE_ENV === "development" ? "http://localhost:3002" : "";
 
 function App() {
     // we workign?
