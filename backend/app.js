@@ -23,7 +23,7 @@ const categoriesRouter = require("./api/categories");
 const logRouter = logging.router;
 
 const app = express();
-const port = process.env.NODE_ENV === "production" ? 80 : 3001;
+const port = process.env.NODE_ENV === "production" ? 80 : process.env.NODE_ENV === "piproduction" ? 3001 : 3002;
 
 app.use(express.static(__dirname + "/build"));
 

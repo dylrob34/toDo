@@ -107,7 +107,11 @@ function renderText(categories, width, height, font) {
     }
 }
 function renderGL(vertices, colors, MSAASamples) {
-    const canvas = document.getElementById("piechartcanvas");
+    const c = document.getElementById("piechartcanvas");
+    // @ts-ignore
+    const canvas = document.createElement("canvas");
+    canvas.width = c.width;
+    canvas.height = c.height;
     const context = canvas.getContext("webgl2");
     const vertexBuffer = context.createBuffer();
     const colorBuffer = context.createBuffer();
@@ -143,9 +147,12 @@ function renderGL(vertices, colors, MSAASamples) {
     context.clear(context.COLOR_BUFFER_BIT);
     context.viewport(0, 0, canvas.width, canvas.height);
     context.drawArrays(context.TRIANGLES, 0, vertices.length / 2);
+    const ctx = c.getContext("2d");
+    ctx.drawImage(canvas, 0, 0);
     return [canvas.width, canvas.height];
 }
 const render = (vertexs, colors, MSAASamples) => __awaiter(void 0, void 0, void 0, function* () {
+    const c = document.getElementById("piechartcanvas");
     const gpu = yield initGPU("piechartcanvas");
     const device = gpu.device;
     const context = gpu.context;
@@ -225,6 +232,8 @@ const render = (vertexs, colors, MSAASamples) => __awaiter(void 0, void 0, void 
     renderPass.draw(vertexs.length / 2);
     renderPass.end();
     device.queue.submit([commandEncoder.finish()]);
+    const ctx = c.getContext("2d");
+    ctx.drawImage(gpu.canvas, 0, 0);
     return [gpu.width, gpu.height];
 });
 export function pieChart(categories, resolution, defaultColor, MSAASamples, font) {

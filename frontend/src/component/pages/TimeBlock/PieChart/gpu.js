@@ -9,7 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 function initGPU(canvasName) {
     return __awaiter(this, void 0, void 0, function* () {
-        const canvas = document.getElementById(canvasName);
+        const c = document.getElementById(canvasName);
+        const canvas = document.createElement("canvas");
+        canvas.width = c.width;
+        canvas.height = c.height;
         const adapter = yield navigator.gpu.requestAdapter();
         const device = yield adapter.requestDevice();
         const context = canvas.getContext("webgpu");
