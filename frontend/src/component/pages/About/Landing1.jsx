@@ -73,60 +73,73 @@ const Landing1 = () => {
 
             {/* Timeblocking Section */}
             <section className="landing-timeblock-container">
-                <img className="landing-timeblock-img" src="" alt="Timeblocking Image">
+                <img className="landing-timeblock-img" src="/Timeblock_Render.svg" alt="Placeholder for Tasking SVG">
 
                 </img>
-                <div className="landing-timeblock-header">
-                    Flexible Timeblocking
-                </div>
                 <div className="landing-timeblock-body">
-                    BLOCKZ's primary tool is the timeblocking
-                    table. This table allows users to employ 
-                    timeblocking principles. (link to article)
+                    <div className="landing-timeblock-header">
+                        Flexible Timeblocking
+                    </div>
+                    <div className="landing-timeblock-text">
+                        BLOCKZ's primary tool is the timeblocking
+                        table. This table allows users to employ 
+                        timeblocking principles. (link to article)
 
-                    Build your week with discrete time intervals, 
-                    create categories to help allocate your time, 
-                    and link tasks to timeblocks to help you stay 
-                    focused and productive.
+                        Build your week with discrete time intervals, 
+                        create categories to help allocate your time, 
+                        and link tasks to timeblocks to help you stay 
+                        focused and productive.
+                    </div>
                 </div>
             </section>
 
             {/* Task Section */}
             <section className="landing-task-container">
-                <div className="landing-task-header">
-                    Focused Tasking
-                </div>
                 <div className="landing-task-body">
-                BLOCKZ is your all-in-one productivity suite. 
-                Compile all your tasks, filter them by custom buckets 
-                then link those buckets to your timeblock table for seamless integration.
+                    <div className="landing-task-header">
+                        Focused Tasking
+                    </div>
+                    <div className="landing-task-text">
+                    BLOCKZ is your all-in-one productivity suite. 
+                    Compile all your tasks, filter them by custom buckets 
+                    then link those buckets to your timeblock table for seamless integration.
 
-                Each task comes equip with a reminder, due date, and keyword functionality. 
-                There are several tools baked into each task item to increase your efficiency.
+                    Each task comes equip with a reminder, due date, and keyword functionality. 
+                    There are several tools baked into each task item to increase your efficiency.
+                    </div>
                 </div>
-                <img className="landing-task-img" src="" alt="Tasking Image"></img>
+                <img className="landing-task-img" src="/Landing-Tasks.svg" alt="Placeholder for Tasking SVG"></img>
             </section>
 
             {/* Team Section */}
             <section className="landing-team-container">
-                <div className="landing-team-header">
-                    The Team
+                <div className="landing-team-header font-header">
+                    <span>The</span> <span style={{color:"#34B487"}}>Team</span>
                 </div>
-                <div className="landing-team-card">
-                    <FiUser></FiUser>
-                    <span>Christian</span>
-                    <span>Co-Creator</span>
+                <div className="landing-team-deck">
+                    <div className="landing-team-card card1">
+                        <FiUser className="user-icon"></FiUser>
+                        <div className="landing-team-text">
+                            <span className="teamcard-title font-content">Christian K.</span>
+                            <span className="teamcard-position font-sub-content">Co-Creator</span>
+                        </div>
+                    </div>
+                    <div className="landing-team-card card2">
+                        <FiUser className="user-icon"></FiUser>
+                        <div className="landing-team-text">
+                            <span className="teamcard-title font-content">Dylan A.</span>
+                            <span className="teamcard-position font-sub-content">Co-Creator</span>
+                        </div>
+                    </div>
+                    <div className="landing-team-card card3">
+                        <FiUser className="user-icon"></FiUser>
+                        <div className="landing-team-text">
+                            <span className="teamcard-title font-content">Kanishq</span>
+                            <span className="teamcard-position font-sub-content">Frontend Dev</span>
+                        </div>
+                    </div>
                 </div>
-                <div className="landing-team-card">
-                    <FiUser></FiUser>
-                    <span>Dyland</span>
-                    <span>Co-Creator</span>
-                </div>
-                <div className="landing-team-card">
-                    <FiUser></FiUser>
-                    <span>Kanishq</span>
-                    <span>Frontend Dev</span>
-                </div>
+                <button className="landing-support btn btn-hero">Support BlOCKZ</button>
             </section>
 
         </div>
