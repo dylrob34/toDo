@@ -8,14 +8,15 @@ import {
     useAddTask,
     useAddTaskUpdate,
 } from "../../../../context/AddTaskContext";
-import { FaRegCalendarCheck } from "react-icons/fa";
+import { FaRegCalendarCheck, FaRegObjectUngroup } from "react-icons/fa";
 import {
     useToDoContext,
     useUpdateToDoContext,
 } from "../../../../context/ToDoContext";
-import { useCounter, useCounterUpdate } from "../../../../context/ToDoContext";
+import { useCounter, useCounterUpdate, useView, useViewUpdate } from "../../../../context/ToDoContext";
 import EmptyState from "../../../layout/EmptyState";
 import { useSettingsContext } from "../../../../context/SettingsContext";
+import { getDateUTC, getDayString, getTodayUTC } from "../../../../tools/time";
 
 const Tasks = () => {
     const settings = useSettingsContext();
@@ -27,6 +28,8 @@ const Tasks = () => {
     const toggleAddTask = useAddTaskUpdate();
     const toDoContext = useToDoContext();
     const setToDoContext = useUpdateToDoContext();
+    const view = useView();
+    const viewUpdate = useViewUpdate();
     const counter = useCounter();
     const counterUpdate = useCounterUpdate();
 
@@ -154,10 +157,16 @@ const Tasks = () => {
     }
 
     function filterTasks() {
+        let currentDay = new Date()
+        let today = new Date(Date.UTC(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate())) 
+        let currentDayString = today.toISOString()
         if (!tasks)
             return <img className="loading" src="/loading.svg" alt="loading" />;
         if (tasks.length < 1)
             return <EmptyState message="No Tasks" Icon={FaRegCalendarCheck} />
+        if (view === "Day") {
+            console.log("Test from Tasks")
+        }
         let bucketFilteredTasks = map(tasks, (task) => {
             if (
                 toDoContext.currentBucket.length === 0 ||
@@ -183,6 +192,11 @@ const Tasks = () => {
             if (!settings.showCompleted && task.complete === true) {
                 return null;
             }
+            if (view === "Day" && task.duedate !== currentDayString){
+                console.log(currentDayString)
+                console.log(task.duedate)
+                return null;
+            }
             return <Task key={task._id} task={task} />;
         });
     }
@@ -203,15 +217,6 @@ const Tasks = () => {
                 <AddTask t={""} b={""} cancelEdit={null} />
             </div>
             <div name="taskList" className="task-list">
-                {/* <div name="CurrentDay" className='task-list-container'>
-                Current DOW Here
-                </div>
-                <div name="ThisWeek" className='task-list-container'>
-                Upcoming Here
-                </div>
-                <div name="CompletedTasks" className='task-list-container'>
-                Archive Here
-                </div> */}
                 {filterTasks()}
             </div>
         </div>
