@@ -13,28 +13,28 @@ import {
     useToDoContext,
     useUpdateToDoContext,
 } from "../../../../context/ToDoContext";
-import { useCounter, useCounterUpdate, useView, useViewUpdate } from "../../../../context/ToDoContext";
+import { useCounter, useCounterUpdate} from "../../../../context/ToDoContext";
 import EmptyState from "../../../layout/EmptyState";
 import { useSettingsContext } from "../../../../context/SettingsContext";
 import { getDateUTC, getDayString, getTodayUTC } from "../../../../tools/time";
 
-const Tasks = () => {
+const Tasks = ({view}) => {
     const settings = useSettingsContext();
 
     const [tasks, setTasks] = useState(null);
     const [hover, setHover] = useState(false);
+    const [vw, setVw] = useState(view);
     const loggedIn = getLoggedIn();
     const showAddTask = useAddTask();
     const toggleAddTask = useAddTaskUpdate();
     const toDoContext = useToDoContext();
     const setToDoContext = useUpdateToDoContext();
-    const view = useView();
-    const viewUpdate = useViewUpdate();
     const counter = useCounter();
     const counterUpdate = useCounterUpdate();
 
     useEffect(() => {
         // Fetch task items
+        setVw(view);
         if (loggedIn === true && toDoContext.reloadTasks === true) {
             if (toDoContext.currentTeam === "") {
                 get("/api/task/getTasks").then((resJson) => {
@@ -73,7 +73,7 @@ const Tasks = () => {
         } else {
             return <Redirect to="/login" />;
         }
-    }, [toDoContext, tasks, loggedIn]);
+    }, [toDoContext, tasks, loggedIn, view]);
 
     const handleHover = () => {
         setHover(!hover);
@@ -160,13 +160,11 @@ const Tasks = () => {
         let currentDay = new Date()
         let today = new Date(Date.UTC(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate())) 
         let currentDayString = today.toISOString()
+
         if (!tasks)
             return <img className="loading" src="/loading.svg" alt="loading" />;
         if (tasks.length < 1)
             return <EmptyState message="No Tasks" Icon={FaRegCalendarCheck} />
-        if (view === "Day") {
-            console.log("Test from Tasks")
-        }
         let bucketFilteredTasks = map(tasks, (task) => {
             if (
                 toDoContext.currentBucket.length === 0 ||
@@ -192,9 +190,7 @@ const Tasks = () => {
             if (!settings.showCompleted && task.complete === true) {
                 return null;
             }
-            if (view === "Day" && task.duedate !== currentDayString){
-                console.log(currentDayString)
-                console.log(task.duedate)
+            if (vw === "Day" && task.duedate !== currentDayString){
                 return null;
             }
             return <Task key={task._id} task={task} />;

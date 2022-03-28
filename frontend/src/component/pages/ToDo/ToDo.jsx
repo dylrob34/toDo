@@ -29,9 +29,8 @@ import { useSettingsContext, useUpdateSettingsContext } from "../../../context/S
 const ToDo = (props) => {
   const toDoContext = useToDoContext();
   const setToDoContext = useUpdateToDoContext();
-  const view = useView();
-  console.log(view)
-  const viewUpdate = useViewUpdate();
+  // const view = useView();
+  // const viewUpdate = useViewUpdate();
   const counter = useCounter();
   const counterUpdate = useCounterUpdate();
   const toggleAddTask = useAddTaskUpdate();
@@ -41,6 +40,8 @@ const ToDo = (props) => {
 
   const [popup, setPopup] = useState(false)
   const [reset, setReset] = useState(false);
+  const [view, setView] = useState("None");
+  console.log(view)
 
   // States for the bug handler:
   const [type, setType] = useState('');
@@ -79,9 +80,9 @@ const ToDo = (props) => {
   // Function for changing views
   function changeView() {
     if(view === 'Day'){
-      viewUpdate('None')
+      setView('None')
     } if (view === 'None'){
-      viewUpdate('Day')
+      setView('Day')
     }
   }
 
@@ -172,7 +173,7 @@ const ToDo = (props) => {
         <div className="bug-button" onClick={() => setPopup(!popup)}>Bug/Suggestion?  
         </div>
         <div className="task-textedit">
-          <Tasks className="tasks" />
+          <Tasks className="tasks" view={view} />
         </div>
       </div>
     

@@ -21,12 +21,6 @@ export function useCounter() {
 export function useCounterUpdate() {
     return useContext(CounterUpdateContext)
 }
-export function useView() {
-    return useContext(ViewContext)
-}
-export function useViewUpdate() {
-    return useContext(ViewUpdateContext)
-}
 
 // Main Add Task Provider:
 // Creating our state
@@ -40,7 +34,6 @@ export function ToDoProvider({ children }) {
             teamUsers: []
         })
 
-    const [view, setView] = useState('None')
     const [counter, setCounter] = useState(0)
     const [showCompleted, setShowCompleted] = useState(false)
 
@@ -50,15 +43,11 @@ export function ToDoProvider({ children }) {
     return (
         <toDoContext.Provider value={toDo}>
             <updateToDoContext.Provider value={setToDo}>
-                <ViewContext.Provider value={view}>
-                    <ViewUpdateContext.Provider value={setView}>
-                        <CounterContext.Provider value={counter}>
-                            <CounterUpdateContext.Provider value={setCounter}>
-                                {children}
-                            </CounterUpdateContext.Provider>
-                        </CounterContext.Provider>
-                    </ViewUpdateContext.Provider>
-                </ViewContext.Provider>
+                <CounterContext.Provider value={counter}>
+                    <CounterUpdateContext.Provider value={setCounter}>
+                        {children}
+                    </CounterUpdateContext.Provider>
+                </CounterContext.Provider>
             </updateToDoContext.Provider>
         </toDoContext.Provider>
     )
