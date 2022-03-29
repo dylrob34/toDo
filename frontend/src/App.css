@@ -108,6 +108,7 @@ body,
   --button: rgb(52, 180, 135);
   --button-hover: rgb(36, 150, 110);
 
+  --box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   --panel-shadow: 2px 2px 6px 3px rgba(0, 0, 0, 0.6);
   --task-shadow: 0 0 5px rgba(0, 0, 0, 0.05), 2px 2px 5px rgba(0, 0, 0, 0.1);
   --popup-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 2px 2px 5px rgba(0, 0, 0, 0.1);

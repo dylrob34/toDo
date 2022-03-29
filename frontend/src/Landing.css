@@ -55,6 +55,9 @@
 .font-content{
   font-size: 2rem;
 }
+.font-sub-content{
+  font-size: 1.2rem;
+}
 .font-mission{
   font-family: "Inter", sans-serif;
   font-weight: 400;
@@ -104,6 +107,102 @@
   ;
   }
 }
+
+.landing-timeblock-container{
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-areas: 
+  'landing-timeblock-img landing-timeblock-body'
+  ;
+}
+.landing-timeblock-header{
+
+}
+.landing-timeblock-text{
+
+}
+
+.landing-task-container{
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-areas: 
+  'landing-task-body landing-task-img'
+  ;
+}
+
+.landing-team-container{
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-areas: 
+  'landing-team-header'
+  'landing-team-deck'
+  'landing-support'
+  ;
+}
+.landing-team-header{
+  margin-bottom: 4rem;
+}
+.landing-team-deck{
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-areas: 
+  'card1 card2 card3'
+  ;
+}
+.landing-team-card{
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-items: center;
+  background-color: var(--midnight-layer2);
+  border-radius: 0.8rem;
+  width: 18rem;
+  height: 24rem;
+  box-shadow: var(--box-shadow);
+}
+.landing-team-text{
+  display: flex;
+  flex-direction: column;
+  margin: 0.6rem;
+}
+.teamcard-title{
+  color: white;
+  padding-bottom: 0.25rem;
+}
+.teamcard-position{
+  color: var(--font-gray);
+}
+.user-icon{
+  background-color: var(--midnight-layer1);
+  width: 10rem;
+  height: 10rem;
+  padding: 1.3rem;
+  border-radius: 5rem;
+  color: var(--primary-green);
+  margin: 1.3rem 1.3rem 2.8rem 1.3rem;
+}
+.landing-support{
+  justify-self: center;
+  align-items: center;
+  text-align: center;
+  width: auto;
+  margin: 8rem;
+  box-shadow: var(--box-shadow);
+}
+
+@media(max-width: 1280px) {
+  .landing-team-deck{
+    grid-template-areas: 
+    'card1' 
+    'card2' 
+    'card3'
+  ;
+  }
+  .landing-team-card{
+    margin: 2rem 0rem;
+  }
+}
+
 /* ------------------------------------ */
 
 .scroll-container{

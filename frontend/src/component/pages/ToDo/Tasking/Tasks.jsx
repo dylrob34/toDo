@@ -8,20 +8,22 @@ import {
     useAddTask,
     useAddTaskUpdate,
 } from "../../../../context/AddTaskContext";
-import { FaRegCalendarCheck } from "react-icons/fa";
+import { FaRegCalendarCheck, FaRegObjectUngroup } from "react-icons/fa";
 import {
     useToDoContext,
     useUpdateToDoContext,
 } from "../../../../context/ToDoContext";
-import { useCounter, useCounterUpdate } from "../../../../context/ToDoContext";
+import { useCounter, useCounterUpdate} from "../../../../context/ToDoContext";
 import EmptyState from "../../../layout/EmptyState";
 import { useSettingsContext } from "../../../../context/SettingsContext";
+import { getDateUTC, getDayString, getTodayUTC } from "../../../../tools/time";
 
-const Tasks = () => {
+const Tasks = ({view}) => {
     const settings = useSettingsContext();
 
     const [tasks, setTasks] = useState(null);
     const [hover, setHover] = useState(false);
+    const [vw, setVw] = useState(view);
     const loggedIn = getLoggedIn();
     const showAddTask = useAddTask();
     const toggleAddTask = useAddTaskUpdate();
@@ -32,6 +34,7 @@ const Tasks = () => {
 
     useEffect(() => {
         // Fetch task items
+        setVw(view);
         if (loggedIn === true && toDoContext.reloadTasks === true) {
             if (toDoContext.currentTeam === "") {
                 get("/api/task/getTasks").then((resJson) => {
@@ -70,7 +73,7 @@ const Tasks = () => {
         } else {
             return <Redirect to="/login" />;
         }
-    }, [toDoContext, tasks, loggedIn]);
+    }, [toDoContext, tasks, loggedIn, view]);
 
     const handleHover = () => {
         setHover(!hover);
@@ -154,6 +157,10 @@ const Tasks = () => {
     }
 
     function filterTasks() {
+        let currentDay = new Date()
+        let today = new Date(Date.UTC(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate())) 
+        let currentDayString = today.toISOString()
+
         if (!tasks)
             return <img className="loading" src="/loading.svg" alt="loading" />;
         if (tasks.length < 1)
@@ -183,6 +190,9 @@ const Tasks = () => {
             if (!settings.showCompleted && task.complete === true) {
                 return null;
             }
+            if (vw === "Day" && task.duedate !== currentDayString){
+                return null;
+            }
             return <Task key={task._id} task={task} />;
         });
     }
@@ -203,15 +213,6 @@ const Tasks = () => {
                 <AddTask t={""} b={""} cancelEdit={null} />
             </div>
             <div name="taskList" className="task-list">
-                {/* <div name="CurrentDay" className='task-list-container'>
-                Current DOW Here
-                </div>
-                <div name="ThisWeek" className='task-list-container'>
-                Upcoming Here
-                </div>
-                <div name="CompletedTasks" className='task-list-container'>
-                Archive Here
-                </div> */}
                 {filterTasks()}
             </div>
         </div>

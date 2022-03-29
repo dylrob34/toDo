@@ -19,6 +19,8 @@ const CalendarComponent = (props) => {
         onChange={setValue}
         value={date}
       />
+
+      
   </div>;
 
 };

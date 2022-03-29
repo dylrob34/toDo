@@ -12,6 +12,8 @@ import {
   useCounterUpdate,
   useToDoContext,
   useUpdateToDoContext,
+  useView,
+  useViewUpdate,
 } from "../../../context/ToDoContext";
 import { getLoggedIn } from "../../../context/loggedInState";
 import {
@@ -27,6 +29,8 @@ import { useSettingsContext, useUpdateSettingsContext } from "../../../context/S
 const ToDo = (props) => {
   const toDoContext = useToDoContext();
   const setToDoContext = useUpdateToDoContext();
+  // const view = useView();
+  // const viewUpdate = useViewUpdate();
   const counter = useCounter();
   const counterUpdate = useCounterUpdate();
   const toggleAddTask = useAddTaskUpdate();
@@ -36,6 +40,8 @@ const ToDo = (props) => {
 
   const [popup, setPopup] = useState(false)
   const [reset, setReset] = useState(false);
+  const [view, setView] = useState("None");
+  console.log(view)
 
   // States for the bug handler:
   const [type, setType] = useState('');
@@ -68,6 +74,16 @@ const ToDo = (props) => {
 
   if (getLoggedIn() === false) {
     return <Redirect to="/login" />;
+  }
+
+
+  // Function for changing views
+  function changeView() {
+    if(view === 'Day'){
+      setView('None')
+    } if (view === 'None'){
+      setView('Day')
+    }
   }
 
   // Function for incrementing the counter by +1, to change display of Sort Feature
@@ -116,7 +132,7 @@ const ToDo = (props) => {
         <div>
           <div name="viewContainer">
             <h3 className="left-header">Views</h3>
-            <div className="left-sb-element">
+            <div className="left-sb-element" onClick={changeView} style={ view === "Day" ? {color:'#34b487'} : {}}>
               <FiSquare className="sb-icon" />
               <div name="dayView">Day</div>
             </div>
@@ -157,7 +173,7 @@ const ToDo = (props) => {
         <div className="bug-button" onClick={() => setPopup(!popup)}>Bug/Suggestion?  
         </div>
         <div className="task-textedit">
-          <Tasks className="tasks" />
+          <Tasks className="tasks" view={view} />
         </div>
       </div>
     

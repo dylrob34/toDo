@@ -4,6 +4,8 @@ const toDoContext = createContext();
 const updateToDoContext = createContext();
 const CounterContext = createContext();
 const CounterUpdateContext = createContext();
+const ViewContext = createContext();
+const ViewUpdateContext = createContext();
 
 
 // Custom Hooks that give us easy access to these values:
