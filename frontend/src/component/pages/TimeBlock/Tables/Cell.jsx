@@ -25,12 +25,13 @@ const Cells = (props) => {
     const [divisions, setDivisions] = useState(props.divisions);
     const [height, setHeight] = useState(props.height);
     const cellRef = useRef(null);
-    const titleRef = useRef(data.title);
+    const titleRef = useRef(props.data.title);
 
     const timeStrings = props.timeStrings;
 
     // Gets the reference to the DOM cell object and calcs the middle height at the right side
     useEffect(() => {
+        titleRef.current = props.data.title;
         setData(props.data);
         setRow(props.row);
         setCategories(props.categories);
@@ -132,6 +133,7 @@ const Cells = (props) => {
         if (cellRef.current === null) return;
         if (!cellRef.current.contains(e.target) && cellRef.current !== e.target && !cellRef.current.contains(document.activeElement)) {
             if (titleRef.current === "" && _id !== null) {
+                console.log(titleRef);
                 save("title", "New Block")
             }
             setIsEditing(false);
