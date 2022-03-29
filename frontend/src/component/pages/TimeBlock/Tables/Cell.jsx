@@ -133,7 +133,6 @@ const Cells = (props) => {
         if (cellRef.current === null) return;
         if (!cellRef.current.contains(e.target) && cellRef.current !== e.target && !cellRef.current.contains(document.activeElement)) {
             if (titleRef.current === "" && _id !== null) {
-                console.log(titleRef);
                 save("title", "New Block")
             }
             setIsEditing(false);
