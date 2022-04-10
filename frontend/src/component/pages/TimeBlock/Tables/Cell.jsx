@@ -26,6 +26,7 @@ const Cells = (props) => {
     const [height, setHeight] = useState(props.height);
     const cellRef = useRef(null);
     const titleRef = useRef(props.data.title);
+    const idRef = useRef(_id);
 
     const timeStrings = props.timeStrings;
 
@@ -125,6 +126,7 @@ const Cells = (props) => {
                     alert(`Error deleting this TimeBlock\n${res.message}`);
                 }
             })
+        idRef.current = null;
         setPopup(false)
     }
 
@@ -132,7 +134,7 @@ const Cells = (props) => {
     const handleBlur = e => {
         if (cellRef.current === null) return;
         if (!cellRef.current.contains(e.target) && cellRef.current !== e.target && !cellRef.current.contains(document.activeElement)) {
-            if (titleRef.current === "" && _id !== null) {
+            if (titleRef.current === "" && _id !== null && idRef.current !== null) {
                 save("title", "New Block")
             }
             setIsEditing(false);
